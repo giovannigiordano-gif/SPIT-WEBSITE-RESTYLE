@@ -295,6 +295,12 @@ const shell = ({ title, desc, slug, body }) => `<!doctype html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- L'adesione ai passaggi fra le pagine (View Transitions) è QUI, in
+     linea, e non nel foglio: Chrome decide se fare il passaggio prima di
+     aver riconvalidato sito.css, e con il foglio non in cache il passaggio
+     (e il volo della foto dal menu) saltava a ogni navigazione in avanti
+     (QA del giro 3). Movimento ridotto: nessun passaggio. -->
+<style>@view-transition{navigation:auto}@media (prefers-reduced-motion:reduce){@view-transition{navigation:none}}</style>
 <title>${title}</title>
 <meta name="description" content="${desc}">
 <meta name="theme-color" content="#161519">

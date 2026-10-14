@@ -130,6 +130,11 @@
       $$('[data-src]', menu).forEach(i => { i.decoding = 'async'; i.src = i.dataset.src; i.removeAttribute('data-src'); });
     };
     const fuocabili = () => $$('a[href], button:not([disabled])', card).filter(n => n.getClientRects().length);
+    /* Con il menu aperto il resto della pagina è INERTE: Safari col Tab
+       usciva dalla card verso i bottoni dietro (QA giro 3). E Esc chiude
+       anche se il fuoco è caduto sul <body> (un clic su testo o foto). */
+    const inerte = (si) => [...document.body.children].forEach(n => { if (n !== menu && n.tagName !== 'SCRIPT') n.inert = si; });
+    document.addEventListener('keydown', (e) => { if (aperto && e.key === 'Escape') { e.preventDefault(); chiudi(); } });
 
     const apri = () => {
       if (aperto) return; aperto = true; clearTimeout(tNascondi);
@@ -137,7 +142,7 @@
       carica(); mostra(base());
       menu.hidden = false;
       origine();
-      radice.classList.add('menu-aperto');
+      radice.classList.add('menu-aperto'); inerte(true);
       burger.setAttribute('aria-expanded', 'true');
       /* due fotogrammi: il primo applica --da con la card ancora chiusa */
       requestAnimationFrame(() => requestAnimationFrame(() => menu.classList.add('is-on')));
@@ -147,7 +152,7 @@
       if (!aperto) return; aperto = false;
       origine();
       menu.classList.remove('is-on');
-      radice.classList.remove('menu-aperto');
+      radice.classList.remove('menu-aperto'); inerte(false);
       burger.setAttribute('aria-expanded', 'false');
       tNascondi = setTimeout(() => { menu.hidden = true; }, RM() ? 0 : 440);
       if (torna) burger.focus({ preventScroll: true });
@@ -200,7 +205,6 @@
       chiudi(false);
     });
     menu.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') { e.preventDefault(); chiudi(); return; }
       if (e.key !== 'Tab') return;
       const f = fuocabili(); if (!f.length) return;
       const primo = f[0], ultimo = f[f.length - 1];
@@ -219,7 +223,7 @@
       if (!e.persisted) return;
       riparti();
       aperto = false; menu.classList.remove('is-on'); menu.hidden = true;
-      radice.classList.remove('menu-aperto'); burger.setAttribute('aria-expanded', 'false');
+      radice.classList.remove('menu-aperto'); inerte(false); burger.setAttribute('aria-expanded', 'false');
     });
   }
 

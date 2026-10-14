@@ -45,9 +45,13 @@
    del numero, così la riga non cambia altezza. */
 .rullo { display: inline-flex; vertical-align: top; margin-block: -.07em; }
 .rullo__c, .rullo__x { display: block; height: 1em; line-height: 1; overflow: clip; }
-.rullo__c { display: flex; justify-content: center; width: var(--wd); }
+/* --wd contiene già la spaziatura negativa del numero: dentro la colonna la
+   cifra non la riceve una seconda volta (la spingeva a destra e il bordo la
+   tagliava di 2–3px), e la colonna ha un filo d'aria che i margini
+   restituiscono, così il numero fermo ha la stessa spaziatura (QA giro 3) */
+.rullo__c { display: flex; justify-content: center; width: calc(var(--wd) + .08em); margin-inline: -.04em; }
 .rullo__s {
-  flex: none; display: block; width: .72em; white-space: pre-line; text-align: center; line-height: 1;
+  flex: none; display: block; width: .72em; white-space: pre-line; text-align: center; line-height: 1; letter-spacing: 0;
   translate: 0 calc(var(--f) * -1em);
   transition: translate 1.6s cubic-bezier(.3, .55, .1, 1) calc(var(--c) * 90ms);
 }

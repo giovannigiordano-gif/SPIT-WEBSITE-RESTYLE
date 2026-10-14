@@ -1685,9 +1685,9 @@ margin-block: 0 var(--s-3);
 }
 .rullo { display: inline-flex; vertical-align: top; margin-block: -.07em; }
 .rullo__c, .rullo__x { display: block; height: 1em; line-height: 1; overflow: clip; }
-.rullo__c { display: flex; justify-content: center; width: var(--wd); }
+.rullo__c { display: flex; justify-content: center; width: calc(var(--wd) + .08em); margin-inline: -.04em; }
 .rullo__s {
-flex: none; display: block; width: .72em; white-space: pre-line; text-align: center; line-height: 1;
+flex: none; display: block; width: .72em; white-space: pre-line; text-align: center; line-height: 1; letter-spacing: 0;
 translate: 0 calc(var(--f) * -1em);
 transition: translate 1.6s cubic-bezier(.3, .55, .1, 1) calc(var(--c) * 90ms);
 }
@@ -2182,7 +2182,6 @@ animation: sali-scalino var(--t-maschera) var(--ease-salita) both;
 animation-timeline: auto;
 animation-delay: calc(700ms + var(--i) * 90ms);
 }
-@view-transition { navigation: auto; }
 .barra { view-transition-name: barra; }
 .nav   { view-transition-name: nav; }
 ::view-transition-old(root) { animation: vt-esce 420ms var(--ease-uscita) both; }
@@ -2191,9 +2190,6 @@ animation-delay: calc(700ms + var(--i) * 90ms);
 @keyframes vt-entra {
 from { clip-path: polygon(0 100%, 25% 100%, 25% 112%, 50% 112%, 50% 124%, 75% 124%, 75% 136%, 100% 136%, 100% 136%, 0 136%); }
 to   { clip-path: polygon(0 -36%, 25% -36%, 25% -24%, 50% -24%, 50% -12%, 75% -12%, 75% 0, 100% 0, 100% 100%, 0 100%); }
-}
-@media (prefers-reduced-motion: reduce) {
-@view-transition { navigation: none; }
 }
 ::view-transition-group(foto-pagina),
 ::view-transition-group(*.volto) {

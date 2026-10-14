@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- L'adesione ai passaggi fra le pagine (View Transitions) è QUI, in
+     linea, e non nel foglio: Chrome decide se fare il passaggio prima di
+     aver riconvalidato sito.css, e con il foglio non in cache il passaggio
+     (e il volo della foto dal menu) saltava a ogni navigazione in avanti
+     (QA del giro 3). Movimento ridotto: nessun passaggio. -->
+<style>@view-transition{navigation:auto}@media (prefers-reduced-motion:reduce){@view-transition{navigation:none}}</style>
 <title>Candida la tua azienda — Sales Process</title>
 <meta name="description" content="Fatturato 1-5 M€, no start-up, risposta in 48 ore lavorative. Il filtro è scritto prima, non dopo. Oppure vieni a prendere un caffè in Via Marco D'Agrate 41 a Milano.">
 <meta name="theme-color" content="#161519">
@@ -25,7 +31,7 @@
      Con il passaggio a gradini e la foto che vola, il cambio di pagina
      parte senza attesa di rete. -->
 <script type="speculationrules">{"prefetch":[{"where":{"or":[{"href_matches":"/*.html"},{"href_matches":"/"}]},"eagerness":"moderate"}]}</script>
-<link rel="stylesheet" href="/css/sito.css?v=50e21e2771">
+<link rel="stylesheet" href="/css/sito.css?v=d4e015a13c">
 </head>
 <body data-pagina="candidatura">
 <div class="palco" aria-hidden="true"><i data-a="nero"></i><i data-a="brace"></i><i data-a="alba"></i><i data-a="radente"></i><i data-a="notte"></i><i data-a="pozzo"></i><i data-a="fuoco"></i><b class="palco__torcia"></b></div>

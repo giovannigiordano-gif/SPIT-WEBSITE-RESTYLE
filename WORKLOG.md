@@ -502,8 +502,18 @@ Apple vince ancora sui fotogrammi di mezzo»). Applicato:
   senza animazione).
 Verifica: catture del volo, del bottone e del cubo fotogramma per fotogramma; 38/38 test; audit
 senza rilievi; Lighthouse mobile Home 96, Candidatura 98, Team 96, accessibilità 100, CLS 0.
-Nota per i test: in un browser automatico i passaggi fra pagine vengono saltati a intermittenza
-(anche sui link semplici): non è il sito, è l'ambiente di prova.
+*Giro 3, QA su più browser* (Chrome 155, WebKit/Safari 26.6; Firefox non avviabile in questo ambiente:
+la sua strada di ripiego è stata provata con Chrome senza view() né View Transitions). Applicato:
+- **Il passaggio fra le pagine saltava in avanti, in Chrome.** Non era l'ambiente di prova (come
+  avevo scritto): l'adesione @view-transition stava solo in sito.css, e Chrome decide se fare il
+  passaggio prima di aver riconvalidato il foglio. Ora è in linea nel <head> di ogni pagina: 6 voli su
+  6 e 4 aperture del bottone su 4. In produzione dipendeva da come l'host mette in cache sito.css.
+- **Il rullo tagliava 2–3px a destra della cifra** (la spaziatura negativa applicata due volte).
+- **Menu e tastiera**: con il menu aperto il resto della pagina è inerte (Safari col Tab usciva
+  verso i bottoni dietro la card) ed Esc chiude anche se il fuoco è caduto sul <body>.
+- Il menu che si riapriva spento dopo una navigazione interrotta era già corretto (riparti()).
+Restano: «Prefetch request denied: URL must be secure» in WebKit sul server di sviluppo (http); in
+produzione su https non compare.
 
 ### Cosa è stato fatto, fase per fase (skill applicate)
 
