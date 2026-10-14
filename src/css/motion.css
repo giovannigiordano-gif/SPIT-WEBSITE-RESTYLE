@@ -59,6 +59,16 @@
   animation-timeline: auto; animation-range: normal;
   animation-delay: calc(120ms + var(--w) * 55ms);
 }
+/* DETTO TRE VOLTE (Fatturare³, ciclo 1): il payoff si pronuncia in tre
+   tempi, con la stessa pressa del finale della home, e il microfono sale
+   a prendere il terzo. */
+@media (prefers-reduced-motion: no-preference) {
+  .testa-pag--tre .t-hero .w > span { animation-name: detto; transform-origin: 0 100%;
+    animation-delay: calc(140ms + var(--w) * var(--stagger-riga) * 2); }
+  .testa-pag--tre .testa-pag__foto { --dy: calc(var(--travel) * 3);
+    animation-delay: 260ms; animation-duration: var(--t-apertura); }
+}
+@keyframes detto { from { translate: 0 115%; scale: 1 1.05; } }
 /* :root alza la specificità sopra le due regole precedenti: in
    reduced-motion nessuna parola si muove, ovunque.                    */
 @media (prefers-reduced-motion: reduce) {

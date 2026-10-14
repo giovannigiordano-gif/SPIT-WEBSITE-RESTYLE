@@ -121,7 +121,9 @@
 }
 .hero.is-3d .hero__canvas { opacity: 1; }
 html.vuole-3d .hero__mark { opacity: 0; }
-.hero.is-3d .hero__campo i { opacity: 0; transition: opacity .9s linear; }
+/* sotto la scena 3D i contatti DOM sono spenti: si ferma anche il loro
+   galleggiare (14 animazioni infinite che nessuno vedeva) */
+.hero.is-3d .hero__campo i { opacity: 0; transition: opacity .9s linear; animation: none; }
 
 /* ── NASTRO DELLE PROVE ───────────────────────────────────────────────────
    Il carosello che raccoglie la scalinata dell'hero: parte con un respiro
@@ -636,14 +638,23 @@ a.indice__cta::after { content: ''; position: absolute; inset: 0; }
   width: 58px; height: 58px; display: grid; place-items: center;
   border-radius: 50%; color: var(--c-ar);
   background: rgba(255,130,0,.10); border: 1px solid rgba(255,130,0,.28);
-  animation: pin-pulsa 2.6s ease-in-out infinite;
 }
 .mappa__pin svg { width: 26px; height: 26px; }
-@keyframes pin-pulsa {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(255,130,0,.30); }
-  60%      { box-shadow: 0 0 0 16px rgba(255,130,0,0); }
+/* IL PUNTO SULLA MAPPA (ciclo 1): prima pulsava all'infinito. Ora cade
+   sull'indirizzo UNA volta, quando la mappa arriva, con un'onda sola.
+   Movimento ridotto e browser senza view(): il segnaposto fermo. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .mappa__pin { animation: pin-cade linear both; animation-timeline: view(); animation-range: entry 60% cover 40%; }
+    .mappa__pin::after {
+      content: ''; position: absolute; inset: -1px; border-radius: 50%; border: 1px solid var(--c-bordo-ar);
+      opacity: 0; pointer-events: none;
+      animation: pin-onda linear both; animation-timeline: view(); animation-range: cover 40% cover 54%;
+    }
+  }
 }
-@media (prefers-reduced-motion: reduce) { .mappa__pin { animation: none; } }
+@keyframes pin-cade { from { translate: 0 -32px; opacity: 0; } }
+@keyframes pin-onda { 0% { scale: 1; opacity: 0; } 15% { opacity: .9; } 100% { scale: 2.2; opacity: 0; } }
 .mappa__btn, .mappa__nota { position: relative; z-index: 1; }
 .mappa__nota { max-inline-size: 34ch; }
 .mappa iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; z-index: 2; }
@@ -684,6 +695,14 @@ a.indice__cta::after { content: ''; position: absolute; inset: 0; }
 }
 .testa-pag .t-hero { font-size: clamp(34px, 5vw, 82px); line-height: 1.02; max-inline-size: 16ch; }
 .testa-pag .t-deck { max-inline-size: 48ch; }
+/* Due aperture con un verbo (ciclo 1). La scalinata del Metodo si scopre
+   con la scalinata del marchio, il gradino più basso per primo (la stessa
+   figura del cambio di pagina, vt-entra); lo scontrino di Risultati si
+   srotola dal basso. A tempo: sono sopra la piega, in ogni browser. */
+.testa-pag__foto--gradini img { animation: vt-entra var(--t-apertura) var(--ease-salita) 380ms both; }
+.testa-pag__foto--srotola img { animation: srotola var(--t-apertura) var(--ease-salita) 380ms both; }
+@keyframes srotola { from { clip-path: inset(100% 0 0 0); } }
+@media (prefers-reduced-motion: reduce) { .testa-pag__foto--gradini img, .testa-pag__foto--srotola img { animation: none; } }
 .testa-pag__meta { display: inline-flex; align-items: center; gap: 10px; font: 500 15px/1.35 var(--f-display); color: var(--c-t3); }
 .testa-pag__meta::before { content: ''; flex: none; width: 8px; height: 8px; border-radius: var(--q-r); background: var(--c-ar); }
 .testa-pag__foto { margin: 0; align-self: end; justify-self: center; width: min(100%, 560px); }
@@ -714,6 +733,27 @@ a.indice__cta::after { content: ''; position: absolute; inset: 0; }
   transition: filter var(--t-stato) linear;
 }
 .scala-volti img:hover { filter: grayscale(0); }
+/* IL MARCHIO FATTO DI VOLTI (ciclo 1): lo stesso gesto dell'hero — i
+   contatti sparsi si montano nel marchio, dal quadrato più piccolo — fatto
+   con le persone. A tempo su desktop (è sopra la piega), legato allo
+   scroll su telefono (il marchio sta sotto il CTA). Nessun rimbalzo,
+   solo rotazione nel piano. */
+.scala-volti img { animation: volto-arriva var(--t-maschera) var(--ease-salita) both;
+  animation-delay: calc(420ms + (4 - var(--k)) * var(--stagger) * 1.5); }
+.scala-volti img:nth-child(1) { --k: 0; --da: 22% -30%; --dr: 6deg; }
+.scala-volti img:nth-child(2) { --k: 1; --da: -34% -8%; --dr: -7deg; }
+.scala-volti img:nth-child(3) { --k: 2; --da: -14% 24%; --dr: 5deg; }
+.scala-volti img:nth-child(4) { --k: 3; --da: 34% 12%; --dr: -6deg; }
+.scala-volti img:nth-child(5) { --k: 4; --da: 10% 40%; --dr: 7deg; }
+@keyframes volto-arriva { from { translate: var(--da); rotate: var(--dr); scale: .84; opacity: 0; } }
+@supports (animation-timeline: view()) {
+  @media (max-width: 900px) and (prefers-reduced-motion: no-preference) {
+    .scala-volti { view-timeline: --volti block; }
+    .scala-volti img { animation-timeline: --volti; animation-timing-function: linear; animation-delay: 0s;
+      animation-range: entry calc(5% + (4 - var(--k)) * 9%) entry calc(55% + (4 - var(--k)) * 9%); }
+  }
+}
+@media (prefers-reduced-motion: reduce) { .scala-volti img { animation: none; } }
 @media (max-width: 900px) { .scala-volti { width: min(70%, 320px); margin-bottom: var(--s-7); } }
 
 /* ── LA LINEA DEL TEMPO (programma dell'evento, cosa succede dopo) ───────
@@ -858,6 +898,38 @@ a.indice__cta::after { content: ''; position: absolute; inset: 0; }
 .fascicolo__logo { height: 26px; width: auto; opacity: .8; }
 .fascicolo__dati { display: flex; flex-wrap: wrap; gap: 6px 18px; }
 @media (max-width: 900px) { .fascicolo { grid-template-columns: 1fr; } .fascicolo__panel { padding: var(--s-6); } }
+/* I MESI IN MEZZO (ciclo 1): il titolo della pagina disegnato con i soli
+   dati dichiarati — il prima, gli undici mesi uno per uno, il dopo. Non
+   un numero che conta da 1,4 a 3,1: stamperebbe valori che nessun cliente
+   ha dichiarato. Il tempo è bianco; l'arancio resta alla torre del dopo. */
+.arco { display: flex; align-items: flex-end; gap: clamp(8px, 1.4vw, 18px); margin-top: var(--s-2); }
+.arco__mesi { display: grid; gap: 7px; justify-items: start; }
+.arco__fila {
+  grid-area: 1 / 1; --q: 9px; --g: 4px; --s: calc(var(--q) + var(--g));
+  width: calc(var(--mesi) * var(--s) - var(--g)); height: var(--q); background: rgba(255,255,255,.10);
+  -webkit-mask: linear-gradient(90deg, #000 var(--q), transparent 0) 0 0 / var(--s) 100%;
+          mask: linear-gradient(90deg, #000 var(--q), transparent 0) 0 0 / var(--s) 100%;
+}
+.arco__fila--accesa { background: rgba(255,255,255,.55); }
+@media (max-width: 420px) { .arco .torre { --q: 5px; } .arco__fila { --q: 6px; --g: 3px; } }
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .arco { view-timeline: --arco block; }
+    .arco .torre { animation-timeline: --arco; }
+    .arco .torre--prima { animation-range: cover 10% cover 22%; }
+    .arco__fila--accesa { animation: mesi-passano linear both; animation-timing-function: steps(var(--mesi), end);
+      animation-timeline: --arco; animation-range: cover 22% cover 46%; }
+    .arco .torre--dopo { animation-range: cover 46% cover 56%; }
+  }
+}
+@keyframes mesi-passano { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0); } }
+@supports not (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .arco__fila--accesa { clip-path: inset(0 100% 0 0); transition: clip-path 1100ms steps(var(--mesi), end) 200ms; }
+    .arco .torre--dopo { clip-path: inset(100% 0 0 0); transition: clip-path var(--t-reveal) var(--ease-salita) 1350ms; }
+    .arco.is-in .arco__fila--accesa, .arco.is-in .torre--dopo { clip-path: inset(0); }
+  }
+}
 
 /* ── FOOTER · CONTATTI ────────────────────────────────────────────────────
    Il numero verde ha il trattamento di un pulsante: è il contatto che una

@@ -188,9 +188,13 @@
     const io = new IntersectionObserver((es) => {
       es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); } });
     }, { threshold: .18 });
-    const tgt = $$('.rise, .scalinata, .finale');
+    const tgt = $$('.rise, .scalinata, .finale, .arco');
     tgt.forEach(n => io.observe(n));
     setTimeout(() => tgt.forEach(n => n.classList.add('is-in')), 3000);
+    /* il principio che stai leggendo (DNA): stessa linea di lettura del CSS */
+    const ioL = new IntersectionObserver((es) => es.forEach(e => e.target.classList.toggle('is-letto', e.isIntersecting)),
+      { rootMargin: '-40% 0px -45% 0px' });
+    $$('.com').forEach(n => ioL.observe(n));
   }
 
   /* ═══ CAROSELLO AFFERRABILE ═══════════════════════════════════════════════

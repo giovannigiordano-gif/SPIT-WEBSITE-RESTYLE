@@ -163,6 +163,7 @@
   --t-tap:120ms; --t-micro:200ms; --t-stato:320ms;
   --t-reveal:620ms; --t-maschera:760ms; --t-apertura:940ms;
   --stagger:70ms; --stagger-riga:140ms;
+  --lettura: 40vh;   /* la linea di lettura: 40vh sopra il bordo basso, al 60% dello schermo */
   --ease-salita: cubic-bezier(.16,.84,.24,1);   /* LA curva d'ingresso    */
   --ease-scatto: cubic-bezier(.62,0,.20,1);     /* stati reversibili      */
   --ease-uscita: cubic-bezier(.55,0,.80,.16);   /* uscite: accelera, ~65%

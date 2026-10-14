@@ -78,6 +78,27 @@
 .com__tit { font: 600 clamp(18px, 1.4vw, 21px)/1.3 var(--f-display); letter-spacing: -.012em; color: var(--c-t1); padding-top: 4px; }
 .com__testo { font: 400 15.5px/1.6 var(--f-display); color: var(--c-t3); max-inline-size: 48ch; }
 .com:hover .com__n { color: var(--c-ar); translate: 4px 0; }
+/* UN PRINCIPIO ALLA VOLTA (ciclo 1): la luce è dove stai leggendo — la
+   luce della riga dell'indice, guidata dalla posizione di lettura invece
+   che dal cursore. Niente resta acceso: al massimo due numeri arancioni
+   sullo schermo (la riga a due colonne). È solo opacità, nessuno
+   spostamento: resta anche a movimento ridotto. */
+.com { isolation: isolate; }
+.com::before {
+  content: ''; position: absolute; inset: 0 -16px; z-index: -1; border-radius: var(--r-card);
+  background: linear-gradient(90deg, rgba(255,130,0,.10), rgba(255,130,0,0) 70%); opacity: 0; pointer-events: none;
+}
+.com__n { position: relative; }
+.com__n::after { content: attr(data-n); position: absolute; inset: 0; color: var(--c-ar); opacity: 0; }
+@supports (animation-timeline: view()) {
+  .com { view-timeline: --com block; }
+  .com::before, .com__n::after { animation: principio-letto linear both; animation-timeline: --com; animation-range: cover 30% cover 70%; }
+}
+@keyframes principio-letto { 0%, 100% { opacity: 0; } 25%, 75% { opacity: 1; } }
+@supports not (animation-timeline: view()) {
+  .com::before, .com__n::after { transition: opacity var(--t-stato) linear; }
+  .com.is-letto::before, .com.is-letto .com__n::after { opacity: 1; }
+}
 @media (max-width: 860px) { .comand { grid-template-columns: 1fr; } }
 
 /* ── TEAM ─────────────────────────────────────────────────────────────── */
@@ -93,6 +114,21 @@
 .fondatore em { font-style: normal; color: var(--c-t1); }
 .fondatore__nota { color: var(--c-t3); margin-top: var(--s-2); }
 @media (max-width: 900px) { .fondatori { grid-template-columns: 1fr; } }
+/* QUESTE PERSONE (ciclo 1): passi su «Giulia» nella frase sopra la griglia
+   e si accende la sua faccia — il nome nella frase è una persona vera.
+   Niente arancio (regola delle schede del team); senza :has() non succede
+   niente. Solo opacità e colore: resta anche a movimento ridotto. */
+@media (hover: hover) and (pointer: fine) {
+  .volti__nota [data-p] { cursor: default; text-decoration: underline; text-decoration-color: var(--c-filo-forte); text-underline-offset: .18em; }
+  .volto { transition: opacity var(--t-stato) linear; }
+  #volti:has(.volti__nota [data-p]:hover) .volto { opacity: .45; }
+  #volti:has(.volti__nota [data-p="elicio"]:hover) .volto[data-p="elicio"],
+  #volti:has(.volti__nota [data-p="amodio"]:hover) .volto[data-p="amodio"],
+  #volti:has(.volti__nota [data-p="ratti"]:hover)  .volto[data-p="ratti"] { opacity: 1; }
+  #volti:has(.volti__nota [data-p="elicio"]:hover) .volto[data-p="elicio"] .volto__ph,
+  #volti:has(.volti__nota [data-p="amodio"]:hover) .volto[data-p="amodio"] .volto__ph,
+  #volti:has(.volti__nota [data-p="ratti"]:hover)  .volto[data-p="ratti"]  .volto__ph { filter: grayscale(0); }
+}
 @media (max-width: 480px) { .fondatore { grid-template-columns: 96px 1fr; } }
 /* niente quadratini arancioni nelle schede delle persone (regola del cliente):
    un trattino grigio */
@@ -112,11 +148,24 @@
 }
 .sala__sedie { display: grid; grid-template-columns: repeat(10, 1fr); gap: clamp(8px, 1vw, 14px); width: 100%; }
 .sala__sedie i { aspect-ratio: 1; border-radius: 22%; background: var(--c-ar); }
+/* LA SALA, POSTO PER POSTO (ciclo 1): prima si accende il palco, poi le
+   trenta sedie una per una dalla prima fila — trenta è un numero che si
+   conta. Prima ogni sedia aveva la sua view(): si accendevano a blocchi di
+   dieci, fila per fila. Accese = capienza contata, mai «posti presi». */
+.sala__sedie i:nth-child(10n+1) { --c: 0 } .sala__sedie i:nth-child(10n+2) { --c: 1 } .sala__sedie i:nth-child(10n+3) { --c: 2 }
+.sala__sedie i:nth-child(10n+4) { --c: 3 } .sala__sedie i:nth-child(10n+5) { --c: 4 } .sala__sedie i:nth-child(10n+6) { --c: 5 }
+.sala__sedie i:nth-child(10n+7) { --c: 6 } .sala__sedie i:nth-child(10n+8) { --c: 7 } .sala__sedie i:nth-child(10n+9) { --c: 8 }
+.sala__sedie i:nth-child(10n+10) { --c: 9 }
+.sala__sedie i:nth-child(n+11) { --r: 1 } .sala__sedie i:nth-child(n+21) { --r: 2 }
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
-    .sala__sedie i { animation: sedia linear both; animation-timeline: view(); animation-range: entry 20% cover 45%; }
+    .sala__pianta { view-timeline: --sala block; }
+    .sala__palco { animation: palco-acceso linear both; animation-timeline: --sala; animation-range: cover 14% cover 22%; }
+    .sala__sedie i { --n: calc(var(--r, 0) * 10 + var(--c)); animation: sedia linear both; animation-timeline: --sala;
+      animation-range: cover calc(22% + var(--n) * .8%) cover calc(25% + var(--n) * .8%); }
   }
 }
+@keyframes palco-acceso { from { opacity: .3; } }
 @keyframes sedia { from { opacity: .12; scale: .6; } to { opacity: 1; scale: 1; } }
 .sala__fatti { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid var(--c-filo-forte); }
 .fatto { display: grid; align-content: start; gap: 6px; padding: clamp(20px, 2vw, 32px) clamp(14px, 2vw, 28px) 8px 0; }
@@ -161,6 +210,24 @@
 .slot__quadri { display: grid; grid-template-columns: repeat(9, 22px); gap: 8px; }
 .slot__quadri i { aspect-ratio: 1; border-radius: 22%; border: 1.5px solid rgba(255,255,255,.32); }
 .slot__quadri i.is-preso { border-color: var(--c-ar); background: var(--c-ar); }
+/* GLI SLOT DEL TRIMESTRE (ciclo 1): i quattro assegnati si riempiono uno
+   per uno, i cinque liberi restano vuoti — la selezione è un fatto che si
+   vede, non un conto alla rovescia. Il riempimento passa sul ::after (il
+   bordo arancione resta); vale per qualunque numero di .is-preso. */
+.slot__quadri i { position: relative; }
+.slot__quadri i:nth-child(1) { --n: 0 } .slot__quadri i:nth-child(2) { --n: 1 } .slot__quadri i:nth-child(3) { --n: 2 }
+.slot__quadri i:nth-child(4) { --n: 3 } .slot__quadri i:nth-child(5) { --n: 4 } .slot__quadri i:nth-child(6) { --n: 5 }
+.slot__quadri i:nth-child(7) { --n: 6 } .slot__quadri i:nth-child(8) { --n: 7 } .slot__quadri i:nth-child(9) { --n: 8 }
+.slot__quadri i.is-preso { background: transparent; }
+.slot__quadri i.is-preso::after { content: ''; position: absolute; inset: -1.5px; border-radius: inherit; background: var(--c-ar); }
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .slot { view-timeline: --slot block; }
+    .slot__quadri i.is-preso::after { animation: slot-preso linear both; animation-timeline: --slot;
+      animation-range: cover calc(24% + var(--n) * 7%) cover calc(30% + var(--n) * 7%); }
+  }
+}
+@keyframes slot-preso { from { scale: 0; opacity: 0; } }
 .slot__testo { font: 500 13px/1.45 var(--f-display); color: var(--c-t3); font-variant-numeric: tabular-nums; }
 .slot__nota { margin-top: var(--s-4); color: var(--c-t3); }
 .cand__testo { display: grid; gap: var(--s-5); align-content: start; }

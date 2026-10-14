@@ -81,6 +81,21 @@
 .conto__fra svg { width: 14px; height: 14px; color: var(--c-rottura); }
 .conto__l--rotture b { font: 500 clamp(19px, 1.5vw, 22px)/1.25 var(--f-display); letter-spacing: -.01em; color: var(--c-t1); }
 .conto__nota { font: 400 15px/1.55 var(--f-display); color: var(--c-t3); max-inline-size: 34ch; }
+/* IL CONTO SCENDE (ciclo 1): i tre numeri cadono al loro posto nell'ordine
+   del conto — 4, 3, poi lo zero vuoto — come il cubo sopra di loro. Le
+   colonne non scivolano più (tolte da sale-griglia in interazioni.css):
+   si muovono solo i numeri, e nessun arancio in più. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .conto { view-timeline: --conto block; }
+    .conto__n { animation: conto-scende linear both; animation-timeline: --conto; }
+    .conto__c:nth-child(1) .conto__n { animation-range: entry 10% entry 45%; }
+    .conto__c:nth-child(2) .conto__n { animation-range: entry 35% entry 70%; }
+    .conto__c:nth-child(3) .conto__n { animation-range: entry 60% entry 95%; }
+    @media (max-width: 900px) { .conto .conto__c:nth-child(n) .conto__n { animation-timeline: view(); animation-range: entry 20% entry 90%; } }
+  }
+}
+@keyframes conto-scende { from { translate: 0 -.4em; clip-path: inset(0 0 100% 0); } }
 /* lo zero è la battuta finale del conto: la sua riga ha il corpo dei
    passaggi rotti, non quello di una nota */
 .conto__c--zero .conto__nota { font: 500 clamp(19px, 1.5vw, 22px)/1.3 var(--f-display); letter-spacing: -.01em; color: var(--c-t1); max-inline-size: 24ch; }

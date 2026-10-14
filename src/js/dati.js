@@ -173,7 +173,8 @@ const FASCICOLI = [
 const SETTORI = ['Impiantistica','Serramenti','Edilizia','Automazione','Nautica','Consulenza HR','Consulenza fiscale','Arredamento','Logistica','Meccanica','Elettronica','Energie rinnovabili','Informatica','Sicurezza','Formazione','Immobiliare','Assicurazioni','Odontoiatria','Estetica','Ristorazione','Ottica','Agroalimentare','Packaging','Tessile','Stampa','Trasporti','Manutenzioni','Antincendio','Piscine','Serre','Pavimentazioni','Coperture','Domotica'];
 
 /* ═══ RENDERING ═══════════════════════════════════════════════════════════ */
-const el = (t, c, h) => { const n = document.createElement(t); if (c) n.className = c; if (h != null) n.innerHTML = h; return n; };
+/* a: attributi facoltativi, es. { 'data-p': 'elicio' } */
+const el = (t, c, h, a) => { const n = document.createElement(t); if (c) n.className = c; if (h != null) n.innerHTML = h; if (a) for (const k in a) n.setAttribute(k, a[k]); return n; };
 const $  = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 
@@ -330,7 +331,7 @@ const volto = (v) => el('article', 'volto', `
   <div>
     <p class="t-t2">${v.nome}</p>
     <p class="t-piccolo" style="color:var(--c-t3)">${v.ruolo}</p>
-  </div>`);
+  </div>`, { 'data-p': v.f });
 
 /* La scheda persona dello slider di home. Il ritratto è l'oggetto; il
    nome sta sopra la sfumatura, non dentro una card separata.          */
@@ -372,6 +373,11 @@ const fascicolo = (f) => el('article', 'fascicolo rise', `
     <p class="t-micro">Fascicolo 0${f.n} · ${f.settore} · ${f.geo} · ${f.mesi} mesi</p>
     <img class="fascicolo__logo" src="/assets/clients-white/${f.logo}.png" alt="" loading="lazy">
     <p class="t-numero" style="font-size:clamp(34px,3.8vw,52px)">da ${fmt1.format(f.da)} a ${fmt1.format(f.a)} <span class="t-unita">M€</span></p>
+    <div class="arco" aria-hidden="true" style="--mesi:${f.mesi}">
+      <span class="scheda__col">${torre(f.da, 'torre--prima')}<span class="scheda__v">${fmt1.format(f.da)}</span></span>
+      <span class="arco__mesi"><span class="arco__fila"></span><span class="arco__fila arco__fila--accesa"></span><span class="scheda__v">${f.mesi} mesi</span></span>
+      <span class="scheda__col">${torre(f.a, 'torre--dopo')}<span class="scheda__v">${fmt1.format(f.a)}</span></span>
+    </div>
     <p class="t-micro fascicolo__dati">${f.dati.map(d => `<span>${d}</span>`).join('<span aria-hidden="true">·</span>')}</p>
     <ul class="lista t-piccolo">${f.fatto.map(x => `<li><span>${x}</span></li>`).join('')}</ul>
   </div>`);
@@ -434,7 +440,7 @@ const comandamento = (c, i) => {
   const n = el('article', 'com');
   n.style.setProperty('--i', i % 2);
   n.innerHTML = `
-    <span class="com__n" aria-hidden="true">${String(i + 1).padStart(2, '0')}</span>
+    <span class="com__n" aria-hidden="true" data-n="${String(i + 1).padStart(2, '0')}">${String(i + 1).padStart(2, '0')}</span>
     <h3 class="com__tit">${c.t}</h3>
     <p class="com__testo">${c.d}</p>`;
   return n;
@@ -569,12 +575,16 @@ const monta = () => {
     $('#tab-filtri')?.addEventListener('click', (e) => {
       const b = e.target.closest('.chip'); if (!b) return;
       $$('#tab-filtri .chip').forEach(c => c.setAttribute('aria-pressed', String(c === b)));
-      /* UN SOLO view-transition-name sul wrapper: mai un nome per riga —
-         un nome duplicato aborta la transizione in silenzio e produce
-         N snapshot su un evento INP.                                     */
-      if (document.startViewTransition && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        document.startViewTransition(() => render(b.dataset.f));
-      } else render(b.dataset.f);
+      /* Le righe del reparto si rimettono in fila, in ordine. Prima qui c'era
+         document.startViewTransition: senza un view-transition-name sulla
+         tabella riusava la transizione di PAGINA, e ogni clic su un filtro
+         rifaceva la scalinata su tutto lo schermo, con le righe vecchie e
+         nuove sovrapposte per 700ms (ciclo 1). WAAPI: ogni browser, 320ms. */
+      render(b.dataset.f);
+      if (!matchMedia('(prefers-reduced-motion: reduce)').matches)
+        $$('#tabella-body tr').forEach((tr, i) => tr.animate(
+          [{ opacity: 0, translate: '0 8px' }, { opacity: 1, translate: '0 0' }],
+          { duration: 320, delay: i * 35, easing: 'cubic-bezier(.16,.84,.24,1)', fill: 'backwards' }));
     });
   }
 };

@@ -405,6 +405,41 @@ la pagina intera prima della DECODIFICA delle immagini fuori viewport (`decoding
 - **CSS morto rimosso** (card «a lente», risorse a card, fascia crema, classi mai usate): il foglio
   unico passa da 110 a 105 KB senza cambiare un pixel.
 
+*Applicato (parte B, «aggiungi effetti nelle pagine»).* La regia del movimento ha fatto l'inventario
+pagina per pagina (animazioni vive lette con `document.getAnimations()`, non dal codice) e ha proposto
+un effetto-firma per ogni pagina interna, nato dal contenuto della pagina, dentro i tre gesti del
+sistema (gradino, riga, luce). Il criterio: togliendo l'effetto, chi guarda perde un'informazione?
+- **Metodo · il filo della staffetta**: un filo arancione scende nel margine alla linea di lettura
+  (60% dello schermo), ogni reparto si accende quando il filo lo raggiunge, il cubo si posa sulla
+  trattativa. Vale anche per la staffetta della home su telefono (prima era ferma).
+- **Risultati · i mesi in mezzo**: nel fascicolo, il prima, gli undici mesi che si accendono uno per uno,
+  il dopo. Volutamente NON un numero che conta da 1,4 a 3,1: stamperebbe valori che nessun cliente ha
+  dichiarato. Apertura: lo scontrino si srotola dal basso.
+- **DNA · un principio alla volta**: la luce della riga segue la lettura; niente resta acceso.
+- **Team · il marchio fatto di volti**: i cinque volti arrivano sparsi e si montano nei cinque quadrati
+  del marchio (il gesto dell'hero, fatto con le persone); nella frase sopra la griglia, passando su
+  «Giulia», «Cristian», «Matteo» si accende la loro faccia.
+- **Eventi · la sala posto per posto**: prima il palco, poi le trenta sedie una per una dalla prima fila
+  (prima si accendevano a blocchi di dieci).
+- **Fatturare³ · detto tre volte**: il titolo in tre tempi, il microfono sale con il terzo.
+- **Candidatura · gli slot del trimestre**: i quattro assegnati si riempiono uno per uno, i cinque liberi
+  restano vuoti (nessun conto alla rovescia).
+- **Home**: il trofeo del finale ora si alza (era l'unico fotogramma fermo del racconto del cubo); il
+  conto 4 → 3 → 0 cade in ordine; il segnaposto della mappa cade una volta invece di pulsare
+  all'infinito; la scalinata del Metodo si costruisce all'apertura.
+- **Un bug vero**: nel Metodo ogni clic su un filtro della tabella rifaceva la transizione di PAGINA su
+  tutto lo schermo, con righe vecchie e nuove sovrapposte per 700ms (`startViewTransition` senza un
+  nome sulla tabella). Ora le righe del reparto si rimettono in fila (WAAPI, 320ms).
+- **Animazioni infinite**: restano solo i loghi dei clienti (con pausa). Spente le 14 dei contatti
+  dell'hero sotto la scena 3D (nessuno le vedeva) e il segnaposto che pulsava.
+Verifica: ogni effetto fotografato a più punti di scroll/tempo; movimento ridotto su 8 pagine → niente
+di invisibile, nessuna animazione infinita; console pulita; 38/38 test; Lighthouse mobile Home 96,
+Team 97, Fatturare³ 98, Risultati 97, Metodo 98, CLS 0. Il velo arancione dentro i numeri dei capitoli
+faceva scendere l'accessibilità della home a 96 (lo strumento misurava il riempimento, 1,27:1, invece
+del contorno): spostato su uno strato a parte, di nuovo 100.
+*Da decidere (C2)*: su telefono i quadrati dell'hero galleggiano all'infinito (versione DOM approvata);
+proposta: due oscillazioni e poi fermi.
+
 *Rilievi non applicati, e perché:* nel Metodo, filtrare la tabella sul primo reparto da telefono
 (nasconderebbe nove righe su dodici a chi non tocca i filtri); nella correzione di bozze, le frasi del
 cliente che sono scelte di tono e non errori («in fondo al tuo bilancio», «Do more with less»,
@@ -554,6 +589,19 @@ Candidatura), indice (Fatturare³, Team), manifesto ed elenco numerato (DNA), mu
 - **Logo del podcast** (giro 4): il file allegato in chat non è leggibile dal disco. Salvarlo come
   `src/assets/podcast/fatturare-logo.svg` (o `.webp`/`.png`) e lanciare `node tools/build.mjs`: entra da
   solo nel capitolo «Il podcast» della home e nella sezione podcast di Fatturare³. Non va ridisegnato.
+
+**Dalla correzione di bozze (ciclo 1) — scelte del cliente, non errori: da confermare**
+- **La data dell'evento.** Sales Process Day è il **14 ottobre 2026**, cioè oggi: da domani la barra in
+  cima, il menu e la pagina Eventi vendono un evento passato. Serve la data della prossima edizione (o
+  la decisione di togliere la barra).
+- Finale della home: «il numero che trovi in fondo al tuo bilancio» — in fondo al conto economico c'è
+  l'utile, il fatturato sta in cima. Proposta: «il numero che trovi in cima al tuo conto economico».
+- DNA: il principio «Do more with less» è l'unico titolo in inglese (proposta: «Fare di più con meno»).
+- «Uffici di rappresentanza» per la sede di Milano: se il team lavora lì, «Sede operativa» è più esatto.
+- I moduli (candidatura, prenotazione) non inviano niente: il pulsante resta su «Invio in corso…».
+  Serve il collegamento al CRM o a un servizio di invio prima della pubblicazione.
+- Gergo non spiegato per un titolare di PMI: VSL, nurturing, SLA, referral, upsell (proposte nel
+  rapporto del correttore: «video di vendita (VSL)», «passaparola»…).
 
 **Decisione con il cliente**
 - **Lo stack** (HANDOFF §7): statico com'è, o WordPress. Su WordPress la scena pinnata e l'hero 3D sono

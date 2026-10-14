@@ -78,7 +78,8 @@
 .staffetta-sez { overflow-x: clip; }
 .staffetta { position: relative; }
 .staffetta__pista {
-  display: grid; gap: clamp(36px, 5vw, 64px);
+  --passo: clamp(36px, 5vw, 64px);
+  display: grid; gap: var(--passo);
   width: min(100% - 2 * var(--margine), var(--w-piena) - 2 * var(--margine));
   margin-inline: auto;
 }
@@ -127,9 +128,48 @@
 .staffetta__fine figcaption { max-inline-size: 36ch; font: 400 17px/1.55 var(--f-display); color: var(--c-t2); }
 .staffetta__fine strong { display: block; margin-bottom: var(--s-2); font: 500 clamp(32px, 3vw, 48px)/1.04 var(--f-display); letter-spacing: -.02em; color: var(--c-t1); }
 
+/* ── IL FILO DELLA STAFFETTA (ciclo 1) ─────────────────────────────────────
+   Dove la staffetta è una colonna (Metodo sempre; home sotto i 1024px, o
+   finché la scena non è montata) un filo arancione scende nel margine
+   sinistro alla linea di lettura (--lettura): ogni reparto si accende
+   quando il filo lo raggiunge, e il filo si ferma sulla trattativa con il
+   cubo che si posa. Un segmento per reparto e per passaggio, allungato sul
+   gap sotto di sé così che i segmenti si uniscano. Movimento ridotto e
+   browser senza view(): la colonna di sempre, tutta accesa.          */
+.staffetta:not(.is-scena) :is(.passaggio, .staffetta__fine) { position: relative; }
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .staffetta:not(.is-scena) :is(.stazione, .passaggio)::after,
+    .staffetta:not(.is-scena) .staffetta__fine::before {
+      content: ''; position: absolute; top: 0; bottom: calc(-1 * var(--passo));
+      left: calc(var(--margine) * -.5 - 1px); width: 2px; border-radius: 2px;
+      background: var(--c-ar); transform-origin: 50% 0; scale: 1 0; pointer-events: none;
+      animation: filo-scende linear both; animation-timeline: view();
+      animation-range: entry var(--lettura) entry calc(100% + var(--lettura));
+    }
+    .staffetta:not(.is-scena) .staffetta__fine::before { bottom: 50%; }
+    .staffetta:not(.is-scena) .staffetta__fine::after {
+      content: ''; position: absolute; top: 50%; left: calc(var(--margine) * -.5 - 5px);
+      width: 10px; height: 10px; border-radius: var(--q-r); background: var(--c-ar);
+      translate: 0 -50%; scale: 0; pointer-events: none;
+      animation: filo-atterra linear both; animation-timeline: view();
+      animation-range: entry var(--lettura) entry calc(var(--lettura) + 24px);
+    }
+    /* il reparto si accende quando il filo lo raggiunge: solo i glifi, mai il testo */
+    .staffetta:not(.is-scena) .stazione::before,
+    .staffetta:not(.is-scena) .stazione .icoq {
+      animation: reparto-acceso linear both; animation-timeline: view();
+      animation-range: entry var(--lettura) entry calc(var(--lettura) + 56px);
+    }
+  }
+}
+@keyframes filo-scende    { to { scale: 1 1; } }
+@keyframes filo-atterra   { to { scale: 1; } }
+@keyframes reparto-acceso { from { opacity: .28; } }
+
 /* ── LA COLONNA (Metodo e schermi stretti): reparto e passaggio affiancati */
 @media (min-width: 900px) {
-  .staffetta--colonna .staffetta__pista { gap: 0; }
+  .staffetta--colonna .staffetta__pista { gap: 0; --passo: 0px; }
   .staffetta--colonna .staffetta__testa { margin-bottom: clamp(40px, 4vw, 72px); }
   .staffetta--colonna .stazione {
     grid-template-columns: minmax(0, 3fr) minmax(0, 4fr) minmax(0, 5fr);
@@ -221,6 +261,29 @@
 .finale__nota { font: 500 14px/1.4 var(--f-display); color: var(--c-t3); }
 .finale__testo .t-deck { max-inline-size: 46ch; }
 .finale__foto { margin: 0; align-self: end; justify-self: center; width: min(100%, 520px); }
+/* IL TROFEO (ciclo 1): era l'unico fotogramma fermo del racconto del cubo
+   (contatto sparso → cade → passa di mano → alzato). Il braccio sale dal
+   gomito mentre la sezione entra, e la luce del pavimento sale con lui.
+   Le tre righe FATTURARE atterrano prima (i loro range), il trofeo è su
+   del tutto a cover 45%. Movimento ridotto: fermo, alzato, luce piena. */
+.finale__foto img { transform-origin: 50% 100%; }
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .finale { view-timeline: --finale block; }
+    .finale__foto img { animation: trofeo-alzato linear both; animation-timeline: --finale; animation-range: entry 0% cover 45%; }
+    .finale::before { animation: pavimento-acceso linear both; animation-timeline: --finale; animation-range: entry 20% cover 50%; }
+    @media (max-width: 900px) { .finale__foto img { animation-timeline: view(); animation-range: entry 0% cover 50%; } }
+  }
+}
+@keyframes trofeo-alzato    { from { translate: 0 16%; rotate: -4deg; } }
+@keyframes pavimento-acceso { from { opacity: .45; } }
+@supports not (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .finale__foto img { translate: 0 16%; rotate: -4deg;
+      transition: translate var(--t-apertura) var(--ease-salita) 240ms, rotate var(--t-apertura) var(--ease-salita) 240ms; }
+    .finale.is-in .finale__foto img { translate: 0 0; rotate: 0deg; }
+  }
+}
 .finale__foto img {
   display: block; width: 100%; height: auto; max-height: 88vh; object-fit: contain; object-position: bottom;
   /* il braccio sale dal fondo: lo si lascia sfumare invece di tagliarlo */
