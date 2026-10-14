@@ -22,12 +22,13 @@ la stessa dissolvenza su ogni sezione e le card tutte uguali.
 
 OWN-WORLD: nero palco #020202 e base #161519 come un unico fondo continuo, arancio #FF8200 come luce
 (alone, bordo acceso, numero), quadrato 12px raggio 2 come modulo di tutto (liste, grafici a unità,
-transizioni a gradini), mani nere con oggetto arancione come fotografia, DM Sans 500/700 (Instrument
+transizioni a gradini), mani nere con oggetto arancione come fotografia (la serie del cliente, estesa nel giro 3 con
+foto generate della stessa grammatica e fondo trasparente), il cubo arancione come oggetto-filo, DM Sans 500/700 (Instrument
 Serif italic ritirato nel giro 2 di verifica: una sola famiglia), filetti al 12% di bianco, pill per le azioni.
 
 STORY: il titolare vede i contatti sparsi diventare una scalinata (il processo), capisce che il
-fatturato si perde nei passaggi fra reparti, vede il contatto attraversare i quattro reparti senza
-cadere, verifica facce, numeri e video, e candida l'azienda sapendo già se rientra nel filtro.
+fatturato si perde nei passaggi fra reparti (il cubo che cade fra due mani), vede lo stesso cubo
+passare di mano attraverso i quattro reparti, verifica facce, numeri e video, e candida l'azienda sapendo già se rientra nel filtro.
 
 FIRST VIEWPORT: titolo centrato a tutta forza ("Ti consegniamo il reparto che fattura." 132px max) sopra
 un campo 3D di cubi grafite in profondità, luce arancione che segue il cursore; CTA bianco + outline
@@ -35,8 +36,10 @@ sotto il deck, il filtro 1–5 M€ subito dopo; la scalinata 3D si monta al pri
 sezione successiva. Nav fissa 76px, barra evento in cima.
 
 FORM: mondo esistente esteso (new-work §3 "Extend an existing surface" / established world): nessun
-concept-seed, la pelle è vincolata dal cliente. Firma: hero 3D che si monta in scalinata, macchina
-pinnata col contatto che attraversa i reparti, muro FATTURARE che reagisce alla luce.
+concept-seed, la pelle è vincolata dal cliente. Firma: hero 3D che si monta in scalinata, staffetta
+pinnata orizzontale col contatto fermo che accende i reparti, finale con la mano che alza il cubo.
+Giro 3 (riscontro del cliente): titoli senza occhiello e leggibili, fregio rimosso, numeri a unità,
+contro-esempio fotografico, aperture fotografiche delle pagine interne.
 
 FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
 

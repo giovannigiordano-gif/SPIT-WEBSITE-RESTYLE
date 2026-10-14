@@ -18,7 +18,7 @@
 
 <link rel="preload" href="/assets/fonts/dm-sans-latin-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
-<link rel="stylesheet" href="/css/sito.css?v=bfb9f846a7">
+<link rel="stylesheet" href="/css/sito.css?v=0b65f39c89">
 </head>
 <body data-pagina="candidatura">
 <div class="palco" aria-hidden="true"><i data-a="nero"></i><i data-a="brace"></i><i data-a="alba"></i><i data-a="radente"></i><i data-a="notte"></i><i data-a="pozzo"></i><i data-a="fuoco"></i><b class="palco__torcia"></b></div>
@@ -44,33 +44,52 @@
     <a class="marchio" href="/" aria-label="Sales Process, home">
       <img class="marchio__img" src="/assets/brand/logo-h64.webp" srcset="/assets/brand/logo-h64.webp 312w, /assets/brand/logo-h160.webp 779w" sizes="146px" alt="Sales Process" style="height:30px" width="312" height="64">
     </a>
-    <nav class="nav__voci" aria-label="Principale">
-      <a href="/metodo.html">Metodo</a>
-      <a href="/risultati.html">Risultati</a>
-      <a href="/dna.html">DNA</a>
-      <a href="/team.html">Team</a>
-      <a href="/eventi.html">Eventi</a>
-    </nav>
+    <!-- Il capitolo in cui sei (motion.js, dalle sezioni con data-cap):
+         solo orientamento, i lettori di schermo hanno già i titoli. -->
+    <p class="nav__cap" id="nav-cap" aria-hidden="true"><span class="capo__n"></span><span class="nav__cap-nome"></span></p>
     <div class="nav__dx">
-      <a class="nav__login" href="mailto:amministrazione@salesprocess.it">Scrivici</a>
-      <a class="nav__login" href="/fatturare.html">Podcast</a>
+      
       <a class="cta cta--ar cta--luce cta--nav" href="/candidatura.html">Candida la tua azienda</a>
-      <button class="burger" id="burger" aria-label="Apri il menu" aria-expanded="false" aria-controls="menu"><span></span></button>
+      <button class="menu-btn" id="burger" type="button" aria-label="Apri il menu" aria-expanded="false" aria-controls="menu">
+        <span class="menu-btn__txt">Menu</span><span class="menu-btn__ico" aria-hidden="true"><span></span></span>
+      </button>
     </div>
   </div>
 </header>
 
-<div class="menu" id="menu">
-  <a href="/metodo.html" style="--i:0">Metodo<svg class="freccia" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12h14.5M13.5 6.5 19 12l-5.5 5.5"/></svg></a>
-  <a href="/risultati.html" style="--i:1">Risultati<svg class="freccia" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12h14.5M13.5 6.5 19 12l-5.5 5.5"/></svg></a>
-  <a href="/dna.html" style="--i:2">DNA<svg class="freccia" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12h14.5M13.5 6.5 19 12l-5.5 5.5"/></svg></a>
-  <a href="/team.html" style="--i:3">Team<svg class="freccia" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12h14.5M13.5 6.5 19 12l-5.5 5.5"/></svg></a>
-  <a href="/eventi.html" style="--i:4">Eventi<svg class="freccia" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12h14.5M13.5 6.5 19 12l-5.5 5.5"/></svg></a>
-  <a href="/fatturare.html" style="--i:5">Fatturare³<svg class="freccia" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12h14.5M13.5 6.5 19 12l-5.5 5.5"/></svg></a>
-  <a href="/candidatura.html" style="--i:6" aria-current="page">Candidatura<svg class="freccia" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12h14.5M13.5 6.5 19 12l-5.5 5.5"/></svg></a>
-  <a class="cta cta--ar" href="/candidatura.html" style="--i:7">Candida la tua azienda</a>
-  <div class="menu__contatti">
-    <a href="mailto:amministrazione@salesprocess.it" style="--i:8">amministrazione@salesprocess.it</a>
+<div class="menu" id="menu" role="dialog" aria-modal="true" aria-label="Menu" hidden>
+  <div class="menu__card">
+    <div class="menu__testa">
+      <a class="marchio" href="/" aria-label="Sales Process, home"><img class="marchio__img" src="/assets/brand/logo-h64.webp" srcset="/assets/brand/logo-h64.webp 312w, /assets/brand/logo-h160.webp 779w" sizes="146px" alt="Sales Process" style="height:30px" width="312" height="64"></a>
+      <button class="menu-btn menu-btn--chiudi" id="menu-chiudi" type="button" aria-label="Chiudi il menu">
+        <span class="menu-btn__txt">Chiudi</span><span class="menu-btn__ico is-x" aria-hidden="true"><span></span></span>
+      </button>
+    </div>
+    <nav class="menu__voci" aria-label="Principale">
+      <a href="/metodo.html" data-foto="metodo-scalinata" style="--i:0"><span class="menu__nome">Metodo</span><span class="menu__desc">Quattro reparti, tre passaggi di consegna</span></a>
+      <a href="/risultati.html" data-foto="risultati-scontrino" style="--i:1"><span class="menu__nome">Risultati</span><span class="menu__desc">Prima e dopo, con i mesi in mezzo</span></a>
+      <a href="/dna.html" data-foto="dna-bussola" style="--i:2"><span class="menu__nome">DNA</span><span class="menu__desc">La politica della qualità e i dieci principi</span></a>
+      <a href="/team.html" data-foto="team" style="--i:3"><span class="menu__nome">Team</span><span class="menu__desc">Dodici persone, quattro reparti</span></a>
+      <a href="/eventi.html" data-foto="eventi-biglietto" style="--i:4"><span class="menu__nome">Eventi</span><span class="menu__desc">Sales Process Day · 14 ottobre 2026 · Milano</span></a>
+      <a href="/fatturare.html" data-foto="fatturare-microfono" style="--i:5"><span class="menu__nome">Fatturare³</span><span class="menu__desc">Il podcast, gli articoli, i libri</span></a>
+      <a href="/candidatura.html" data-foto="candidatura-caffe" style="--i:6" aria-current="page"><span class="menu__nome">Candidatura</span><span class="menu__desc">Candidature aperte · Q4 2026</span></a>
+    </nav>
+    <div class="menu__anteprime" aria-hidden="true">
+      <img class="menu__ant menu__ant--casa" data-foto="casa" data-src="/assets/foto/finale-trofeo-800.webp" alt="" width="1200" height="1500">
+      <img class="menu__ant" data-foto="metodo-scalinata" data-src="/assets/foto/metodo-scalinata-800.webp" alt="" width="1200" height="1500">
+      <img class="menu__ant" data-foto="risultati-scontrino" data-src="/assets/foto/risultati-scontrino-800.webp" alt="" width="1200" height="1500">
+      <img class="menu__ant" data-foto="dna-bussola" data-src="/assets/foto/dna-bussola-800.webp" alt="" width="1200" height="1500">
+      <div class="menu__ant menu__ant--volti" data-foto="team"><img data-src="/assets/team-webp/frisoni-400.webp" alt="" width="400" height="400" style="--x:23.6;--y:0;--l:30.4"><img data-src="/assets/team-webp/bardolla-400.webp" alt="" width="400" height="400" style="--x:0;--y:30.4;--l:25.2"><img data-src="/assets/team-webp/ratti-400.webp" alt="" width="400" height="400" style="--x:21.4;--y:53.8;--l:21"><img data-src="/assets/team-webp/elicio-400.webp" alt="" width="400" height="400" style="--x:40.6;--y:72.6;--l:17.4"><img data-src="/assets/team-webp/amodio-400.webp" alt="" width="400" height="400" style="--x:29.4;--y:85.8;--l:14.2"></div>
+      <img class="menu__ant" data-foto="eventi-biglietto" data-src="/assets/foto/eventi-biglietto-800.webp" alt="" width="1200" height="1500">
+      <img class="menu__ant" data-foto="fatturare-microfono" data-src="/assets/foto/fatturare-microfono-800.webp" alt="" width="1200" height="1500">
+      <img class="menu__ant" data-foto="candidatura-caffe" data-src="/assets/foto/candidatura-caffe-800.webp" alt="" width="1200" height="1500">
+    </div>
+    <div class="menu__piede">
+      <a class="cta cta--ar" href="/candidatura.html">Candida la tua azienda</a>
+      <a class="menu__link" href="mailto:amministrazione@salesprocess.it">amministrazione@salesprocess.it</a>
+      <p class="menu__dove">Via Marco D'Agrate 41, Milano · quarto piano</p>
+      <div class="menu__social"><a href="https://www.linkedin.com/company/insider-crew/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.2 9.4h3v11.4h-3z"/><circle cx="5.7" cy="5.6" r="1.9"/><path d="M14.6 9.1c-1.5 0-2.6.7-3.1 1.6V9.4h-3v11.4h3v-6c0-1.5.7-2.4 1.9-2.4 1.1 0 1.7.8 1.7 2.4v6h3v-6.5c0-3.2-1.5-5.2-3.5-5.2z"/></svg></a><a href="https://www.instagram.com/salesprocessit/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="3.6" y="3.6" width="16.8" height="16.8" rx="4.6" fill="none" stroke="currentColor" stroke-width="1.75"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.75"/><circle cx="17" cy="7" r="1.2"/></svg></a><a href="https://www.youtube.com/channel/UCEGb8y5mF0-CqjJ6-ktxqOw" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.1 8.3a2.6 2.6 0 0 0-1.8-1.8C17.7 6 12 6 12 6s-5.7 0-7.3.5A2.6 2.6 0 0 0 2.9 8.3C2.5 9.9 2.5 12 2.5 12s0 2.1.4 3.7a2.6 2.6 0 0 0 1.8 1.8C6.3 18 12 18 12 18s5.7 0 7.3-.5a2.6 2.6 0 0 0 1.8-1.8c.4-1.6.4-3.7.4-3.7s0-2.1-.4-3.7z"/><path d="M10.2 15.1V8.9l5.2 3.1z" fill="#080706"/></svg></a><a href="https://www.facebook.com/salesprocessitalia" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M14.5 8.5h2.2V5.6h-2.4c-2.5 0-4 1.6-4 4.1v2.1H8.2v2.9h2.1V21h3.1v-6.3h2.3l.4-2.9h-2.7v-1.7c0-.9.4-1.6 1.1-1.6z"/></svg></a></div>
+    </div>
   </div>
 </div>
 <div class="avanza" aria-hidden="true"></div>
@@ -82,12 +101,12 @@
 <section class="testa-pag">
   <div class="wrap wrap--piena testa-pag__in">
     <div class="testa-pag__testo">
+      <p class="pill-eyebrow apri-1">Candidature aperte · Q4 2026</p>
       <h1 class="t-hero" data-split><span class="w" style="--w:0"><span>Candida</span></span> <span class="w" style="--w:1"><span>la</span></span> <span class="w" style="--w:2"><span>tua</span></span> <span class="w" style="--w:3"><span>azienda.</span></span> <span class="w" style="--w:4"><span>Oppure</span></span> <span class="w" style="--w:5"><span>vieni</span></span> <span class="w" style="--w:6"><span>a</span></span> <span class="w" style="--w:7"><span>prendere</span></span> <span class="w" style="--w:8"><span>un</span></span> <span class="w" style="--w:9"><span><span class="ar">caffè</span>.</span></span></h1>
       <p class="t-deck apri-2">Non lavoriamo con tutti, e il filtro è scritto qui sotto prima che tu compili qualcosa. Se rientri, ti rispondiamo entro 48 ore lavorative — e la candidatura la legge una persona, non un software.</p>
       <div class="cta-riga apri-3">
         <a class="cta cta--bianco" href="#candidatura">Candida la tua azienda<svg class="freccia freccia--giu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4.5V19M6.5 13.5 12 19l5.5-5.5"/></svg></a>
       </div>
-      <p class="testa-pag__meta apri-3">Candidature aperte · Q4 2026</p>
     </div>
     <figure class="testa-pag__foto apri-2">
       <img src="/assets/foto/candidatura-caffe-800.webp" srcset="/assets/foto/candidatura-caffe-480.webp 480w, /assets/foto/candidatura-caffe-800.webp 800w, /assets/foto/candidatura-caffe-1200.webp 1200w" sizes="(max-width: 900px) 74vw, 38vw" alt="Una mano offre una tazzina di caffè arancione" width="1200" height="1500" fetchpriority="low" decoding="async">

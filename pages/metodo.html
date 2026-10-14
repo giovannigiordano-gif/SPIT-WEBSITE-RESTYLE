@@ -9,13 +9,13 @@ desc: Quattro reparti sotto lo stesso tetto e tre passaggi di consegna misurati.
 <section class="testa-pag">
   <div class="wrap wrap--piena testa-pag__in">
     <div class="testa-pag__testo">
+      <p class="pill-eyebrow apri-1">Il metodo 4 in 1</p>
       <h1 class="t-hero" data-split>Il fatturato non si perde nei reparti. Si perde nei <span class="ar">passaggi</span>.</h1>
       <p class="t-deck apri-2">Quattro fornitori diversi non sono un reparto. Sono tre passaggi di consegna che cadono per terra — e tu paghi quattro volte lo stesso contatto senza che nessuno risponda del numero finale.</p>
       <div class="cta-riga apri-3">
         <a class="cta cta--bianco" href="/candidatura.html">Candida la tua azienda</a>
         <a class="cta cta--out" href="#tabella">Vai alla tabella dei passaggi ↓</a>
       </div>
-      <p class="testa-pag__meta apri-3">Il metodo 4 in 1</p>
     </div>
     <figure class="testa-pag__foto apri-2">
       <img src="/assets/foto/metodo-scalinata-800.webp" srcset="/assets/foto/metodo-scalinata-480.webp 480w, /assets/foto/metodo-scalinata-800.webp 800w, /assets/foto/metodo-scalinata-1200.webp 1200w" sizes="(max-width: 900px) 74vw, 38vw" alt="Una mano posa l'ultimo cubo arancione in cima a una scalinata di cubi" width="1200" height="1500" fetchpriority="low" decoding="async">
@@ -24,39 +24,45 @@ desc: Quattro reparti sotto lo stesso tetto e tre passaggi di consegna misurati.
 </section>
 
 <!-- ══ IL CONTRO-ESEMPIO ═══════════════════════════════════════════════
-     Lo stesso capitolo della home: la fotografia dice il problema, la
-     catena dice dove si rompe, il conto dice quanto costa. -->
+     Lo stesso capitolo della home, senza la fotografia (che vive là): il
+     conto 4 · 3 · 0, con i tre passaggi rotti dentro il «3». -->
 <section class="sez contro sf sf--fuoco" id="contro">
   <div class="wrap wrap--piena">
     <div class="testa">
       <h2 class="t-d2" data-split>Quattro fornitori diversi non sono un reparto. <span class="segue">Sono tre passaggi che cadono per terra.</span></h2>
       <p class="t-deck">L'agenzia che compra la pubblicità non parla con chi scrive le mail. Chi scrive le mail non sa chi hai assunto. Chi hai assunto non l'ha formato nessuno.</p>
     </div>
-  </div>
 
-  <figure class="contro__foto">
-    <img src="/assets/foto/contro-caduta-1400.webp" srcset="/assets/foto/contro-caduta-800.webp 800w, /assets/foto/contro-caduta-1400.webp 1400w, /assets/foto/contro-caduta-2000.webp 2000w" sizes="(max-width: 700px) 150vw, 100vw" alt="Due mani si cercano senza toccarsi; fra loro un cubo arancione cade nel vuoto" width="2000" height="1131" loading="lazy" decoding="async">
-  </figure>
-
-  <div class="wrap wrap--piena">
-    <ol class="catena" aria-label="La catena dei quattro fornitori e dove si rompe">
-      <li class="catena__anello"><b>Agenzia ads</b><span>compra il traffico</span></li>
-      <li class="catena__rotto"><i aria-hidden="true"></i><span>Il contatto non passa</span></li>
-      <li class="catena__anello"><b>Freelance copy</b><span>scrive le mail</span></li>
-      <li class="catena__rotto"><i aria-hidden="true"></i><span>L'obiezione non torna</span></li>
-      <li class="catena__anello"><b>Recruiter</b><span>trova i venditori</span></li>
-      <li class="catena__rotto"><i aria-hidden="true"></i><span>Il venditore resta solo</span></li>
-      <li class="catena__anello"><b>Formatore</b><span>viene a giornata</span></li>
-    </ol>
-    <p class="catena__suolo"><span>Quello che finisce per terra</span></p>
-
+    <!-- Il conto scende: quattro fornitori, tre passaggi, zero responsabili.
+         I numeri sono bianchi: l'arancio resta al metodo, più sotto.
+         Lo zero è vuoto (solo contorno): nessuno dei quattro lo riempie. -->
     <div class="conto">
-      <div class="conto__c"><span class="conto__n">4</span><span class="conto__l">fornitori da coordinare</span><span class="conto__d">Quattro fatture, quattro referenti, quattro calendari.</span></div>
-      <div class="conto__c"><span class="conto__n">3</span><span class="conto__l">passaggi senza padrone</span><span class="conto__d">Nessuno dei quattro risponde di cosa succede fra sé e il successivo.</span></div>
-      <div class="conto__c conto__c--zero"><span class="conto__n">0</span><span class="conto__l">responsabili del fatturato</span><span class="conto__d">È il numero che nessuno dei quattro ha nel contratto. Rimane solo tuo.</span></div>
+      <div class="conto__c">
+        <h3 class="conto__tit"><span class="conto__n">4</span> fornitori da coordinare</h3>
+        <ul class="conto__l">
+          <li>Agenzia ads</li>
+          <li>Freelance copy</li>
+          <li>Recruiter</li>
+          <li>Formatore</li>
+        </ul>
+        <p class="conto__nota">Quattro fatture, quattro referenti, quattro calendari.</p>
+      </div>
+      <div class="conto__c">
+        <h3 class="conto__tit"><span class="conto__n">3</span> passaggi senza padrone</h3>
+        <ol class="conto__l conto__l--rotture" aria-label="Dove si rompe la catena dei quattro fornitori">
+          <li><span class="conto__fra">Agenzia ads <span aria-hidden="true">→</span><span class="sr">verso</span> Freelance copy</span><b>Il contatto non passa.</b></li>
+          <li><span class="conto__fra">Freelance copy <span aria-hidden="true">→</span><span class="sr">verso</span> Recruiter</span><b>L'obiezione non torna.</b></li>
+          <li><span class="conto__fra">Recruiter <span aria-hidden="true">→</span><span class="sr">verso</span> Formatore</span><b>Il venditore resta solo.</b></li>
+        </ol>
+        <p class="conto__nota">Nessuno dei quattro risponde di cosa succede fra sé e il successivo.</p>
+      </div>
+      <div class="conto__c conto__c--zero">
+        <h3 class="conto__tit"><span class="conto__n">0</span> responsabili del fatturato</h3>
+        <p class="conto__nota">È il numero che nessuno dei quattro ha nel contratto. Rimane solo tuo.</p>
+      </div>
     </div>
 
-    <p class="t-piccolo contro__chiusa">
+    <p class="contro__chiusa">
       E paghi <strong>quattro volte lo stesso contatto</strong>:
       una per portarlo, una per scaldarlo, una per assumere chi lo chiama, una per insegnargli a chiudere.
     </p>
@@ -69,18 +75,18 @@ desc: Quattro reparti sotto lo stesso tetto e tre passaggi di consegna misurati.
      segue è la stessa informazione in forma leggibile da tutti. -->
 <section class="sez staffetta-sez sf sf--pozzo" id="metodo">
   <a class="skip" href="#tabella">Salta la scena del metodo →</a>
-  <div class="staffetta" id="staffetta">
+  <div class="staffetta staffetta--colonna" id="staffetta">
     <div class="staffetta__pista" id="staffetta-pista">
       <div class="staffetta__testa">
         <h2 class="t-d2" data-split>Quattro reparti, <span class="segue">tre passaggi di consegna.</span></h2>
       </div>
       <!-- /js/dati.js: quattro reparti e tre passaggi, alternati -->
-      <p class="staffetta__fine" id="macchina-chiusa">
-        <strong>La trattativa.</strong>
-        Il contatto educato incontra il venditore formato. È l'unico punto in cui nasce il fatturato.
-      </p>
+      <!-- L'atterraggio: il cubo posato sul contratto firmato. -->
+      <figure class="staffetta__fine">
+        <img src="/assets/foto/staffetta-firma-800.webp" srcset="/assets/foto/staffetta-firma-480.webp 480w, /assets/foto/staffetta-firma-800.webp 800w, /assets/foto/staffetta-firma-1200.webp 1200w" sizes="(max-width: 1023px) 78vw, 32vw" alt="Una mano posa il cubo arancione su un contratto firmato" width="1200" height="1500" loading="lazy" decoding="async">
+        <figcaption><strong>La trattativa.</strong> Il contatto educato incontra il venditore formato. È l'unico punto in cui nasce il fatturato.</figcaption>
+      </figure>
     </div>
-    <div class="staffetta__binario" aria-hidden="true"><i class="staffetta__luce"></i><i class="staffetta__contatto"></i></div>
   </div>
 </section>
 

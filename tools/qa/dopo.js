@@ -31,5 +31,8 @@ async page => {
   });
   await scatto(390, 800, '/', 'hero-390');
   await scatto(1440, 900, '/eventi.html', 'programma-1440', vai('#programma', 20));
+  await scatto(1440, 900, '/', 'contro-1440', vai('#contro', 20));
+  await scatto(1440, 900, '/', 'finale-1440', vai('#muro', 40));
+  for (const pg of ['metodo', 'team', 'eventi', 'risultati']) await scatto(1440, 900, '/' + pg + '.html', pg + '-top-1440');
   return 'ok';
 }

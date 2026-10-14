@@ -18,7 +18,7 @@
 
 <link rel="preload" href="/assets/fonts/dm-sans-latin-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
-<link rel="stylesheet" href="/css/sito.css?v=bfb9f846a7">
+<link rel="stylesheet" href="/css/sito.css?v=0b65f39c89">
 </head>
 <body data-pagina="metodo">
 <div class="palco" aria-hidden="true"><i data-a="nero"></i><i data-a="brace"></i><i data-a="alba"></i><i data-a="radente"></i><i data-a="notte"></i><i data-a="pozzo"></i><i data-a="fuoco"></i><b class="palco__torcia"></b></div>
@@ -44,33 +44,52 @@
     <a class="marchio" href="/" aria-label="Sales Process, home">
       <img class="marchio__img" src="/assets/brand/logo-h64.webp" srcset="/assets/brand/logo-h64.webp 312w, /assets/brand/logo-h160.webp 779w" sizes="146px" alt="Sales Process" style="height:30px" width="312" height="64">
     </a>
-    <nav class="nav__voci" aria-label="Principale">
-      <a href="/metodo.html" aria-current="page">Metodo</a>
-      <a href="/risultati.html">Risultati</a>
-      <a href="/dna.html">DNA</a>
-      <a href="/team.html">Team</a>
-      <a href="/eventi.html">Eventi</a>
-    </nav>
+    <!-- Il capitolo in cui sei (motion.js, dalle sezioni con data-cap):
+         solo orientamento, i lettori di schermo hanno già i titoli. -->
+    <p class="nav__cap" id="nav-cap" aria-hidden="true"><span class="capo__n"></span><span class="nav__cap-nome"></span></p>
     <div class="nav__dx">
-      <a class="nav__login" href="mailto:amministrazione@salesprocess.it">Scrivici</a>
-      <a class="nav__login" href="/fatturare.html">Podcast</a>
+      
       <a class="cta cta--ar cta--luce cta--nav" href="/candidatura.html">Candida la tua azienda</a>
-      <button class="burger" id="burger" aria-label="Apri il menu" aria-expanded="false" aria-controls="menu"><span></span></button>
+      <button class="menu-btn" id="burger" type="button" aria-label="Apri il menu" aria-expanded="false" aria-controls="menu">
+        <span class="menu-btn__txt">Menu</span><span class="menu-btn__ico" aria-hidden="true"><span></span></span>
+      </button>
     </div>
   </div>
 </header>
 
-<div class="menu" id="menu">
-  <a href="/metodo.html" style="--i:0" aria-current="page">Metodo<svg class="freccia" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12h14.5M13.5 6.5 19 12l-5.5 5.5"/></svg></a>
-  <a href="/risultati.html" style="--i:1">Risultati<svg class="freccia" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12h14.5M13.5 6.5 19 12l-5.5 5.5"/></svg></a>
-  <a href="/dna.html" style="--i:2">DNA<svg class="freccia" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12h14.5M13.5 6.5 19 12l-5.5 5.5"/></svg></a>
-  <a href="/team.html" style="--i:3">Team<svg class="freccia" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12h14.5M13.5 6.5 19 12l-5.5 5.5"/></svg></a>
-  <a href="/eventi.html" style="--i:4">Eventi<svg class="freccia" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12h14.5M13.5 6.5 19 12l-5.5 5.5"/></svg></a>
-  <a href="/fatturare.html" style="--i:5">Fatturare³<svg class="freccia" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12h14.5M13.5 6.5 19 12l-5.5 5.5"/></svg></a>
-  <a href="/candidatura.html" style="--i:6">Candidatura<svg class="freccia" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12h14.5M13.5 6.5 19 12l-5.5 5.5"/></svg></a>
-  <a class="cta cta--ar" href="/candidatura.html" style="--i:7">Candida la tua azienda</a>
-  <div class="menu__contatti">
-    <a href="mailto:amministrazione@salesprocess.it" style="--i:8">amministrazione@salesprocess.it</a>
+<div class="menu" id="menu" role="dialog" aria-modal="true" aria-label="Menu" hidden>
+  <div class="menu__card">
+    <div class="menu__testa">
+      <a class="marchio" href="/" aria-label="Sales Process, home"><img class="marchio__img" src="/assets/brand/logo-h64.webp" srcset="/assets/brand/logo-h64.webp 312w, /assets/brand/logo-h160.webp 779w" sizes="146px" alt="Sales Process" style="height:30px" width="312" height="64"></a>
+      <button class="menu-btn menu-btn--chiudi" id="menu-chiudi" type="button" aria-label="Chiudi il menu">
+        <span class="menu-btn__txt">Chiudi</span><span class="menu-btn__ico is-x" aria-hidden="true"><span></span></span>
+      </button>
+    </div>
+    <nav class="menu__voci" aria-label="Principale">
+      <a href="/metodo.html" data-foto="metodo-scalinata" style="--i:0" aria-current="page"><span class="menu__nome">Metodo</span><span class="menu__desc">Quattro reparti, tre passaggi di consegna</span></a>
+      <a href="/risultati.html" data-foto="risultati-scontrino" style="--i:1"><span class="menu__nome">Risultati</span><span class="menu__desc">Prima e dopo, con i mesi in mezzo</span></a>
+      <a href="/dna.html" data-foto="dna-bussola" style="--i:2"><span class="menu__nome">DNA</span><span class="menu__desc">La politica della qualità e i dieci principi</span></a>
+      <a href="/team.html" data-foto="team" style="--i:3"><span class="menu__nome">Team</span><span class="menu__desc">Dodici persone, quattro reparti</span></a>
+      <a href="/eventi.html" data-foto="eventi-biglietto" style="--i:4"><span class="menu__nome">Eventi</span><span class="menu__desc">Sales Process Day · 14 ottobre 2026 · Milano</span></a>
+      <a href="/fatturare.html" data-foto="fatturare-microfono" style="--i:5"><span class="menu__nome">Fatturare³</span><span class="menu__desc">Il podcast, gli articoli, i libri</span></a>
+      <a href="/candidatura.html" data-foto="candidatura-caffe" style="--i:6"><span class="menu__nome">Candidatura</span><span class="menu__desc">Candidature aperte · Q4 2026</span></a>
+    </nav>
+    <div class="menu__anteprime" aria-hidden="true">
+      <img class="menu__ant menu__ant--casa" data-foto="casa" data-src="/assets/foto/finale-trofeo-800.webp" alt="" width="1200" height="1500">
+      <img class="menu__ant" data-foto="metodo-scalinata" data-src="/assets/foto/metodo-scalinata-800.webp" alt="" width="1200" height="1500">
+      <img class="menu__ant" data-foto="risultati-scontrino" data-src="/assets/foto/risultati-scontrino-800.webp" alt="" width="1200" height="1500">
+      <img class="menu__ant" data-foto="dna-bussola" data-src="/assets/foto/dna-bussola-800.webp" alt="" width="1200" height="1500">
+      <div class="menu__ant menu__ant--volti" data-foto="team"><img data-src="/assets/team-webp/frisoni-400.webp" alt="" width="400" height="400" style="--x:23.6;--y:0;--l:30.4"><img data-src="/assets/team-webp/bardolla-400.webp" alt="" width="400" height="400" style="--x:0;--y:30.4;--l:25.2"><img data-src="/assets/team-webp/ratti-400.webp" alt="" width="400" height="400" style="--x:21.4;--y:53.8;--l:21"><img data-src="/assets/team-webp/elicio-400.webp" alt="" width="400" height="400" style="--x:40.6;--y:72.6;--l:17.4"><img data-src="/assets/team-webp/amodio-400.webp" alt="" width="400" height="400" style="--x:29.4;--y:85.8;--l:14.2"></div>
+      <img class="menu__ant" data-foto="eventi-biglietto" data-src="/assets/foto/eventi-biglietto-800.webp" alt="" width="1200" height="1500">
+      <img class="menu__ant" data-foto="fatturare-microfono" data-src="/assets/foto/fatturare-microfono-800.webp" alt="" width="1200" height="1500">
+      <img class="menu__ant" data-foto="candidatura-caffe" data-src="/assets/foto/candidatura-caffe-800.webp" alt="" width="1200" height="1500">
+    </div>
+    <div class="menu__piede">
+      <a class="cta cta--ar" href="/candidatura.html">Candida la tua azienda</a>
+      <a class="menu__link" href="mailto:amministrazione@salesprocess.it">amministrazione@salesprocess.it</a>
+      <p class="menu__dove">Via Marco D'Agrate 41, Milano · quarto piano</p>
+      <div class="menu__social"><a href="https://www.linkedin.com/company/insider-crew/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.2 9.4h3v11.4h-3z"/><circle cx="5.7" cy="5.6" r="1.9"/><path d="M14.6 9.1c-1.5 0-2.6.7-3.1 1.6V9.4h-3v11.4h3v-6c0-1.5.7-2.4 1.9-2.4 1.1 0 1.7.8 1.7 2.4v6h3v-6.5c0-3.2-1.5-5.2-3.5-5.2z"/></svg></a><a href="https://www.instagram.com/salesprocessit/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="3.6" y="3.6" width="16.8" height="16.8" rx="4.6" fill="none" stroke="currentColor" stroke-width="1.75"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.75"/><circle cx="17" cy="7" r="1.2"/></svg></a><a href="https://www.youtube.com/channel/UCEGb8y5mF0-CqjJ6-ktxqOw" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.1 8.3a2.6 2.6 0 0 0-1.8-1.8C17.7 6 12 6 12 6s-5.7 0-7.3.5A2.6 2.6 0 0 0 2.9 8.3C2.5 9.9 2.5 12 2.5 12s0 2.1.4 3.7a2.6 2.6 0 0 0 1.8 1.8C6.3 18 12 18 12 18s5.7 0 7.3-.5a2.6 2.6 0 0 0 1.8-1.8c.4-1.6.4-3.7.4-3.7s0-2.1-.4-3.7z"/><path d="M10.2 15.1V8.9l5.2 3.1z" fill="#080706"/></svg></a><a href="https://www.facebook.com/salesprocessitalia" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M14.5 8.5h2.2V5.6h-2.4c-2.5 0-4 1.6-4 4.1v2.1H8.2v2.9h2.1V21h3.1v-6.3h2.3l.4-2.9h-2.7v-1.7c0-.9.4-1.6 1.1-1.6z"/></svg></a></div>
+    </div>
   </div>
 </div>
 <div class="avanza" aria-hidden="true"></div>
@@ -82,13 +101,13 @@
 <section class="testa-pag">
   <div class="wrap wrap--piena testa-pag__in">
     <div class="testa-pag__testo">
+      <p class="pill-eyebrow apri-1">Il metodo 4 in 1</p>
       <h1 class="t-hero" data-split><span class="w" style="--w:0"><span>Il</span></span> <span class="w" style="--w:1"><span>fatturato</span></span> <span class="w" style="--w:2"><span>non</span></span> <span class="w" style="--w:3"><span>si</span></span> <span class="w" style="--w:4"><span>perde</span></span> <span class="w" style="--w:5"><span>nei</span></span> <span class="w" style="--w:6"><span>reparti.</span></span> <span class="w" style="--w:7"><span>Si</span></span> <span class="w" style="--w:8"><span>perde</span></span> <span class="w" style="--w:9"><span>nei</span></span> <span class="w" style="--w:10"><span><span class="ar">passaggi</span>.</span></span></h1>
       <p class="t-deck apri-2">Quattro fornitori diversi non sono un reparto. Sono tre passaggi di consegna che cadono per terra — e tu paghi quattro volte lo stesso contatto senza che nessuno risponda del numero finale.</p>
       <div class="cta-riga apri-3">
         <a class="cta cta--bianco" href="/candidatura.html">Candida la tua azienda</a>
         <a class="cta cta--out" href="#tabella">Vai alla tabella dei passaggi<svg class="freccia freccia--giu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4.5V19M6.5 13.5 12 19l5.5-5.5"/></svg></a>
       </div>
-      <p class="testa-pag__meta apri-3">Il metodo 4 in 1</p>
     </div>
     <figure class="testa-pag__foto apri-2">
       <img src="/assets/foto/metodo-scalinata-800.webp" srcset="/assets/foto/metodo-scalinata-480.webp 480w, /assets/foto/metodo-scalinata-800.webp 800w, /assets/foto/metodo-scalinata-1200.webp 1200w" sizes="(max-width: 900px) 74vw, 38vw" alt="Una mano posa l'ultimo cubo arancione in cima a una scalinata di cubi" width="1200" height="1500" fetchpriority="low" decoding="async">
@@ -97,39 +116,45 @@
 </section>
 
 <!-- ══ IL CONTRO-ESEMPIO ═══════════════════════════════════════════════
-     Lo stesso capitolo della home: la fotografia dice il problema, la
-     catena dice dove si rompe, il conto dice quanto costa. -->
+     Lo stesso capitolo della home, senza la fotografia (che vive là): il
+     conto 4 · 3 · 0, con i tre passaggi rotti dentro il «3». -->
 <section class="sez contro sf sf--fuoco" id="contro">
   <div class="wrap wrap--piena">
     <div class="testa">
       <h2 class="t-d2" data-split><span class="w" style="--w:0"><span>Quattro</span></span> <span class="w" style="--w:1"><span>fornitori</span></span> <span class="w" style="--w:2"><span>diversi</span></span> <span class="w" style="--w:3"><span>non</span></span> <span class="w" style="--w:4"><span>sono</span></span> <span class="w" style="--w:5"><span>un</span></span> <span class="w" style="--w:6"><span>reparto.</span></span> <span class="w" style="--w:7"><span><span class="segue">Sono</span></span></span> <span class="w" style="--w:8"><span><span class="segue">tre</span></span></span> <span class="w" style="--w:9"><span><span class="segue">passaggi</span></span></span> <span class="w" style="--w:10"><span><span class="segue">che</span></span></span> <span class="w" style="--w:11"><span><span class="segue">cadono</span></span></span> <span class="w" style="--w:12"><span><span class="segue">per</span></span></span> <span class="w" style="--w:13"><span><span class="segue">terra.</span></span></span></h2>
       <p class="t-deck">L'agenzia che compra la pubblicità non parla con chi scrive le mail. Chi scrive le mail non sa chi hai assunto. Chi hai assunto non l'ha formato nessuno.</p>
     </div>
-  </div>
 
-  <figure class="contro__foto">
-    <img src="/assets/foto/contro-caduta-1400.webp" srcset="/assets/foto/contro-caduta-800.webp 800w, /assets/foto/contro-caduta-1400.webp 1400w, /assets/foto/contro-caduta-2000.webp 2000w" sizes="(max-width: 700px) 150vw, 100vw" alt="Due mani si cercano senza toccarsi; fra loro un cubo arancione cade nel vuoto" width="2000" height="1131" loading="lazy" decoding="async">
-  </figure>
-
-  <div class="wrap wrap--piena">
-    <ol class="catena" aria-label="La catena dei quattro fornitori e dove si rompe">
-      <li class="catena__anello"><b>Agenzia ads</b><span>compra il traffico</span></li>
-      <li class="catena__rotto"><i aria-hidden="true"></i><span>Il contatto non passa</span></li>
-      <li class="catena__anello"><b>Freelance copy</b><span>scrive le mail</span></li>
-      <li class="catena__rotto"><i aria-hidden="true"></i><span>L'obiezione non torna</span></li>
-      <li class="catena__anello"><b>Recruiter</b><span>trova i venditori</span></li>
-      <li class="catena__rotto"><i aria-hidden="true"></i><span>Il venditore resta solo</span></li>
-      <li class="catena__anello"><b>Formatore</b><span>viene a giornata</span></li>
-    </ol>
-    <p class="catena__suolo"><span>Quello che finisce per terra</span></p>
-
+    <!-- Il conto scende: quattro fornitori, tre passaggi, zero responsabili.
+         I numeri sono bianchi: l'arancio resta al metodo, più sotto.
+         Lo zero è vuoto (solo contorno): nessuno dei quattro lo riempie. -->
     <div class="conto">
-      <div class="conto__c"><span class="conto__n">4</span><span class="conto__l">fornitori da coordinare</span><span class="conto__d">Quattro fatture, quattro referenti, quattro calendari.</span></div>
-      <div class="conto__c"><span class="conto__n">3</span><span class="conto__l">passaggi senza padrone</span><span class="conto__d">Nessuno dei quattro risponde di cosa succede fra sé e il successivo.</span></div>
-      <div class="conto__c conto__c--zero"><span class="conto__n">0</span><span class="conto__l">responsabili del fatturato</span><span class="conto__d">È il numero che nessuno dei quattro ha nel contratto. Rimane solo tuo.</span></div>
+      <div class="conto__c">
+        <h3 class="conto__tit"><span class="conto__n">4</span> fornitori da coordinare</h3>
+        <ul class="conto__l">
+          <li>Agenzia ads</li>
+          <li>Freelance copy</li>
+          <li>Recruiter</li>
+          <li>Formatore</li>
+        </ul>
+        <p class="conto__nota">Quattro fatture, quattro referenti, quattro calendari.</p>
+      </div>
+      <div class="conto__c">
+        <h3 class="conto__tit"><span class="conto__n">3</span> passaggi senza padrone</h3>
+        <ol class="conto__l conto__l--rotture" aria-label="Dove si rompe la catena dei quattro fornitori">
+          <li><span class="conto__fra">Agenzia ads <svg class="freccia" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12h14.5M13.5 6.5 19 12l-5.5 5.5"/></svg><span class="sr">verso</span> Freelance copy</span><b>Il contatto non passa.</b></li>
+          <li><span class="conto__fra">Freelance copy <svg class="freccia" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12h14.5M13.5 6.5 19 12l-5.5 5.5"/></svg><span class="sr">verso</span> Recruiter</span><b>L'obiezione non torna.</b></li>
+          <li><span class="conto__fra">Recruiter <svg class="freccia" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12h14.5M13.5 6.5 19 12l-5.5 5.5"/></svg><span class="sr">verso</span> Formatore</span><b>Il venditore resta solo.</b></li>
+        </ol>
+        <p class="conto__nota">Nessuno dei quattro risponde di cosa succede fra sé e il successivo.</p>
+      </div>
+      <div class="conto__c conto__c--zero">
+        <h3 class="conto__tit"><span class="conto__n">0</span> responsabili del fatturato</h3>
+        <p class="conto__nota">È il numero che nessuno dei quattro ha nel contratto. Rimane solo tuo.</p>
+      </div>
     </div>
 
-    <p class="t-piccolo contro__chiusa">
+    <p class="contro__chiusa">
       E paghi <strong>quattro volte lo stesso contatto</strong>:
       una per portarlo, una per scaldarlo, una per assumere chi lo chiama, una per insegnargli a chiudere.
     </p>
@@ -142,18 +167,18 @@
      segue è la stessa informazione in forma leggibile da tutti. -->
 <section class="sez staffetta-sez sf sf--pozzo" id="metodo">
   <a class="skip" href="#tabella">Salta la scena del metodo<svg class="freccia" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12h14.5M13.5 6.5 19 12l-5.5 5.5"/></svg></a>
-  <div class="staffetta" id="staffetta">
+  <div class="staffetta staffetta--colonna" id="staffetta">
     <div class="staffetta__pista" id="staffetta-pista">
       <div class="staffetta__testa">
         <h2 class="t-d2" data-split><span class="w" style="--w:0"><span>Quattro</span></span> <span class="w" style="--w:1"><span>reparti,</span></span> <span class="w" style="--w:2"><span><span class="segue">tre</span></span></span> <span class="w" style="--w:3"><span><span class="segue">passaggi</span></span></span> <span class="w" style="--w:4"><span><span class="segue">di</span></span></span> <span class="w" style="--w:5"><span><span class="segue">consegna.</span></span></span></h2>
       </div>
       <!-- /js/dati.js: quattro reparti e tre passaggi, alternati -->
-      <p class="staffetta__fine" id="macchina-chiusa">
-        <strong>La trattativa.</strong>
-        Il contatto educato incontra il venditore formato. È l'unico punto in cui nasce il fatturato.
-      </p>
+      <!-- L'atterraggio: il cubo posato sul contratto firmato. -->
+      <figure class="staffetta__fine">
+        <img src="/assets/foto/staffetta-firma-800.webp" srcset="/assets/foto/staffetta-firma-480.webp 480w, /assets/foto/staffetta-firma-800.webp 800w, /assets/foto/staffetta-firma-1200.webp 1200w" sizes="(max-width: 1023px) 78vw, 32vw" alt="Una mano posa il cubo arancione su un contratto firmato" width="1200" height="1500" loading="lazy" decoding="async">
+        <figcaption><strong>La trattativa.</strong> Il contatto educato incontra il venditore formato. È l'unico punto in cui nasce il fatturato.</figcaption>
+      </figure>
     </div>
-    <div class="staffetta__binario" aria-hidden="true"><i class="staffetta__luce"></i><i class="staffetta__contatto"></i></div>
   </div>
 </section>
 

@@ -59,6 +59,28 @@ async page => {
   await p.click('#barra-x');
   ok('home: chiusura barra', await p.evaluate(() => document.documentElement.classList.contains('barra-off') && localStorage.getItem('barra') === 'off'));
 
+  /* 4b · il menu a card (giro 4): apre, tiene il fuoco, chiude con Esc e
+     con un clic sul velo, rende il fuoco al bottone, blocca lo scroll */
+  await p.click('#burger'); await p.waitForTimeout(800);
+  ok('menu: si apre', await p.evaluate(() => !document.querySelector('#menu').hidden && document.querySelector('#menu').classList.contains('is-on')
+    && document.querySelector('#burger').getAttribute('aria-expanded') === 'true'));
+  ok('menu: blocca lo scroll della pagina', await p.evaluate(() => getComputedStyle(document.documentElement).overflow === 'hidden'));
+  for (let i = 0; i < 16; i++) await p.keyboard.press('Tab');
+  ok('menu: il Tab resta nella card', await p.evaluate(() => document.querySelector('.menu__card').contains(document.activeElement)));
+  await p.hover('.menu__voci a[data-foto="eventi-biglietto"]'); await p.waitForTimeout(500);
+  ok('menu: anteprima della voce', await p.evaluate(() => document.querySelector('.menu__ant.is-on')?.dataset.foto === 'eventi-biglietto'));
+  await p.keyboard.press('Escape'); await p.waitForTimeout(600);
+  ok('menu: Esc chiude e rende il fuoco', await p.evaluate(() => document.querySelector('#menu').hidden && document.activeElement?.id === 'burger'
+    && getComputedStyle(document.documentElement).overflow !== 'hidden'));
+  await p.click('#burger'); await p.waitForTimeout(800);
+  await p.mouse.click(4, 450); await p.waitForTimeout(600);
+  ok('menu: clic sul velo chiude', await p.evaluate(() => document.querySelector('#menu').hidden));
+  await p.click('#burger'); await p.waitForTimeout(800);
+  await p.click('.menu__voci a[href="/metodo.html"]');
+  await p.waitForLoadState('domcontentloaded');
+  ok('menu: la voce porta alla pagina', p.url().endsWith('/metodo.html'));
+  await p.goto(B + '/', { waitUntil: 'networkidle' });
+
   /* 5 · tutti i link interni rispondono 200 */
   const link = new Set();
   for (const pg of ['/', '/metodo.html', '/risultati.html', '/dna.html', '/team.html', '/eventi.html', '/fatturare.html', '/candidatura.html']) {

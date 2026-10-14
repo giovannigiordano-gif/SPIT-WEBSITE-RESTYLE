@@ -190,7 +190,7 @@ export async function avvia(host, { hero = host.closest('.hero') } = {}) {
      testo vero (righe, non scatole di blocco), li spegne al 10% finché
      attraversano il titolo. Tela e testo scorrono insieme: la maschera
      resta allineata senza ricalcoli allo scroll.                      */
-  const pezziTesto = ['.hero__attacco', '.hero__colpo', '.hero__in .t-deck', '.hero__in .cta', '.hero__sotto'];
+  const pezziTesto = ['.hero__in .pill-eyebrow', '.hero__attacco', '.hero__colpo', '.hero__in .t-deck', '.hero__in .cta', '.hero__sotto'];
   const radura = () => {
     const rc = canvas.getBoundingClientRect(), rg = document.createRange();
     let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;

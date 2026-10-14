@@ -94,6 +94,36 @@ input, select, textarea { caret-color: var(--c-ar); }
 .testa--c { justify-items: center; text-align: center; }
 .testa--c .t-d2 { margin-inline: auto; }
 .testa--c .t-deck { margin-inline: auto; }
+.testa--segue { gap: var(--s-4); margin-bottom: clamp(32px, 2.6vw + 20px, 56px); }
+
+/* ── I CAPITOLI (giro 4) ───────────────────────────────────────────────────
+   Una pagina lunga si legge a capitoli. Il segnacapitolo apre il primo
+   blocco di ogni capitolo: il numero, il nome, e un filo che corre fino al
+   margine e si disegna entrando. È un indice, non un occhiello: compare sei
+   volte in tutta la home, ogni volta che cambia argomento, e i numeri
+   CONTANO davvero (il racconto ha un ordine).
+   I blocchi che continuano un capitolo hanno il titolo un gradino sotto
+   (h3, .t-d3) e metà respiro sopra: si leggono come parti dello stesso
+   discorso, non come sezioni nuove.                                    */
+.capo {
+  display: flex; align-items: center; gap: 14px;
+  margin-bottom: clamp(26px, 2.4vw, 40px);
+  font: 500 15px/1.2 var(--f-display); color: var(--c-t2);
+}
+.capo__n { font-weight: 600; color: var(--c-ar-hot); font-variant-numeric: tabular-nums; }
+.capo::after {
+  content: ''; flex: 1; height: 1px; margin-left: 10px;
+  background: linear-gradient(90deg, var(--c-filo-forte), rgba(255,255,255,0));
+  transform-origin: left center;
+}
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .capo::after { animation: capo-filo linear both; animation-timeline: view(); animation-range: entry 40% cover 40%; }
+  }
+}
+@keyframes capo-filo { from { scale: 0 1; } }
+.sez--capo { padding-top: calc(var(--sez-y) * 1.2); }
+.sez--segue { padding-top: calc(var(--sez-y) * .4); }
 
 /* ── LA PARTICELLA ────────────────────────────────────────────────────────
    Il quadrato del mark. REGOLA DI TAGLIO: se un quadrato non CONTA

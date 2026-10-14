@@ -3,6 +3,7 @@
    Nav e footer finiscono nel markup servito (non iniettati da JS) perché
    l'LCP e l'indicizzazione non devono dipendere dal bundle. */
 import { readFile, writeFile, readdir } from 'node:fs/promises'
+import { existsSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import { join } from 'node:path'
 import { createHash } from 'node:crypto'
@@ -10,17 +11,6 @@ import { createHash } from 'node:crypto'
 const ROOT = fileURLToPath(new URL('../', import.meta.url))
 const PAGES = join(ROOT, 'pages')
 const OUT = join(ROOT, 'src')
-
-const NAV = [
-  { href: '/metodo.html',    label: 'Metodo' },
-  { href: '/risultati.html', label: 'Risultati' },
-  { href: '/dna.html',       label: 'DNA' },
-  { href: '/team.html',      label: 'Team' },
-  { href: '/eventi.html',    label: 'Eventi' },
-]
-/* Fatturare³ resta nel menu mobile e nel footer: sei voci nella barra
-   desktop la fanno sfondare a 1200px.                                 */
-const NAV_EXTRA = [{ href: '/fatturare.html', label: 'Fatturare³' }]
 
 /* Il logo è l'ASSET ORIGINALE del cliente (4118×1001). Un logo non si
    ridisegna: si usa. Due varianti tagliate dallo stesso file:
@@ -148,32 +138,69 @@ const barra = () => `
 
 const corrente = (href, slug) => href === '/' + slug + '.html' ? ' aria-current="page"' : ''
 
+/* ── IL MENU A CARD GIGANTE (giro 4) ──────────────────────────────────────
+   «Il menu con effetto wow, soprattutto da desktop, magari a card
+   gigante». L'header resta essenziale (logo, candidatura, Menu) e il
+   menu è una CARD quasi a tutto schermo che si apre dall'angolo del
+   bottone: le pagine a corpo da titolo e, su desktop, al passaggio su
+   ogni voce la fotografia di quella pagina. Le foto si caricano solo
+   alla prima apertura (data-src).                                     */
+const VOCI_MENU = [
+  { href: '/metodo.html',      label: 'Metodo',      desc: 'Quattro reparti, tre passaggi di consegna', foto: 'metodo-scalinata' },
+  { href: '/risultati.html',   label: 'Risultati',   desc: 'Prima e dopo, con i mesi in mezzo',          foto: 'risultati-scontrino' },
+  { href: '/dna.html',         label: 'DNA',         desc: 'La politica della qualità e i dieci principi', foto: 'dna-bussola' },
+  { href: '/team.html',        label: 'Team',        desc: 'Dodici persone, quattro reparti',            foto: 'team' },
+  { href: '/eventi.html',      label: 'Eventi',      desc: 'Sales Process Day · 14 ottobre 2026 · Milano', foto: 'eventi-biglietto' },
+  { href: '/fatturare.html',   label: 'Fatturare³',  desc: 'Il podcast, gli articoli, i libri',          foto: 'fatturare-microfono' },
+  { href: '/candidatura.html', label: 'Candidatura', desc: 'Candidature aperte · Q4 2026',               foto: 'candidatura-caffe' },
+]
+/* Il Team non ha un oggetto: nell'anteprima, come nella sua apertura, i
+   cinque volti disposti come i cinque quadrati del marchio.            */
+const VOLTI_MENU = [['frisoni', 23.6, 0, 30.4], ['bardolla', 0, 30.4, 25.2], ['ratti', 21.4, 53.8, 21], ['elicio', 40.6, 72.6, 17.4], ['amodio', 29.4, 85.8, 14.2]]
+const anteprima = (v) => v.foto === 'team'
+  ? `<div class="menu__ant menu__ant--volti" data-foto="team">${VOLTI_MENU.map(([f, x, y, l]) => `<img data-src="/assets/team-webp/${f}-400.webp" alt="" width="400" height="400" style="--x:${x};--y:${y};--l:${l}">`).join('')}</div>`
+  : `<img class="menu__ant" data-foto="${v.foto}" data-src="/assets/foto/${v.foto}-800.webp" alt="" width="1200" height="1500">`
+
 const nav = (slug) => `
 <header class="nav" id="nav">
   <div class="wrap wrap--nav nav__in">
     <a class="marchio" href="/" aria-label="Sales Process, home">
       ${LOGO(30)}
     </a>
-    <nav class="nav__voci" aria-label="Principale">
-      ${NAV.map(v => `<a href="${v.href}"${corrente(v.href, slug)}>${v.label}</a>`).join('\n      ')}
-    </nav>
+    <!-- Il capitolo in cui sei (motion.js, dalle sezioni con data-cap):
+         solo orientamento, i lettori di schermo hanno già i titoli. -->
+    <p class="nav__cap" id="nav-cap" aria-hidden="true"><span class="capo__n"></span><span class="nav__cap-nome"></span></p>
     <div class="nav__dx">
-      ${telHref
-        ? `<div class="gruppo" aria-label="Contatti rapidi"><a class="is-on" href="${telHref}">Chiama</a><a href="mailto:${MAIL}">Scrivi</a></div>`
-        : `<a class="nav__login" href="mailto:${MAIL}">Scrivici</a>`}
-      <a class="nav__login" href="/fatturare.html">Podcast</a>
+      ${telHref ? `<a class="nav__login" href="${telHref}">Chiama</a>` : ''}
       <a class="cta cta--ar cta--luce cta--nav" href="/candidatura.html">Candida la tua azienda</a>
-      <button class="burger" id="burger" aria-label="Apri il menu" aria-expanded="false" aria-controls="menu"><span></span></button>
+      <button class="menu-btn" id="burger" type="button" aria-label="Apri il menu" aria-expanded="false" aria-controls="menu">
+        <span class="menu-btn__txt">Menu</span><span class="menu-btn__ico" aria-hidden="true"><span></span></span>
+      </button>
     </div>
   </div>
 </header>
 
-<div class="menu" id="menu">
-  ${[...NAV, ...NAV_EXTRA, { href: '/candidatura.html', label: 'Candidatura' }]
-    .map((v, i) => `<a href="${v.href}" style="--i:${i}"${corrente(v.href, slug)}>${v.label}${ICO_FRECCIA}</a>`).join('\n  ')}
-  <a class="cta cta--ar" href="/candidatura.html" style="--i:7">Candida la tua azienda</a>
-  <div class="menu__contatti">
-    <a href="mailto:${MAIL}" style="--i:8">${MAIL}</a>
+<div class="menu" id="menu" role="dialog" aria-modal="true" aria-label="Menu" hidden>
+  <div class="menu__card">
+    <div class="menu__testa">
+      <a class="marchio" href="/" aria-label="Sales Process, home">${LOGO(30)}</a>
+      <button class="menu-btn menu-btn--chiudi" id="menu-chiudi" type="button" aria-label="Chiudi il menu">
+        <span class="menu-btn__txt">Chiudi</span><span class="menu-btn__ico is-x" aria-hidden="true"><span></span></span>
+      </button>
+    </div>
+    <nav class="menu__voci" aria-label="Principale">
+      ${VOCI_MENU.map((v, i) => `<a href="${v.href}" data-foto="${v.foto}" style="--i:${i}"${corrente(v.href, slug)}><span class="menu__nome">${v.label}</span><span class="menu__desc">${v.desc}</span></a>`).join('\n      ')}
+    </nav>
+    <div class="menu__anteprime" aria-hidden="true">
+      <img class="menu__ant menu__ant--casa" data-foto="casa" data-src="/assets/foto/finale-trofeo-800.webp" alt="" width="1200" height="1500">
+      ${VOCI_MENU.map(anteprima).join('\n      ')}
+    </div>
+    <div class="menu__piede">
+      <a class="cta cta--ar" href="/candidatura.html">Candida la tua azienda</a>
+      <a class="menu__link" href="mailto:${MAIL}">${MAIL}</a>
+      <p class="menu__dove">Via Marco D'Agrate 41, Milano · quarto piano</p>
+      <div class="menu__social">${socialHtml()}</div>
+    </div>
   </div>
 </div>`
 
@@ -304,6 +331,18 @@ await writeFile(join(OUT, 'css', 'sito.css'), css)
 const VERSIONE = createHash('sha1').update(css).digest('hex').slice(0, 10)
 console.log('→ src/css/sito.css  (' + css.length + ' byte, v=' + VERSIONE + ')')
 
+/* ── IL LOGO DEL PODCAST ──────────────────────────────────────────────────
+   È un file del cliente e non si ridisegna. Se esiste in
+   src/assets/podcast/fatturare-logo.(svg|webp|png) va al posto del
+   segnaposto <!--LOGO-PODCAST-->; finché manca, il nome resta scritto
+   nella pill. Basta copiare il file e ricostruire.                      */
+const LOGO_PODCAST = ['svg', 'webp', 'png'].map(e => 'fatturare-logo.' + e)
+  .find(n => existsSync(join(OUT, 'assets', 'podcast', n)))
+const logoPodcast = () => LOGO_PODCAST
+  ? `<img class="podcast__logo" src="/assets/podcast/${LOGO_PODCAST}" alt="Fatturare Fatturare Fatturare, il podcast" loading="lazy" decoding="async">`
+  : '<p class="pill-eyebrow podcast__pill">Il podcast · Fatturare Fatturare Fatturare</p>'
+if (!LOGO_PODCAST) console.log('⚠ logo del podcast assente: src/assets/podcast/fatturare-logo.(svg|webp|png)')
+
 const files = (await readdir(PAGES)).filter(f => f.endsWith('.html'))
 for (const f of files) {
   const raw = await readFile(join(PAGES, f), 'utf8')
@@ -318,7 +357,10 @@ for (const f of files) {
     title: meta.title || 'Sales Process',
     desc: meta.desc || '',
     slug: slug === 'index' ? 'home' : slug,
-    body: spezza(raw.slice(m ? m[0].length : 0)),
+    body: spezza(raw.slice(m ? m[0].length : 0))
+      .replaceAll('<!--LOGO-PODCAST-->', logoPodcast())
+      /* dove il nome è già nel titolo (Fatturare³): il logo o niente */
+      .replaceAll('<!--LOGO-PODCAST-SOLO-->', LOGO_PODCAST ? logoPodcast() : ''),
   }))
   await writeFile(join(OUT, f), out)
   console.log('→ src/' + f + '  (' + out.length + ' byte)')

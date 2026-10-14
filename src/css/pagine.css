@@ -107,7 +107,7 @@
   font: 600 13px/1 var(--f-display); color: var(--c-ar-hot);
 }
 .sala__sedie { display: grid; grid-template-columns: repeat(10, 1fr); gap: clamp(8px, 1vw, 14px); width: 100%; }
-.sala__sedie i { aspect-ratio: 1; border-radius: 22%; background: var(--c-ar); box-shadow: 0 6px 14px -6px rgba(255,130,0,.6); }
+.sala__sedie i { aspect-ratio: 1; border-radius: 22%; background: var(--c-ar); }
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
     .sala__sedie i { animation: sedia linear both; animation-timeline: view(); animation-range: entry 20% cover 45%; }

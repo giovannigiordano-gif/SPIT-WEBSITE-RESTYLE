@@ -205,6 +205,112 @@ Esito della verifica del giro 2:
 - **Prima/dopo** dei punti chiave: `docs/prima-dopo/01…08` (`node tools/qa/prima-dopo.mjs`; il «prima»
   è ritagliato dall'audit iniziale `qa/audit-prima`, il «dopo» è catturato dal vivo allo stesso scroll).
 
+- [x] 7 · Giro 3, sulle richieste del cliente (14/10) — `269e670`
+
+**Fase 7 — giro 3: il riscontro del cliente**
+
+Il riscontro, testuale: *«puoi usare higgsfield per generare immagini dove servono · queste parti non
+mi piacciono* [fregio FATTURARE, numeri con gli istogrammi, la macchina, il muro FATTURARE ×3, il
+contro-esempio] *· inoltre non sono chiari i titoli delle sezioni · le pagine interne non mi piacciono,
+sono ancora come quelle vecchie»*. Skill: impeccable (new-work, craft-floor), frontend-design,
+design-taste-frontend, motion-design; immagini con Higgsfield.
+
+*Diagnosi prima di toccare il codice.* «Titoli non chiari» voleva dire due cose, entrambe visibili nelle
+catture del cliente: (1) **leggibilità** — a 30–64px il DM Sans 500 con -.036em di spaziatura fondeva le
+lettere («fornitori» si leggeva «fomitori», «I numeri» → «Inumeri»); (2) **gerarchia** — ogni sezione
+aveva due titoli, un occhiello minuto in una colonna di margine e un titolo-frase lontano da lui. Le
+pagine interne erano lo stesso schema ripetuto sette volte (titolo centrato su nero, parola fantasma,
+card) con quasi nessuna immagine.
+
+*Il filo nuovo: un oggetto.* Il quadrato del marchio in volume, un **cubo arancione**, attraversa la home:
+contatto sparso nell'hero 3D → cade fra due mani nel contro-esempio → passa di mano nella staffetta → è
+alzato come un trofeo nel finale. Le fotografie lo rendono fisico con la grammatica della serie del
+cliente (mani in bianco e nero, un oggetto arancione, fondo piatto).
+
+1. **Titoli**: spaziatura display -.02em + word-spacing; via gli occhielli dalle teste (anche il
+   craft-floor di impeccable li vieta); un titolo per sezione; nelle frasi in due tempi il secondo tempo
+   scende di un gradino di luce (`.segue`). Gli occhielli che portavano informazione sono entrati nel
+   sommario (es. «Dal 2020, senza arrotondare») o nel titolo («Quello che compri: due numeri, non un
+   report»). Nessuna parola nuova inventata nei titoli.
+2. **Fregio**: rimosso.
+3. **Numeri**: campi di quadrati a unità — un quadrato = un imprenditore / un settore / un processo, la
+   stessa griglia a 50 colonne (25 su mobile) per tutti e tre, quindi l'altezza del campo È la quantità.
+   SVG con `<pattern>` (non 933 nodi), acceso riga per riga allo scroll con `steps()`.
+4. **Contro-esempio**: foto a tutta larghezza (due mani che non si toccano, il cubo che cade), poi la
+   catena dei quattro fornitori spezzata in tre punti con il cubo che cade sotto la linea allo scroll, e
+   il conto con lo **zero vuoto** (solo contorno). Il rosso della perdita da `#CC3366` (lampone, stonava
+   con l'arancio) a `#F04B3A`.
+5. **Metodo → staffetta**: la sezione si ferma e scorre in orizzontale; quattro reparti (icona + numero
+   fantasma, decisione cliente) alternati a tre foto del cubo che passa di mano, con cosa passa, SLA e
+   strumento. Il contatto resta fermo al 32% dello schermo e accende ciò che attraversa. Su mobile e a
+   motion ridotto è una colonna, tutta accesa.
+6. **Finale** (era il muro): la mano che alza il cubo accanto al payoff a filo sinistro, tre righe uguali
+   e la terza accesa; via la luce del cursore sulle lettere.
+7. **Pagine interne**: apertura nuova per tutte, titolo a sinistra e una foto che dice la pagina (Metodo:
+   la scalinata · Risultati: lo scontrino · DNA: la bussola · Eventi: il biglietto · Fatturare³: il
+   microfono · Candidatura: la tazzina; Team: cinque ritratti veri disposti come i cinque quadrati del
+   marchio). E un capitolo che esiste solo lì: le trenta sedie, i nove slot del trimestre, i libri come
+   oggetti, i 33 settori in elenco, il manifesto a tutta misura, i fondatori con il ritratto. Contro-
+   esempio e staffetta riusati nella pagina Metodo.
+
+*Le fotografie.* 11 immagini generate con Higgsfield (`gpt_image_2_5`, qualità alta, 2k, due foto del
+cliente come riferimento di stile), ~30 crediti in tutto. Il fondo quasi-nero delle foto non coincide con
+nessuna atmosfera del palco: l'alfa è ricavata dalla luminanza (`tools/foto.mjs`), così mani e oggetto
+galleggiano sul fondo del sito senza scatola. Originali, job e prompt in `assets-src/higgsfield/`.
+
+*Verifica.* Audit 8 pagine × 1440/390 pulito (`qa/audit-r3`), passeggiate a scroll di home (1440, 390),
+Metodo, Eventi, Candidatura, Fatturare³; test funzionali 15/15; Lighthouse mobile Home 96, Metodo 98 (era
+93 finché la foto d'apertura aveva `fetchpriority="high"`: rubava banda all'H1, che è l'elemento LCP),
+DNA 98, Team 94, Eventi 96 — accessibilità 100 ovunque.
+
+- [ ] 8 · Giro 4, sulle richieste del cliente (14/10, pomeriggio) — parte 1: menu, home a capitoli,
+  contro-esempio, podcast
+
+**Fase 8 — giro 4: «la home ha tante sezioni disordinate»**
+
+Il riscontro, testuale: *«questa parte non mi piace* [la riga «▪ Agenzia 4 in 1 · dal 2020 · Milano»
+sotto l'hero] *· la home ha tante sezioni disordinate, in cui non si capisce gerarchia · Quattro fornitori
+diversi non sono un reparto… riprogettala · Quello che pubblichiamo ogni settimana: dedica questa sezione
+solo al podcast, manda al canale YouTube · la hero vorrei fosse a pillola e il menu effetto wow,
+soprattutto da desktop, magari a card gigante»*.
+
+1. **Hero a pillola.** La riga d'identità torna dentro la pill della prima consegna, sopra il titolo, in
+   home e in tutte le aperture interne (`.pill-eyebrow`, type.css).
+2. **Il menu è una card gigante**, su tutti gli schermi. L'header si riduce a marchio, candidatura e un
+   bottone «Menu»; la card nasce DAL bottone (il suo rettangolo, misurato in JS, è il ritaglio di
+   partenza della `clip-path`) e ci rientra alla chiusura, più veloce. Dentro: le sette pagine a corpo da
+   titolo con una riga di descrizione allineata in colonna (subgrid), al passaggio le altre voci si
+   spengono e a destra compare la fotografia di quella pagina (caricate solo alla prima apertura); in
+   basso candidatura, mail, indirizzo, social. È un dialogo vero: fuoco intrappolato, Esc, clic sul velo,
+   fuoco restituito al bottone, scroll bloccato senza salto della barra (`scrollbar-gutter`). Sette test
+   nuovi in `tools/qa/funzioni.js`.
+3. **La home a capitoli.** Prima: tredici sezioni in fila, ognuna col suo titolo grande e la sua luce,
+   le prove PRIMA della spiegazione e il problema DOPO la soluzione. Ora: copertina (hero, loghi) → sei
+   capitoli in ordine di racconto — 01 Il problema · 02 La soluzione · 03 Il metodo · 04 I risultati ·
+   05 Le persone · 06 Il podcast — → chiusura (dove siamo, finale). Ogni capitolo apre con un
+   segnacapitolo (numero, nome, filo che si disegna) e un h2; le sezioni che lo continuano hanno un h3 un
+   gradino sotto e metà respiro sopra. **Una luce del palco per capitolo**, non una per sezione. Scorrendo,
+   la nav dice in che capitolo sei.
+4. **Il contro-esempio riprogettato.** Erano cinque blocchi (titolo, foto, un elenco di tre righe, un
+   secondo elenco di tre righe, una frase) alti 2.000px, e non si capiva quale elenco contasse. Ora una
+   scena: titolo → la foto in **tre strati** (`tools/strati.mjs`: mani e cubo separati per componenti
+   connesse) che allo scroll si muove — le mani si allontanano, il cubo cade da fra le dita → il conto in
+   tre colonne che scende **4 → 3 → 0**, con i tre passaggi rotti dentro il «3» e lo zero vuoto → la frase
+   che chiude. Numeri bianchi: l'arancio, nel capitolo del problema, è solo il contatto che cade. Lo
+   stesso conto nella pagina Metodo.
+5. **Il podcast ha il suo capitolo.** Al posto dell'indice a tre righe: logo del podcast, cosa racconta
+   (copy della pagina Fatturare³), il canale YouTube (`UCaB0Zuz1IO5pTSJ5qZPv8IA`, nuova scheda) e il
+   microfono. Anche la pagina Fatturare³ ora porta al canale. ⚠ **Il logo allegato in chat non è
+   arrivato su disco**: il build lo inserisce da solo appena esiste
+   `src/assets/podcast/fatturare-logo.(svg|webp|png)`; finché manca, il nome resta scritto nella pill.
+6. Rifiniture dallo stesso giro: via l'occhiello col trattino sopra i numeri (il «quando» sta
+   nell'etichetta: «Imprenditori seguiti, dal 2020»), via «Oltre le parole», servizi senza icone, la
+   particella orfana sopra i loghi, il secondo tempo dei titoli un gradino più chiaro (.68), il payoff
+   del tetto arriva prima. Il finale ha un CTA solo (il podcast ha ormai il suo capitolo).
+7. **Due bug JS trovati in verifica**: nel ramo per i browser senza `animation-timeline` (Firefox,
+   Safari ≤17) `$('.rise, …').forEach` era chiamato su un elemento, non su una lista — l'errore fermava
+   tutto il resto di motion.js; e la staffetta aveva lo stesso errore su `tappe`. Entrambi `$$`.
+
 ### Cosa è stato fatto, fase per fase (skill applicate)
 
 **Fase 1 — design system** (impeccable craft-floor, design-taste-frontend, ui-ux-pro-max checklist)
@@ -300,6 +406,19 @@ Candidatura), indice (Fatturare³, Team), manifesto ed elenco numerato (DNA), mu
 - **Installare Python 3.12** (serve agli script di img2threejs e ui-ux-pro-max): richiede di accettare
   una licenza sulla macchina. La ricostruzione 3D è stata fatta seguendo il metodo a mano (WORKLOG §3).
 - `src/assets/fonts/instrument-serif-italic-latin.woff2` non è più usato: non l'ho cancellato.
+- **Gli originali 2k delle foto generate (43 MB di PNG in `assets-src/higgsfield/`) sono nel commit
+  `269e670`.** Tenerli in git dà la provenienza completa ma appesantisce il repository; toglierli dalla
+  storia vorrebbe dire riscriverla, e non l'ho fatto. Alternative da decidere: lasciarli, spostarli su
+  git LFS, o archiviarli fuori dal repository (le varianti web in `src/assets/foto/` bastano al sito).
+
+**Le fotografie generate (giro 3)**
+- Undici immagini sono **generate** con Higgsfield, non scattate: mani anonime e oggetti, nessuna persona
+  riconoscibile, stessa grammatica della serie del cliente. Se il cliente vuole dichiararlo (o
+  sostituirle con scatti veri della stessa serie), l'elenco con uso e prompt è in
+  `assets-src/higgsfield/provenienza.json`.
+- Il **muro FATTURARE centrato** era una decisione del cliente (HANDOFF §6). Su richiesta esplicita
+  dell'agenzia («questa parte non mi piace») è diventato il finale con la foto, payoff a filo sinistro:
+  va confermato anche con il cliente finale.
 
 **Contenuti — i bloccanti dell'HANDOFF §7, tutti ancora aperti**
 - **Numero verde** (`const TEL` in cima a `tools/build.mjs`): il blocco del footer è pronto, tratteggiato
@@ -313,7 +432,11 @@ Candidatura), indice (Fatturare³, Team), manifesto ed elenco numerato (DNA), mu
 - **Fascicoli clienti**, **candidature per trimestre**, **elenco reale dei 33 settori**, **durata media del
   rapporto**, **ragione sociale e P.IVA** (footer), **certificato ISO** (il link «Certificazione» è un
   segnaposto dichiarato).
-- **URL di podcast, articoli e libri** (titoli e copertine), oggi marcati `.todo` in `fatturare.html`.
+- **URL di articoli e libri** (titoli e copertine), oggi marcati `.todo` in `fatturare.html`. Il podcast
+  ora porta al canale YouTube indicato dall'agenzia (giro 4).
+- **Logo del podcast** (giro 4): il file allegato in chat non è leggibile dal disco. Salvarlo come
+  `src/assets/podcast/fatturare-logo.svg` (o `.webp`/`.png`) e lanciare `node tools/build.mjs`: entra da
+  solo nel capitolo «Il podcast» della home e nella sezione podcast di Fatturare³. Non va ridisegnato.
 
 **Decisione con il cliente**
 - **Lo stack** (HANDOFF §7): statico com'è, o WordPress. Su WordPress la scena pinnata e l'hero 3D sono

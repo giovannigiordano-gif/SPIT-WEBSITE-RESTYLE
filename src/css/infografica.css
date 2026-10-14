@@ -1,134 +1,96 @@
 /* ═══════════════════════════════════════════════════════════════════════════
    SALESPROCESS · infografica.css — il contro-esempio
    ---------------------------------------------------------------------------
-   Riscritto nel giro 3. Prima: quattro scatole, archi tratteggiati rosa e
-   un pavimento con i detriti — un diagramma da leggere. Ora tre tempi:
-     1. la FOTOGRAFIA dice il problema in un colpo (due mani che non si
-        incontrano, il cubo che cade);
-     2. la CATENA dice dove si rompe: quattro anelli e tre punti spezzati,
-        con il cubo che cade sotto la linea allo scroll;
-     3. il CONTO dice quanto costa, e lo zero è vuoto.
-   Il cubo è lo stesso oggetto della staffetta del metodo, più in basso:
-   lì passa di mano, qui cade.
+   Terza stesura (giro 4). Giro 3: foto, poi un elenco di tre righe («dove
+   si rompe»), poi un secondo elenco di tre righe («il conto»), poi una
+   frase: cinque blocchi alti 2.000px, e non si capiva quale contava.
+   Ora UNA scena: il titolo, la foto in tre strati che si muove allo
+   scroll, il conto in tre colonne che scende 4 → 3 → 0 — i tre passaggi
+   rotti stanno DENTRO il «3» — e la frase che chiude.
+   (Prima ancora, giro 2: un diagramma di scatole e archi tratteggiati,
+   bocciato dal cliente.)
    ═══════════════════════════════════════════════════════════════════════════ */
 
 .contro { overflow-x: clip; }
 
-/* ── LA FOTOGRAFIA ──────────────────────────────────────────────────────────
-   A tutta larghezza: le braccia entrano dai bordi dello schermo come da
-   fuori scena. Il fondo è trasparente (tools/foto.mjs), quindi la foto sta
-   sull'atmosfera «fuoco» senza scatola.                                */
-.contro__foto { margin: clamp(-48px, -3vw, -12px) 0 0; position: relative; pointer-events: none; }
-.contro__foto img {
-  display: block; width: 100%; height: auto;
-  max-height: 80vh; object-fit: contain;
+/* ── LA CADUTA · la foto in tre strati ─────────────────────────────────────
+   Il fotogramma ha le proporzioni dell'originale (2688×1520); ogni strato
+   (tools/strati.mjs) sta alla sua posizione in percentuale, quindi fermi
+   ricompongono la foto esatta. A tutta larghezza: le braccia entrano dai
+   bordi dello schermo come da fuori scena. Il fondo è trasparente, e la
+   foto sta sull'atmosfera «fuoco» senza scatola.                       */
+.caduta {
+  position: relative; aspect-ratio: 2688 / 1520; pointer-events: none;
+  /* l'alto e il basso dell'originale sono vuoti: il titolo e il conto ci
+     si avvicinano invece di lasciare due fasce di nero */
+  margin: clamp(-64px, -4vw, -16px) 0 clamp(-56px, -3.2vw, -12px);
 }
+.caduta__s { position: absolute; left: var(--x); top: var(--y); width: var(--w); height: auto; }
 @media (max-width: 700px) {
   /* in colonna la foto larga sarebbe una striscia: si stringe sul centro,
      dove le dita quasi si toccano e il cubo cade */
-  .contro__foto img { width: 150%; max-width: none; margin-left: -25%; }
+  .caduta { width: 150%; margin-left: -25%; margin-block: 0 -8px; }
 }
-
-/* ── LA CATENA ──────────────────────────────────────────────────────────── */
-.catena {
-  list-style: none; margin: clamp(8px, 2vw, 32px) 0 0; padding: 0;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(0, 1fr);
-  align-items: stretch;
-  min-height: 132px;
-}
-.catena__anello {
-  display: grid; align-content: start; gap: 4px;
-  padding-top: 20px;
-  border-top: 2px solid rgba(255,255,255,.58);
-}
-.catena__anello b { font: 700 clamp(16px, 1.25vw, 19px)/1.25 var(--f-display); letter-spacing: -.012em; color: var(--c-t1); }
-.catena__anello span { font: 400 14.5px/1.45 var(--f-display); color: var(--c-t3); }
-
-/* L'anello spezzato: i due monconi della linea pendono, e in mezzo non c'è
-   niente. Il cubo parte dalla linea e finisce sul pavimento.           */
-.catena__rotto { position: relative; width: clamp(128px, 11.5vw, 176px); padding: 26px 10px 0; text-align: center; }
-.catena__rotto::before, .catena__rotto::after {
-  content: ''; position: absolute; top: -1px; height: 2px; width: 24%;
-  background: rgba(255,255,255,.58); border-radius: 2px;
-}
-.catena__rotto::before { left: 0; rotate: 14deg; transform-origin: left center; }
-.catena__rotto::after  { right: 0; rotate: -14deg; transform-origin: right center; }
-.catena__rotto span { display: block; font: 600 13.5px/1.35 var(--f-display); color: var(--c-rottura); }
-.catena__rotto i {
-  position: absolute; left: 50%; bottom: 0;
-  width: 16px; height: 16px; margin-left: -8px; border-radius: 4px;
-  background: var(--c-ar);
-  box-shadow: 0 8px 18px -6px rgba(255,130,0,.6);
-  rotate: 24deg;
-}
-.catena__rotto:nth-of-type(4) i { rotate: -16deg; }
-.catena__rotto:nth-of-type(6) i { rotate: 38deg; }
-
-/* Il pavimento: il filo su cui i cubi si fermano, con la sua didascalia. */
-.catena__suolo {
-  margin: 0; padding-top: 12px;
-  border-top: 1px solid rgba(240,75,58,.45);
-  font: 600 13px/1.3 var(--f-display); color: var(--c-rottura);
-}
-
-/* La caduta segue lo scroll: il cubo parte dalla linea della catena. */
+/* Il movimento, legato allo scroll e solo dove esiste view(): le mani si
+   allontanano, il cubo parte FRA le dita e cade. Le mani vanno solo verso
+   l'esterno, così le braccia restano sempre oltre il bordo dello schermo
+   e il taglio della foto non si vede. Senza view() o a motion ridotto:
+   la foto, ferma.                                                      */
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
-    .catena__rotto i {
-      animation: cade linear both;
-      animation-timeline: view();
-      animation-range: entry 55% cover 52%;
-    }
-    .catena__rotto:nth-of-type(4) i { animation-range: entry 70% cover 56%; }
-    .catena__rotto:nth-of-type(6) i { animation-range: entry 85% cover 60%; }
+    .caduta { view-timeline: --caduta block; }
+    .caduta__s { animation: linear both; animation-timeline: --caduta; animation-range: cover 18% cover 62%; }
+    .caduta__s--sx { animation-name: caduta-sx; }
+    .caduta__s--dx { animation-name: caduta-dx; }
+    .caduta__s--cubo { animation-name: caduta-cubo; animation-range: cover 24% cover 66%; }
   }
 }
-@keyframes cade {
-  0%   { translate: 0 -104px; rotate: 0deg; opacity: 0; }
-  12%  { opacity: 1; }
-  78%  { translate: 0 0; }
-  88%  { translate: 0 -10px; }
-  100% { translate: 0 0; }
+@keyframes caduta-sx { from { translate: 0 0; } to { translate: -7% 0; } }
+@keyframes caduta-dx { from { translate: 0 0; } to { translate: 7% 0; } }
+@keyframes caduta-cubo {
+  from { translate: 0 -46%; rotate: -8deg; }
+  40%  { translate: 0 -26%; rotate: -2deg; }
+  to   { translate: 0 14%; rotate: 15deg; }
 }
 
-@media (max-width: 860px) {
-  /* in colonna la catena diventa verticale: gli anelli uno sotto l'altro,
-     e fra loro la rottura con il cubo caduto a sinistra */
-  .catena { grid-template-columns: 1fr; min-height: 0; margin-top: var(--s-5); }
-  .catena__anello { padding: 14px 0 12px 18px; border-top: 0; border-left: 2px solid rgba(255,255,255,.58); }
-  .catena__rotto { width: auto; display: flex; align-items: center; gap: 12px; padding: 14px 0 14px 4px; text-align: left; }
-  .catena__rotto::before, .catena__rotto::after { display: none; }
-  .catena__rotto i { position: static; margin: 0; flex: none; animation: none !important; }
-  .catena__suolo { margin-top: var(--s-3); }
-}
-
-/* ── IL CONTO · tre cifre, e la terza è vuota ──────────────────────────── */
+/* ── IL CONTO · 4 → 3 → 0 ───────────────────────────────────────────────────
+   Tre colonne, ciascuna aperta dal suo numero. I numeri sono BIANCHI:
+   l'arancio, in questo capitolo, è solo il contatto che cade. Il 4 elenca
+   i fornitori, il 3 i passaggi che si rompono, lo 0 è vuoto — solo il
+   contorno, nel colore della perdita — perché nessuno dei quattro lo
+   riempie. Il numero sta nel titolo della colonna: un lettore di schermo
+   legge «4 fornitori da coordinare», non una cifra orfana.            */
 .conto {
-  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
-  margin-top: clamp(48px, 5vw, 88px);
-  border-top: 1px solid var(--c-filo-forte);
+  display: grid; grid-template-columns: minmax(0, 3.4fr) minmax(0, 5fr) minmax(0, 3.6fr);
+  column-gap: clamp(28px, 4vw, 72px); row-gap: var(--s-7);
+  padding-top: clamp(28px, 2.6vw, 40px); border-top: 1px solid var(--c-filo-forte);
 }
-.conto__c { display: grid; align-content: start; padding: clamp(24px, 2.6vw, 36px) 0 clamp(20px, 2vw, 28px); }
-.conto__c + .conto__c { padding-left: clamp(18px, 2.6vw, 40px); border-left: 1px solid var(--c-filo); }
+.conto__c { display: grid; align-content: start; gap: var(--s-4); min-width: 0; }
+.conto__tit { font: 500 clamp(21px, 1.7vw, 26px)/1.2 var(--f-display); letter-spacing: -.012em; color: var(--c-t1); }
 .conto__n {
-  font: 700 clamp(84px, 10vw, 156px)/.86 var(--f-display);
-  letter-spacing: -.05em; color: var(--c-t1);
-  font-variant-numeric: tabular-nums;
+  display: block; margin-bottom: clamp(10px, 1vw, 16px);
+  font: 600 clamp(76px, 8.4vw, 136px)/.84 var(--f-display); letter-spacing: -.05em;
+  font-variant-numeric: tabular-nums; color: var(--c-t1);
 }
-.conto__l { font: 600 17px/1.3 var(--f-display); letter-spacing: -.008em; color: var(--c-t1); margin-top: var(--s-4); }
-.conto__d { font: 400 15px/1.55 var(--f-display); color: var(--c-t3); max-inline-size: 34ch; margin-top: var(--s-2); }
-/* Lo zero è VUOTO: solo il contorno, nel colore della perdita. Nessuno dei
-   quattro lo riempie. È l'unico numero rosso del sito.                */
 .conto__c--zero .conto__n { color: transparent; -webkit-text-stroke: 2px var(--c-rottura); }
-@media (max-width: 760px) {
-  .conto { grid-template-columns: 1fr; }
-  .conto__c, .conto__c + .conto__c { padding: 22px 0 18px; border-left: 0; border-bottom: 1px solid var(--c-filo); }
-  .conto__c { grid-template-columns: auto 1fr; column-gap: 20px; align-items: center; }
-  .conto__n { grid-row: 1 / span 2; font-size: 76px; }
-  .conto__l { margin-top: 0; }
-  .conto__d { margin-top: 4px; }
+.conto__l { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; font: 500 16px/1.45 var(--f-display); color: var(--c-t2); }
+/* i tre passaggi: fra chi e chi, poi cosa cade */
+.conto__l--rotture { gap: var(--s-4); }
+.conto__l--rotture li { display: grid; gap: 4px; }
+.conto__fra { display: inline-flex; align-items: center; flex-wrap: wrap; gap: 4px 8px; font: 500 14px/1.4 var(--f-display); color: var(--c-t3); }
+.conto__fra svg { width: 14px; height: 14px; color: var(--c-rottura); }
+.conto__l--rotture b { font: 500 clamp(19px, 1.5vw, 22px)/1.25 var(--f-display); letter-spacing: -.01em; color: var(--c-t1); }
+.conto__nota { font: 400 15px/1.55 var(--f-display); color: var(--c-t3); max-inline-size: 34ch; }
+@media (max-width: 900px) {
+  /* in colonna ogni numero apre la sua fascia, col suo filo */
+  .conto { grid-template-columns: minmax(0, 1fr); row-gap: var(--s-6); padding-top: 0; border-top: 0; }
+  .conto__c { padding-top: var(--s-5); border-top: 1px solid var(--c-filo-forte); }
+  .conto__n { font-size: clamp(64px, 18vw, 88px); }
 }
 
-.contro__chiusa { margin-top: clamp(28px, 3vw, 44px); max-inline-size: 64ch; color: var(--c-t2); }
-.contro__chiusa strong { color: var(--c-t1); }
+/* La frase che chiude il capitolo: il costo, detto una volta e grande. */
+.contro__chiusa {
+  margin-top: clamp(44px, 4.4vw, 72px); max-inline-size: 46ch;
+  font: 500 clamp(20px, 1.7vw, 26px)/1.4 var(--f-display); letter-spacing: -.01em; color: var(--c-t2);
+}
+.contro__chiusa strong { font-weight: 600; color: var(--c-t1); }

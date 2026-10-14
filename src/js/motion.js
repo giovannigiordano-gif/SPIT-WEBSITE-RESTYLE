@@ -58,6 +58,33 @@
     addEventListener('scroll', f, { passive: true }); f();
   }
 
+  /* ── IL CAPITOLO IN NAV ─────────────────────────────────────────────────
+     Le sezioni di un capitolo portano data-cap; il nome viene dal suo
+     segnacapitolo (.capo). Quella che attraversa la linea mediana decide;
+     fuori dai capitoli (copertina, chiusura) l'etichetta si spegne.     */
+  const navCap = $('#nav-cap');
+  if (navCap && $('[data-cap]') && 'IntersectionObserver' in window) {
+    const nomi = {};
+    $$('.capo').forEach(c => {
+      const k = c.closest('[data-cap]')?.dataset.cap;
+      if (k) nomi[k] = [$('.capo__n', c)?.textContent.trim() || '', $('.capo__nome', c)?.textContent.trim() || ''];
+    });
+    const nN = $('.capo__n', navCap), nNome = $('.nav__cap-nome', navCap);
+    let ora = null;
+    const metti = (k) => {
+      if (k === ora) return; ora = k;
+      if (!k || !nomi[k]) { navCap.classList.remove('is-on'); return; }
+      [nN.textContent, nNome.textContent] = nomi[k];
+      navCap.classList.add('is-on');
+      if (!RM()) navCap.animate([{ opacity: 0, translate: '0 8px' }, { opacity: 1, translate: '0 0' }],
+        { duration: 360, easing: 'cubic-bezier(.16,.84,.24,1)' });
+    };
+    const ioCap = new IntersectionObserver((es) => {
+      for (const e of es) if (e.isIntersecting) metti(e.target.dataset.cap || null);
+    }, { rootMargin: '-49% 0px -49% 0px' });
+    $$('main > section, main > div').forEach(s => ioCap.observe(s));
+  }
+
   /* ── LA SCENA 3D DELL'HERO ──────────────────────────────────────────────
      Solo dove il <head> ha acceso html.vuole-3d (desktop, puntatore fine,
      niente reduced-motion, niente save-data). Si scarica DOPO il load e in
@@ -76,27 +103,81 @@
     setTimeout(torna, 6000);
   }
 
-  /* ── MENU MOBILE ──────────────────────────────────────────────────────── */
+  /* ── IL MENU A CARD GIGANTE ─────────────────────────────────────────────
+     Un dialogo vero. Apre togliendo [hidden] e accendendo .is-on al
+     fotogramma dopo, così la transizione parte; chiude al contrario e
+     rimette [hidden] solo a transizione finita. La card nasce DAL bottone
+     Menu: il suo rettangolo, misurato qui, è il ritaglio di partenza
+     (--da). Il fuoco resta nella card (Tab gira), Esc, «Chiudi» o un clic
+     sul velo chiudono, e il fuoco torna al bottone. Le anteprime si
+     scaricano alla prima apertura, non al caricamento della pagina.     */
   const burger = $('#burger'), menu = $('#menu');
   if (burger && menu) {
-    const chiudi = () => {
-      menu.classList.remove('is-on');
-      burger.setAttribute('aria-expanded', 'false');
-      document.body.style.overflow = '';
+    const card = $('.menu__card', menu), chiudiBtn = $('#menu-chiudi');
+    const ant = $$('.menu__ant', menu), voci = $$('.menu__voci a', menu);
+    const base = () => voci.find(a => a.hasAttribute('aria-current'))?.dataset.foto || 'casa';
+    const mostra = (k) => ant.forEach(n => n.classList.toggle('is-on', n.dataset.foto === k));
+    let aperto = false, caricato = false, tNascondi = 0;
+
+    const origine = () => {
+      const b = burger.getBoundingClientRect(), c = card.getBoundingClientRect();
+      if (!b.width || !c.width) return;
+      const r = Math.round(b.height / 2);
+      card.style.setProperty('--da', `inset(${b.top - c.top}px ${c.right - b.right}px ${c.bottom - b.bottom}px ${b.left - c.left}px round ${r}px)`);
     };
-    burger.addEventListener('click', () => {
-      const apri = !menu.classList.contains('is-on');
-      menu.classList.toggle('is-on', apri);
-      burger.setAttribute('aria-expanded', String(apri));
-      burger.setAttribute('aria-label', apri ? 'Chiudi il menu' : 'Apri il menu');
-      document.body.style.overflow = apri ? 'hidden' : '';
-      /* Il fuoco entra nel pannello: con la tastiera il menu aperto non
-         deve restare dietro al burger.                                  */
-      if (apri) menu.querySelector('a')?.focus({ preventScroll: true });
+    const carica = () => {
+      if (caricato) return; caricato = true;
+      $$('[data-src]', menu).forEach(i => { i.decoding = 'async'; i.src = i.dataset.src; i.removeAttribute('data-src'); });
+    };
+    const fuocabili = () => $$('a[href], button:not([disabled])', card).filter(n => n.getClientRects().length);
+
+    const apri = () => {
+      if (aperto) return; aperto = true; clearTimeout(tNascondi);
+      carica(); mostra(base());
+      menu.hidden = false;
+      origine();
+      radice.classList.add('menu-aperto');
+      burger.setAttribute('aria-expanded', 'true');
+      /* due fotogrammi: il primo applica --da con la card ancora chiusa */
+      requestAnimationFrame(() => requestAnimationFrame(() => menu.classList.add('is-on')));
+      (chiudiBtn || fuocabili()[0])?.focus({ preventScroll: true });
+    };
+    const chiudi = (torna = true) => {
+      if (!aperto) return; aperto = false;
+      origine();
+      menu.classList.remove('is-on');
+      radice.classList.remove('menu-aperto');
+      burger.setAttribute('aria-expanded', 'false');
+      tNascondi = setTimeout(() => { menu.hidden = true; }, RM() ? 0 : 440);
+      if (torna) burger.focus({ preventScroll: true });
+    };
+
+    burger.addEventListener('click', apri);
+    chiudiBtn?.addEventListener('click', () => chiudi());
+    menu.addEventListener('click', (e) => {
+      if (!card.contains(e.target)) chiudi();
+      else if (e.target.closest('a')) chiudi(false);
     });
-    menu.addEventListener('click', (e) => { if (e.target.closest('a')) chiudi(); });
-    addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && menu.classList.contains('is-on')) { chiudi(); burger.focus(); }
+    menu.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') { e.preventDefault(); chiudi(); return; }
+      if (e.key !== 'Tab') return;
+      const f = fuocabili(); if (!f.length) return;
+      const primo = f[0], ultimo = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === primo) { e.preventDefault(); ultimo.focus(); }
+      else if (!e.shiftKey && document.activeElement === ultimo) { e.preventDefault(); primo.focus(); }
+    });
+    /* L'anteprima segue il cursore e la tastiera; uscendo dall'elenco
+       torna quella della pagina in cui si è.                            */
+    voci.forEach(a => {
+      const k = () => mostra(a.dataset.foto);
+      a.addEventListener('pointerenter', k); a.addEventListener('focus', k);
+    });
+    $('.menu__voci', menu)?.addEventListener('pointerleave', () => mostra(base()));
+    /* Tornando indietro dalla cache del browser il menu non resta aperto. */
+    addEventListener('pageshow', (e) => {
+      if (!e.persisted) return;
+      aperto = false; menu.classList.remove('is-on'); menu.hidden = true;
+      radice.classList.remove('menu-aperto'); burger.setAttribute('aria-expanded', 'false');
     });
   }
 
@@ -107,7 +188,7 @@
     const io = new IntersectionObserver((es) => {
       es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); } });
     }, { threshold: .18 });
-    const tgt = $('.rise, .scalinata, .finale');
+    const tgt = $$('.rise, .scalinata, .finale');
     tgt.forEach(n => io.observe(n));
     setTimeout(() => tgt.forEach(n => n.classList.add('is-in')), 3000);
   }
@@ -414,7 +495,7 @@
                «sotto lo stesso tetto» smette di essere una metafora.   */
         tl.from('.tetto__tir', { scaleY: 0, ease: 'none', duration: .20, stagger: .05 }, .52);
         /* 4 · il numero solo. */
-        tl.from('#tetto-payoff', { opacity: 0, y: 30, ease: 'none', duration: .30 }, .70);
+        tl.from('#tetto-payoff', { opacity: 0, y: 30, ease: 'none', duration: .26 }, .56);
 
         return () => tl.kill();
       });
@@ -425,24 +506,24 @@
        POLIZZA: la versione statica è già scritta in CSS, quindi degradare
        a costo zero è possibile in qualsiasi momento.                    */
     /* ── LA STAFFETTA ────────────────────────────────────────────────────
-       La sezione si ferma e lo scroll fa scorrere la pista in orizzontale.
-       Il contatto (il cubo) resta FERMO al 32% dello schermo: sono i
-       reparti e i passaggi a passargli sotto, e ognuno si accende quando
-       lo raggiunge. Sotto i 1024px, sotto i 680px di altezza e a motion
-       ridotto la staffetta resta una colonna, tutta accesa (CSS).
+       La sezione si ferma e lo scroll fa scorrere i fotogrammi in
+       orizzontale; ognuno si accende quando entra nei due terzi sinistri
+       dello schermo, e la corsa finisce con l'atterraggio (il cubo sul
+       contratto) al centro. Sotto i 1024px, sotto i 680px di altezza, a
+       motion ridotto e nella pagina Metodo (variante in colonna) resta
+       una colonna, tutta accesa (CSS).
        MAI .set({display:'none'}) dentro una timeline pinnata: è una
        mutazione di layout che disallinea start/end in silenzio.        */
-    if ($('#staffetta')) {
+    if ($('#staffetta:not(.staffetta--colonna)')) {
       mm.add('(min-width: 1024px) and (min-height: 680px) and (prefers-reduced-motion: no-preference)', () => {
         const sc = $('#staffetta'), pista = $('#staffetta-pista');
-        const tappe = $$('.stazione, .passaggio', pista);
+        const tappe = $$('.stazione, .passaggio, .staffetta__fine', pista);
         sc.classList.add('is-scena');
-        /* quanto deve scorrere: finché la chiusa («La trattativa») non
-           arriva sotto il contatto */
+        /* quanto deve scorrere: finché l'atterraggio non è al centro */
         const fine = $('.staffetta__fine', pista);
-        const dist = () => Math.max(0, fine.offsetLeft - innerWidth * .32 + 40);
+        const dist = () => Math.max(0, fine.offsetLeft + fine.offsetWidth / 2 - innerWidth / 2);
         const accendi = () => {
-          const x = innerWidth * .32;
+          const x = innerWidth * .62;
           tappe.forEach(t => t.classList.toggle('is-on', t.getBoundingClientRect().left < x));
         };
         const tw = gsap.to(pista, {

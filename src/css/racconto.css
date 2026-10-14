@@ -26,13 +26,14 @@
   padding-block: clamp(28px, 2.6vw + 8px, 52px);
   border-bottom: 1px solid var(--c-filo);
 }
-.u-voce__su { display: flex; align-items: center; gap: 10px; font: 500 14px/1.3 var(--f-display); color: var(--c-t3); }
-.u-voce__su::before { content: ''; width: 18px; height: 2px; border-radius: 2px; background: currentColor; opacity: .55; }
+/* il «quando» sta nell'etichetta, un gradino di luce sotto (giro 4: prima
+   era un occhiello col trattino sopra ogni numero) */
+.u-voce__su { color: var(--c-t3); }
 .u-voce__num {
   font: 700 clamp(64px, 7.6vw, 124px)/.86 var(--f-display);
   letter-spacing: -.045em; color: var(--c-t1);
   font-variant-numeric: tabular-nums;
-  margin-block: var(--s-3) var(--s-3);
+  margin-block: 0 var(--s-3);
 }
 .u-voce__lab { font: 500 clamp(17px, 1.3vw, 20px)/1.25 var(--f-display); letter-spacing: -.01em; color: var(--c-t1); max-inline-size: 18ch; }
 .u-voce__campo { display: grid; gap: var(--s-4); padding-top: clamp(4px, 1.2vw, 18px); }
@@ -61,14 +62,20 @@
 }
 
 /* ── LA STAFFETTA ───────────────────────────────────────────────────────────
-   Stato di base (mobile, motion ridotto, senza JS): una COLONNA che si
-   legge dall'alto, con tutti i reparti accesi. Su desktop motion.js
-   aggiunge .is-scena: la sezione si ferma e la pista scorre in
-   orizzontale sotto il contatto.                                       */
+   Giro 3, seconda stesura. La prima aveva ancora schede in scatola su un
+   binario con un quadrato che scorreva: la struttura della «macchina» che
+   il cliente aveva bocciato. Ora non ci sono scatole né binario: è una
+   SEQUENZA DI FOTOGRAMMI. I reparti sono tipografia sul fondo (icona,
+   numero fantasma in contorno — decisione cliente —, nome grande), fra
+   l'uno e l'altro la fotografia del cubo che passa di mano, e la sequenza
+   atterra sul cubo posato sul contratto firmato: la trattativa.
+   Stato di base (mobile, motion ridotto, pagina Metodo): una colonna.
+   Su desktop in home motion.js aggiunge .is-scena e la pista scorre in
+   orizzontale; ogni fotogramma si accende quando arriva al centro.    */
 .staffetta-sez { overflow-x: clip; }
 .staffetta { position: relative; }
 .staffetta__pista {
-  display: grid; gap: clamp(32px, 4vw, 56px);
+  display: grid; gap: clamp(36px, 5vw, 64px);
   width: min(100% - 2 * var(--margine), var(--w-piena));
   margin-inline: auto;
 }
@@ -76,98 +83,108 @@
 .staffetta__testa .t-d2 { max-inline-size: 16ch; }
 .staffetta__testa .t-deck { max-inline-size: 44ch; }
 
-.stazione {
-  position: relative; isolation: isolate;
-  display: grid; align-content: start; gap: var(--s-4);
-  padding: clamp(24px, 2.2vw, 36px);
-  border: 1px solid var(--c-bordo-ar); border-radius: var(--r-card);
-  background: rgba(255,130,0,.05);
-  transition: border-color var(--t-stato) linear, background-color var(--t-stato) linear, box-shadow var(--t-stato) linear;
-}
-/* Il numero fantasma (decisione cliente: «icona + numero fantasma»):
-   contenuto generato, fuori dall'albero dell'accessibilità.          */
-.stazione::after {
-  content: attr(data-n); position: absolute; z-index: -1;
-  top: clamp(14px, 1.4vw, 22px); right: clamp(18px, 1.8vw, 28px);
-  font: 700 clamp(64px, 6vw, 104px)/1 var(--f-display); letter-spacing: -.05em;
-  color: rgba(255,130,0,.18);
-  transition: color var(--t-stato) linear;
+.stazione { position: relative; display: grid; align-content: start; gap: var(--s-4); padding-top: var(--s-5); border-top: 1px solid var(--c-filo-forte); }
+/* Il numero fantasma: contenuto generato (fuori dall'albero
+   dell'accessibilità), in contorno, acceso d'arancio quando il reparto
+   è il fotogramma corrente.                                          */
+.stazione::before {
+  content: attr(data-n);
+  font: 700 clamp(72px, 7vw, 128px)/.8 var(--f-display); letter-spacing: -.05em;
+  color: transparent; -webkit-text-stroke: 1.5px var(--c-ar);
+  transition: -webkit-text-stroke-color var(--t-stato) linear;
 }
 .stazione .icoq { width: 30px; height: 30px; color: var(--c-ar); transition: color var(--t-stato) linear; }
-.stazione__nome { font: 500 clamp(24px, 2vw, 32px)/1.08 var(--f-display); letter-spacing: -.02em; color: var(--c-t1); max-inline-size: 13ch; }
-.stazione__claim { font: 400 16px/1.55 var(--f-display); color: var(--c-t2); max-inline-size: 32ch; }
-.stazione__out {
-  margin-top: var(--s-2); padding-top: var(--s-4);
-  border-top: 1px solid var(--c-filo);
-  font: 600 15px/1.35 var(--f-display); color: var(--c-ar-hot);
-  font-variant-numeric: tabular-nums;
-  transition: color var(--t-stato) linear;
-}
+.stazione__nome { font: 500 clamp(28px, 2.6vw, 42px)/1.04 var(--f-display); letter-spacing: -.02em; color: var(--c-t1); max-inline-size: 13ch; }
+.stazione__claim { font: 400 17px/1.55 var(--f-display); color: var(--c-t2); max-inline-size: 30ch; }
+.stazione__out { font: 600 16px/1.35 var(--f-display); color: var(--c-ar-hot); font-variant-numeric: tabular-nums; transition: color var(--t-stato) linear; }
 
 .passaggio { margin: 0; display: grid; gap: var(--s-4); justify-items: start; }
-.passaggio__foto { width: min(100%, 440px); }
+.passaggio__foto { width: min(100%, 560px); }
 .passaggio__foto img {
   display: block; width: 100%; height: auto;
   /* le braccia entrano dai bordi della foto: sfumano invece di finire
-     tagliate a filo della scatola, che qui non c'è (fondo trasparente) */
-  -webkit-mask-image: radial-gradient(ellipse 72% 70% at 50% 50%, #000 58%, transparent 100%);
-          mask-image: radial-gradient(ellipse 72% 70% at 50% 50%, #000 58%, transparent 100%);
+     tagliate a filo di una scatola che qui non c'è (fondo trasparente) */
+  -webkit-mask-image: radial-gradient(ellipse 82% 80% at 50% 50%, #000 62%, transparent 100%);
+          mask-image: radial-gradient(ellipse 82% 80% at 50% 50%, #000 62%, transparent 100%);
 }
 .passaggio figcaption { display: grid; gap: 3px; }
 .passaggio__n { font: 500 13px/1.3 var(--f-display); color: var(--c-t3); }
-.passaggio__cosa { font: 600 clamp(18px, 1.4vw, 21px)/1.25 var(--f-display); letter-spacing: -.01em; color: var(--c-t1); }
+.passaggio__cosa { font: 600 clamp(18px, 1.4vw, 22px)/1.25 var(--f-display); letter-spacing: -.01em; color: var(--c-t1); }
 .passaggio__det { font: 500 14px/1.4 var(--f-display); color: var(--c-ar-hot); font-variant-numeric: tabular-nums; }
 
-.staffetta__fine { max-inline-size: 40ch; font: 400 17px/1.55 var(--f-display); color: var(--c-t2); }
-.staffetta__fine strong { display: block; margin-bottom: var(--s-2); font: 500 clamp(26px, 2.2vw, 34px)/1.1 var(--f-display); letter-spacing: -.02em; color: var(--c-t1); }
-.staffetta__binario { display: none; }
+/* L'atterraggio: il cubo posato sul contratto firmato. */
+.staffetta__fine { margin: 0; display: grid; gap: var(--s-5); justify-items: start; }
+.staffetta__fine img {
+  display: block; width: min(100%, 560px); height: auto;
+  -webkit-mask-image: radial-gradient(ellipse 80% 78% at 50% 50%, #000 62%, transparent 100%);
+          mask-image: radial-gradient(ellipse 80% 78% at 50% 50%, #000 62%, transparent 100%);
+}
+.staffetta__fine figcaption { max-inline-size: 36ch; font: 400 17px/1.55 var(--f-display); color: var(--c-t2); }
+.staffetta__fine strong { display: block; margin-bottom: var(--s-2); font: 500 clamp(32px, 3vw, 48px)/1.04 var(--f-display); letter-spacing: -.02em; color: var(--c-t1); }
 
-/* ── LA SCENA (desktop) ─────────────────────────────────────────────────── */
+/* ── LA COLONNA (Metodo e schermi stretti): reparto e passaggio affiancati */
+@media (min-width: 900px) {
+  .staffetta--colonna .staffetta__pista { gap: 0; }
+  .staffetta--colonna .staffetta__testa { margin-bottom: clamp(40px, 4vw, 72px); }
+  .staffetta--colonna .stazione {
+    grid-template-columns: minmax(0, 3fr) minmax(0, 4fr) minmax(0, 5fr);
+    column-gap: clamp(24px, 3vw, 48px); align-items: start;
+    padding-block: clamp(28px, 3vw, 44px);
+  }
+  .staffetta--colonna .stazione::before { grid-row: 1 / span 4; }
+  .staffetta--colonna .stazione > * { grid-column: 2; }
+  .staffetta--colonna .stazione .stazione__claim, .staffetta--colonna .stazione .stazione__out { grid-column: 3; }
+  .staffetta--colonna .stazione .icoq { grid-row: 1; }
+  .staffetta--colonna .stazione .stazione__nome { grid-row: 2; }
+  .staffetta--colonna .stazione .stazione__claim { grid-row: 1 / span 2; align-self: start; padding-top: 4px; }
+  .staffetta--colonna .stazione .stazione__out { grid-row: 3; }
+  .staffetta--colonna .passaggio {
+    grid-template-columns: minmax(0, 3fr) minmax(0, 9fr); align-items: center; column-gap: clamp(24px, 3vw, 48px);
+    padding-block: var(--s-4);
+  }
+  .staffetta--colonna .passaggio__foto { grid-column: 2; grid-row: 1; width: min(100%, 420px); justify-self: center; }
+  .staffetta--colonna .passaggio figcaption { grid-column: 1; grid-row: 1; }
+  .staffetta--colonna .staffetta__fine { grid-template-columns: minmax(0, 3fr) minmax(0, 9fr); align-items: center; column-gap: clamp(24px, 3vw, 48px); padding-top: var(--s-6); border-top: 1px solid var(--c-filo-forte); }
+  .staffetta--colonna .staffetta__fine img { grid-column: 2; grid-row: 1; width: min(100%, 420px); justify-self: center; }
+  .staffetta--colonna .staffetta__fine figcaption { grid-column: 1; grid-row: 1; }
+}
+@media (max-width: 1023px) {
+  .passaggio__foto img, .staffetta__fine img {
+    -webkit-mask-image: radial-gradient(ellipse 92% 88% at 50% 50%, #000 66%, transparent 100%);
+            mask-image: radial-gradient(ellipse 92% 88% at 50% 50%, #000 66%, transparent 100%);
+  }
+}
+
+/* ── LA SCENA (desktop, home) ──────────────────────────────────────────── */
 .staffetta-sez:has(.staffetta.is-scena) { padding-block: 0; }
 .staffetta.is-scena { height: 100vh; height: 100svh; display: grid; align-content: center; overflow: hidden; }
 .staffetta.is-scena .staffetta__pista {
-  display: flex; align-items: center; gap: clamp(40px, 4vw, 76px);
+  display: flex; align-items: center; gap: clamp(48px, 5vw, 96px);
   width: max-content; margin: 0;
-  padding-inline: max(var(--margine), calc((100vw - var(--w-piena)) / 2 + var(--margine))) 40vw;
-  padding-top: calc(var(--barra-h) + var(--nav-h) * .6);
+  padding-inline: max(var(--margine), calc((100vw - var(--w-piena)) / 2 + var(--margine))) 12vw;
+  padding-top: calc(var(--barra-h) + var(--nav-h) * .5);
   will-change: transform;
 }
 .staffetta.is-scena .staffetta__testa { width: min(40vw, 600px); flex: none; }
-.staffetta.is-scena .stazione { width: clamp(290px, 21vw, 340px); flex: none; }
-.staffetta.is-scena .passaggio { width: clamp(320px, 30vw, 480px); flex: none; }
+.staffetta.is-scena .stazione { width: clamp(280px, 22vw, 360px); flex: none; border-top: 0; padding-top: 0; }
+.staffetta.is-scena .passaggio { width: clamp(340px, 34vw, 560px); flex: none; }
 .staffetta.is-scena .passaggio__foto { width: 100%; }
-.staffetta.is-scena .passaggio__foto img { max-height: 62vh; width: auto; max-width: 100%; margin-inline: auto; }
-.staffetta.is-scena .staffetta__fine { width: min(32vw, 440px); flex: none; }
+.staffetta.is-scena .passaggio__foto img { max-height: 64vh; width: auto; max-width: 100%; margin-inline: auto; }
+.staffetta.is-scena .staffetta__fine { width: clamp(360px, 36vw, 600px); flex: none; grid-template-columns: 1fr; }
+.staffetta.is-scena .staffetta__fine img { max-height: 56vh; width: auto; max-width: 100%; }
 
-/* Spenti finché il contatto non arriva: bordo e icona si accendono insieme
-   quando il reparto gli passa sotto. È la luce che entra nel reparto.  */
-.staffetta.is-scena .stazione { border-color: var(--c-filo); background: rgba(255,255,255,.025); }
-.staffetta.is-scena .stazione::after { color: rgba(255,255,255,.06); }
-.staffetta.is-scena .stazione .icoq { color: var(--c-t3); }
+/* Il fotogramma corrente è acceso; quelli ancora da venire aspettano un
+   gradino sotto. Nessuna scatola: cambia solo la luce.               */
+.staffetta.is-scena .stazione::before { -webkit-text-stroke-color: rgba(255,255,255,.16); }
+.staffetta.is-scena .stazione .icoq,
 .staffetta.is-scena .stazione__out { color: var(--c-t3); }
-.staffetta.is-scena .stazione.is-on {
-  border-color: var(--c-bordo-ar); background: rgba(255,130,0,.06);
-  box-shadow: 0 0 0 1px rgba(255,130,0,.10), 0 28px 60px -32px rgba(255,130,0,.45);
-}
-.staffetta.is-scena .stazione.is-on::after { color: rgba(255,130,0,.22); }
+.staffetta.is-scena .stazione.is-on::before { -webkit-text-stroke-color: var(--c-ar); }
 .staffetta.is-scena .stazione.is-on .icoq,
 .staffetta.is-scena .stazione.is-on .stazione__out { color: var(--c-ar); }
-.staffetta.is-scena .passaggio { opacity: .55; transition: opacity var(--t-stato) linear; }
-.staffetta.is-scena .passaggio.is-on { opacity: 1; }
-
-/* Il binario e il contatto: il contatto resta FERMO al 32% dello schermo,
-   la pista gli scorre sotto. La parte di binario già percorsa è accesa. */
-.staffetta.is-scena .staffetta__binario {
-  display: block; position: absolute; left: 0; right: 0; bottom: max(7vh, 44px);
-  height: 2px; background: var(--c-filo-forte); pointer-events: none;
-}
-.staffetta__luce { position: absolute; left: 0; top: 0; height: 2px; width: 32vw; background: linear-gradient(90deg, rgba(255,130,0,0), var(--c-ar)); }
-.staffetta__contatto {
-  position: absolute; left: 32vw; top: 1px;
-  width: 18px; height: 18px; translate: -50% -50%; border-radius: 4px;
-  background: var(--c-ar);
-  box-shadow: 0 0 0 4px rgba(255,130,0,.16), 0 0 26px rgba(255,130,0,.85);
-}
+.staffetta.is-scena .passaggio,
+.staffetta.is-scena .staffetta__fine { opacity: .5; transition: opacity var(--t-stato) linear; }
+.staffetta.is-scena .passaggio.is-on,
+.staffetta.is-scena .staffetta__fine.is-on { opacity: 1; }
 
 /* ── IL FINALE ──────────────────────────────────────────────────────────────
    Il payoff a filo sinistro, alla misura di un titolo; accanto il braccio

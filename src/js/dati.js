@@ -237,9 +237,8 @@ const voce = (x, i) => {
   n.style.setProperty('--i', i);
   n.innerHTML = `
     <div class="u-voce__dato">
-      <p class="u-voce__su">${x.su}</p>
       <p class="u-voce__num num">${fmt.format(x.v)}</p>
-      <p class="u-voce__lab">${x.lab}</p>
+      <p class="u-voce__lab">${x.lab}, <span class="u-voce__su">${x.su}</span></p>
     </div>
     <div class="u-voce__campo">
       ${campo(x, i)}
@@ -280,7 +279,7 @@ const pannello = (b, i) => {
 const servizio = (b, i) => {
   const n = el('li', 'servizio');
   n.style.setProperty('--i', i % 4);
-  n.innerHTML = `<span class="servizio__ico">${ICO[b.i]}</span><h3 class="servizio__tit">${b.t}</h3><p class="servizio__desc">${b.d}</p>`;
+  n.innerHTML = `<h3 class="servizio__tit">${b.t}</h3><p class="servizio__desc">${b.d}</p>`;
   return n;
 };
 
@@ -491,7 +490,6 @@ const monta = () => {
     const pv = el('a', 'vid vid--porta');
     pv.href = '/risultati.html';
     pv.innerHTML = `
-      <p class="t-eyebrow" style="color:var(--c-ar-hot)">Oltre le parole</p>
       <p class="t-t1" style="max-inline-size:15ch">I numeri di questi clienti, con fonte e data.</p>
       <span class="frecc" aria-hidden="true">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>

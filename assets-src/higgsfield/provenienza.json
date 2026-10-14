@@ -2,16 +2,77 @@
   "nota": "Fotografie GENERATE con Higgsfield (modello gpt_image_2_5, qualità high, 2k) il 2026-10-14, su richiesta esplicita del committente («puoi usare higgsfield per generare immagini dove servono»). Riferimenti di stile: le foto del cliente hand-contract e hand-graduation (assets-src → src/assets/webp). Non sono foto del cliente: vanno dichiarate come immagini generate se il cliente lo richiede. Nessuna persona riconoscibile: solo mani. Varianti web con alfa ricavata dalla luminanza: tools/foto.mjs.",
   "stile_comune": "Editorial advertising studio photograph in the exact visual style of the reference images: human hands in black-and-white (monochrome charcoal tone, high contrast, finely textured skin), one object in vivid saturated orange (#FF7A00), selective color. Background: flat seamless very dark charcoal near-black (#121115), no gradient, no props. Soft key light from the upper left, subtle rim light. No text, no logos, no watermark.",
   "immagini": {
-    "contro-caduta": { "job": "0b6be5db-9dd1-4892-819e-6ba3670f46c9", "formato": "16:9", "uso": "home e metodo · contro-esempio", "scena": "two hands reach toward each other from left and right but fail to meet; below the gap a smooth matte orange cube with softly rounded edges is falling, tilted, slightly motion-blurred" },
-    "passaggio-1": { "job": "7c9864e1-400a-4e1e-af75-2f6778f80e9b", "formato": "4:5", "uso": "staffetta · contatto grezzo", "scena": "a hand from the lower left, palm up, hands over the orange cube to a second hand from the right that takes it from above with fingertips, exchange at the center" },
-    "passaggio-2": { "job": "16cf4761-63b9-4d09-b5dc-dcdaa90a8008", "formato": "4:5", "uso": "staffetta · contatto educato", "scena": "the left hand holds the orange cube between thumb and fingers and places it into the open cupped palm of the right hand, diagonal from lower left to upper right" },
-    "passaggio-3": { "job": "a94d1151-5e3b-4c2f-8018-a32d1771691e", "formato": "4:5", "uso": "staffetta · venditore operativo", "scena": "a strong hand from the right grips the orange cube firmly, having just received it; on the left the other hand's fingers open as they let go" },
-    "finale-trofeo": { "job": "a351fa5b-0d9c-4716-bead-caf403390f94", "formato": "4:5", "uso": "home · finale", "scena": "an arm rises vertically from the bottom edge and the hand holds the orange cube high like a trophy, the cube glowing faintly" },
-    "metodo-scalinata": { "job": "8cfaad73-504b-4c60-978f-fdc1caf456b6", "formato": "4:5", "uso": "metodo · apertura", "scena": "a hand places the last small orange cube on top of a zig-zag staircase of orange cubes of different sizes" },
-    "risultati-scontrino": { "job": "fa49026e-c086-4a41-acbd-f8b7bbb47776", "formato": "4:5", "uso": "risultati · apertura", "scena": "a hand rises from the bottom holding a long strip of orange paper receipt that unrolls and curls upward in an S-shaped ribbon, no legible text" },
-    "dna-bussola": { "job": "7d932fa1-8912-462d-80af-19bb2bf098c9", "formato": "4:5", "uso": "dna · apertura", "scena": "a hand holds an open orange pocket compass presented toward the camera, no legible lettering" },
-    "eventi-biglietto": { "job": "8c843a88-ebe5-4af9-b736-092ba7918630", "formato": "4:5", "uso": "eventi · apertura", "scena": "a hand raises an orange event admission ticket with a perforated stub between two fingers, no legible text" },
-    "fatturare-microfono": { "job": "ba56598f-00b6-4c57-b473-87f005dc7da6", "formato": "4:5", "uso": "fatturare³ · apertura", "scena": "a hand grips an orange vintage broadcast studio microphone, holding it up as if about to speak" },
-    "candidatura-caffe": { "job": "58b21975-e202-453e-9132-a6640f54a6b6", "formato": "4:5", "uso": "candidatura · apertura", "scena": "a hand offers an orange espresso cup on a matching saucer toward the camera, a thin wisp of steam" }
+    "contro-caduta": {
+      "job": "0b6be5db-9dd1-4892-819e-6ba3670f46c9",
+      "formato": "16:9",
+      "uso": "home e metodo · contro-esempio",
+      "scena": "two hands reach toward each other from left and right but fail to meet; below the gap a smooth matte orange cube with softly rounded edges is falling, tilted, slightly motion-blurred"
+    },
+    "passaggio-1": {
+      "job": "7c9864e1-400a-4e1e-af75-2f6778f80e9b",
+      "formato": "4:5",
+      "uso": "staffetta · contatto grezzo",
+      "scena": "a hand from the lower left, palm up, hands over the orange cube to a second hand from the right that takes it from above with fingertips, exchange at the center"
+    },
+    "passaggio-2": {
+      "job": "16cf4761-63b9-4d09-b5dc-dcdaa90a8008",
+      "formato": "4:5",
+      "uso": "staffetta · contatto educato",
+      "scena": "the left hand holds the orange cube between thumb and fingers and places it into the open cupped palm of the right hand, diagonal from lower left to upper right"
+    },
+    "passaggio-3": {
+      "job": "a94d1151-5e3b-4c2f-8018-a32d1771691e",
+      "formato": "4:5",
+      "uso": "staffetta · venditore operativo",
+      "scena": "a strong hand from the right grips the orange cube firmly, having just received it; on the left the other hand's fingers open as they let go"
+    },
+    "finale-trofeo": {
+      "job": "a351fa5b-0d9c-4716-bead-caf403390f94",
+      "formato": "4:5",
+      "uso": "home · finale",
+      "scena": "an arm rises vertically from the bottom edge and the hand holds the orange cube high like a trophy, the cube glowing faintly"
+    },
+    "metodo-scalinata": {
+      "job": "8cfaad73-504b-4c60-978f-fdc1caf456b6",
+      "formato": "4:5",
+      "uso": "metodo · apertura",
+      "scena": "a hand places the last small orange cube on top of a zig-zag staircase of orange cubes of different sizes"
+    },
+    "risultati-scontrino": {
+      "job": "fa49026e-c086-4a41-acbd-f8b7bbb47776",
+      "formato": "4:5",
+      "uso": "risultati · apertura",
+      "scena": "a hand rises from the bottom holding a long strip of orange paper receipt that unrolls and curls upward in an S-shaped ribbon, no legible text"
+    },
+    "dna-bussola": {
+      "job": "7d932fa1-8912-462d-80af-19bb2bf098c9",
+      "formato": "4:5",
+      "uso": "dna · apertura",
+      "scena": "a hand holds an open orange pocket compass presented toward the camera, no legible lettering"
+    },
+    "eventi-biglietto": {
+      "job": "8c843a88-ebe5-4af9-b736-092ba7918630",
+      "formato": "4:5",
+      "uso": "eventi · apertura",
+      "scena": "a hand raises an orange event admission ticket with a perforated stub between two fingers, no legible text"
+    },
+    "fatturare-microfono": {
+      "job": "ba56598f-00b6-4c57-b473-87f005dc7da6",
+      "formato": "4:5",
+      "uso": "fatturare³ · apertura",
+      "scena": "a hand grips an orange vintage broadcast studio microphone, holding it up as if about to speak"
+    },
+    "candidatura-caffe": {
+      "job": "58b21975-e202-453e-9132-a6640f54a6b6",
+      "formato": "4:5",
+      "uso": "candidatura · apertura",
+      "scena": "a hand offers an orange espresso cup on a matching saucer toward the camera, a thin wisp of steam"
+    },
+    "staffetta-firma": {
+      "job": "5df03bed-30d5-4f9e-8dce-ef6c16c61f7e",
+      "formato": "4:5",
+      "uso": "staffetta · la trattativa (atterraggio)",
+      "scena": "a hand sets the orange cube down on top of a signed contract, a single off-white sheet with an ink signature, no legible text; a black fountain pen beside it. Scelta fra due varianti (l'altra: job a84495ca-81e3-44d6-afbd-2214e57baa3d, scartata)."
+    }
   }
 }
