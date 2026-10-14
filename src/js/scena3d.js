@@ -105,7 +105,13 @@ export async function avvia(host, { hero = host.closest('.hero') } = {}) {
      colore base è spinto di un filo verso il giallo perché il RISULTATO a
      schermo legga #FF8200, non il valore nel codice. */
   const matArancio = new THREE.MeshStandardMaterial({ color: 0xff9412, roughness: .4, metalness: .02, emissive: 0xff7a00, emissiveIntensity: .08 });
-  const matMarchio = matArancio.clone();
+  /* Il marchio montato NON passa da tone mapping e nebbia: misurato a
+     schermo leggeva #E57A28 (la nebbia ne mangiava il 16%, il tone mapping
+     lo spingeva verso il corallo). Albedo ed emissione nel colore di
+     marca: la faccia frontale somma ~0,5 di luce chiave e ~0,5 di
+     emissione (a montaggio finito) e atterra su #FF7F00; i fianchi
+     restano in ombra, quindi il volume si legge ancora.               */
+  const matMarchio = new THREE.MeshStandardMaterial({ color: 0xff8200, roughness: .42, metalness: 0, emissive: 0xff8200, emissiveIntensity: .1, toneMapped: false, fog: false });
 
   /* ── IL MARCHIO: cinque pivot ─────────────────────────────────────────── */
   const marchio = new THREE.Group();
@@ -153,6 +159,7 @@ export async function avvia(host, { hero = host.closest('.hero') } = {}) {
      bordo inferiore dell'hero, per un quarto oltre: la tela sborda sotto
      l'hero apposta.                                                    */
   let W = 1, H = 1, upp = 1, heroH = 1, fuori = 0;
+  const marchioPx = { y: 0, r: 0 };   /* centro e raggio del marchio, in px di tela */
   const centroMarchio = new THREE.Vector3();
   const misura = () => {
     const r = canvas.getBoundingClientRect();
@@ -164,6 +171,7 @@ export async function avvia(host, { hero = host.closest('.hero') } = {}) {
     const altPx = clamp(innerHeight * .31, 230, 340);
     const k = altPx * upp / 100;
     const cyPx = heroH + (.26 - .5) * altPx;
+    marchioPx.y = cyPx; marchioPx.r = altPx * .78;
     centroMarchio.set(0, (H / 2 - cyPx) * upp, 0);
     pezzi.forEach(p => {
       const cx = (p.m.x + p.m.l / 2 - 30) * k, cy = (50 - (p.m.y + p.m.l / 2)) * k;
@@ -173,7 +181,43 @@ export async function avvia(host, { hero = host.closest('.hero') } = {}) {
     bagliore.position.copy(centroMarchio).add(new THREE.Vector3(0, 0, -6));
     bagliore.scale.setScalar(altPx * upp * 2.6);
     semina();
+    radura();
   };
+
+  /* La radura: i contatti sono seminati FUORI dal blocco del titolo, ma
+     allo scroll la spirale li porta verso il marchio e li fa passare
+     dietro «fattura». Una maschera ellittica sulla tela, misurata sul
+     testo vero (righe, non scatole di blocco), li spegne al 10% finché
+     attraversano il titolo. Tela e testo scorrono insieme: la maschera
+     resta allineata senza ricalcoli allo scroll.                      */
+  const pezziTesto = ['.hero__attacco', '.hero__colpo', '.hero__in .t-deck', '.hero__in .cta', '.hero__sotto'];
+  const radura = () => {
+    const rc = canvas.getBoundingClientRect(), rg = document.createRange();
+    let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+    /* si misurano i NODI DI TESTO: le scatole di blocco (l'attacco, le
+       righe a maschera) sono larghe quanto la colonna, i glifi no */
+    for (const el of hero.querySelectorAll(pezziTesto.join(','))) {
+      const tw = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+      for (let n = tw.nextNode(); n; n = tw.nextNode()) {
+        if (!n.nodeValue.trim()) continue;
+        rg.selectNodeContents(n);
+        const r = rg.getBoundingClientRect();
+        if (!r.width) continue;
+        x0 = Math.min(x0, r.left); y0 = Math.min(y0, r.top); x1 = Math.max(x1, r.right); y1 = Math.max(y1, r.bottom);
+      }
+    }
+    if (!isFinite(x0)) return;
+    const cx = (x0 + x1) / 2 - rc.left, cy = (y0 + y1) / 2 - rc.top;
+    /* due strati in unione (mask-composite: add, il default): la radura
+       sul testo, e un disco pieno sul marchio, che sta subito sotto il
+       testo e non deve MAI essere attenuato (il blocco alto ci cadeva) */
+    const m = `radial-gradient(${Math.round((x1 - x0) * .68)}px ${Math.round((y1 - y0) * .72)}px at ${Math.round(cx)}px ${Math.round(cy)}px, rgba(0,0,0,.1) 60%, #000 100%), ` +
+      `radial-gradient(${Math.round(marchioPx.r)}px ${Math.round(marchioPx.r)}px at 50% ${Math.round(marchioPx.y)}px, #000 72%, transparent 100%)`;
+    canvas.style.webkitMaskImage = m; canvas.style.maskImage = m;
+  };
+  /* di nuovo a font caricati e a entrata del titolo finita (le parole
+     salgono dentro la maschera: le loro scatole si spostano) */
+  document.fonts.ready.then(() => { radura(); setTimeout(radura, 1600); });
 
   /* Semina i contatti nel volume dell'hero, fuori dall'ellisse del titolo
      (in coordinate schermo): il testo resta su nero, i cubi lo incorniciano. */

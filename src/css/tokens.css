@@ -104,14 +104,15 @@
   --c-info:    #7AA2FF;
 
   /* ── TIPOGRAFIA ────────────────────────────────────────────────────────
-     DM Sans come nel riferimento (1.853 nodi su 2.000), con Instrument
-     Serif Italic come contrappunto display — è il ruolo che loro danno a
-     Editorial Old in "WHAT WE DO / Relentlessly".
+     DM Sans come nel riferimento (1.853 nodi su 2.000), e solo DM Sans:
+     il contrappunto in Instrument Serif Italic è stato ritirato nel giro
+     2 di verifica (faceva un secondo sistema di titoli). La gerarchia la
+     fanno corpo, peso e tono, non il cambio di famiglia.
      Nessun monospace: il riferimento non ne usa, e le cifre restano
      allineate con font-variant-numeric: tabular-nums su DM Sans.                          */
   --f-display: 'DM Sans', 'Segoe UI', system-ui, sans-serif;
   --f-testo:   'DM Sans', 'Segoe UI', system-ui, sans-serif;
-  --f-voce:    'Instrument Serif', Georgia, 'Times New Roman', serif;
+  --f-voce:    var(--f-display);   /* il serif è ritirato (giro 2) */
 
   /* Tracking: tre plateau, inversione di segno fra 15 e 17px.
      Il display è PIATTO a −.036em, il valore misurato sul riferimento
@@ -126,10 +127,11 @@
   /* ── SPAZIO — tutto multiplo di 4 ──────────────────────────────────── */
   --s-1:4px;  --s-2:8px;  --s-3:12px; --s-4:16px; --s-5:24px; --s-6:32px;
   --s-7:48px; --s-8:64px; --s-9:96px; --s-10:128px; --s-11:168px;
-  /* Il respiro di sezione è FLUIDO: 72px a 360, 136px a 1440. Sul palco
-     continuo due padding fissi da 128px sommati facevano 256px di vuoto
-     fra due contenuti, che senza un cambio di fondo legge come un buco. */
-  --sez-y: clamp(72px, 5.9vw + 51px, 136px);
+  /* Il respiro di sezione è FLUIDO: 60px a 360, ~106px a 1440. Sul palco
+     continuo i due padding di sezioni vicine si SOMMANO e senza un cambio
+     di fondo il vuoto si legge come un buco: con 136px erano 272px fra
+     due contenuti (verifica, giro 2). Ora ~210px a 1440, ~176 a 1024. */
+  --sez-y: clamp(60px, 4.2vw + 45px, 112px);
   --sez-y-fitta: clamp(48px, 3vw + 37px, 80px);
 
   /* ── TESTO MINUTO — soglie ─────────────────────────────────────────────

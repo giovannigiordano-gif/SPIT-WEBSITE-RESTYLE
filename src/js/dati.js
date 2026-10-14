@@ -61,7 +61,7 @@ const PROVE = [
    logo dimensioni INTRINSECHE — prima erano box 0×34px finché non
    caricavano, e la pista del marquee cambiava lunghezza (e velocità)
    mentre arrivavano — e per il bilanciamento ottico qui sotto.         */
-const LOGHI = [['c-8',467],['c-9',116],['c-10',187],['c-11',163],['c-12',984],['c-13',820],['c-14',141],['c-15',259],['c-16',114],['c-18',379],['c-20',447],['c-23',87],['c-24',120],['c-25',310],['c-27',155],['c-28',820],['c-31',283],['c-32',164],['c-33',202],['c-34',209],['c-35',287],['c-36',249],['c-37',351],['c-38',711],['c-39',85]];
+const LOGHI = [['c-8',467],['c-9',116],['c-10',187],['c-11',163],['c-12',984],['c-13',820],['c-14',141],['c-15',259],['c-16',102],['c-18',379],['c-20',447],['c-23',87],['c-24',120],['c-25',310],['c-27',155],['c-28',820],['c-31',283],['c-32',164],['c-33',202],['c-34',209],['c-35',287],['c-36',249],['c-37',351],['c-38',711],['c-39',85]];
 /* Peso ottico uguale, non altezza uguale: l'altezza scala con
    (larghezza/altezza)^-0.4 — un marchio quadrato sta a 44px, un wordmark
    lungo scende a ~19px. Con l'altezza fissa i marchi quadrati sparivano

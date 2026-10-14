@@ -91,11 +91,11 @@ input, select, textarea { caret-color: var(--c-ar); }
    guida l'occhio dentro il titolo. È la testata delle riviste svizzere,
    non il "kicker" maiuscolo sopra ogni titolo che rende ogni pagina
    generata uguale all'altra.
-   Sotto i 1100px torna sopra il titolo, piccolo, in tondo.             */
+   Sotto i 1024px torna sopra il titolo, piccolo, in tondo.             */
 .testa { display: grid; gap: var(--s-5); margin-bottom: clamp(40px, 3vw + 28px, 64px); }
 .testa--c { justify-items: center; text-align: center; }
 .testa--c .t-deck { margin-inline: auto; }
-@media (min-width: 1100px) {
+@media (min-width: 1024px) {
   .testa:not(.testa--c):has(> .t-eyebrow) {
     grid-template-columns: minmax(0, 3fr) minmax(0, 9fr);
     column-gap: var(--s-7);
@@ -246,20 +246,16 @@ input, select, textarea { caret-color: var(--c-ar); }
 .chip[aria-pressed="true"] { color: var(--c-ar); background: rgba(255,130,0,.10); border-color: var(--c-bordo-ar); }
 @media (pointer: coarse) { button.chip { height: var(--tap); } }
 
-/* Il quadratino-icona dei tile del bento: nel riferimento è un rounded
-   square con tint dell'accento. Qui l'icona è il MODULO del mark, non una
-   icona a caso — è il posto dove il DNA entra senza fare rumore.        */
+/* L'icona delle card è NUDA: un tratto, non un oggetto. Niente quadratino
+   colorato sotto (decisione cliente, HANDOFF §6: «icona + numero
+   fantasma»): il rounded square tinto d'accento è il segno più riconoscibile
+   delle pagine generate, e qui ripeteva il mark a vuoto.               */
 .icoq {
-  width: 46px; height: 46px; flex: none;
-  display: grid; place-items: center;
-  border-radius: 13px;
-  background: rgba(255,255,255,.045);
-  border: 1px solid rgba(255,255,255,.10);
+  display: block; flex: none;
+  width: 26px; height: 26px;
   color: var(--c-ar);
-  transition: background-color var(--t-micro) linear, border-color var(--t-micro) linear;
 }
-.icoq svg { width: 22px; height: 22px; }
-.card:hover .icoq { background: rgba(255,130,0,.12); border-color: rgba(255,130,0,.26); }
+.icoq svg { display: block; width: 100%; height: 100%; }
 
 .fonte { display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: center; }
 

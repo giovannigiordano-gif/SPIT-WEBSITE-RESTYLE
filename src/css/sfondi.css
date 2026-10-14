@@ -80,12 +80,15 @@ html[data-atmo="fuoco"]   .palco > [data-a="fuoco"] {
     #161519;
 }
 
-/* ── NOTTE · l'UNICA zona fredda ─────────────────────────────────────────── */
+/* ── NOTTE · l'UNICA zona fredda ───────────────────────────────────────────
+   Fredda, non blu: un acciaio spento sopra lo stesso nero di base. Più
+   saturo (era rgba(30,58,110)) si leggeva come un'altra pagina, una
+   giuntura proprio dove il palco promette di non averne.               */
 .palco > [data-a="notte"] {
   background:
-    radial-gradient(80% 60% at 50% -10%, rgba(30,58,110,.42) 0%, rgba(30,58,110,0) 66%),
-    radial-gradient(60% 50% at 92% 110%, rgba(30,58,110,.24) 0%, rgba(30,58,110,0) 70%),
-    #0F121A;
+    radial-gradient(80% 60% at 50% -10%, rgba(44,58,84,.40) 0%, rgba(44,58,84,0) 66%),
+    radial-gradient(60% 50% at 92% 110%, rgba(44,58,84,.22) 0%, rgba(44,58,84,0) 70%),
+    #111318;
 }
 
 /* ── POZZO · nero profondo, una luce d'angolo ───────────────────────────── */
@@ -117,8 +120,9 @@ html[data-atmo="fuoco"]   .palco > [data-a="fuoco"] {
 }
 html.ha-cursore .palco__torcia { opacity: 1; }
 
-/* Sul freddo l'arancio vibra di più: lì l'accento scende di un gradino. */
-html[data-atmo="notte"] .sf--notte .ar { color: var(--c-ar-hot); }
+/* Sul freddo l'arancio vibra di più: lì l'accento scende di un gradino.
+   Non nei titoli: lì l'arancio non c'è più (type.css).                 */
+html[data-atmo="notte"] .sf--notte .ar:not(h2 .ar) { color: var(--c-ar-hot); }
 
 /* ── FALLBACK SENZA JS ─────────────────────────────────────────────────────
    build.mjs scrive data-atmo="nero" sull'html: anche se motion.js non

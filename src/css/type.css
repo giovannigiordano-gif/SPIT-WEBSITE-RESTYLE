@@ -41,11 +41,12 @@
   letter-spacing: var(--tr-display);
 }
 
-/* Il contrappunto serif: il ruolo che nel riferimento ha «Relentlessly».
-   DUE soli usi per pagina, non uno in più.                               */
+/* La seconda voce. Nel riferimento era il serif corsivo di «Relentlessly»;
+   dal giro 2 di verifica è DM Sans come tutto il resto e vive solo dentro
+   .duevoci (sections.css), che ne fissa corpo e tono.                    */
 .t-voce {
   font-family: var(--f-voce);
-  font-style: italic;
+  font-style: normal;
   font-weight: 400;
   font-size: clamp(30px, 4.8vw, 62px);
   line-height: 1.02;
@@ -159,21 +160,21 @@
    particella, il colore lo dà il contesto.                             */
 .card .t-eyebrow::before, .pers .t-eyebrow::before, .vid .t-eyebrow::before { display: none; }
 
-/* La pill dell'hero: fondo arancione translucido, testo arancione chiaro.
-   Sul tint serve --c-ar-hot: #FF8200 su quel fondo scende sotto 4,5:1.
-   In tondo anche qui: è l'unica etichetta della prima schermata.       */
+/* L'occhiello di pagina. Era una pill tinta d'arancio sopra l'H1: il
+   "badge" che apre ogni landing generata, e sulle pagine interne
+   ripeteva la voce di menu dentro una scatola. Ora è una riga di
+   colophon: stesso testo, la stessa particella del sistema, nessuna
+   scatola, nessun arancio sul testo. Il nome della classe resta per
+   non toccare il markup delle pagine.                                  */
 .pill-eyebrow {
   display: inline-flex; align-items: center; gap: 10px;
-  padding: 10px 18px 10px 14px; border-radius: var(--r-pill);
-  background: rgba(255,130,0,.12);
-  border: 1px solid rgba(255,130,0,.24);
   font-family: var(--f-display); font-weight: 500;
-  font-size: 14px; line-height: 1;
-  letter-spacing: 0; text-transform: none;
-  color: var(--c-ar-hot);
+  font-size: 15px; line-height: 1.3;
+  letter-spacing: -.005em; text-transform: none;
+  color: var(--c-t2);
 }
 .pill-eyebrow::before {
-  content: ''; width: 7px; height: 7px; border-radius: var(--q-r);
+  content: ''; flex: none; width: 8px; height: 8px; border-radius: var(--q-r);
   background: var(--c-ar);
 }
 
@@ -203,4 +204,11 @@
 /* Nella hero la parola d'accento è anche il picco di peso: un solo punto
    di massima forza per schermata, mai due.                              */
 .t-hero .ar { font-weight: 700; }
+/* L'arancio nei titoli è LUCE, non evidenziatore. Resta nell'H1 di ogni
+   pagina (una parola) e nel payoff del tetto; nei titoli di sezione la
+   parola marcata torna del colore del titolo. Nove parole arancioni in
+   una pagina erano un tic, e toglievano forza a quella dell'H1. Il
+   markup resta: è un registro tipografico, non un cambio di copy.      */
+h2 .ar { color: inherit; }
+.tetto__titolo .ar { color: var(--c-ar); }
 .centro { text-align: center; }

@@ -209,7 +209,8 @@ html.barra-off .barra { display: none; }
    cadevano da soli su una seconda riga.                                */
 .footer {
   position: relative;
-  padding-block: clamp(80px, 6vw + 40px, 128px) 0;
+  /* sommato al piede del muro faceva ~250px di nero prima del footer */
+  padding-block: clamp(64px, 4vw + 40px, 104px) 0;
   background: linear-gradient(180deg, rgba(2,2,2,0) 0%, rgba(2,2,2,.86) 140px, #020202 100%);
 }
 .footer__grid {

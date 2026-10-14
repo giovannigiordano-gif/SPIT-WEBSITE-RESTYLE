@@ -45,11 +45,35 @@
 .hero .t-deck { max-inline-size: 46ch; margin-inline: auto; font-size: clamp(16px, 1.1vw, 18px); color: var(--c-t3); }
 .hero__sotto { color: var(--c-t3); }
 .hero .cta-riga { margin-top: var(--s-3); }
+/* Il piede della copertina: la riga d'identità a sinistra, il centro
+   resta al marchio che si monta. In colonna chiude il blocco del testo. */
+.hero__piede { position: relative; z-index: 2; display: flex; justify-content: center; margin-top: var(--s-7); }
+.hero__piede .pill-eyebrow { color: var(--c-t3); }
+@media (min-width: 768px) {
+  .hero__piede {
+    position: absolute; left: 0; right: 0; bottom: clamp(22px, 3.6vh, 40px);
+    margin-top: 0; justify-content: flex-start;
+  }
+}
 @media (max-width: 640px) { .hero::before { height: 820px; } }
 
 /* La scena DOM: quadrati sparsi (i contatti) e il marchio che si monta. */
 .hero__scena { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
-.hero__campo { position: absolute; inset: 0; container-type: size; }
+.hero__campo {
+  position: absolute; inset: 0; container-type: size;
+  /* La radura: dietro il blocco del titolo i contatti si spengono quasi
+     del tutto, il testo resta sempre su nero. Le posizioni sono in
+     percentuale: a 360px alcune finivano su «Quattro» e accanto al
+     filtro. La stessa radura c'è nella scena 3D (scena3d.js).        */
+  --radura: radial-gradient(ellipse 40% 30% at 50% 46%, rgba(0,0,0,.08) 62%, #000 100%);
+  -webkit-mask-image: var(--radura); mask-image: var(--radura);
+}
+/* In colonna il testo occupa tutta la larghezza: la radura diventa una
+   fascia orizzontale sull'altezza del blocco di testo; i contatti vivono
+   sopra il titolo e sotto, dove convergono nel marchio.              */
+@media (max-width: 700px) {
+  .hero__campo { --radura: linear-gradient(180deg, #000 0%, #000 9%, rgba(0,0,0,.06) 17%, rgba(0,0,0,.06) 76%, #000 86%); }
+}
 .hero__campo i {
   position: absolute; left: var(--x); top: var(--y);
   width: var(--s); height: var(--s); border-radius: 24%;
@@ -281,11 +305,8 @@ html.vuole-3d .hero__mark { opacity: 0; }
   color: var(--c-t1); white-space: nowrap;
   transition: border-color var(--t-micro) linear, background-color var(--t-micro) linear;
 }
-.tetto__ico {
-  width: 46px; height: 46px; display: grid; place-items: center; border-radius: 13px;
-  color: var(--c-ar); background: rgba(255,130,0,.10); border: 1px solid rgba(255,130,0,.26);
-}
-.tetto__ico svg { width: 22px; height: 22px; }
+.tetto__ico { display: block; width: 26px; height: 26px; color: var(--c-ar); }
+.tetto__ico svg { display: block; width: 100%; height: 100%; }
 .tetto__reparti li:hover { border-color: var(--c-bordo-ar); }
 .tetto__payoff {
   font-family: var(--f-display); font-weight: 700;
@@ -296,7 +317,7 @@ html.vuole-3d .hero__mark { opacity: 0; }
 @media (max-width: 700px) {
   .tetto__reparti { grid-template-columns: repeat(2, 1fr); gap: 10px; }
   .tetto__reparti li { padding: 16px 10px; font-size: 15px; }
-  .tetto__ico { width: 40px; height: 40px; }
+  .tetto__ico { width: 24px; height: 24px; }
   /* A due colonne i tiranti puntano al posto sbagliato: escono. */
   .tetto__tir { display: none; }
   .tetto__trave { height: 10px; }
@@ -307,10 +328,21 @@ html.vuole-3d .hero__mark { opacity: 0; }
 .loghi-sez .t-eyebrow { margin-bottom: clamp(28px, 3vw, 44px); }
 
 /* ── TITOLO A DUE VOCI ────────────────────────────────────────────────────
-   Il dispositivo di «WHAT WE DO / Relentlessly»: caps bold + serif italic.
-   Il serif ha bisogno di respiro per i discendenti (g, p).            */
-.duevoci { display: grid; gap: 4px; }
-.duevoci .t-voce { margin-left: .06em; padding-bottom: .06em; }
+   Era il dispositivo del riferimento («WHAT WE DO / Relentlessly»: caps
+   bold + serif italic). Accanto ai titoli in tondo faceva due sistemi di
+   titolo sulla stessa pagina, e il serif tornava più delle due volte che
+   si era dato. Ora è UN solo sistema: lo stesso corpo e lo stesso peso di
+   .t-d2, in due toni. La prima voce afferma, la seconda prosegue un
+   gradino di luce più in basso. Il markup non cambia, cambia il registro. */
+.duevoci { display: grid; gap: 0; }
+.duevoci > .t-caps, .duevoci > .t-voce {
+  font-family: var(--f-display); font-style: normal; font-weight: 500;
+  font-size: clamp(30px, 4.4vw, 56px); line-height: 1.08;
+  letter-spacing: var(--tr-display); text-transform: none;
+  margin: 0; padding: 0; max-inline-size: none;
+}
+.duevoci > .t-caps { color: var(--c-t1); }
+.duevoci > .t-voce { color: var(--c-t3); }
 
 /* ── I NUMERI · il registro ───────────────────────────────────────────────
    Tre voci senza scatola: la prima a tutta altezza a sinistra, le altre
@@ -334,8 +366,10 @@ html.vuole-3d .hero__mark { opacity: 0; }
 .voce:nth-child(1) .voce__num { font-size: clamp(110px, 17vw, 268px); margin-block: var(--s-3) var(--s-2); }
 .voce__lab { font: 500 clamp(17px, 1.4vw, 21px)/1.25 var(--f-display); letter-spacing: -.012em; color: var(--c-t1); max-inline-size: 22ch; }
 /* L'istogramma RAPPRESENTA la quantità: dodici barre per 150 e per 750,
-   otto per 33. L'ultima barra prende la tinta della voce: è il valore
-   di oggi. Una tinta per voce, desaturata: sono dati, non decorazione. */
+   otto per 33. L'ultima barra è il valore di oggi ed è ACCESA. Accesa in
+   arancio solo sul numero protagonista; sulle due voci di conferma la
+   luce è bianca. Il blu e il verde di prima erano due colori fuori
+   palette per dire una cosa che la luce dice già.                     */
 .voce__isto { display: flex; align-items: flex-end; gap: 4px; height: 52px; margin-top: var(--s-4); max-width: 380px; }
 .voce:nth-child(1) .voce__isto { height: 110px; max-width: 520px; gap: 6px; }
 .voce__isto i {
@@ -344,8 +378,8 @@ html.vuole-3d .hero__mark { opacity: 0; }
   transform-origin: bottom center;
 }
 .voce--calda  .voce__isto i:last-child { background: linear-gradient(180deg, #FF8200, rgba(255,130,0,.3)); }
-.voce--fredda .voce__isto i:last-child { background: linear-gradient(180deg, #6E9BEA, rgba(110,155,234,.3)); }
-.voce--verde  .voce__isto i:last-child { background: linear-gradient(180deg, #45C997, rgba(69,201,151,.3)); }
+.voce--fredda .voce__isto i:last-child,
+.voce--verde  .voce__isto i:last-child { background: linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,255,255,.22)); }
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
     .voce__isto i { animation: isto-sale linear both; animation-timeline: view(); animation-range: entry calc(10% + var(--b) * 2.4%) entry 100%; }
@@ -400,20 +434,18 @@ html.vuole-3d .hero__mark { opacity: 0; }
   margin-top: clamp(40px, 4vw, 64px); border-top: 1px solid var(--c-filo-forte);
 }
 .servizio {
-  display: grid; grid-template-columns: 40px 1fr; column-gap: 14px; row-gap: 6px;
+  display: grid; grid-template-columns: 22px 1fr; column-gap: 16px; row-gap: 6px;
   align-content: start;
   padding: 24px 0 28px; border-bottom: 1px solid var(--c-filo);
 }
 .servizio__ico {
-  grid-row: 1 / span 2; width: 40px; height: 40px; display: grid; place-items: center;
-  border-radius: 11px; color: var(--c-ar);
-  background: rgba(255,130,0,.07); border: 1px solid rgba(255,130,0,.18);
-  transition: background-color var(--t-micro) linear, border-color var(--t-micro) linear, translate var(--t-micro) var(--ease-scatto);
+  grid-row: 1 / span 2; width: 22px; height: 22px; margin-top: 1px; color: var(--c-ar);
+  transition: translate var(--t-micro) var(--ease-scatto);
 }
-.servizio__ico svg { width: 20px; height: 20px; }
+.servizio__ico svg { display: block; width: 100%; height: 100%; }
 .servizio__tit { font: 700 16px/1.3 var(--f-display); letter-spacing: -.01em; color: var(--c-t1); padding-top: 2px; }
 .servizio__desc { font: 400 14.5px/1.55 var(--f-display); color: var(--c-t3); }
-.servizio:hover .servizio__ico { background: rgba(255,130,0,.14); border-color: var(--c-bordo-ar); translate: 0 -2px; }
+.servizio:hover .servizio__ico { translate: 0 -2px; }
 .cosa__cta { margin-top: clamp(40px, 4vw, 56px); }
 
 @media (max-width: 1100px) {
@@ -481,6 +513,14 @@ html.vuole-3d .hero__mark { opacity: 0; }
    versione statica è quella che si legge.                             */
 @property --p { syntax: '<number>'; inherits: true; initial-value: 1; }
 .macchina { display: grid; --p: 1; }
+/* La scena si pinna a «top top» (motion.js): la sezione resta ferma sotto
+   la nav e la barra FISSE, quindi il suo respiro superiore deve superarle,
+   o il titolo ci finisce sotto. Con --sez-y a ~106px non bastava più. */
+@media (min-width: 1024px) and (min-height: 700px) {
+  .sez:has(.macchina) {
+    padding-top: max(var(--sez-y), calc(var(--barra-h) + var(--nav-h) + var(--s-6)));
+  }
+}
 .macchina__pista { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; align-items: stretch; }
 .reparto {
   position: relative; overflow: hidden;
@@ -503,8 +543,10 @@ html.vuole-3d .hero__mark { opacity: 0; }
   transition: color var(--t-stato) linear;
 }
 .reparto.is-on::after, .macchina:not(.is-scena) .reparto::after { color: rgba(255,130,0,.24); }
-.reparto .icoq { transition: background-color var(--t-stato) linear, border-color var(--t-stato) linear; }
-.reparto.is-on .icoq, .macchina:not(.is-scena) .icoq { background: rgba(255,130,0,.16); border-color: var(--c-bordo-ar); }
+/* Spenta finché il contatto non arriva: l'icona si accende insieme al
+   bordo, è la luce che passa dentro il reparto.                       */
+.reparto .icoq { color: var(--c-t3); transition: color var(--t-stato) linear; }
+.reparto.is-on .icoq, .macchina:not(.is-scena) .icoq { color: var(--c-ar); }
 .reparto__claim { color: var(--c-t3); }
 .reparto__out { color: var(--c-t3); font-weight: 500; margin-top: auto; padding-top: var(--s-4); border-top: 1px solid var(--c-filo); transition: color var(--t-stato) linear; }
 .reparto.is-on .reparto__out, .macchina:not(.is-scena) .reparto__out { color: var(--c-ar); }
@@ -1086,9 +1128,16 @@ a.indice__cta::after { content: ''; position: absolute; inset: 0; }
 .verde b, .verde em { overflow-wrap: anywhere; }
 .verde em { font: 700 12px/1 var(--f-display); letter-spacing: .06em; text-transform: uppercase; font-style: normal; color: rgba(74,222,128,.8); }
 .verde b { font: 700 18px/1.1 var(--f-display); letter-spacing: -.02em; font-variant-numeric: tabular-nums; color: var(--c-ok); }
-/* Segnaposto dichiarato: il numero non è ancora stato fornito. */
+/* Segnaposto dichiarato: il numero non è ancora stato fornito. Finché è
+   un <div> non deve SEMBRARE un pulsante: bordo tratteggiato, niente
+   fondo pieno, niente stato hover — si legge come uno spazio riservato. */
 .verde__n:not([data-num]) { font-size: 14px; letter-spacing: 0; opacity: .85; }
+div.verde { background: none; border-style: dashed; border-color: rgba(74,222,128,.30); }
+div.verde:hover { background: none; border-color: rgba(74,222,128,.30); }
 .footer__mail { font: 400 15px/1.4 var(--f-display); color: var(--c-t2); overflow-wrap: normal; display: inline-flex; align-items: center; min-height: 32px; }
+/* questo foglio arriva DOPO chrome.css nel bundle: la soglia touch del
+   footer va ripetuta qui, o i 32px qui sopra la annullano */
+@media (pointer: coarse) { .footer__mail { min-height: var(--tap); } }
 .footer__sedi { color: var(--c-t3); overflow-wrap: anywhere; }
 .footer__sedi b { color: var(--c-t2); font-weight: 500; }
 .footer__social svg { width: 18px; height: 18px; }

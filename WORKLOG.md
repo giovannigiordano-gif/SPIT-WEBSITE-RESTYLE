@@ -75,12 +75,14 @@ Rifiuto: blocchi impilati, la stessa dissolvenza su ogni sezione, card tutte ugu
 
 **Palette (invariata nel DNA, nuovi ruoli).** Fondo `#161519` / nero palco `#020202`; arancio `#FF8200`
 come *luce*, non come vernice (<3% dei pixel); famiglia calda `#FF9A38/#E87300/#B85B00/#8A4300`; una sola
-zona fredda `#1E3A6E`; `#CC3366` solo per la perdita. Strategia: palco neutro + una luce che si sposta.
+zona fredda (era `#1E3A6E`, nel giro 2 spenta in acciaio `rgba(44,58,84)` su `#111318`); `#CC3366` solo
+per la perdita. Strategia: palco neutro + una luce che si sposta.
 
-**Tipografia.** DM Sans (display 500, colpo 700) + Instrument Serif italic come contrappunto, max due usi
-per pagina: entrambe vincolate dal cliente. Scala fluida con `clamp()`, minimo 12px per le etichette,
-16px per il corpo. I titoli chiave si compongono parola per parola (split fatto al build, non a runtime:
-niente CLS, niente bug di autoSplit).
+**Tipografia.** DM Sans (display 500, colpo 700), e solo DM Sans. *(Il piano iniziale teneva Instrument
+Serif italic come contrappunto, max due usi per pagina; nel giro 2 di verifica è stato ritirato: in home
+tornava tre volte e, col maiuscolo, faceva un secondo sistema di titoli — vedi §4.)* Scala fluida con
+`clamp()`, minimo 12px per le etichette, 16px per il corpo. I titoli chiave si compongono parola per
+parola (split fatto al build, non a runtime: niente CLS, niente bug di autoSplit).
 
 **Ritmo.** Scala 8px (4·8·12·16·24·32·48·64·96·128·168). Le sezioni non dipingono più un fondo proprio:
 stanno su un **palco continuo** (fondo fisso con sei atmosfere in dissolvenza incrociata guidate dalla
@@ -119,7 +121,8 @@ lo scroll smussato rompe find-in-page, tastiera e lettori di schermo; lo smoothi
 - [x] 2 · Sezioni della home una per una — `f72f27e`
 - [x] 3 · Pagine interne — `b6b6716`
 - [x] 4 · Movimento + 3D (hero WebGL, torcia, muro, passaggio fra pagine) — `e1c03bf`
-- [x] 5 · Performance (Lighthouse mobile ≥ 90) e accessibilità
+- [x] 5 · Performance (Lighthouse mobile ≥ 90) e accessibilità — `040ac40`, tastiera e reduced-motion
+  `1c57c1a`, detector impeccable `6d049fc`
 
 **Fase 5 — performance e accessibilità** (Lighthouse 12.6.1, profilo mobile, server locale con brotli)
 
@@ -145,7 +148,59 @@ Accessibilità: numeri fantasma come contenuto generato dal CSS, `role="listitem
 del carosello fuori dal tab order, indice del diagramma a contrasto pieno, e soprattutto le rivelazioni
 a scroll che finiscono a `entry 100%` e — per le card con testo — senza dissolvenza: prima un testo
 visibile in fondo alla prima schermata restava a metà opacità (1,8:1) finché non si scorreva.
-- [ ] 6 · Due giri completi verifica → correzione a tutti i breakpoint, prima/dopo
+- [x] 6 · Due giri completi verifica → correzione a tutti i breakpoint, prima/dopo — giro 1 `fc55572`,
+  giro 2 (vedi sotto)
+
+**Fase 6 — i due giri di verifica**
+
+*Giro 1* (audit a 5 larghezze, passeggiate a scroll 1440/1024/390, test funzionali, detector impeccable):
+bersagli touch a 44px (chip, frecce, barra), CTA fissa solo sotto i 620px, link morto `#carta` del
+footer diventato segnaposto dichiarato, bagliori decorativi tolti, niente bianco su arancio nel menu.
+
+*Giro 2* — revisione indipendente (agente `impeccable-finish-reviewer`, contro il contratto di direzione)
++ nuove passeggiate a scroll. Ogni rilievo è stato **ricontrollato sullo stato attuale** prima di
+correggere: due erano su catture vecchie (doppio CTA a 1024 già risolto nel giro 1; mail del footer già
+spezzata dopo la @), uno andava contro l'HANDOFF (vedi §4, fregio). Corretti:
+1. **Icone dentro quadratini tinti** (tetto, macchina, indice dei servizi): ora icone nude. Il cliente
+   aveva chiesto «niente quadratini» sulle card dei reparti; nella macchina l'icona resta spenta e si
+   accende col bordo quando il contatto arriva — la luce che passa *dentro* il reparto.
+2. **Due sistemi di titolo** (CAPS + serif / tondo con parola arancione): uno solo. I titoli a due voci
+   sono DM Sans 500 al corpo di `.t-d2`, seconda voce in `--c-t3`. Instrument Serif ritirato.
+3. **Nove parole arancioni nei titoli**: l'arancio resta nell'H1 di ogni pagina e nel payoff del tetto;
+   nei titoli di sezione la parola torna del colore del titolo (markup e copy invariati).
+4. **Hero 3D**: il marchio montato leggeva `#E57A28` (nebbia + tone mapping) → materiale fuori da
+   entrambi, misurato a schermo `#FD7F0E`. I cubi in spirale passavano dietro «fattura» → *radura*:
+   maschera ellittica misurata sui nodi di testo, più un disco pieno sul marchio perché non si spenga.
+   Stessa radura sul campo DOM (mobile/fallback): a 360px i contatti finivano accanto al testo.
+5. **Riga d'identità sopra l'H1** («Agenzia 4 in 1 · dal 2020 · Milano»): scesa al piede dell'hero come
+   colophon (stesso testo). L'occhiello di pagina non è più una pill tinta: riga con la particella.
+6. **Due loghi rotti nel marquee** (`c-16`, `c-24`): la ricolorazione in bianco aveva riempito il fondo
+   opaco → quadrato e cerchio bianchi. Rigenerati dagli originali con una chiave sulla luminosità.
+7. **Istogramma dei numeri** in blu e verde fuori palette → ultima barra accesa in arancio solo sul
+   numero protagonista, bianca sulle due voci di conferma.
+8. **Vuoti fra le sezioni**: i padding di sezioni vicine si sommavano (272px a 1440) → `--sez-y` da
+   136 a ~106px a 1440; footer meno distante dal muro. Zona fredda dei numeri meno satura (si leggeva
+   come un'altra pagina). Numero verde segnaposto tratteggiato: non sembra più un pulsante.
+
+Trovati dalla verifica *dopo* le correzioni, e corretti nello stesso giro:
+9. **La scena pinnata finiva sotto la nav**: il pin parte a `top top` e con il nuovo `--sez-y` il titolo
+   cadeva sotto nav + barra fisse (106 < 121px). La sezione che contiene la macchina ora ha un respiro
+   superiore di almeno barra + nav + 32px. Misurato: titolo 32px sotto la nav a 1440×900, 1280×720,
+   1024×800 e su `metodo.html`; la scena entra intera anche a 1280×720.
+10. **Link e-mail del footer a 32px su touch** (768/390/360, tutte le pagine): la soglia `pointer:
+   coarse` di `chrome.css` veniva annullata da `sections.css`, che nel bundle arriva dopo. Ripetuta lì.
+
+Esito della verifica del giro 2:
+- **Audit** (`qa/audit-r2`, 8 pagine × 1440/1024/768/390/360, riassunto con `tools/qa/riassunto.mjs`):
+  zero overflow orizzontale, zero elementi che sporgono, zero testi sotto i 12px, zero immagini senza
+  alt, zero errori di console. Unico rilievo il punto 10. Una richiesta `ERR_ABORTED` del logo grande
+  è il caricamento lazy interrotto dal cambio di pagina dell'audit, non un errore del sito.
+- **Test funzionali** (`tools/qa/funzioni.js`): 15/15 + 15 ancore + 16 link interni a 200, zero errori JS.
+- **Lighthouse mobile**: Home 96/100/100/100 (LCP 2,8 s, CLS 0, TBT 40 ms) · Metodo 96/100/100/100 (LCP
+  2,1 s) · Eventi 96/100/100/100 (LCP 2,1 s). Le differenze di ±2 punti rispetto alla fase 5 sono
+  rumore fra due esecuzioni sullo stesso server locale.
+- **Prima/dopo** dei punti chiave: `docs/prima-dopo/01…08` (`node tools/qa/prima-dopo.mjs`; il «prima»
+  è ritagliato dall'audit iniziale `qa/audit-prima`, il «dopo» è catturato dal vivo allo stesso scroll).
 
 ### Cosa è stato fatto, fase per fase (skill applicate)
 
@@ -183,6 +238,30 @@ Candidatura), indice (Fatturare³, Team), manifesto ed elenco numerato (DNA), mu
 - Schede-risultato: grafico a unità con la particella (un quadrato = 100.000 €) al posto della foto:
   rappresenta solo i due dati dichiarati, non inventa valori intermedi.
 
+*Giro 2 di verifica*
+- **Un solo sistema di titolo, una sola famiglia.** Il dispositivo CAPS + serif era del riferimento
+  (sharpify), non del brand: il cliente aveva già chiesto «tutto DM Sans» per le meta. Il markup
+  (`.duevoci`, `.t-caps`, `.t-voce`) resta, cambia solo il registro: chi riprende il codice non trova
+  classi sparite.
+- **Arancio nei titoli: solo nell'H1 e nel payoff del tetto.** Regola scritta in `type.css`
+  (`h2 .ar { color: inherit }`), non pagina per pagina: vale anche per i titoli futuri.
+- **Rilievi del revisore NON applicati, e perché:**
+  - *Il fregio FATTURARE "consuma" il muro 12.000px prima*: il fregio è il punto 3 della sequenza della
+    home nell'HANDOFF (§5), quindi struttura concordata. Resta.
+  - *«Con liberatoria» stampato su schede provvisorie* e la nota «le altre non hanno liberatoria»:
+    sono copy del prototipo consegnato, e i dati sono già marcati `prov:true` e listati fra i bloccanti
+    (HANDOFF §7). Il brief vieta di cambiare il copy → **da decidere insieme** (§6).
+  - *Spostare gli occhielli nella nav sotto i 1024px*: troppo per un giro di rifinitura e fragile
+    sui lettori di schermo. Ho invece abbassato la didascalia di margine da 1100 a **1024px**.
+  - *Foto delle mani dentro le card della macchina*: le quattro mani sono già i quattro reparti di
+    «Cosa facciamo», cinque schermate sopra; ripeterle nella scena pinnata la appesantisce. Al loro
+    posto la luce: icona e bordo si accendono al passaggio del contatto.
+  - *Numero verde in un colore neutro*: il verde è la convenzione italiana del numero verde e l'HANDOFF
+    lo descrive così. Finché manca il numero il blocco è tratteggiato e senza hover (segnaposto
+    dichiarato, non un pulsante).
+- **Lo zero in `#CC3366`** del contro-esempio resta: è l'unico numero "di perdita" del sito ed è
+  semantico, non decorativo (token `--c-rottura`).
+
 ## 5 · Problemi trovati durante il lavoro
 
 - Chrome taglia gli screenshot oltre 16.384px e ricomincia dall'alto → audit a tranche da 8.000px.
@@ -198,8 +277,41 @@ Candidatura), indice (Fatturare³, Team), manifesto ed elenco numerato (DNA), mu
   e una guardia stretta su `unhandledrejection` tiene pulita la console.
 - Ho tolto due etichette che avevo aggiunto io ("Articolo 01…", "Ruolo aperto"): erano copy nuovo e la
   seconda implicava che le posizioni fossero aperte.
+- Due loghi clienti (`c-16`, `c-24`) erano rotti già nel prototipo: nella ricolorazione in bianco il fondo
+  opaco dell'originale era diventato un quadrato/cerchio pieno. Rigenerati da `assets-src/clients-originali`
+  con alpha = luminosità (ffmpeg `geq`), ritagliati sul contenuto, larghezza aggiornata in `LOGHI`.
+- Il marchio 3D usciva corallo: la nebbia della scena ne mangiava il 16% e il tone mapping lo spingeva
+  verso il salmone. Misurato a schermo con ffmpeg prima e dopo (`#E57A28` → `#FD7F0E`).
+- `Range.getBoundingClientRect()` su un elemento con figli a blocco restituisce la larghezza della
+  colonna: la radura del 3D si misura sui **nodi di testo**, che sono stretti sui glifi.
+- A metà sessione il dev server si è fermato e la sessione di Playwright CLI si è chiusa: riavviati
+  (`preview_start salesprocess`, `playwright-cli open`). Lo script dei prima/dopo falliva per lo spazio
+  nel percorso del progetto (`Nuovo sito spit`) passato a `playwright-cli.cmd` via shell.
+- Catture della macchina dopo averla superata: il pin di GSAP sposta il `top` dell'elemento della durata
+  del pin, quindi `top + scrollY` misurato a valle punta oltre la scena. Si misura dall'alto.
 
 ## 6 · Da decidere insieme
 
-- Installare Python 3.12 (serve agli script di img2threejs e ui-ux-pro-max).
-- I bloccanti di contenuto dell'HANDOFF §7 restano aperti (numero verde, liberatorie, passaggi, libri…).
+**Azioni che non ho fatto perché irreversibili o fuori dal mio perimetro**
+- **Merge di `restyling-wow` su `main` e qualunque deploy**: non fatti. Il branch è pronto da rivedere.
+- **Installare Python 3.12** (serve agli script di img2threejs e ui-ux-pro-max): richiede di accettare
+  una licenza sulla macchina. La ricostruzione 3D è stata fatta seguendo il metodo a mano (WORKLOG §3).
+- `src/assets/fonts/instrument-serif-italic-latin.woff2` non è più usato: non l'ho cancellato.
+
+**Contenuti — i bloccanti dell'HANDOFF §7, tutti ancora aperti**
+- **Numero verde** (`const TEL` in cima a `tools/build.mjs`): il blocco del footer è pronto, tratteggiato
+  finché manca il numero.
+- **Schede-risultato reali con liberatoria firmata.** ⚠ Oggi le sei schede sono provvisorie ma ognuna
+  stampa «Fonte: CRM cliente · agg. 08.2026 · con liberatoria», e la nota sotto il nastro dice che le
+  altre non hanno liberatoria. È copy del prototipo e non l'ho toccato, ma **non può andare online
+  così**: o arrivano le liberatorie, o la riga va riscritta (proposta: «Dato provvisorio · in attesa di
+  liberatoria» quando `prov:true`).
+- I tre **passaggi di consegna** (chi, cosa, SLA, strumento): sono il contenuto della scena pinnata.
+- **Fascicoli clienti**, **candidature per trimestre**, **elenco reale dei 33 settori**, **durata media del
+  rapporto**, **ragione sociale e P.IVA** (footer), **certificato ISO** (il link «Certificazione» è un
+  segnaposto dichiarato).
+- **URL di podcast, articoli e libri** (titoli e copertine), oggi marcati `.todo` in `fatturare.html`.
+
+**Decisione con il cliente**
+- **Lo stack** (HANDOFF §7): statico com'è, o WordPress. Su WordPress la scena pinnata e l'hero 3D sono
+  i primi elementi a rischio; tutto il resto è CSS e porta bene.
