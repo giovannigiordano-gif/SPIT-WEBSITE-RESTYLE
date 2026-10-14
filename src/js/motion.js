@@ -58,6 +58,24 @@
     addEventListener('scroll', f, { passive: true }); f();
   }
 
+  /* ── LA SCENA 3D DELL'HERO ──────────────────────────────────────────────
+     Solo dove il <head> ha acceso html.vuole-3d (desktop, puntatore fine,
+     niente reduced-motion, niente save-data). Si scarica DOPO il load e in
+     idle: three.js non tocca mai il percorso critico. Se qualcosa va
+     storto (niente WebGL, CDN irraggiungibile) la classe si spegne e torna
+     la versione DOM, che è già in pagina.                              */
+  const radice = document.documentElement, scena = $('#hero-scena');
+  if (scena && radice.classList.contains('vuole-3d')) {
+    const torna = () => { if (!$('.hero.is-3d')) radice.classList.remove('vuole-3d'); };
+    const parti = () => import('/js/scena3d.js')
+      .then(m => m.avvia(scena))
+      .then(() => radice.classList.add('vuole-3d'))
+      .catch(() => radice.classList.remove('vuole-3d'));
+    const quandoLibero = () => ('requestIdleCallback' in window ? requestIdleCallback(parti, { timeout: 1200 }) : setTimeout(parti, 250));
+    if (document.readyState === 'complete') quandoLibero(); else addEventListener('load', quandoLibero, { once: true });
+    setTimeout(torna, 6000);
+  }
+
   /* ── MENU MOBILE ──────────────────────────────────────────────────────── */
   const burger = $('#burger'), menu = $('#menu');
   if (burger && menu) {
@@ -289,6 +307,59 @@
       pend = { n, x: Math.round(e.clientX - r.left), y: Math.round(e.clientY - r.top) };
       if (!rafLuce) rafLuce = requestAnimationFrame(scriviLuce);
     }, { passive: true });
+  }
+
+  /* ── LA TORCIA, LA PROFONDITÀ, LA LUCE SULLE LETTERE ────────────────────
+     Tre effetti di cursore, un solo linguaggio: la luce arancione che si
+     sposta. Solo con il mouse e senza reduced-motion; ognuno scrive solo
+     transform o due custom property, in rAF, mai per evento.          */
+  if (matchMedia('(hover: hover) and (pointer: fine)').matches && !RM()) {
+    /* 1 · la torcia sul palco: segue il cursore con un filo di ritardo
+       (lerp), e il ciclo si ferma da solo quando ha raggiunto il punto. */
+    const torcia = $('.palco__torcia');
+    if (torcia) {
+      let tx = innerWidth / 2, ty = innerHeight * .4, cx = tx, cy = ty, rafT = 0;
+      const segui = () => {
+        cx += (tx - cx) * .14; cy += (ty - cy) * .14;
+        torcia.style.translate = `${cx.toFixed(1)}px ${cy.toFixed(1)}px`;
+        rafT = Math.abs(tx - cx) + Math.abs(ty - cy) > .5 ? requestAnimationFrame(segui) : 0;
+      };
+      addEventListener('pointermove', (e) => {
+        if (e.pointerType !== 'mouse') return;
+        tx = e.clientX; ty = e.clientY;
+        radice.classList.add('ha-cursore');
+        if (!rafT) rafT = requestAnimationFrame(segui);
+      }, { passive: true });
+      document.addEventListener('pointerleave', () => radice.classList.remove('ha-cursore'));
+    }
+
+    /* 2 · la profondità nei pannelli dei reparti: la fotografia scivola di
+       pochi pixel in senso opposto al cursore, il testo resta fermo. È la
+       parallasse fra due piani, non un tilt della card.                */
+    let pend = null, rafP = 0;
+    const scriviP = () => { rafP = 0; if (!pend) return;
+      pend.n.style.setProperty('--fx', pend.x + 'px'); pend.n.style.setProperty('--fy', pend.y + 'px'); pend = null; };
+    document.addEventListener('pointermove', (e) => {
+      const n = e.target.closest?.('.pannello'); if (!n) return;
+      const r = n.getBoundingClientRect();
+      pend = { n, x: (((e.clientX - r.left) / r.width) - .5) * -14, y: (((e.clientY - r.top) / r.height) - .5) * -10 };
+      if (!rafP) rafP = requestAnimationFrame(scriviP);
+    }, { passive: true });
+    $$('.pannello').forEach(n => n.addEventListener('pointerleave', () => { n.style.setProperty('--fx', '0px'); n.style.setProperty('--fy', '0px'); }));
+
+    /* 3 · la luce che passa sulle lettere del muro: le coordinate sono
+       locali a ogni riga, così la luce attraversa le tre parole insieme. */
+    const muro = $('#muro-righe');
+    if (muro) {
+      const righe = $$('.t-muro', muro);
+      let pm = null, rafM = 0;
+      const scriviM = () => { rafM = 0; if (!pm) return;
+        righe.forEach(r => { const b = r.getBoundingClientRect();
+          r.style.setProperty('--lx', (pm.x - b.left) + 'px'); r.style.setProperty('--ly', (pm.y - b.top) + 'px'); });
+        pm = null; };
+      muro.addEventListener('pointermove', (e) => { pm = { x: e.clientX, y: e.clientY }; if (!rafM) rafM = requestAnimationFrame(scriviM); }, { passive: true });
+      muro.addEventListener('pointerleave', () => righe.forEach(r => r.style.setProperty('--lx', '-600px')));
+    }
   }
 
   /* ── LA MAPPA A FACCIATA ────────────────────────────────────────────────

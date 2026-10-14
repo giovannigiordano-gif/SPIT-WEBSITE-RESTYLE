@@ -1,0 +1,16 @@
+<!doctype html><meta charset="utf-8"><title>Marchio 3D — verifica img2threejs</title><link rel="icon" href="/assets/brand/favicon.svg">
+<style>body{margin:0;background:#020202;display:grid;grid-template-columns:1fr 1fr;height:100vh}
+.riq{position:relative;display:grid;place-items:center}.riq img{height:62vh}
+#h{position:absolute;inset:0}#h canvas{position:absolute;left:0;top:0;width:100%;height:calc(100% + 26vh)}
+p{position:absolute;bottom:12px;left:0;right:0;text-align:center;color:#888;font:13px system-ui}</style>
+<div class="riq"><svg viewBox="0 0 60 100" style="height:46vh" fill="#FF8200"><rect x="23.6" y="0" width="30.4" height="30.4" rx="6.7"/><rect x="0" y="30.4" width="25.2" height="25.2" rx="5.5"/><rect x="21.4" y="53.8" width="21.0" height="21.0" rx="4.6"/><rect x="40.6" y="72.6" width="17.4" height="17.4" rx="3.8"/><rect x="29.4" y="85.8" width="14.2" height="14.2" rx="3.1"/></svg><p>riferimento: mark.svg (misurato sul PNG)</p></div>
+<div class="riq"><section class="hero" style="position:absolute;inset:0 0 auto 0;height:62vh"><div id="h"></div></section><p>ricostruzione procedurale Three.js</p></div>
+<script type="module">
+/* Verifica di confronto (img2threejs, passo "verify"): il marchio montato,
+   frontale, accanto al riferimento. Pagina di sviluppo, non servita in nav. */
+import { avvia } from '/js/scena3d.js';
+const host = document.getElementById('h');
+window.scrollY = 99999;
+const s = await avvia(host, { hero: host.closest('.hero') });
+s.camera.position.set(0, 0, 40);
+</script>

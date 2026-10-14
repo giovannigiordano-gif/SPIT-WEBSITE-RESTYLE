@@ -125,7 +125,7 @@ function spezza(html) {
    incrociata (sfondi.css). motion.js accende quella della sezione al
    centro del viewport; l'html nasce già su "nero", il palco dell'apertura. */
 const ATMO = ['nero', 'brace', 'alba', 'radente', 'notte', 'pozzo', 'fuoco']
-const palco = () => `<div class="palco" aria-hidden="true">${ATMO.map(a => `<i data-a="${a}"></i>`).join('')}</div>`
+const palco = () => `<div class="palco" aria-hidden="true">${ATMO.map(a => `<i data-a="${a}"></i>`).join('')}<b class="palco__torcia"></b></div>`
 
 /* La fascia è UN link: prima il bersaglio era la sola pill, che sotto i
    560px si riduceva a un ovale nero di 20×26px.                        */
@@ -249,6 +249,17 @@ const shell = ({ title, desc, slug, body }) => `<!doctype html>
 <meta name="description" content="${desc}">
 <meta name="theme-color" content="#161519">
 <link rel="icon" href="/assets/brand/favicon.svg">
+<!-- Il passaggio a scalinata fra le pagine (motion.css, @view-transition).
+     Per catturare la pagina vecchia il browser deve disegnarne un
+     fotogramma: in una scheda nascosta o sotto automazione non succede, e la
+     navigazione resterebbe ferma fino al timeout di 4 secondi. Lì il
+     passaggio si SALTA subito. Le promesse rifiutate si consumano qui, prima
+     del primo paint, così la console resta pulita. -->
+<script>(function(){function n(){}function p(v){['ready','finished','updateCallbackDone'].forEach(function(k){if(v[k]&&v[k].catch)v[k].catch(n)})}addEventListener('pageswap',function(e){var v=e.viewTransition;if(!v)return;p(v);if(document.visibilityState!=='visible'||navigator.webdriver)v.skipTransition()});addEventListener('pagereveal',function(e){if(e.viewTransition)p(e.viewTransition)});addEventListener('unhandledrejection',function(e){var r=e.reason;if(r&&r.name==='InvalidStateError'&&/Transition was aborted|ViewTransition/.test(r.message))e.preventDefault()})})()</script>
+${slug === 'home' ? `<!-- Il 3D dell'hero è solo per desktop con puntatore fine e senza
+     reduced-motion. Il segnale va messo PRIMA del primo paint: altrimenti il
+     marchio DOM si monterebbe e poi sparirebbe nei cubi della scena 3D. -->
+<script>try{if(matchMedia('(min-width:1024px) and (pointer:fine) and (prefers-reduced-motion:no-preference)').matches&&!(navigator.connection&&navigator.connection.saveData))document.documentElement.classList.add('vuole-3d')}catch(e){}</script>` : ''}
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

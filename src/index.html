@@ -7,6 +7,17 @@
 <meta name="description" content="Pubblicità, marketing a risposta diretta, reclutamento e formazione della rete vendita. Quattro reparti sotto lo stesso tetto, allineati su un numero solo: il tuo fatturato.">
 <meta name="theme-color" content="#161519">
 <link rel="icon" href="/assets/brand/favicon.svg">
+<!-- Il passaggio a scalinata fra le pagine (motion.css, @view-transition).
+     Per catturare la pagina vecchia il browser deve disegnarne un
+     fotogramma: in una scheda nascosta o sotto automazione non succede, e la
+     navigazione resterebbe ferma fino al timeout di 4 secondi. Lì il
+     passaggio si SALTA subito. Le promesse rifiutate si consumano qui, prima
+     del primo paint, così la console resta pulita. -->
+<script>(function(){function n(){}function p(v){['ready','finished','updateCallbackDone'].forEach(function(k){if(v[k]&&v[k].catch)v[k].catch(n)})}addEventListener('pageswap',function(e){var v=e.viewTransition;if(!v)return;p(v);if(document.visibilityState!=='visible'||navigator.webdriver)v.skipTransition()});addEventListener('pagereveal',function(e){if(e.viewTransition)p(e.viewTransition)});addEventListener('unhandledrejection',function(e){var r=e.reason;if(r&&r.name==='InvalidStateError'&&/Transition was aborted|ViewTransition/.test(r.message))e.preventDefault()})})()</script>
+<!-- Il 3D dell'hero è solo per desktop con puntatore fine e senza
+     reduced-motion. Il segnale va messo PRIMA del primo paint: altrimenti il
+     marchio DOM si monterebbe e poi sparirebbe nei cubi della scena 3D. -->
+<script>try{if(matchMedia('(min-width:1024px) and (pointer:fine) and (prefers-reduced-motion:no-preference)').matches&&!(navigator.connection&&navigator.connection.saveData))document.documentElement.classList.add('vuole-3d')}catch(e){}</script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -23,7 +34,7 @@
 <link rel="stylesheet" href="/css/interazioni.css">
 </head>
 <body data-pagina="home">
-<div class="palco" aria-hidden="true"><i data-a="nero"></i><i data-a="brace"></i><i data-a="alba"></i><i data-a="radente"></i><i data-a="notte"></i><i data-a="pozzo"></i><i data-a="fuoco"></i></div>
+<div class="palco" aria-hidden="true"><i data-a="nero"></i><i data-a="brace"></i><i data-a="alba"></i><i data-a="radente"></i><i data-a="notte"></i><i data-a="pozzo"></i><i data-a="fuoco"></i><b class="palco__torcia"></b></div>
 <a class="skip" href="#main">Salta al contenuto</a>
 
 <div class="barra" id="barra">
@@ -104,6 +115,7 @@
       <i class="ar" style="--x:71%;--y:91%;--s:12px;--t:12s"></i>
     </div>
     <svg class="hero__mark" viewBox="0 0 60 100" fill="none">
+      <defs><linearGradient id="hero-gm" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFA544"/><stop offset=".5" stop-color="#FF8200"/><stop offset="1" stop-color="#D96400"/></linearGradient></defs>
       <rect style="--i:4" x="29.4" y="85.8" width="14.2" height="14.2" rx="3.1"/>
       <rect style="--i:3" x="40.6" y="72.6" width="17.4" height="17.4" rx="3.8"/>
       <rect style="--i:2" x="21.4" y="53.8" width="21.0" height="21.0" rx="4.6"/>

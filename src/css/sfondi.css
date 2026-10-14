@@ -103,6 +103,20 @@ html[data-atmo="fuoco"]   .palco > [data-a="fuoco"] {
     linear-gradient(180deg, #2A1510 0%, #161519 80%);
 }
 
+/* ── LA TORCIA ────────────────────────────────────────────────────────────
+   Solo con il mouse: una luce arancione larga e fioca segue il cursore sul
+   palco, come una torcia in una stanza buia. Sta DIETRO al contenuto
+   (è dentro il palco) e si muove solo con translate, scritto da motion.js
+   in rAF: compositor, zero repaint. 6% di intensità: si sente, non si vede. */
+.palco__torcia {
+  position: absolute; left: 0; top: 0;
+  width: 1000px; height: 1000px; margin: -500px 0 0 -500px; border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(255,140,30,.075), rgba(255,130,0,.03) 46%, rgba(255,130,0,0) 72%);
+  opacity: 0; transition: opacity 1.2s linear;
+  will-change: translate;
+}
+html.ha-cursore .palco__torcia { opacity: 1; }
+
 /* Sul freddo l'arancio vibra di più: lì l'accento scende di un gradino. */
 html[data-atmo="notte"] .sf--notte .ar { color: var(--c-ar-hot); }
 

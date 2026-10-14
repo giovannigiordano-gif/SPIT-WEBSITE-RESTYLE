@@ -79,8 +79,11 @@
   translate: -50% 26%; overflow: visible;
   filter: drop-shadow(0 0 34px rgba(255,130,0,.38)) drop-shadow(0 18px 30px rgba(0,0,0,.55));
 }
+/* Ogni blocco ha la sua luce (gradiente in objectBoundingBox): chiaro in
+   alto a sinistra, ombra in basso a destra. È il volume della scena 3D
+   portato sul telefono senza un byte di WebGL. */
 .hero__mark rect {
-  fill: var(--c-ar);
+  fill: url(#hero-gm);
   transform-box: fill-box; transform-origin: 50% 100%;
   animation: gradino var(--t-maschera) var(--ease-salita) both;
   animation-delay: calc(900ms + (4 - var(--i)) * 110ms);
@@ -92,6 +95,19 @@
   .hero { min-height: auto; padding-bottom: 170px; }
   .hero__mark { width: 92px; translate: -50% 18%; }
 }
+
+/* ── LA SCENA WEBGL (scena3d.js, solo desktop) ────────────────────────────
+   La tela SBORDA sotto l'hero di 26vh: il marchio montato sta a cavallo
+   del bordo e scende nella sezione successiva. Entra in dissolvenza sopra
+   la versione DOM, che si spegne.                                    */
+.hero__canvas {
+  position: absolute; left: 0; top: 0; width: 100%; height: calc(100% + 26vh);
+  opacity: 0; transition: opacity 1.4s var(--ease-salita);
+  pointer-events: none;
+}
+.hero.is-3d .hero__canvas { opacity: 1; }
+html.vuole-3d .hero__mark { opacity: 0; }
+.hero.is-3d .hero__campo i { opacity: 0; transition: opacity .9s linear; }
 
 /* ── NASTRO DELLE PROVE ───────────────────────────────────────────────────
    Il carosello che raccoglie la scalinata dell'hero: parte con un respiro
@@ -769,6 +785,23 @@ a.indice__cta::after { content: ''; position: absolute; inset: 0; }
 }
 .muro__righe .mask { padding-inline: .04em; }
 .t-muro--ar { color: var(--c-ar); }
+/* La luce sulle lettere: con il mouse, il punto in cui passi si accende
+   d'arancio dentro le tre righe (background-clip: text). Le coordinate
+   sono proprietà registrate, quindi la luce SCIVOLA invece di saltare. */
+@property --lx { syntax: '<length>'; inherits: false; initial-value: -600px; }
+@property --ly { syntax: '<length>'; inherits: false; initial-value: 50px; }
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .muro__righe .t-muro {
+    background: radial-gradient(300px 220px at var(--lx) var(--ly), #FFC27A 0%, #FF9A38 22%, #F8F8F8 58%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    transition: --lx .5s var(--ease-salita), --ly .5s var(--ease-salita);
+  }
+  /* background-IMAGE, non lo shorthand: `background` azzererebbe il
+     background-clip e la riga diventerebbe un rettangolo arancione pieno. */
+  .muro__righe .t-muro--ar {
+    background-image: radial-gradient(300px 220px at var(--lx) var(--ly), #FFE6C4 0%, #FFB45C 24%, #FF8200 58%);
+  }
+}
 .muro__piede { display: grid; gap: var(--s-5); justify-items: center; margin-top: clamp(40px, 5vw, 72px); position: relative; }
 .muro__piede .t-deck { margin-inline: auto; max-inline-size: 52ch; }
 

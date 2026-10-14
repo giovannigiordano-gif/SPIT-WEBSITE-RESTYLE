@@ -96,6 +96,26 @@
    quadrati che la attraversano 1,5s dopo il primo paint leggono come un
    errore di rendering, non come una firma.                                */
 
+/* ── IL PASSAGGIO FRA LE PAGINE · la scalinata ───────────────────────────
+   View Transitions fra documenti (Chrome 126+, gli altri navigano e basta).
+   La pagina nuova sale da sotto con il bordo a QUATTRO GRADINI — il gesto
+   del marchio applicato alla navigazione — mentre la vecchia si ritira.
+   Barra e nav hanno un nome proprio: restano ferme, si muove solo la
+   pagina.                                                             */
+@view-transition { navigation: auto; }
+.barra { view-transition-name: barra; }
+.nav   { view-transition-name: nav; }
+::view-transition-old(root) { animation: vt-esce 420ms var(--ease-uscita) both; }
+::view-transition-new(root) { animation: vt-entra 760ms var(--ease-salita) both; }
+@keyframes vt-esce { to { opacity: .2; translate: 0 -3vh; } }
+@keyframes vt-entra {
+  from { clip-path: polygon(0 100%, 25% 100%, 25% 112%, 50% 112%, 50% 124%, 75% 124%, 75% 136%, 100% 136%, 100% 136%, 0 136%); }
+  to   { clip-path: polygon(0 -36%, 25% -36%, 25% -24%, 50% -24%, 50% -12%, 75% -12%, 75% 0, 100% 0, 100% 100%, 0 100%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  @view-transition { navigation: none; }
+}
+
 /* ── IL MURO · FATTURARE ×3 ───────────────────────────────────────────────
    Zero JS, compositor thread. Per la sensazione di «pressa» si anima
    scaleY sul wrapper: composite, zero relayout.
