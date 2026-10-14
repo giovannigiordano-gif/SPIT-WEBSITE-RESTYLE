@@ -61,7 +61,7 @@
    riempie. Il numero sta nel titolo della colonna: un lettore di schermo
    legge «4 fornitori da coordinare», non una cifra orfana.            */
 .conto {
-  display: grid; grid-template-columns: minmax(0, 3.4fr) minmax(0, 5fr) minmax(0, 3.6fr);
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
   column-gap: clamp(28px, 4vw, 72px); row-gap: var(--s-7);
   padding-top: clamp(28px, 2.6vw, 40px); border-top: 1px solid var(--c-filo-forte);
 }
@@ -81,6 +81,9 @@
 .conto__fra svg { width: 14px; height: 14px; color: var(--c-rottura); }
 .conto__l--rotture b { font: 500 clamp(19px, 1.5vw, 22px)/1.25 var(--f-display); letter-spacing: -.01em; color: var(--c-t1); }
 .conto__nota { font: 400 15px/1.55 var(--f-display); color: var(--c-t3); max-inline-size: 34ch; }
+/* lo zero è la battuta finale del conto: la sua riga ha il corpo dei
+   passaggi rotti, non quello di una nota */
+.conto__c--zero .conto__nota { font: 500 clamp(19px, 1.5vw, 22px)/1.3 var(--f-display); letter-spacing: -.01em; color: var(--c-t1); max-inline-size: 24ch; }
 @media (max-width: 900px) {
   /* in colonna ogni numero apre la sua fascia, col suo filo */
   .conto { grid-template-columns: minmax(0, 1fr); row-gap: var(--s-6); padding-top: 0; border-top: 0; }

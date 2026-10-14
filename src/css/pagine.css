@@ -63,7 +63,9 @@
 .dichiarazione__testo { font: 500 clamp(28px, 3.2vw, 48px)/1.1 var(--f-display); letter-spacing: -.02em; color: var(--c-t1); max-inline-size: 18ch; }
 @media (max-width: 820px) { .qualita { grid-template-columns: 1fr; } }
 
-/* I dieci principi: il numero È informazione (sono dieci), quindi grande. */
+/* I dieci principi: il numero è informazione (sono dieci), ma a guidare è
+   il titolo. Venti cifre arancioni da 56px urlavano più dei principi
+   (giro 4): il numero sta un gradino sotto e si accende al passaggio. */
 .comand { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: clamp(32px, 5vw, 96px); border-top: 1px solid var(--c-filo-forte); }
 .com {
   position: relative; display: grid; grid-template-columns: clamp(56px, 5.4vw, 84px) 1fr; column-gap: 20px; row-gap: 6px;
@@ -71,13 +73,13 @@
 }
 .com__n {
   grid-row: 1 / span 2;
-  font: 700 clamp(36px, 3.4vw, 56px)/.9 var(--f-display); letter-spacing: -.05em;
-  color: var(--c-ar); font-variant-numeric: tabular-nums;
-  transition: translate var(--t-stato) var(--ease-salita);
+  font: 600 clamp(30px, 2.6vw, 42px)/.95 var(--f-display); letter-spacing: -.04em;
+  color: var(--c-t4); font-variant-numeric: tabular-nums;
+  transition: color var(--t-micro) linear, translate var(--t-stato) var(--ease-salita);
 }
 .com__tit { font: 600 clamp(18px, 1.4vw, 21px)/1.3 var(--f-display); letter-spacing: -.012em; color: var(--c-t1); padding-top: 4px; }
 .com__testo { font: 400 15.5px/1.6 var(--f-display); color: var(--c-t3); max-inline-size: 48ch; }
-.com:hover .com__n { translate: 4px 0; }
+.com:hover .com__n { color: var(--c-ar); translate: 4px 0; }
 @media (max-width: 860px) { .comand { grid-template-columns: 1fr; } }
 
 /* ── TEAM ─────────────────────────────────────────────────────────────── */
@@ -117,8 +119,7 @@
 .sala__fatti { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid var(--c-filo-forte); }
 .fatto { display: grid; align-content: start; gap: 6px; padding: clamp(20px, 2vw, 32px) clamp(14px, 2vw, 28px) 8px 0; }
 .fatto + .fatto { padding-left: clamp(14px, 2vw, 28px); border-left: 1px solid var(--c-filo); }
-.fatto__su { font: 500 14px/1.3 var(--f-display); color: var(--c-t3); }
-.fatto__num { font: 700 clamp(52px, 5.6vw, 88px)/.9 var(--f-display); letter-spacing: -.045em; color: var(--c-t1); margin-block: var(--s-2); font-variant-numeric: tabular-nums; }
+.fatto__num { font: 700 clamp(52px, 5.6vw, 88px)/.9 var(--f-display); letter-spacing: -.045em; color: var(--c-t1); margin-block: 0 var(--s-2); font-variant-numeric: tabular-nums; }
 .fatto__num .t-unita { font-size: .32em; margin-left: .08em; }
 .fatto__lab { font: 600 16px/1.3 var(--f-display); color: var(--c-t1); }
 .fatto__nota { font: 400 14px/1.5 var(--f-display); color: var(--c-t3); }

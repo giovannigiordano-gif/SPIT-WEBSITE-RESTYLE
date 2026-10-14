@@ -37,7 +37,9 @@
    Quando il titolo è una frase in due tempi, il secondo tempo scende di
    un gradino di luce (.segue): si legge d'un fiato e si scorre d'occhio. */
 .t-d2 {
-  font-size: clamp(30px, 4vw + 6px, 64px);
+  /* minimo 36px: su telefono h2 e h3 (22px) devono restare due livelli
+     (giro 4: a 30 contro 26 si leggevano uguali) */
+  font-size: clamp(36px, 4vw + 6px, 64px);
   line-height: 1.06;
   letter-spacing: var(--tr-display);
   word-spacing: .03em;
@@ -46,7 +48,7 @@
 .segue { color: rgba(255,255,255,.68); }   /* un gradino sotto il bianco, non due: sulle luci calde (alba, fuoco) .56 si spegneva */
 
 .t-d3 {
-  font-size: clamp(26px, 3.2vw, 44px);
+  font-size: clamp(22px, 3.2vw, 44px);
   line-height: 1.16;
   letter-spacing: var(--tr-display);
 }

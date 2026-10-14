@@ -32,6 +32,7 @@ taglia('eventi-1440-full.jpg', 1131, 900, 'p-programma-1440.jpg')
 taglia('index-1440-full.jpg', 420, 900, 'p-hero-1440-scroll.jpg')
 taglia('index-1440-full.jpg', 6000, 900, 'p-contro-1440.jpg')
 taglia('index-1440-full.jpg', 11922, 900, 'p-finale-1440.jpg')
+taglia('index-1440-full.jpg', 10150, 900, 'p-risorse-1440.jpg')
 
 // 3 · affiancati con le etichette
 const FONT = 'C\\:/Windows/Fonts/arialbd.ttf'
@@ -55,6 +56,9 @@ coppia('p-programma-1440.jpg', 'programma-1440.jpg', '07-eventi-programma.jpg')
 coppia('p-hero-390.jpg', 'hero-390.jpg', '08-hero-mobile.jpg', 390)
 coppia('p-contro-1440.jpg', 'contro-1440.jpg', '09-contro-esempio.jpg')
 coppia('p-finale-1440.jpg', 'finale-1440.jpg', '10-finale.jpg')
+// giro 4: «Quello che pubblichiamo» → il capitolo del podcast; la nav in riga → il menu a card
+coppia('p-risorse-1440.jpg', 'podcast-1440.jpg', '15-podcast.jpg')
+coppia('p-hero-1440.jpg', 'menu-1440.jpg', '16-menu.jpg')
 for (const [pg, n] of [['metodo', '11'], ['team', '12'], ['eventi', '13'], ['risultati', '14']]) {
   ff(['-i', join(P, pg + '-1440-piega.jpg'), '-q:v', '3', join(Q, 'p-' + pg + '-top.jpg')])
   coppia('p-' + pg + '-top.jpg', pg + '-top-1440.jpg', n + '-' + pg + '-apertura.jpg')

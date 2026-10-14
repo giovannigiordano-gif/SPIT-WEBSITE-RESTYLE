@@ -21,7 +21,7 @@
 
 <link rel="preload" href="/assets/fonts/dm-sans-latin-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
-<link rel="stylesheet" href="/css/sito.css?v=0b65f39c89">
+<link rel="stylesheet" href="/css/sito.css?v=2efca04a25">
 </head>
 <body data-pagina="home">
 <div class="palco" aria-hidden="true"><i data-a="nero"></i><i data-a="brace"></i><i data-a="alba"></i><i data-a="radente"></i><i data-a="notte"></i><i data-a="pozzo"></i><i data-a="fuoco"></i><b class="palco__torcia"></b></div>
@@ -49,7 +49,7 @@
     </a>
     <!-- Il capitolo in cui sei (motion.js, dalle sezioni con data-cap):
          solo orientamento, i lettori di schermo hanno già i titoli. -->
-    <p class="nav__cap" id="nav-cap" aria-hidden="true"><span class="capo__n"></span><span class="nav__cap-nome"></span></p>
+    <p class="nav__cap" id="nav-cap" aria-hidden="true"><span class="nav__cap-n"></span><span class="nav__cap-nome"></span></p>
     <div class="nav__dx">
       
       <a class="cta cta--ar cta--luce cta--nav" href="/candidatura.html">Candida la tua azienda</a>
@@ -252,10 +252,8 @@
      sparsi, la trave si disegna, i tiranti li agganciano, e il risultato è
      un numero solo. Legge anche fermo: a motion spento è già composta. -->
 <section class="tetto sez--capo sf sf--alba" id="statement" data-cap="2">
-  <div class="wrap wrap--piena">
-    <p class="capo"><span class="capo__n">02</span><span class="capo__nome">La soluzione</span></p>
-  </div>
   <div class="wrap wrap--ed tetto__in">
+    <p class="capo capo--c"><span class="capo__n">02</span><span class="capo__nome">La soluzione</span></p>
     <!-- Non un occhiello: un TITOLO, e il nome è il logo. L'alt restituisce
          «Sales Process», quindi il titolo si legge per intero. -->
     <h2 class="tetto__titolo">
@@ -337,15 +335,13 @@
      ordine di vicinanza: un cliente alla volta, tutti i clienti insieme, i
      clienti con la loro voce. -->
 <section class="cartelli sez--capo sf sf--brace" id="cartelli" data-cap="4">
-  <div class="wrap wrap--piena">
-    <p class="capo"><span class="capo__n">04</span><span class="capo__nome">I risultati</span></p>
-  </div>
   <div class="wrap wrap--piena cartelli__in">
     <figure class="cartelli__f cartelli__f--sx">
       <img src="/assets/webp/extra-1.webp" srcset="/assets/webp/extra-1-320.webp 320w, /assets/webp/extra-1.webp 478w" sizes="(max-width: 560px) 45vw, (max-width: 1024px) 40vw, 26vw" alt="Un pugno alza un cartello con la scritta Più clienti" width="478" height="800" loading="lazy" decoding="async">
     </figure>
 
     <div class="cartelli__txt">
+      <p class="capo capo--c"><span class="capo__n">04</span><span class="capo__nome">I risultati</span></p>
       <h2 class="t-d2" data-split><span class="w" style="--w:0"><span>Quello</span></span> <span class="w" style="--w:1"><span>che</span></span> <span class="w" style="--w:2"><span>compri:</span></span> <span class="w" style="--w:3"><span><span class="segue">due</span></span></span> <span class="w" style="--w:4"><span><span class="segue">numeri,</span></span></span> <span class="w" style="--w:5"><span><span class="segue">non</span></span></span> <span class="w" style="--w:6"><span><span class="segue">un</span></span></span> <span class="w" style="--w:7"><span><span class="segue">report.</span></span></span></h2>
       <p class="t-deck">Tutto il resto — le impression, i clic, i lead, le attività svolte — è mezzo. Questi due sono il fine, e sono gli unici che ti diciamo ogni settimana.</p>
     </div>
@@ -383,12 +379,11 @@
      33 settori 33, 750 processi 750, tutti sulla stessa griglia. La
      quantità si VEDE (l'altezza del campo), non si legge e basta. I campi
      si accendono riga per riga allo scroll; il numero è già scritto, CLS 0. -->
-<section class="sez sez--segue sf sf--brace" id="numeri" data-cap="4">
+<div class="sez sez--segue sf sf--brace" id="numeri" data-cap="4">
   <div class="wrap wrap--piena">
-    <div class="testa testa--segue">
-      <h3 class="t-d3" data-split><span class="w" style="--w:0"><span>I</span></span> <span class="w" style="--w:1"><span>nostri</span></span> <span class="w" style="--w:2"><span>numeri,</span></span> <span class="w" style="--w:3"><span><span class="segue">con</span></span></span> <span class="w" style="--w:4"><span><span class="segue">la</span></span></span> <span class="w" style="--w:5"><span><span class="segue">loro</span></span></span> <span class="w" style="--w:6"><span><span class="segue">data</span></span></span> <span class="w" style="--w:7"><span><span class="segue">e</span></span></span> <span class="w" style="--w:8"><span><span class="segue">la</span></span></span> <span class="w" style="--w:9"><span><span class="segue">loro</span></span></span> <span class="w" style="--w:10"><span><span class="segue">fonte.</span></span></span></h3>
-      <p class="t-deck">Dal 2020, senza arrotondare.</p>
-    </div>
+    <!-- Continua le schede: un secondo titolo («I nostri numeri…») subito
+         sotto «I numeri dei clienti…» si leggeva come un doppione. -->
+    <p class="t-deck numeri__attacco">Dal 2020, senza arrotondare.</p>
     <div class="unita" id="numeri-grid"><!-- /js/dati.js --></div>
     <div class="registro__piede">
       <p class="t-piccolo">L'ultimo entrato: <strong>Evergreen Life</strong>, impiantistica, ingresso a 1,4 M€.</p>
@@ -397,7 +392,7 @@
       <a class="cta cta--testo link-wipe t-piccolo" href="/risultati.html#settori">Vedi i 33 settori, uno per uno<svg class="freccia" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12h14.5M13.5 6.5 19 12l-5.5 5.5"/></svg></a>
     </div>
   </div>
-</section>
+</div>
 
 <!-- ══ 04 · le testimonianze video ════════════════════════════════════════
      Cinque video reali, a FACCIATA: il player entra solo al click. Il primo
@@ -454,12 +449,11 @@
     <p class="capo"><span class="capo__n">06</span><span class="capo__nome">Il podcast</span></p>
     <div class="podcast">
       <div class="podcast__testo">
-        <p class="pill-eyebrow podcast__pill">Il podcast · Fatturare Fatturare Fatturare</p>
+        <p class="pill-eyebrow podcast__pill">Fatturare Fatturare Fatturare</p>
         <h2 class="t-d2" data-split><span class="w" style="--w:0"><span>Processi</span></span> <span class="w" style="--w:1"><span>di</span></span> <span class="w" style="--w:2"><span>vendita</span></span> <span class="w" style="--w:3"><span><span class="segue">raccontati</span></span></span> <span class="w" style="--w:4"><span><span class="segue">coi</span></span></span> <span class="w" style="--w:5"><span><span class="segue">numeri</span></span></span> <span class="w" style="--w:6"><span><span class="segue">veri.</span></span></span></h2>
         <p class="t-deck">Ogni settimana un pezzo di processo: come si compra attenzione, come si qualifica, come si assume un venditore, come si tiene alta una rete. Con i numeri delle aziende che ci passano dentro, quando ce li lasciano pubblicare.</p>
         <div class="cta-riga">
           <a class="cta cta--bianco cta--yt" href="https://www.youtube.com/channel/UCaB0Zuz1IO5pTSJ5qZPv8IA" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.1 8.3a2.6 2.6 0 0 0-1.8-1.8C17.7 6 12 6 12 6s-5.7 0-7.3.5A2.6 2.6 0 0 0 2.9 8.3C2.5 9.9 2.5 12 2.5 12s0 2.1.4 3.7a2.6 2.6 0 0 0 1.8 1.8C6.3 18 12 18 12 18s5.7 0 7.3-.5a2.6 2.6 0 0 0 1.8-1.8c.4-1.6.4-3.7.4-3.7s0-2.1-.4-3.7z"/><path d="M10.2 15.1V8.9l5.2 3.1z" fill="#F8F8F8"/></svg>Guarda il podcast su YouTube<span class="sr"> (si apre in una nuova scheda)</span></a>
-          <a class="cta cta--out" href="/fatturare.html">Articoli e libri<svg class="freccia" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12h14.5M13.5 6.5 19 12l-5.5 5.5"/></svg></a>
         </div>
         <p class="t-micro podcast__nota">Dal 2023, un episodio nuovo ogni settimana.</p>
       </div>
@@ -478,7 +472,7 @@
 <section class="sez dove" id="dove">
   <div class="wrap wrap--piena">
     <div class="testa">
-      <h2 class="t-d2" data-split><span class="w" style="--w:0"><span>Via</span></span> <span class="w" style="--w:1"><span>Marco</span></span> <span class="w" style="--w:2"><span>D'Agrate</span></span> <span class="w" style="--w:3"><span>41,</span></span> <span class="w" style="--w:4"><span>Milano.</span></span> <span class="w" style="--w:5"><span><span class="segue">Quarto</span></span></span> <span class="w" style="--w:6"><span><span class="segue">piano.</span></span></span></h2>
+      <h2 class="t-d3" data-split><span class="w" style="--w:0"><span>Via</span></span> <span class="w" style="--w:1"><span>Marco</span></span> <span class="w" style="--w:2"><span>D'Agrate</span></span> <span class="w" style="--w:3"><span>41,</span></span> <span class="w" style="--w:4"><span>Milano.</span></span> <span class="w" style="--w:5"><span><span class="segue">Quarto</span></span></span> <span class="w" style="--w:6"><span><span class="segue">piano.</span></span></span></h2>
       <p class="t-deck">Il caffè lo facciamo noi. A dieci minuti dalla tangenziale Est, parcheggio in strada.</p>
     </div>
 

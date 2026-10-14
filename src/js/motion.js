@@ -69,7 +69,7 @@
       const k = c.closest('[data-cap]')?.dataset.cap;
       if (k) nomi[k] = [$('.capo__n', c)?.textContent.trim() || '', $('.capo__nome', c)?.textContent.trim() || ''];
     });
-    const nN = $('.capo__n', navCap), nNome = $('.nav__cap-nome', navCap);
+    const nN = $('.nav__cap-n', navCap), nNome = $('.nav__cap-nome', navCap);
     let ora = null;
     const metti = (k) => {
       if (k === ora) return; ora = k;

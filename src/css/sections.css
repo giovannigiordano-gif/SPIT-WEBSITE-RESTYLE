@@ -273,7 +273,9 @@ html.vuole-3d .hero__mark { opacity: 0; }
 .tetto__reparti li:hover { border-color: var(--c-bordo-ar); }
 .tetto__payoff {
   font-family: var(--f-display); font-weight: 700;
-  font-size: clamp(34px, 6vw, 88px); line-height: 1;
+  /* fino a 64px: è la risoluzione del tetto, non un titolo nuovo (a 88px
+     superava l'h2 del capitolo, revisione del giro 4) */
+  font-size: clamp(30px, 4.4vw, 64px); line-height: 1.02;
   letter-spacing: -.042em; color: var(--c-t1);
   margin-top: var(--s-6);
 }
@@ -356,9 +358,9 @@ html.vuole-3d .hero__mark { opacity: 0; }
   .servizi { grid-template-columns: 1fr; }
 }
 
-/* Nei cartelli il titolo sta in una colonna stretta fra i due pugni:
-   un gradino sotto il corpo dei titoli di sezione.                   */
-.cartelli__txt .t-d2 { font-size: clamp(28px, 3vw + 4px, 48px); max-inline-size: 16ch; margin-inline: auto; }
+/* Nei cartelli il titolo sta fra i due pugni, al corpo pieno dei titoli
+   di capitolo (giro 4: a 48px era più piccolo degli h3 che lo seguono). */
+.cartelli__txt .t-d2 { max-inline-size: 16ch; margin-inline: auto; }
 
 /* ── I CARTELLI ───────────────────────────────────────────────────────────
    I due pugni salgono dal bordo a velocità diverse dal testo: parallasse
@@ -370,7 +372,7 @@ html.vuole-3d .hero__mark { opacity: 0; }
   background: radial-gradient(50% 70% at 50% 100%, rgba(184,91,0,.26), rgba(184,91,0,0) 72%);
   pointer-events: none;
 }
-.cartelli__in { position: relative; display: grid; grid-template-columns: 1fr 1.25fr 1fr; align-items: end; gap: var(--s-5); }
+.cartelli__in { position: relative; display: grid; grid-template-columns: 1fr 1.6fr 1fr; align-items: end; gap: var(--s-5); }
 .cartelli__txt { display: grid; gap: var(--s-4); justify-items: center; text-align: center; padding-bottom: clamp(56px, 7vw, 112px); }
 .cartelli__txt .t-deck { margin-inline: auto; max-inline-size: 44ch; }
 .cartelli__f { margin: 0; }
@@ -527,11 +529,17 @@ html.vuole-3d .hero__mark { opacity: 0; }
    Righe, non card: il tipo a sinistra, il titolo grande, la descrizione,
    l'azione. Tutta la riga è il bersaglio (link esteso); al passaggio la
    luce attraversa la riga e il titolo fa un passo.                    */
-.indice { border-top: 1px solid var(--c-filo-forte); }
+/* Le colonne sono dell'INDICE, non della riga (subgrid): prima ogni riga
+   aveva la sua colonna «auto» per l'azione, e un'azione più lunga
+   spostava titolo e descrizione di quella riga sola (giro 4).         */
+.indice {
+  display: grid; grid-template-columns: minmax(0, 2.4fr) minmax(0, 4fr) minmax(0, 4fr) max-content;
+  column-gap: clamp(20px, 3vw, 48px); border-top: 1px solid var(--c-filo-forte);
+}
 .indice__riga {
   position: relative; isolation: isolate;
-  display: grid; grid-template-columns: minmax(0, 2.4fr) minmax(0, 4fr) minmax(0, 4fr) auto;
-  align-items: center; gap: var(--s-5) clamp(20px, 3vw, 48px);
+  grid-column: 1 / -1; display: grid; grid-template-columns: subgrid;
+  align-items: center; row-gap: var(--s-5);
   padding: clamp(26px, 2.6vw, 40px) 0; border-bottom: 1px solid var(--c-filo);
 }
 .indice__riga::before {
@@ -557,12 +565,13 @@ a.indice__cta::after { content: ''; position: absolute; inset: 0; }
 .indice__cta .freccia { color: var(--c-ar); }
 .indice__riga:hover .indice__cta .freccia { translate: 4px 0; }
 @media (max-width: 1100px) {
-  .indice__riga { grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); }
+  .indice { grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); }
   .indice__desc { grid-column: 2; }
   .indice__cta { grid-column: 2; }
 }
 @media (max-width: 640px) {
-  .indice__riga { grid-template-columns: 1fr; gap: 8px; }
+  .indice { grid-template-columns: minmax(0, 1fr); }
+  .indice__riga { row-gap: 8px; }
   .indice__desc, .indice__cta { grid-column: auto; }
   .indice__riga::before { inset: 0 -12px; }
 }
@@ -596,7 +605,7 @@ a.indice__cta::after { content: ''; position: absolute; inset: 0; }
 }
 @media (max-width: 900px) {
   .podcast { grid-template-columns: minmax(0, 1fr); row-gap: var(--s-6); }
-  .podcast__foto { max-width: 340px; }
+  .podcast__foto { max-width: min(62vw, 300px); }
 }
 
 /* ── DOVE SIAMO ───────────────────────────────────────────────────────────── */
@@ -732,13 +741,13 @@ a.indice__cta::after { content: ''; position: absolute; inset: 0; }
 @media (max-width: 640px) { .tempo { grid-template-columns: 1fr; padding-left: 36px; } }
 
 /* ── INDICE: varianti delle pagine interne ─────────────────────────────── */
-.indice--ruoli .indice__riga, .indice--articoli .indice__riga { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr) auto; }
+.indice--ruoli, .indice--articoli { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr) max-content; }
 @media (max-width: 1100px) {
-  .indice--ruoli .indice__riga, .indice--articoli .indice__riga { grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); }
+  .indice--ruoli, .indice--articoli { grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); }
   .indice--ruoli .indice__desc, .indice--articoli .indice__desc { grid-column: 2; }
 }
 @media (max-width: 640px) {
-  .indice--ruoli .indice__riga, .indice--articoli .indice__riga { grid-template-columns: 1fr; }
+  .indice--ruoli, .indice--articoli { grid-template-columns: minmax(0, 1fr); }
   .indice--ruoli .indice__desc, .indice--articoli .indice__desc, .indice--articoli .indice__cta { grid-column: auto; }
 }
 .in-arrivo { font-style: normal; margin-left: 6px; color: var(--c-t3); }

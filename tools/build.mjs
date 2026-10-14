@@ -169,7 +169,7 @@ const nav = (slug) => `
     </a>
     <!-- Il capitolo in cui sei (motion.js, dalle sezioni con data-cap):
          solo orientamento, i lettori di schermo hanno già i titoli. -->
-    <p class="nav__cap" id="nav-cap" aria-hidden="true"><span class="capo__n"></span><span class="nav__cap-nome"></span></p>
+    <p class="nav__cap" id="nav-cap" aria-hidden="true"><span class="nav__cap-n"></span><span class="nav__cap-nome"></span></p>
     <div class="nav__dx">
       ${telHref ? `<a class="nav__login" href="${telHref}">Chiama</a>` : ''}
       <a class="cta cta--ar cta--luce cta--nav" href="/candidatura.html">Candida la tua azienda</a>
@@ -340,7 +340,7 @@ const LOGO_PODCAST = ['svg', 'webp', 'png'].map(e => 'fatturare-logo.' + e)
   .find(n => existsSync(join(OUT, 'assets', 'podcast', n)))
 const logoPodcast = () => LOGO_PODCAST
   ? `<img class="podcast__logo" src="/assets/podcast/${LOGO_PODCAST}" alt="Fatturare Fatturare Fatturare, il podcast" loading="lazy" decoding="async">`
-  : '<p class="pill-eyebrow podcast__pill">Il podcast · Fatturare Fatturare Fatturare</p>'
+  : '<p class="pill-eyebrow podcast__pill">Fatturare Fatturare Fatturare</p>'
 if (!LOGO_PODCAST) console.log('⚠ logo del podcast assente: src/assets/podcast/fatturare-logo.(svg|webp|png)')
 
 const files = (await readdir(PAGES)).filter(f => f.endsWith('.html'))

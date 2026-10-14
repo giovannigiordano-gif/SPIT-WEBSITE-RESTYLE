@@ -17,6 +17,9 @@
    Tre voci di registro, ognuna con il suo campo di quadrati sulla STESSA
    griglia: l'altezza del campo è la quantità. Il primo (150, gli
    imprenditori) è l'unico acceso in arancio: è il numero protagonista.  */
+/* in home i numeri continuano le schede dei clienti: una riga d'attacco al
+   posto del titolo */
+.numeri__attacco { margin-bottom: clamp(24px, 2vw, 36px); color: var(--c-t2); }
 .unita { border-top: 1px solid var(--c-filo-forte); }
 .u-voce {
   display: grid;
@@ -35,7 +38,7 @@
   font-variant-numeric: tabular-nums;
   margin-block: 0 var(--s-3);
 }
-.u-voce__lab { font: 500 clamp(17px, 1.3vw, 20px)/1.25 var(--f-display); letter-spacing: -.01em; color: var(--c-t1); max-inline-size: 18ch; }
+.u-voce__lab { font: 500 clamp(17px, 1.3vw, 20px)/1.25 var(--f-display); letter-spacing: -.01em; color: var(--c-t1); max-inline-size: 24ch; }
 .u-voce__campo { display: grid; gap: var(--s-4); padding-top: clamp(4px, 1.2vw, 18px); }
 .ucampo { position: relative; width: 100%; }
 .ucampo__strato { position: absolute; inset: 0; width: 100%; height: 100%; display: block; overflow: visible; }

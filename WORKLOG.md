@@ -310,6 +310,33 @@ soprattutto da desktop, magari a card gigante»*.
 7. **Due bug JS trovati in verifica**: nel ramo per i browser senza `animation-timeline` (Firefox,
    Safari ≤17) `$('.rise, …').forEach` era chiamato su un elemento, non su una lista — l'errore fermava
    tutto il resto di motion.js; e la staffetta aveva lo stesso errore su `tappe`. Entrambi `$$`.
+8. **Revisione indipendente** (impeccable-finish-reviewer, sulle catture rifatte dopo l'ultimo build —
+   la prima volta le ha rifiutate perché più vecchie dei sorgenti, e aveva ragione). Otto correzioni,
+   tutte applicate:
+   - il **segnacapitolo** era un'etichetta da 15px: ora il numero è grande e a contorno (la voce dei
+     numeri della staffetta), il nome accanto; nei capitoli che aprono con una composizione centrata
+     (tetto, cartelli) sta impilato sopra il titolo;
+   - il titolo del capitolo 04 era più piccolo degli h3 che lo seguono (48 contro 44px): ora a corpo
+     pieno, con la colonna centrale dei cartelli più larga; il payoff del tetto non supera più l'h2;
+   - su telefono h2 e h3 si leggevano uguali (30/26px): ora 36/22;
+   - «I nostri numeri…» subito sotto «I numeri dei clienti…» era un doppione: i numeri continuano le
+     schede con una riga d'attacco («Dal 2020, senza arrotondare»);
+   - «Dove siamo» sembrava un settimo capitolo: titolo un gradino sotto; il podcast perde il secondo
+     pulsante («Articoli e libri») e la pill dice solo «Fatturare Fatturare Fatturare»; il microfono su
+     telefono non riempie più uno schermo;
+   - menu: anello del fuoco stretto sulla parola, voci spente a ~5:1 invece di ~2,7:1, la foto se ne va
+     con le voci alla chiusura, la nav sotto il velo si spegne (il marchio non si sdoppia più a metà
+     apertura);
+   - il conto 4 → 3 → 0 a tre colonne uguali, e la riga dello zero al corpo dei passaggi rotti.
+9. **Pagine interne, dai rilievi rimasti del giro 3**: Risultati mette le schede dei clienti prima dei
+   numeri (come la home); Eventi senza l'occhiello sopra i tre numeri (il «quando» passa nella nota);
+   i numeri dei dieci principi del DNA un gradino sotto i titoli (grigi, arancio al passaggio); gli
+   indici (podcast, articoli, ruoli) in subgrid, colonne allineate fra le righe.
+
+*Verifica.* Audit 8 pagine × 1440/1024/768/390/360 senza rilievi (`qa/audit-r4`, `qa/audit-r4b` dopo il
+cambio dei titoli su mobile); passeggiate a scroll della home a 1440 e 390 (`qa/r4-home-*`); test
+funzionali 36/36, sette nuovi sul menu; Lighthouse mobile Home 96/100/100/100 (LCP 2,8 s, CLS 0,
+TBT 10 ms), Metodo 97, Fatturare³ 98 — accessibilità 100.
 
 ### Cosa è stato fatto, fase per fase (skill applicate)
 
@@ -370,6 +397,22 @@ Candidatura), indice (Fatturare³, Team), manifesto ed elenco numerato (DNA), mu
     dichiarato, non un pulsante).
 - **Lo zero in `#CC3366`** del contro-esempio resta: è l'unico numero "di perdita" del sito ed è
   semantico, non decorativo (token `--c-rottura`).
+
+*Giro 4*
+- **I numeri dei capitoli (01–06) sono legittimi**: il racconto ha un ordine e la nav lo usa. Non sono
+  la numerazione decorativa «01 / 02 / 03» delle pagine generate: compaiono sei volte, una per argomento.
+- **Nel capitolo del problema i numeri sono bianchi** (4, 3) e lo zero è vuoto in `--c-rottura`:
+  l'arancio lì è solo il cubo che cade, così il colore resta legato alla soluzione.
+- **Il CTA del podcast è bianco**: l'arancio resta alla candidatura, che è la conversione della pagina.
+- **Il menu mette il fuoco su «Chiudi»** all'apertura (schema del dialogo WAI-ARIA): con il Tab si scende
+  sulle voci. Il logo in testa alla card non prende il fuoco per primo, così un Invio distratto non
+  riporta alla home.
+- **Le mani della caduta si muovono solo verso l'esterno**: verso l'interno il taglio della foto (il
+  braccio che finisce) entrava nello schermo.
+- **Rilievi del revisore (giro 3) non applicati, e perché:** «Il palco» nella pianta della sala resta
+  (orienta la pianta: senza, le trenta sedie non hanno un davanti); «La missione / La visione» restano
+  (dicono quale delle due frasi è quale); il blocco «Dentro i quattro reparti» del Metodo resta lo stesso
+  componente della home (un solo modo di presentare i reparti in tutto il sito).
 
 ## 5 · Problemi trovati durante il lavoro
 
