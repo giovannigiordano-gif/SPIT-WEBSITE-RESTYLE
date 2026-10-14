@@ -246,8 +246,8 @@ const footer = () => `
           <span><em>Numero Verde</em><b class="verde__n">${TEL.num || TEL.label}</b></span>
         </${telHref ? 'a' : 'div'}>
         <a class="footer__mail link-wipe" href="mailto:amministrazione@salesprocess.it">amministrazione@<wbr>salesprocess.it</a>
-        <p class="t-piccolo footer__sedi"><b>Uffici di rappresentanza</b><br>Via Marco D’Agrate 41, Milano (MI) 20139</p>
-        <p class="t-piccolo footer__sedi"><b>Sede legale</b><br>Piazza IV Novembre, Capiago Intimiano (CO) 22070</p>
+        <p class="t-piccolo footer__sedi"><b>Uffici di rappresentanza</b><br>Via Marco D'Agrate 41, 20139 Milano (MI)</p>
+        <p class="t-piccolo footer__sedi"><b>Sede legale</b><br>Piazza IV Novembre, 22070 Capiago Intimiano (CO)</p>
       </div>
     </div>
     <div class="footer__legale">
@@ -340,7 +340,7 @@ const LOGO_PODCAST = ['svg', 'webp', 'png'].map(e => 'fatturare-logo.' + e)
   .find(n => existsSync(join(OUT, 'assets', 'podcast', n)))
 const logoPodcast = () => LOGO_PODCAST
   ? `<img class="podcast__logo" src="/assets/podcast/${LOGO_PODCAST}" alt="Fatturare Fatturare Fatturare, il podcast" loading="lazy" decoding="async">`
-  : '<p class="pill-eyebrow podcast__pill">Fatturare Fatturare Fatturare</p>'
+  : ''   /* niente occhiello al posto del logo: il nome è nella nota sotto il CTA */
 if (!LOGO_PODCAST) console.log('⚠ logo del podcast assente: src/assets/podcast/fatturare-logo.(svg|webp|png)')
 
 const files = (await readdir(PAGES)).filter(f => f.endsWith('.html'))

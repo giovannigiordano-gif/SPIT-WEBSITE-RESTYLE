@@ -122,12 +122,12 @@ const HANDOFF = [
    Il set fotografico è coerente (stesso muro, stessa luce): la monocromia
    calda li unifica sul fondo scuro senza ricorrere al duotone, che
    disumanizzerebbe la prova che converte più di tutte.
-   NOTA DI RICONCILIAZIONE: le persone elencate sono TREDICI, non 34. Il
+   NOTA DI RICONCILIAZIONE: le persone elencate sono DODICI, non 34. Il
    numero che si pubblica è questo, perché è quello verificabile.        */
 const REP_NOMI = ['Pubblicità', 'Marketing', 'Reclutamento', 'Formazione', 'Direzione'];
 const VOLTI = [
   { nome: 'Alberto Frisoni',      ruolo: 'CEO',                  rep: 5, f: 'frisoni' },
-  { nome: 'Alfio Bardolla',       ruolo: 'Co-founder',           rep: 5, f: 'bardolla' },
+  { nome: 'Alfio Bardolla',       ruolo: 'Cofondatore',          rep: 5, f: 'bardolla' },
   { nome: 'Ion Rotaru',           ruolo: 'Direttore operativo',  rep: 5, f: 'rotaru' },
   { nome: 'Matteo Ratti',         ruolo: 'Media buyer',          rep: 1, f: 'ratti' },
   { nome: 'Paola Russo',          ruolo: 'Social media manager', rep: 1, f: 'russo' },
@@ -160,12 +160,12 @@ const RIGHE = [
    Meglio uno vero che tre vuoti: finché le liberatorie non arrivano, la
    sezione monta una card e lo dice.                                      */
 const FASCICOLI = [
-  { n:1, settore:'Impiantistica', geo:'Lombardia', mesi:11, da:1.4, a:3.1, foto:'hand-contract', logo:'c-13',
-    dati:['Partenza 1,4 M€','14 venditori reclutati','Meta + fiere','Fonte CRM cliente'],
+  { n:1, settore:'Impiantistica', geo:'Bergamo', mesi:11, da:1.4, a:3.1, foto:'hand-contract', logo:'c-13',
+    dati:['Partenza 1,4 M€','4 venditori reclutati','Meta + telefono','Fonte CRM cliente'],
     fatto:[
       'Rifatta la struttura di campagna: budget riallocato sui due canali che chiudevano davvero.',
       'Sequenza di qualificazione prima della chiamata: il venditore parla solo con chi è pronto.',
-      '96 candidature filtrate, 14 venditori inseriti in 11 mesi.',
+      '96 candidature filtrate, 4 venditori inseriti in 11 mesi.',
       'Script, role play settimanale, numeri sul tavolo del titolare ogni lunedì.',
     ], prov:true },
 ];
@@ -208,7 +208,7 @@ const scheda = (p) => el('article', 'scheda', `
   <p class="scheda__num">da ${fmt1.format(p.da)} a ${fmt1.format(p.a)} <span class="t-unita">M€</span></p>
   <p class="scheda__mesi">Fatturato in ${p.mesi} mesi</p>
   <span class="scheda__extra"><span>${p.extra}</span></span>
-  <p class="scheda__fonte">Fonte: CRM cliente · agg. 08.2026 · con liberatoria</p>`);
+  <p class="scheda__fonte">${p.prov ? 'Dato provvisorio · in attesa di liberatoria' : 'Fonte: CRM cliente · agg. 08.2026 · con liberatoria'}</p>`);
 
 /* ── I NUMERI A UNITÀ ─────────────────────────────────────────────────────
    Un quadrato del marchio = un'unità, sulla STESSA griglia per i tre numeri
@@ -259,18 +259,24 @@ const ridisegnaCampi = () => $$('#numeri-grid .u-voce').forEach((n, i) => {
    cliente. Fotografie generate (assets-src/higgsfield/provenienza.json),
    volti mai riconoscibili. Gli altri otto servizi restano un indice
    tipografico: due livelli di gerarchia invece di dodici card uguali.  */
+/* [file, inquadratura]: il punto della scena che resta in vista quando il
+   pannello la taglia (le mani al lavoro). Su telefono un taglio a parte,
+   già stretto sulle mani (tools/foto.mjs, «stretto»).                    */
 const FOTO_REP = {
-  target:  'reparto-pubblicita',
-  imbuto:  'reparto-marketing',
-  persone: 'reparto-reclutamento',
-  salita:  'reparto-formazione',
+  target:  ['reparto-pubblicita',   '72% 30%'],
+  imbuto:  ['reparto-marketing',    '72% 45%'],
+  persone: ['reparto-reclutamento', '30% 35%'],
+  salita:  ['reparto-formazione',   '50% 20%'],
 };
 const pannello = (b, i) => {
-  const f = FOTO_REP[b.i];
+  const [f, pos] = FOTO_REP[b.i];
   const n = el('article', 'pannello');
   n.style.setProperty('--i', i);
   n.innerHTML = `
-    <div class="pannello__foto"><img src="/assets/foto/${f}-800.webp" srcset="/assets/foto/${f}-480.webp 480w, /assets/foto/${f}-800.webp 800w, /assets/foto/${f}-1200.webp 1200w" sizes="(max-width: 640px) 40vw, (max-width: 1100px) 48vw, 25vw" alt="" width="1200" height="1500" loading="lazy" decoding="async"></div>
+    <div class="pannello__foto"><picture>
+      <source media="(max-width: 640px)" srcset="/assets/foto/${f}-stretto-480.webp 480w, /assets/foto/${f}-stretto-800.webp 800w" sizes="40vw">
+      <img src="/assets/foto/${f}-800.webp" srcset="/assets/foto/${f}-480.webp 480w, /assets/foto/${f}-800.webp 800w, /assets/foto/${f}-1200.webp 1200w" sizes="(max-width: 1100px) 48vw, 25vw" alt="" width="1200" height="1500" loading="lazy" decoding="async" style="--pos:${pos}">
+    </picture></div>
     <div class="pannello__txt">
       <span class="pannello__n" aria-hidden="true">0${i + 1}</span>
       <h3 class="pannello__tit">${b.t}</h3>
@@ -349,7 +355,7 @@ const porta = () => {
   const a = el('a', 'pers pers--porta');
   a.href = '/team.html';
   a.innerHTML = `
-    <p class="t-eyebrow" style="color:var(--c-ar-hot)">Tutte e tredici</p>
+    <p class="t-eyebrow" style="color:var(--c-ar-hot)">Tutte e dodici</p>
     <p class="t-t1" style="max-inline-size:14ch">Conosci il reparto che entra in azienda.</p>
     <p class="t-piccolo" style="color:var(--c-t2)">Ruoli, reparti e i due fondatori.</p>
     <span class="frecc" aria-hidden="true">
@@ -410,10 +416,10 @@ const video = (v, i) => {
    titolo uno sotto l'altro, e nessuno li legge.                         */
 const COMAND = [
   { t: 'Le risposte',   d: 'Lavorare per trovare le risposte ad ogni quesito del percorso. Non aspettiamoci di trovare un percorso lineare: aspettiamoci di trovare sfide, e prepariamoci ad essere ogni volta più grandi di queste.' },
-  { t: 'Il possibile',  d: 'Non esiste qualcosa che non si possa realmente realizzare. Se guidata dalla giusta visione, missione e dai giusti principi, lavoriamo per ottenerlo.' },
+  { t: 'Il possibile',  d: 'Non esiste qualcosa che non si possa realmente realizzare. Se guidati dalla giusta visione, dalla giusta missione e dai giusti principi, lavoriamo per ottenerlo.' },
   { t: 'Il cliente',    d: 'Rendere il cliente soddisfatto della sua azienda. Il suo obiettivo di azienda è il nostro obiettivo.' },
-  { t: 'Il fuoco',      d: 'Mantenere alta l’attenzione sul processo di vendita, eliminando ogni distrazione che ci porta ad operare al di fuori di questo.' },
-  { t: 'L’eccellenza',  d: 'Non ci limitiamo ad erogare ciò che è sufficientemente buono. Eroghiamo solo ed esclusivamente ciò che è eccellente.' },
+  { t: 'Il fuoco',      d: "Mantenere alta l'attenzione sul processo di vendita, eliminando ogni distrazione che ci porta ad operare al di fuori di questo." },
+  { t: "L'eccellenza",  d: 'Non ci limitiamo ad erogare ciò che è sufficientemente buono. Eroghiamo solo ed esclusivamente ciò che è eccellente.' },
   { t: 'Il lungo termine', d: 'Sacrifichiamo ogni risultato nel breve termine se questo influisce sui grandi successi nel lungo termine. La nostra meta è il lungo termine: per il cliente e per noi.' },
   { t: 'Do more with less', d: 'Siamo alla costante ricerca di fare di più con meno tempo e meno risorse. Automazione, fluidità, velocità.' },
   { t: 'I dati',        d: 'Ogni azione deve essere guidata dai dati. Solo scelte motivate dai dati, non dalle emozioni personali di un dato momento.' },
@@ -483,7 +489,7 @@ const monta = () => {
   $('#volti-grid')?.append(...VOLTI.map(volto));
 
   /* Slider di home: le persone + i cloni per il loop + la porta finale.
-     I cloni sono aria-hidden: lo screen reader legge tredici persone una
+     I cloni sono aria-hidden: lo screen reader legge dodici persone una
      volta sola, non ventisei.                                          */
   const vg = $('#video-grid');
   if (vg) {
@@ -492,7 +498,7 @@ const monta = () => {
     const pv = el('a', 'vid vid--porta');
     pv.href = '/risultati.html';
     pv.innerHTML = `
-      <p class="t-t1" style="max-inline-size:15ch">I numeri di questi clienti, con fonte e data.</p>
+      <p class="t-t1" style="max-inline-size:15ch">I numeri dei nostri clienti, con fonte e data.</p>
       <span class="frecc" aria-hidden="true">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
       </span>`;
@@ -522,6 +528,11 @@ const monta = () => {
     const p2 = porta(); p2.setAttribute('aria-hidden', 'true'); p2.tabIndex = -1; sq.append(p2);
   }
 
+  /* Finché anche una sola scheda è provvisoria, la nota sotto il nastro non
+     può dire che le sei hanno la liberatoria. Coi dati veri (prov:false)
+     resta il testo della pagina.                                        */
+  const nn = $('#nastro-nota');
+  if (nn && PROVE.some(p => p.prov)) nn.textContent = 'Schede dimostrative: i numeri definitivi arrivano con le liberatorie firmate dei clienti.';
   const fl = $('#fascicoli-lista');
   if (fl) {
     fl.append(...FASCICOLI.map(fascicolo));

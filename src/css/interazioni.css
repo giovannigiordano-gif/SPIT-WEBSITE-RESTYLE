@@ -12,7 +12,7 @@
    Bento, video, risorse, comandamenti, sedi, filtro, contro-esempio.
    Lo stagger si fa spostando animation-range-start, perché sulle timeline
    scroll-driven animation-delay viene IGNORATO.                        */
-.bento:not(.bento--reparti) > *, .reparti4 > *, .servizi > *, .video > *, .risorse > *,
+.bento:not(.bento--reparti) > *, .reparti4 > *, .servizi > *, .video > *,
 .indice > *, .comand > *, .dove__info > *, .filtro > *, .qualita > *, .conto > * {
   animation: sale-griglia var(--t-reveal) var(--ease-salita) both;
   animation-timeline: view();
@@ -30,10 +30,10 @@
 
 /* Quattro gradini ciclici: una griglia da dodici non deve avere dodici
    ritardi diversi, o l'ultimo tile entra troppo tardi.                */
-:is(.bento, .reparti4, .servizi, .video, .risorse, .comand, .conto, .indice) > :nth-child(4n+1) { animation-range-start: entry 10%; }
-:is(.bento, .reparti4, .servizi, .video, .risorse, .comand, .conto, .indice) > :nth-child(4n+2) { animation-range-start: entry 14%; }
-:is(.bento, .reparti4, .servizi, .video, .risorse, .comand, .conto, .indice) > :nth-child(4n+3) { animation-range-start: entry 18%; }
-:is(.bento, .reparti4, .servizi, .video, .risorse, .comand, .conto, .indice) > :nth-child(4n+4) { animation-range-start: entry 22%; }
+:is(.bento, .reparti4, .servizi, .video, .comand, .conto, .indice) > :nth-child(4n+1) { animation-range-start: entry 10%; }
+:is(.bento, .reparti4, .servizi, .video, .comand, .conto, .indice) > :nth-child(4n+2) { animation-range-start: entry 14%; }
+:is(.bento, .reparti4, .servizi, .video, .comand, .conto, .indice) > :nth-child(4n+3) { animation-range-start: entry 18%; }
+:is(.bento, .reparti4, .servizi, .video, .comand, .conto, .indice) > :nth-child(4n+4) { animation-range-start: entry 22%; }
 .dove__info > :nth-child(1), .filtro > :nth-child(1), .qualita > :nth-child(1) { animation-range-start: entry 10%; }
 .dove__info > :nth-child(2), .filtro > :nth-child(2), .qualita > :nth-child(2) { animation-range-start: entry 15%; }
 .dove__info > :nth-child(3) { animation-range-start: entry 20%; }
@@ -51,7 +51,7 @@
 @media (prefers-reduced-motion: reduce) { .reparti4 > * { animation: none; } }
 
 @supports not (animation-timeline: view()) {
-  .bento > *, .reparti4 > *, .servizi > *, .video > *, .risorse > *, .indice > *, .comand > *,
+  .bento > *, .reparti4 > *, .servizi > *, .video > *, .indice > *, .comand > *,
   .dove__info > *, .filtro > *, .qualita > *, .conto > * { animation: none; }
 }
 
@@ -60,36 +60,18 @@
    un magnetic hover: la superficie resta ferma e si illumina dove sei.
    --mx/--my le scrive un solo handler delegato, throttlato in rAF.     */
 @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
-  .card, .lente, .sede, .rottura__b { position: relative; --mx: 50%; --my: 50%; }
-  .card::after, .lente::after, .sede::after, .rottura__b::after {
+  .card, .sede { position: relative; --mx: 50%; --my: 50%; }
+  .card::after, .sede::after {
     content: ''; position: absolute; inset: 0; z-index: 0;
     border-radius: inherit; pointer-events: none;
     opacity: 0; transition: opacity var(--t-stato) linear;
     background: radial-gradient(340px 340px at var(--mx) var(--my),
                 rgba(255,255,255,.075) 0%, rgba(255,130,0,.05) 38%, transparent 68%);
   }
-  .card:hover::after, .lente:hover::after,
-  .sede:hover::after, .rottura__b:hover::after { opacity: 1; }
+  .card:hover::after, .sede:hover::after { opacity: 1; }
   /* il contenuto sta SOPRA la luce */
-  .card > *, .sede > *, .rottura__b > *, .lente > * { position: relative; z-index: 1; }
+  .card > *, .sede > * { position: relative; z-index: 1; }
 }
-
-/* ── HOVER DEI TILE ───────────────────────────────────────────────────────
-   L'icona fa un passo, il titolo si sposta di un filo, e nell'angolo
-   compare un taglio di luce: dice «questo è un argomento», non una card
-   decorativa. Ampiezza massima 3px, come tutto il resto del sistema.  */
-.tile { position: relative; overflow: hidden; }
-.tile .icoq svg { transition: scale var(--t-micro) var(--ease-scatto); }
-.tile:hover .icoq svg { scale: 1.08; }
-.tile .t-t2 { transition: translate var(--t-micro) var(--ease-scatto); }
-.tile:hover .t-t2 { translate: 2px 0; }
-.tile::before {
-  content: ''; position: absolute; top: 0; right: 0; z-index: 2;
-  width: 52px; height: 52px; pointer-events: none;
-  background: linear-gradient(225deg, rgba(255,130,0,.18) 0%, transparent 64%);
-  opacity: 0; transition: opacity var(--t-stato) linear;
-}
-.tile:hover::before { opacity: 1; }
 
 /* ── BARRA DI AVANZAMENTO ─────────────────────────────────────────────────
    Un filo arancione sotto la nav, legato allo scroll del documento con
@@ -109,15 +91,6 @@
 @supports not (animation-timeline: scroll(root block)) { .avanza { display: none; } }
 @media (prefers-reduced-motion: reduce) { .avanza { display: none; } }
 
-/* ── DERIVA DELL'ALONE NELLE LENTI ────────────────────────────────────────
-   Il blob dietro i numeri respira. 18 secondi, ampiezza piccola: si nota
-   solo se ci si sofferma, che è esattamente lo scopo.                  */
-.lente__alone { animation: deriva 18s ease-in-out infinite alternate; }
-@keyframes deriva {
-  from { opacity: .82; scale: 1; }
-  to   { opacity: 1;   scale: 1.08; }
-}
-@media (prefers-reduced-motion: reduce) { .lente__alone { animation: none; } }
 
 /* ── IL MARCHIO IN NAV ───────────────────────────────────────────────────── */
 .marchio__img { transition: scale var(--t-micro) var(--ease-scatto); }

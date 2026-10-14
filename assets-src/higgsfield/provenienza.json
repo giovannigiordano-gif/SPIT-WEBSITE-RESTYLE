@@ -101,6 +101,12 @@
       "uso": "home e metodo · reparto Formazione rete vendita",
       "scena": "sales coaching session: a coach seen from behind draws a funnel in orange marker on a whiteboard, three salespeople at the table seen from behind or the side. Scartata la variante 91c5030c-22af-40f9-afab-79d1bc7562dd (role-play al telefono: valida, meno leggibile in piccolo).",
       "stile": "Stile diverso dalla serie delle mani (giro 4, «più realistiche, meno simboliche»): fotografia documentaria a colori naturali smorzati, ufficio di una PMI la sera, luce calda di lampada, ombre profonde, un accento arancione nella scena; volti fuori campo, di spalle o sfocati; nessun testo leggibile, nessun logo. Formato 4:5, gpt_image_2_5, qualità high, 2k. Varianti web OPACHE (tools/foto.mjs, prefisso reparto-)."
+    },
+    "libri-mano": {
+      "job": "5f049421-a433-4c69-b63d-9395c3093981",
+      "formato": "4:5",
+      "uso": "fatturare³ · i due libri (al posto dei libri disegnati in CSS)",
+      "scena": "a black-and-white hand holds two closed hardcover books stacked, plain black covers without text, orange page edges and an orange ribbon bookmark. Scartata la variante 466f961f-8107-4031-a1fd-39ba80d074a2 (libro aperto: si leggeva come un libro solo)."
     }
   }
 }

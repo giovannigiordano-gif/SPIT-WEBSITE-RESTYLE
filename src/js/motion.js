@@ -343,10 +343,13 @@
   const form = $('#form'), fat = $('#f-fatturato'), sub = $('#form-submit');
   if (form && fat && sub) {
     const etichetta = $('.cta__label', sub) || sub;
+    /* l'etichetta di partenza è quella della pagina («Invia la candidatura»,
+       «Prenota il posto»): prima tornava sempre «Invia la candidatura» */
+    const originale = etichetta.textContent;
     fat.addEventListener('change', () => {
       const fuori = fat.value === 'sotto1';
       form.classList.toggle('is-squalificato', fuori);
-      etichetta.textContent = fuori ? 'Iscriviti al podcast' : 'Invia la candidatura';
+      etichetta.textContent = fuori ? 'Iscriviti al podcast' : originale;
     });
     form.addEventListener('submit', (e) => {
       e.preventDefault();
@@ -381,7 +384,7 @@
      listener per elemento su un centinaio di elementi.
      Scriviamo solo due custom property; il gradiente lo dipinge il CSS. */
   if (matchMedia('(hover: hover) and (pointer: fine)').matches && !RM()) {
-    const SUP = '.card, .lente, .sede, .rottura__b';
+    const SUP = '.card, .sede';
     let pend = null, rafLuce = 0;
     const scriviLuce = () => {
       rafLuce = 0; if (!pend) return;

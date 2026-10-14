@@ -351,6 +351,65 @@ cambio dei titoli su mobile); passeggiate a scroll della home a 1440 e 390 (`qa/
 funzionali 36/36, sette nuovi sul menu; Lighthouse mobile Home 96/100/100/100 (LCP 2,8 s, CLS 0,
 TBT 10 ms), Metodo 97, Fatturare³ 98 — accessibilità 100.
 
+- [ ] 9 · Ciclo di miglioramento continuo con agenti (14/10, sera) — *«perfeziona tutto, ciclo continuo
+  di miglioramento, feedback fra te e i tuoi agenti» · «aggiungi effetti nelle pagine»*
+
+**Fase 9 — il ciclo**
+
+Ogni giro: prove fresche (audit 8 pagine × 5 larghezze `qa/audit-c<n>`, passeggiate della home
+`qa/c<n>-home-*`) → agenti in parallelo, ognuno con un mandato stretto e senza toccare i file → io
+verifico ogni rilievo sul sito vivo, scarto quelli sbagliati e dico perché, correggo in blocco →
+build, test funzionali, audit → commit → il giro dopo riparte dalle stesse domande sul nuovo stato.
+
+Giro 1 — agenti: regia del movimento (inventario degli effetti pagina per pagina e un effetto-firma
+per ogni pagina interna), collaudo Firefox + WebKit e tastiera, correzione di bozze, revisione di
+design delle pagine interne, seconda revisione della home.
+
+*Le prove prima di tutto.* Il revisore delle interne ha rifiutato le catture del Metodo: le foto della
+staffetta mancavano. Il sito era a posto (verificato: caricate, opacità 1); era l'audit che scattava
+la pagina intera prima della DECODIFICA delle immagini fuori viewport (`decoding="async"`). Corretto
+`tools/qa/audit.js`: scorre la pagina, aspetta ogni `naturalWidth`, forza la decodifica.
+
+*Applicato (parte A, design e testi):*
+- **Foto dei reparti nella grammatica del sito.** A colori pieni sembravano foto di repertorio accanto
+  alla serie in bianco e nero. `tools/foto.mjs` ora le vira: grigio con un filo di colore (18%), neri
+  schiacciati, e resta pieno solo l'arancio molto saturo (pennarello, cartellina, grafici, imbuto).
+  Prima prova sbagliata — anche mani e legno caldo diventavano arancioni — corretta stringendo la
+  soglia di saturazione (e, nella foto della pubblicità, la soglia larga vale solo sui monitor).
+  Inquadratura per scheda sulle mani al lavoro e un taglio «stretto» per il telefono (`<picture>`).
+- **Home**: il numero dei reparti della staffetta non supera più quello del capitolo (64 contro 84px);
+  titoli dei quattro pannelli alla stessa altezza; il tetto senza icone (le hanno già i reparti della
+  staffetta); niente occhiello sopra il titolo del podcast (il nome passa nella nota); stacchi fra
+  capitoli misurati e pareggiati (il titolo delle schede era a 28px dai pugni).
+- **Pagine interne a due livelli, come la home**: le sezioni che continuano un argomento hanno un h3 e
+  la stessa luce (Risultati: numeri e settori; DNA: missione e visione; Metodo: tabella e reparti);
+  «Via Marco D'Agrate» un gradino sotto; nel Metodo due capitoli («Il problema», «Il metodo») senza
+  numero, didascalie della staffetta accanto alle foto, bordo sinistro allineato al resto (la pista
+  usava la larghezza dell'involucro senza i margini: 80px invece di 120); Candidatura: le tre tappe
+  accanto al modulo (era l'ultima sezione e ripeteva i punti dell'elenco); DNA: missione e visione
+  senza occhiello arancione e un gradino sotto la chiusa del manifesto; Team: niente quadratini
+  arancioni nelle schede dei fondatori (regola del cliente), volti dell'apertura `aria-hidden`;
+  Fatturare³: niente colonna di etichette nel podcast, e i due libri disegnati in CSS sostituiti da una
+  foto della serie con i titoli veri (dalla pagina Team: *Lo Schema Perfetto*, *Accelerare il
+  Fatturato!*); Risultati: 33 settori su due colonne anche da telefono.
+- **Dati e testi** (correzione di bozze, 49 voci: applicate quelle certe): «Tutte e tredici» → dodici
+  (il team è di dodici); il primo cliente aveva numeri diversi fra scheda e fascicolo (4 contro 14
+  venditori, Meta + telefono contro Meta + fiere) → allineati; **le schede provvisorie non dichiarano
+  più «con liberatoria»**: finché `prov:true` stampano «Dato provvisorio · in attesa di liberatoria» e
+  la nota sotto il nastro lo dice; il pulsante della pagina Eventi tornava «Invia la candidatura»
+  invece di «Prenota il posto» (bug, test aggiunto); «Reparti 01 e 02», orari con il trattino breve,
+  «Apple Podcasts», CAP prima della città nel footer, apostrofi dritti ovunque, «Cofondatore», «in
+  Borsa», «non spetta a noi mostrarli», «un tempo e un responsabile», «Preferisci scriverci?» (il
+  numero di telefono non c'è), una nota interna visibile ai visitatori tolta da Fatturare³; una
+  concordanza nel testo del cliente (DNA: «Se guidati…»).
+- **CSS morto rimosso** (card «a lente», risorse a card, fascia crema, classi mai usate): il foglio
+  unico passa da 110 a 105 KB senza cambiare un pixel.
+
+*Rilievi non applicati, e perché:* nel Metodo, filtrare la tabella sul primo reparto da telefono
+(nasconderebbe nove righe su dodici a chi non tocca i filtri); nella correzione di bozze, le frasi del
+cliente che sono scelte di tono e non errori («in fondo al tuo bilancio», «Do more with less»,
+«Uffici di rappresentanza») → elencate per il cliente in §6.
+
 ### Cosa è stato fatto, fase per fase (skill applicate)
 
 **Fase 1 — design system** (impeccable craft-floor, design-taste-frontend, ui-ux-pro-max checklist)

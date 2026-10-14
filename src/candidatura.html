@@ -18,7 +18,7 @@
 
 <link rel="preload" href="/assets/fonts/dm-sans-latin-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
-<link rel="stylesheet" href="/css/sito.css?v=f9330e4b02">
+<link rel="stylesheet" href="/css/sito.css?v=0e4f6715e6">
 </head>
 <body data-pagina="candidatura">
 <div class="palco" aria-hidden="true"><i data-a="nero"></i><i data-a="brace"></i><i data-a="alba"></i><i data-a="radente"></i><i data-a="notte"></i><i data-a="pozzo"></i><i data-a="fuoco"></i><b class="palco__torcia"></b></div>
@@ -165,13 +165,25 @@
     <div class="cand__testo">
       <h2 class="t-d2" data-split><span class="w" style="--w:0"><span>Cinque</span></span> <span class="w" style="--w:1"><span>campi,</span></span> <span class="w" style="--w:2"><span><span class="segue">poi</span></span></span> <span class="w" style="--w:3"><span><span class="segue">ne</span></span></span> <span class="w" style="--w:4"><span><span class="segue">parliamo.</span></span></span></h2>
       <p class="t-deck">Via Marco D'Agrate 41, Milano, quarto piano. Il caffè lo facciamo noi. Se preferisci partire da una chiamata, va bene uguale.</p>
-      <ul class="lista t-corpo">
-        <li><span>La legge una persona, non un software</span></li>
-        <li><span>Risposta entro 48 ore lavorative</span></li>
-        <li><span>Se non rientri nel filtro, te lo diciamo subito</span></li>
-      </ul>
+      <!-- Cosa succede dopo, accanto al modulo (ciclo 1: era l'ultima sezione
+           della pagina, dopo la mappa, e ripeteva questi punti). -->
+      <h3 class="t-t1 cand__dopo">Tre tappe, nessuna sorpresa.</h3>
+      <ol class="tempi tempi--passi tempi--stretti">
+        <li class="tempo">
+          <p class="tempo__ora">Entro 48 ore lavorative</p>
+          <div class="tempo__corpo"><h4 class="tempo__tit">Leggiamo e rispondiamo</h4><p class="tempo__desc">La legge una persona, non un software. Ti diciamo se rientri e perché; se non rientri, ti diciamo cosa ti manca.</p></div>
+        </li>
+        <li class="tempo">
+          <p class="tempo__ora">45 minuti</p>
+          <div class="tempo__corpo"><h4 class="tempo__tit">Una chiamata sui numeri</h4><p class="tempo__desc">Fatturato, margine, venditori, canali. Nessuna presentazione: solo domande.</p></div>
+        </li>
+        <li class="tempo">
+          <p class="tempo__ora">In ufficio o in video</p>
+          <div class="tempo__corpo"><h4 class="tempo__tit">Il disegno del processo</h4><p class="tempo__desc">Ti mostriamo come sarebbero i tuoi quattro reparti e i tre passaggi. Poi decidi.</p></div>
+        </li>
+      </ol>
       <div style="margin-top:var(--s-4);padding-top:var(--s-5);border-top:1px solid var(--c-filo);display:grid;gap:10px">
-        <p class="t-micro">Preferisci scrivere o chiamare?</p>
+        <p class="t-micro">Preferisci scriverci?</p>
         <a class="cta cta--testo link-wipe t-piccolo" href="mailto:amministrazione@salesprocess.it">amministrazione@salesprocess.it</a>
       </div>
     </div>
@@ -229,7 +241,7 @@
 <section class="sez dove" id="dove">
   <div class="wrap wrap--piena">
     <div class="testa">
-      <h2 class="t-d2" data-split><span class="w" style="--w:0"><span>Via</span></span> <span class="w" style="--w:1"><span>Marco</span></span> <span class="w" style="--w:2"><span>D'Agrate</span></span> <span class="w" style="--w:3"><span>41,</span></span> <span class="w" style="--w:4"><span>Milano.</span></span> <span class="w" style="--w:5"><span><span class="segue">Quarto</span></span></span> <span class="w" style="--w:6"><span><span class="segue">piano.</span></span></span></h2>
+      <h2 class="t-d3" data-split><span class="w" style="--w:0"><span>Via</span></span> <span class="w" style="--w:1"><span>Marco</span></span> <span class="w" style="--w:2"><span>D'Agrate</span></span> <span class="w" style="--w:3"><span>41,</span></span> <span class="w" style="--w:4"><span>Milano.</span></span> <span class="w" style="--w:5"><span><span class="segue">Quarto</span></span></span> <span class="w" style="--w:6"><span><span class="segue">piano.</span></span></span></h2>
       <p class="t-deck">Il caffè lo facciamo noi. A dieci minuti dalla tangenziale Est, parcheggio in strada.</p>
     </div>
 
@@ -276,28 +288,6 @@
   </div>
 </section>
 
-<!-- ══ COSA SUCCEDE DOPO ═════════════════════════════════════════════════ -->
-<section class="sez sf sf--pozzo">
-  <div class="wrap wrap--grid">
-    <div class="testa">
-      <h2 class="t-d2" data-split><span class="w" style="--w:0"><span>Tre</span></span> <span class="w" style="--w:1"><span>passaggi,</span></span> <span class="w" style="--w:2"><span><span class="segue">nessuna</span></span></span> <span class="w" style="--w:3"><span><span class="segue">sorpresa.</span></span></span></h2>
-    </div>
-    <ol class="tempi tempi--passi">
-      <li class="tempo">
-        <p class="tempo__ora">Entro 48 ore</p>
-        <div class="tempo__corpo"><h3 class="tempo__tit">Leggiamo e rispondiamo</h3><p class="tempo__desc">Ti diciamo se rientri e perché. Se non rientri, ti diciamo cosa ti manca.</p></div>
-      </li>
-      <li class="tempo">
-        <p class="tempo__ora">45 minuti</p>
-        <div class="tempo__corpo"><h3 class="tempo__tit">Una chiamata sui numeri</h3><p class="tempo__desc">Fatturato, margine, venditori, canali. Nessuna presentazione: solo domande.</p></div>
-      </li>
-      <li class="tempo">
-        <p class="tempo__ora">In ufficio o in video</p>
-        <div class="tempo__corpo"><h3 class="tempo__tit">Il disegno del processo</h3><p class="tempo__desc">Ti mostriamo come sarebbero i tuoi quattro reparti e i tre passaggi. Poi decidi.</p></div>
-      </li>
-    </ol>
-  </div>
-</section>
 
 </main>
 
@@ -342,8 +332,8 @@
           <span><em>Numero Verde</em><b class="verde__n">Numero verde da fornire</b></span>
         </div>
         <a class="footer__mail link-wipe" href="mailto:amministrazione@salesprocess.it">amministrazione@<wbr>salesprocess.it</a>
-        <p class="t-piccolo footer__sedi"><b>Uffici di rappresentanza</b><br>Via Marco D’Agrate 41, Milano (MI) 20139</p>
-        <p class="t-piccolo footer__sedi"><b>Sede legale</b><br>Piazza IV Novembre, Capiago Intimiano (CO) 22070</p>
+        <p class="t-piccolo footer__sedi"><b>Uffici di rappresentanza</b><br>Via Marco D'Agrate 41, 20139 Milano (MI)</p>
+        <p class="t-piccolo footer__sedi"><b>Sede legale</b><br>Piazza IV Novembre, 22070 Capiago Intimiano (CO)</p>
       </div>
     </div>
     <div class="footer__legale">

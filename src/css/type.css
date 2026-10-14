@@ -124,7 +124,7 @@
   border-radius: var(--q-r); background: var(--c-ar);
   translate: 0 -.08em;
 }
-.centro.t-eyebrow, .testa--c > .t-eyebrow { justify-content: center; }
+.centro.t-eyebrow { justify-content: center; }
 /* Dentro card e celle l'occhiello è un'etichetta, non una testata: niente
    particella, il colore lo dà il contesto.                             */
 .card .t-eyebrow::before, .pers .t-eyebrow::before, .vid .t-eyebrow::before { display: none; }
@@ -150,16 +150,6 @@
 
 /* ── I DATI. Le CIFRE hanno letter-spacing 0: tracciare i numeri fa
       oscillare le colonne. ──────────────────────────────────────────────── */
-.t-meta {
-  font-family: var(--f-display); font-weight: 500;
-  font-size: var(--fs-meta); line-height: 1.45;
-  letter-spacing: 0; color: var(--c-t3);
-}
-.t-dato {
-  font-family: var(--f-display); font-weight: 500;
-  font-size: 15px; letter-spacing: 0;
-  font-variant-numeric: tabular-nums; color: var(--c-t2);
-}
 /* La didascalia di servizio: fonti, date, filtri. 13px in tondo (prima 11px
    maiuscolo tracciato): si legge, e non urla per essere minuscola.     */
 .t-micro {

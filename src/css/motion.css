@@ -12,7 +12,6 @@
 .apri-1 { translate: 0 var(--dy); opacity: 0; animation: apri-rise var(--t-reveal) var(--ease-salita) 80ms both; }
 .apri-2 { translate: 0 var(--dy); opacity: 0; animation: apri-rise var(--t-reveal) var(--ease-salita) 480ms both; }
 .apri-3 { translate: 0 var(--dy); opacity: 0; animation: apri-rise var(--t-reveal) var(--ease-salita) 600ms both; }
-.apri-4 { translate: var(--dx) var(--dy); opacity: 0; animation: apri-rise var(--t-reveal) var(--ease-salita) 720ms both; }
 @keyframes apri-rise { to { translate: 0 0; opacity: 1; } }
 
 /* L'attacco dell'H1 sale dentro una maschera, subito: è la prima cosa da
@@ -70,22 +69,6 @@
 @media (prefers-reduced-motion: reduce) {
   .hero__mark rect, .hero__campo i, .hero__campo { animation: none; }
 }
-
-/* I moduli del mark si accendono uno per uno: è l'unica animazione di logo
-   che vale la pena fare, e dura meno dell'apertura.                       */
-.nav .marchio__mark rect { opacity: 0; animation: apri-modulo 240ms var(--ease-salita) both; }
-.nav .marchio__mark rect:nth-child(1)  { animation-delay: 40ms }
-.nav .marchio__mark rect:nth-child(2)  { animation-delay: 66ms }
-.nav .marchio__mark rect:nth-child(3)  { animation-delay: 92ms }
-.nav .marchio__mark rect:nth-child(4)  { animation-delay: 118ms }
-.nav .marchio__mark rect:nth-child(5)  { animation-delay: 144ms }
-.nav .marchio__mark rect:nth-child(6)  { animation-delay: 170ms }
-.nav .marchio__mark rect:nth-child(7)  { animation-delay: 196ms }
-.nav .marchio__mark rect:nth-child(8)  { animation-delay: 222ms }
-.nav .marchio__mark rect:nth-child(9)  { animation-delay: 248ms }
-.nav .marchio__mark rect:nth-child(10) { animation-delay: 274ms }
-.nav .marchio__mark rect:nth-child(11) { animation-delay: 300ms }
-@keyframes apri-modulo { to { opacity: 1; } }
 
 /* Nell'hero la maschera a scalinata è a TEMPO, non a scroll: è sopra la
    piega, e una animation-timeline: view() lì non scatterebbe mai.        */

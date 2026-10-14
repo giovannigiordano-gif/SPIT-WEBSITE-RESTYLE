@@ -38,7 +38,6 @@ table { border-collapse: collapse; width: 100%; }
 /* L'arancio è l'unico colore della palette che soddisfa SC 1.4.11 senza
    sforzo: i bordi bianchi decorativi arrivano a 1,3:1.                    */
 :focus-visible { outline: 2px solid var(--c-ar); outline-offset: 3px; border-radius: 2px; }
-.carta :focus-visible { outline-color: var(--c-inchiostro); }
 
 /* ── LE SUPERFICI CHE NON DISEGNIAMO ──────────────────────────────────────
    Selezione, cursore di testo e cifre: con i default del browser la
@@ -91,9 +90,6 @@ input, select, textarea { caret-color: var(--c-ar); }
    e lontano dall'altro — il cliente non capiva quale fosse il titolo.
    Il titolo dice di cosa parla la sezione; il sommario dice perché.    */
 .testa { display: grid; gap: var(--s-5); justify-items: start; margin-bottom: clamp(44px, 3.4vw + 28px, 76px); }
-.testa--c { justify-items: center; text-align: center; }
-.testa--c .t-d2 { margin-inline: auto; }
-.testa--c .t-deck { margin-inline: auto; }
 .testa--segue { gap: var(--s-4); margin-bottom: clamp(32px, 2.6vw + 20px, 56px); }
 
 /* ── I CAPITOLI (giro 4) ───────────────────────────────────────────────────
@@ -148,7 +144,6 @@ input, select, textarea { caret-color: var(--c-ar); }
 .lista { display: grid; gap: var(--s-3); }
 .lista li { display: grid; grid-template-columns: 8px 1fr; gap: 14px; align-items: start; }
 .lista li::before { content: ''; width: 8px; height: 8px; margin-top: .58em; border-radius: var(--q-r); background: var(--c-ar); }
-.lista--ok li::before { background: var(--c-ok); }
 .lista--no li::before { background: var(--c-rottura); clip-path: polygon(0 0, 100% 50%, 0 100%); }
 
 /* ── CTA — tutti pill, come nel riferimento ───────────────────────────────
@@ -239,10 +234,6 @@ input, select, textarea { caret-color: var(--c-ar); }
 /* Destinazione non ancora fornita dal cliente: non è un link (href="#"
    salterebbe in cima alla pagina), ed è dichiarato come tale.           */
 .todo { color: var(--c-t3); cursor: default; }
-/* Sulla fascia crema --c-t3 e bianco al 56%: invisibile. Li serve
-   inchiostro, e lo stesso vale per il bordo del badge.                  */
-.carta .todo { color: var(--c-inch-2); }
-.carta .todo::after { color: var(--c-ar-carta); border-color: rgba(138,67,0,.34); }
 .todo::after {
   content: 'in arrivo'; margin-left: 8px; white-space: nowrap; display: inline-block;
   font-size: 12px; font-weight: 600; letter-spacing: 0; text-transform: none;
@@ -259,7 +250,6 @@ input, select, textarea { caret-color: var(--c-ar); }
               translate var(--t-micro) var(--ease-scatto);
 }
 .card:hover { background: var(--c-sup-2); border-color: var(--c-filo-forte); }
-.card--panel { border-radius: var(--r-panel); }
 
 /* Il filtro parla come il resto del sito: tondo, 14px, pill. Prima era
    maiuscolo tracciato a 12px, l'unico punto in cui la UI urlava.      */
@@ -286,7 +276,6 @@ input, select, textarea { caret-color: var(--c-ar); }
 }
 .icoq svg { display: block; width: 100%; height: 100%; }
 
-.fonte { display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: center; }
 
 /* ── LA MASCHERA A SCALINATA ──────────────────────────────────────────────
    Le fotografie non compaiono: vengono SCOPERTE da un bordo a quattro

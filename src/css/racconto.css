@@ -79,7 +79,7 @@
 .staffetta { position: relative; }
 .staffetta__pista {
   display: grid; gap: clamp(36px, 5vw, 64px);
-  width: min(100% - 2 * var(--margine), var(--w-piena));
+  width: min(100% - 2 * var(--margine), var(--w-piena) - 2 * var(--margine));
   margin-inline: auto;
 }
 .staffetta__testa { display: grid; gap: var(--s-5); justify-items: start; }
@@ -92,7 +92,9 @@
    è il fotogramma corrente.                                          */
 .stazione::before {
   content: attr(data-n);
-  font: 700 clamp(72px, 7vw, 128px)/.8 var(--f-display); letter-spacing: -.05em;
+  /* mai più grande del numero del capitolo che lo contiene (.capo__n,
+     52–84px): a 1440 era 100px contro 75 (revisione, ciclo 1) */
+  font: 700 clamp(46px, 4.4vw, 64px)/.8 var(--f-display); letter-spacing: -.05em;
   color: transparent; -webkit-text-stroke: 1.5px var(--c-ar);
   transition: -webkit-text-stroke-color var(--t-stato) linear;
 }
@@ -125,10 +127,6 @@
 .staffetta__fine figcaption { max-inline-size: 36ch; font: 400 17px/1.55 var(--f-display); color: var(--c-t2); }
 .staffetta__fine strong { display: block; margin-bottom: var(--s-2); font: 500 clamp(32px, 3vw, 48px)/1.04 var(--f-display); letter-spacing: -.02em; color: var(--c-t1); }
 
-/* Su telefono il numero del reparto resta sotto quello del capitolo che lo
-   contiene («03 Il metodo» sta nello stesso schermo di «01 Pubblicità»). */
-@media (max-width: 899px) { .stazione::before { font-size: 46px; } }
-
 /* ── LA COLONNA (Metodo e schermi stretti): reparto e passaggio affiancati */
 @media (min-width: 900px) {
   .staffetta--colonna .staffetta__pista { gap: 0; }
@@ -145,15 +143,18 @@
   .staffetta--colonna .stazione .stazione__nome { grid-row: 2; }
   .staffetta--colonna .stazione .stazione__claim { grid-row: 1 / span 2; align-self: start; padding-top: 4px; }
   .staffetta--colonna .stazione .stazione__out { grid-row: 3; }
-  .staffetta--colonna .passaggio {
-    grid-template-columns: minmax(0, 3fr) minmax(0, 9fr); align-items: center; column-gap: clamp(24px, 3vw, 48px);
+  /* La didascalia del passaggio sta ACCANTO alla sua foto, in basso, nella
+     colonna del testo dei reparti: prima era nella prima colonna, a 400px
+     dalla foto, e sembrava una riga dimenticata (revisione, ciclo 1). */
+  .staffetta--colonna .passaggio, .staffetta--colonna .staffetta__fine {
+    grid-template-columns: minmax(0, 3fr) minmax(0, 4fr) minmax(0, 5fr); align-items: end; column-gap: clamp(24px, 3vw, 48px);
     padding-block: var(--s-4);
   }
-  .staffetta--colonna .passaggio__foto { grid-column: 2; grid-row: 1; width: min(100%, 420px); justify-self: center; }
-  .staffetta--colonna .passaggio figcaption { grid-column: 1; grid-row: 1; }
-  .staffetta--colonna .staffetta__fine { grid-template-columns: minmax(0, 3fr) minmax(0, 9fr); align-items: center; column-gap: clamp(24px, 3vw, 48px); padding-top: var(--s-6); border-top: 1px solid var(--c-filo-forte); }
-  .staffetta--colonna .staffetta__fine img { grid-column: 2; grid-row: 1; width: min(100%, 420px); justify-self: center; }
-  .staffetta--colonna .staffetta__fine figcaption { grid-column: 1; grid-row: 1; }
+  .staffetta--colonna .passaggio__foto { grid-column: 2; grid-row: 1; width: min(100%, 420px); }
+  .staffetta--colonna .passaggio figcaption { grid-column: 3; grid-row: 1; padding-bottom: var(--s-6); }
+  .staffetta--colonna .staffetta__fine { padding-top: var(--s-6); border-top: 1px solid var(--c-filo-forte); }
+  .staffetta--colonna .staffetta__fine img { grid-column: 2; grid-row: 1; width: min(100%, 420px); }
+  .staffetta--colonna .staffetta__fine figcaption { grid-column: 3; grid-row: 1; padding-bottom: var(--s-6); }
 }
 @media (max-width: 1023px) {
   .passaggio__foto img, .staffetta__fine img {

@@ -41,9 +41,21 @@ async page => {
 
     /* Le immagini lazy non partono in uno screenshot full-page (il viewport
        non scorre): si forzano eager e si aspetta che arrivino. */
+    /* Forzarle eager non basta sempre: le foto della staffetta (inserite da
+       dati.js) restavano vuote nella cattura del Metodo. Si scorre anche la
+       pagina a passi, come farebbe una persona, e si aspetta che OGNI
+       immagine abbia una larghezza naturale (cicli di verifica, fase 9). */
     await p.evaluate(async () => {
       document.querySelectorAll('img[loading="lazy"]').forEach(i => { i.loading = 'eager'; });
-      await Promise.all([...document.images].map(i => i.complete ? 0 : new Promise(r => { i.onload = i.onerror = r; setTimeout(r, 5000); })));
+      const H = document.documentElement.scrollHeight;
+      for (let y = 0; y < H; y += 500) { scrollTo(0, y); await new Promise(r => setTimeout(r, 60)); }
+      scrollTo(0, 0);
+      await Promise.all([...document.images].map(i => (i.complete && i.naturalWidth) ? 0 : new Promise(r => { i.onload = i.onerror = r; setTimeout(r, 6000); })));
+      /* caricate non vuol dire dipinte: con decoding="async" lo scatto a
+         pagina intera arrivava prima della decodifica delle immagini fuori
+         dal viewport, che uscivano vuote */
+      document.querySelectorAll('img').forEach(i => { i.decoding = 'sync'; });
+      await Promise.all([...document.images].map(i => i.decode ? i.decode().catch(() => {}) : 0));
     });
     await p.addStyleTag({ content: FINALE });
     await p.evaluate(() => {

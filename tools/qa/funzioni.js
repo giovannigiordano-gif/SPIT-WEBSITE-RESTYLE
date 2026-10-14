@@ -27,6 +27,9 @@ async page => {
   await p.goto(B + '/eventi.html', { waitUntil: 'networkidle' });
   await p.selectOption('#f-fatturato', 'sotto1');
   ok('eventi: squalifica visibile', await p.isVisible('#squalifica'));
+  /* ciclo 1: tornando sopra il milione l'etichetta tornava «Invia la candidatura» */
+  await p.selectOption('#f-fatturato', '2-3');
+  ok('eventi: l\'etichetta torna «Prenota il posto»', (await p.textContent('#form-submit .cta__label')).trim() === 'Prenota il posto');
 
   /* 3 · metodo: filtri della tabella */
   await p.goto(B + '/metodo.html', { waitUntil: 'networkidle' });

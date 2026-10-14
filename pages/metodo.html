@@ -1,6 +1,6 @@
 <!--
 title: Il metodo 4 in 1 — Sales Process
-desc: Quattro reparti sotto lo stesso tetto e tre passaggi di consegna misurati. Cosa entra e cosa esce da ogni reparto, con SLA, strumento e nome di chi risponde.
+desc: Quattro reparti sotto lo stesso tetto e tre passaggi di consegna misurati. Cosa entra e cosa esce da ogni reparto, con SLA, strumento e ruolo di chi risponde.
 -->
 
 <!-- ══ APERTURA ══════════════════════════════════════════════════════════
@@ -28,6 +28,9 @@ desc: Quattro reparti sotto lo stesso tetto e tre passaggi di consegna misurati.
      conto 4 · 3 · 0, con i tre passaggi rotti dentro il «3». -->
 <section class="sez contro sf sf--fuoco" id="contro">
   <div class="wrap wrap--piena">
+    <!-- Due capitoli come in home, senza numero: i numeri a contorno qui
+         sono quelli dei quattro reparti, poco sotto. -->
+    <p class="capo"><span class="capo__nome">Il problema</span></p>
     <div class="testa">
       <h2 class="t-d2" data-split>Quattro fornitori diversi non sono un reparto. <span class="segue">Sono tre passaggi che cadono per terra.</span></h2>
       <p class="t-deck">L'agenzia che compra la pubblicità non parla con chi scrive le mail. Chi scrive le mail non sa chi hai assunto. Chi hai assunto non l'ha formato nessuno.</p>
@@ -78,6 +81,7 @@ desc: Quattro reparti sotto lo stesso tetto e tre passaggi di consegna misurati.
   <div class="staffetta staffetta--colonna" id="staffetta">
     <div class="staffetta__pista" id="staffetta-pista">
       <div class="staffetta__testa">
+        <p class="capo"><span class="capo__nome">Il metodo</span></p>
         <h2 class="t-d2" data-split>Quattro reparti, <span class="segue">tre passaggi di consegna.</span></h2>
       </div>
       <!-- /js/dati.js: quattro reparti e tre passaggi, alternati -->
@@ -93,10 +97,10 @@ desc: Quattro reparti sotto lo stesso tetto e tre passaggi di consegna misurati.
 <!-- ══ COSA ENTRA, COSA ESCE ═════════════════════════════════════════════
      Un solo blocco, cinque lavori: prova ispezionabile, versione
      reduced-motion, versione screen-reader, stampabile, indicizzabile. -->
-<section class="sez sf sf--radente" id="tabella">
+<section class="sez sez--segue sf sf--pozzo" id="tabella">
   <div class="wrap wrap--piena">
-    <div class="testa">
-      <h2 class="t-d2" data-split>Ogni reparto ha un input, un output, <span class="segue">un tempo e un nome.</span></h2>
+    <div class="testa testa--segue">
+      <h3 class="t-d3" data-split>Ogni reparto ha un input, un output, <span class="segue">un tempo e un responsabile.</span></h3>
     </div>
 
     <div class="tab__filtri" role="group" aria-label="Filtra per reparto" id="tab-filtri">
@@ -116,15 +120,15 @@ desc: Quattro reparti sotto lo stesso tetto e tre passaggi di consegna misurati.
       <tbody id="tabella-body"><!-- /js/dati.js --></tbody>
     </table>
 
-    <p class="t-micro" style="margin-top:var(--s-5)">Gli SLA sono quelli che ci impegniamo a rispettare in contratto. Se salta un passaggio, lo vedi nel rendiconto della settimana.</p>
+    <p class="t-micro" style="margin-top:var(--s-5)">Gli SLA sono quelli che ci impegniamo per contratto a rispettare. Se salta un passaggio, lo vedi nel rendiconto della settimana.</p>
   </div>
 </section>
 
 <!-- ══ DENTRO I QUATTRO REPARTI ══════════════════════════════════════════ -->
-<section class="sez sez--deep">
+<section class="sez sez--segue sf sf--pozzo">
   <div class="wrap wrap--piena">
-    <div class="testa">
-      <h2 class="t-d2" data-split>Dentro i quattro reparti.</h2>
+    <div class="testa testa--segue">
+      <h3 class="t-d3" data-split>Dentro i quattro reparti.</h3>
     </div>
     <div class="bento" id="bento"><!-- /js/dati.js --></div>
   </div>
