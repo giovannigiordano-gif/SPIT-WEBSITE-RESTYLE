@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Il team — Sales Process</title>
+<meta name="description" content="Dodici persone, quattro reparti, un ufficio in Via Marco D'Agrate 41 a Milano. Il reparto vendita che ti consegniamo ha nomi e cognomi.">
+<meta name="theme-color" content="#161519">
+<link rel="icon" href="/assets/brand/favicon.svg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=Instrument+Serif:ital@1&display=swap">
+
+<link rel="stylesheet" href="/css/tokens.css">
+<link rel="stylesheet" href="/css/type.css">
+<link rel="stylesheet" href="/css/base.css">
+<link rel="stylesheet" href="/css/chrome.css">
+<link rel="stylesheet" href="/css/sfondi.css">
+<link rel="stylesheet" href="/css/sections.css">
+<link rel="stylesheet" href="/css/infografica.css">
+<link rel="stylesheet" href="/css/motion.css">
+<link rel="stylesheet" href="/css/interazioni.css">
+</head>
+<body data-pagina="team">
+
+<a class="skip" href="#main">Salta al contenuto</a>
+
+<div class="barra" id="barra">
+  <span class="barra__dot" aria-hidden="true"></span>
+  <span>Sales Process Day 2026</span>
+  <span class="barra__sep barra__data" aria-hidden="true">·</span>
+  <span class="barra__data">14 ottobre · Milano</span>
+  <span class="barra__slot barra__sep" aria-hidden="true">·</span>
+  <span class="barra__slot">30 posti in sala</span>
+  <a class="barra__pill" href="/eventi.html"><span>Prendi il tuo posto</span> <span aria-hidden="true">→</span></a>
+  <button class="barra__x" id="barra-x" aria-label="Chiudi l'annuncio">
+    <svg width="11" height="11" viewBox="0 0 11 11" aria-hidden="true"><path d="M1 1l9 9M10 1l-9 9" stroke="currentColor" stroke-width="1.6"/></svg>
+  </button>
+</div>
+
+<header class="nav" id="nav">
+  <div class="wrap wrap--nav nav__in">
+    <a class="marchio" href="/" aria-label="Sales Process, home">
+      <img class="marchio__img" src="/assets/brand/logo.webp" alt="Sales Process" style="height:30px" width="4118" height="846">
+    </a>
+    <nav class="nav__voci" aria-label="Principale">
+      <a href="/metodo.html">Metodo</a>
+      <a href="/risultati.html">Risultati</a>
+      <a href="/dna.html">DNA</a>
+      <a href="/team.html" aria-current="page">Team</a>
+      <a href="/eventi.html">Eventi</a>
+    </nav>
+    <div class="nav__dx">
+      <div class="gruppo" aria-label="Contatti rapidi">
+        <a class="is-on" href="mailto:amministrazione@salesprocess.it">Scrivici</a>
+        <a href="mailto:amministrazione@salesprocess.it">Scrivi</a>
+      </div>
+      <a class="nav__login" href="/fatturare.html">Podcast</a>
+      <a class="cta cta--ar cta--luce cta--nav" href="/candidatura.html">Candida la tua azienda</a>
+      <button class="burger" id="burger" aria-label="Apri il menu" aria-expanded="false" aria-controls="menu"><span></span></button>
+    </div>
+  </div>
+</header>
+
+<div class="menu" id="menu">
+  <a href="/metodo.html">Metodo<span aria-hidden="true">→</span></a>
+  <a href="/risultati.html">Risultati<span aria-hidden="true">→</span></a>
+  <a href="/dna.html">DNA<span aria-hidden="true">→</span></a>
+  <a href="/team.html">Team<span aria-hidden="true">→</span></a>
+  <a href="/eventi.html">Eventi<span aria-hidden="true">→</span></a>
+  <a href="/candidatura.html">Candidatura<span aria-hidden="true">→</span></a>
+  <a class="cta cta--ar" href="/candidatura.html">Candida la tua azienda</a>
+</div>
+<div class="avanza" aria-hidden="true"></div>
+
+<main id="main">
+<section class="testa-pag">
+  <div class="wrap wrap--piena testa-pag__in">
+    <p class="pill-eyebrow apri-1">Il team</p>
+    <h1 class="t-hero" style="max-inline-size:19ch">Il reparto che ti consegniamo ha nomi e <span class="ar">cognomi</span>.</h1>
+    <p class="t-deck apri-2">Dodici persone, quattro reparti, un ufficio in Via Marco D'Agrate 41 a Milano. Non un'agenzia senza volto: le persone che entrano nella tua azienda le puoi guardare in faccia prima di firmare.</p>
+    <div class="cta-riga cta-riga--c apri-3">
+      <a class="cta cta--bianco" href="/candidatura.html">Candida la tua azienda</a>
+      <a class="cta cta--out" href="#lavora">Lavora con noi →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══ CHI LAVORA SULLA TUA AZIENDA ══════════════════════════════════════
+     Qui facciamo l'OPPOSTO del riferimento, che può essere un'entità senza
+     facce perché vende software-like. Noi vendiamo persone che entrano in
+     azienda, e il compratore italiano di PMI compra dalla faccia. -->
+<section class="sez sf sf--brace" id="volti">
+  <div class="wrap wrap--grid">
+    <div class="testa">
+      <p class="t-eyebrow">Chi lavora sulla tua azienda</p>
+      <h2 class="t-d2">Dodici persone, quattro reparti.</h2>
+      <p class="t-deck">Ogni reparto ha un responsabile che risponde del suo numero. Non di quante attività ha svolto: del numero.</p>
+    </div>
+    <div class="volti" id="volti-grid"><!-- /js/dati.js --></div>
+    <p class="t-piccolo" style="margin-top:var(--s-6);max-inline-size:64ch">Il tuo venditore lo seleziona <strong style="color:var(--c-t1);font-weight:500">Giulia</strong>. Lo forma <strong style="color:var(--c-t1);font-weight:500">Cristian</strong>. Il budget pubblicitario lo gestisce <strong style="color:var(--c-t1);font-weight:500">Matteo</strong>. Non «un team»: queste persone.</p>
+  </div>
+</section>
+
+<!-- ══ I FONDATORI ═══════════════════════════════════════════════════════
+     Righe FATTUALI. Nessun patrimonio personale, nessuna icona
+     aspirazionale: usata come icona, questa figura sposta il brand dal
+     territorio agenzia al territorio formazione, e riattiva l'allergia
+     del pubblico italiano. -->
+<section class="sez sf sf--pozzo">
+  <div class="wrap wrap--ed">
+    <div class="testa">
+      <p class="t-eyebrow">Chi ha costruito il metodo</p>
+      <div class="duevoci">
+        <h2 class="t-caps">Due fondatori</h2>
+        <p class="t-voce">un solo processo</p>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px">
+      <article class="card" style="padding:var(--s-6);display:grid;gap:var(--s-4)">
+        <h3 class="t-t1">Alberto Frisoni</h3>
+        <p class="t-micro">Fondatore</p>
+        <ul class="lista t-piccolo">
+          <li><span>Amministratore delegato di Sales Process Italia.</span></li>
+          <li><span>Due aziende italiane portate da zero a oltre un milione di fatturato.</span></li>
+          <li><span>Autore di <em style="font-style:normal;color:var(--c-t1)">Lo Schema Perfetto</em> e <em style="font-style:normal;color:var(--c-t1)">Accelerare il Fatturato!</em></span></li>
+          <li><span>Voce del podcast <em style="font-style:normal;color:var(--c-t1)">Fatturare Fatturare Fatturare</em>, dal 2023.</span></li>
+        </ul>
+      </article>
+      <article class="card" style="padding:var(--s-6);display:grid;gap:var(--s-4)">
+        <h3 class="t-t1">Alfio Bardolla</h3>
+        <p class="t-micro">Co-founder</p>
+        <ul class="lista t-piccolo">
+          <li><span>Co-fondatore di Sales Process Italia.</span></li>
+          <li><span>Oltre trenta aziende all'attivo, gruppo quotato in borsa.</span></li>
+          <li><span>Autore di sette libri sulla finanza personale.</span></li>
+        </ul>
+        <p class="t-piccolo" style="color:var(--c-t3)">La solidità societaria dietro il metodo.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ══ L'UFFICIO ═════════════════════════════════════════════════════════ -->
+<section class="sez">
+  <div class="wrap wrap--piena">
+    <div class="testa">
+      <p class="t-eyebrow">Dove siamo</p>
+      <h2 class="t-d2">Via Marco D'Agrate 41, Milano. Quarto piano.</h2>
+      <p class="t-deck">Il caffè lo facciamo noi. Se preferisci partire da una chiamata va bene uguale, ma se vuoi vedere dove lavorano le persone che entreranno nella tua azienda, l'indirizzo è questo.</p>
+    </div>
+    <div class="cta-riga">
+      <a class="cta cta--out" href="/candidatura.html">Vieni a prendere un caffè →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══ LAVORA CON NOI ════════════════════════════════════════════════════ -->
+<section class="sez sf sf--notte" id="lavora">
+  <div class="wrap wrap--grid">
+    <div class="testa">
+      <p class="t-eyebrow">Lavora con noi</p>
+      <h2 class="t-d2">Cerchiamo persone che guardano i <span class="ar">numeri</span>.</h2>
+      <p class="t-deck">Non cerchiamo creativi. Cerchiamo persone che a fine settimana sanno dire se il numero è cresciuto e perché.</p>
+    </div>
+    <div class="bento">
+      <article class="card tile"><h3 class="t-t2">Media buyer</h3><p class="t-piccolo">Meta e Google su budget continuativi, con il fatturato del cliente come metrica.</p></article>
+      <article class="card tile"><h3 class="t-t2">Copy a risposta diretta</h3><p class="t-piccolo">Scrivere per far alzare il telefono, non per far dire «bello».</p></article>
+      <article class="card tile"><h3 class="t-t2">Recruiter commerciale</h3><p class="t-piccolo">Selezionare venditori che restano. La prova è a 90 giorni.</p></article>
+      <article class="card tile"><h3 class="t-t2">Sales coach</h3><p class="t-piccolo">Affiancare in campo, ascoltare le registrazioni, correggere.</p></article>
+    </div>
+    <div class="cta-riga" style="margin-top:var(--s-7)">
+      <a class="cta cta--ar cta--luce" href="mailto:amministrazione@salesprocess.it?subject=Candidatura%20spontanea">Mandaci la tua candidatura</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap wrap--piena">
+    <div class="footer__grid">
+      <div>
+        <a class="marchio" href="/" aria-label="Sales Process, home"><img class="marchio__img" src="/assets/brand/logo-full.webp" alt="Sales Process" style="height:54px" width="4118" height="1001"></a>
+        <p class="t-piccolo" style="margin-top:var(--s-4);max-inline-size:30ch;color:var(--c-t3)">Quattro reparti sotto lo stesso tetto. Un numero solo da guardare: il tuo fatturato.</p>
+        <div class="footer__social"><a href="https://www.linkedin.com/company/insider-crew/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.2 9.4h3v11.4h-3z"/><circle cx="5.7" cy="5.6" r="1.9"/><path d="M14.6 9.1c-1.5 0-2.6.7-3.1 1.6V9.4h-3v11.4h3v-6c0-1.5.7-2.4 1.9-2.4 1.1 0 1.7.8 1.7 2.4v6h3v-6.5c0-3.2-1.5-5.2-3.5-5.2z"/></svg></a><a href="https://www.instagram.com/salesprocessit/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="3.6" y="3.6" width="16.8" height="16.8" rx="4.6" fill="none" stroke="currentColor" stroke-width="1.75"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.75"/><circle cx="17" cy="7" r="1.2"/></svg></a><a href="https://www.youtube.com/channel/UCEGb8y5mF0-CqjJ6-ktxqOw" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.1 8.3a2.6 2.6 0 0 0-1.8-1.8C17.7 6 12 6 12 6s-5.7 0-7.3.5A2.6 2.6 0 0 0 2.9 8.3C2.5 9.9 2.5 12 2.5 12s0 2.1.4 3.7a2.6 2.6 0 0 0 1.8 1.8C6.3 18 12 18 12 18s5.7 0 7.3-.5a2.6 2.6 0 0 0 1.8-1.8c.4-1.6.4-3.7.4-3.7s0-2.1-.4-3.7z"/><path d="M10.2 15.1V8.9l5.2 3.1z" fill="#080706"/></svg></a><a href="https://www.facebook.com/salesprocessitalia" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M14.5 8.5h2.2V5.6h-2.4c-2.5 0-4 1.6-4 4.1v2.1H8.2v2.9h2.1V21h3.1v-6.3h2.3l.4-2.9h-2.7v-1.7c0-.9.4-1.6 1.1-1.6z"/></svg></a></div>
+      </div>
+      <div><h2 class="footer__h">Metodo</h2><ul>
+        <li><a href="/metodo.html">Il 4 in 1</a></li>
+        <li><a href="/metodo.html#tabella">Cosa entra, cosa esce</a></li>
+        <li><a href="/metodo.html#contro">Perché non quattro fornitori</a></li>
+        <li><a href="/candidatura.html#filtro">Chi entra, chi no</a></li>
+      </ul></div>
+      <div><h2 class="footer__h">Risultati</h2><ul>
+        <li><a href="/risultati.html">I fascicoli</a></li>
+        <li><a href="/risultati.html#numeri">I numeri</a></li>
+        <li><a href="/risultati.html#settori">I 33 settori</a></li>
+        <li><a href="/risultati.html#carta">Certificazione</a></li>
+      </ul></div>
+      <div><h2 class="footer__h">Fatturare³</h2><ul>
+        <li><a href="/fatturare.html">Il podcast</a></li>
+        <li><a href="/fatturare.html#articoli">Gli articoli</a></li>
+        <li><a href="/eventi.html">Sales Process Day</a></li>
+        <li><a href="/fatturare.html#libri">I due libri</a></li>
+      </ul></div>
+      <div><h2 class="footer__h">Azienda</h2><ul>
+        <li><a href="/dna.html">Il nostro DNA</a></li>
+        <li><a href="/team.html">Il team</a></li>
+        <li><a href="/team.html#lavora">Lavora con noi</a></li>
+        <li><a href="/candidatura.html">Candidatura</a></li>
+        <li><a href="mailto:amministrazione@salesprocess.it">Contatti</a></li>
+      </ul>
+      </div>
+      <div class="footer__contatti">
+        <h2 class="footer__h">Contatti</h2>
+        <div class="verde">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.6 3.5c.8 0 1.5.5 1.8 1.2l1 2.5c.3.7.1 1.5-.5 2l-1.1.9a11 11 0 0 0 4.9 4.9l.9-1.1c.5-.6 1.3-.8 2-.5l2.5 1a1.9 1.9 0 0 1 1.2 1.8v2.2c0 1.1-.9 2-2 2A16.6 16.6 0 0 1 4.4 5.5c0-1.1.9-2 2-2z"/></svg>
+          <span><em>Numero Verde</em><b class="verde__n">Numero verde da fornire</b></span>
+        </div>
+        <a class="footer__mail link-wipe" href="mailto:amministrazione@salesprocess.it">amministrazione@salesprocess.it</a>
+        <p class="t-piccolo footer__sedi"><b>Uffici di rappresentanza</b><br>Via Marco D’Agrate 41, Milano (MI) 20139</p>
+        <p class="t-piccolo footer__sedi"><b>Sede legale</b><br>Piazza IV Novembre, Capiago Intimiano (CO) 22070</p>
+      </div>
+    </div>
+    <div class="footer__legale">
+      <span><em>[Ragione sociale]</em></span>
+      <span>P.IVA <em>[da cliente]</em></span>
+      <span>ISO 9001:2015 n. <em>[da cliente]</em></span>
+      <a href="https://www.iubenda.com/privacy-policy/61378305" target="_blank" rel="noopener" class="link-wipe">Privacy Policy</a>
+      <a href="https://www.iubenda.com/privacy-policy/61378305/cookie-policy" target="_blank" rel="noopener" class="link-wipe">Cookie Policy</a>
+      <span>Dati aggiornati al 09.09.2026</span>
+    </div>
+    <div class="footer__chiusa" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+  </div>
+</footer>
+
+<div class="piastra is-off" id="piastra">
+  <a class="cta cta--ar" href="/candidatura.html">Candida la tua azienda</a>
+</div>
+
+<div class="grana" aria-hidden="true"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js" defer></script>
+<script src="/js/dati.js"></script>
+<script src="/js/motion.js" defer></script>
+</body>
+</html>

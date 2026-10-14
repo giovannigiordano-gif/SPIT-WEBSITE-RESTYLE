@@ -1,0 +1,185 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   SALESPROCESS · type.css
+   Scala presa dai valori MISURATI sul riferimento:
+     display  DM Sans 500 · 112px · lh 1.08 · ls −4px (= −.036em)
+     h2       DM Sans 500 · 56/44px · ls −.036em
+     card     DM Sans 700 · 17px · ls −.01em
+     corpo    DM Sans 400 · 16px
+     meta     13px / 12px
+     eyebrow  12px · 700 · +.12em · uppercase, tra parentesi quadre
+   Il peso del display è **500, non 700**: è la ragione per cui il
+   riferimento sembra elegante e non urlato, ed è il dettaglio che quasi
+   tutti sbagliano guardandolo.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.t-hero, .t-d2, .t-d3, .t-numero {
+  font-family: var(--f-display);
+  font-weight: 500;
+  color: var(--c-t1);
+  text-wrap: balance;
+}
+
+/* Hero centrato, due righe, a PIENA FORZA: peso 700 e tetto 128px, gli
+   stessi che il sistema già usa sul muro finale. Interlinea più stretta
+   (.98) perché a questo peso le righe devono serrarsi, non respirare. */
+.t-hero {
+  font-weight: 700;
+  font-size: clamp(40px, 8.2vw, 128px);
+  line-height: .98;
+  letter-spacing: -.042em;
+}
+
+.t-d2 {
+  font-size: clamp(30px, 4.4vw, 56px);
+  line-height: 1.10;
+  letter-spacing: var(--tr-display);
+}
+
+.t-d3 {
+  font-size: clamp(26px, 3.2vw, 44px);
+  line-height: 1.16;
+  letter-spacing: var(--tr-display);
+}
+
+/* Il contrappunto serif: il ruolo che nel riferimento ha «Relentlessly».
+   DUE soli usi per pagina, non uno in più.                               */
+.t-voce {
+  font-family: var(--f-voce);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(30px, 4.8vw, 62px);
+  line-height: 1.02;
+  letter-spacing: -.01em;
+  color: var(--c-t1);
+}
+.t-voce--sm {
+  font-size: clamp(20px, 2.2vw, 27px);
+  line-height: 1.34;
+  letter-spacing: 0;
+  color: var(--c-t2);
+  max-inline-size: 36ch;
+}
+
+/* Il muro: FATTURARE ×3. È l'unico punto in cui il peso sale a 700 e la
+   dimensione supera il display — perché è un titolo di coda, non un
+   messaggio da leggere.                                                  */
+.t-muro {
+  font-family: var(--f-display);
+  font-weight: 700;
+  /* La misura è vincolata: tre righe indentate di 0/3/6ch devono entrare
+     nel contenitore da 1280px senza tagli. 9.1vw è il massimo che regge. */
+  font-size: clamp(38px, 9.1vw, 128px);
+  line-height: .96;
+  letter-spacing: -.040em;
+  text-transform: uppercase;
+  color: var(--c-t1);
+}
+
+/* Titolo di sezione in caps, come «WHAT WE DO». */
+.t-caps {
+  font-family: var(--f-display);
+  font-weight: 700;
+  font-size: clamp(30px, 4.6vw, 60px);
+  line-height: 1.02;
+  letter-spacing: -.028em;
+  text-transform: uppercase;
+  color: var(--c-t1);
+}
+
+.t-numero {
+  font-weight: 500;
+  font-size: clamp(52px, 6.4vw, 92px);
+  line-height: .96;
+  letter-spacing: -.040em;
+  font-variant-numeric: tabular-nums;
+  min-inline-size: 4ch;
+  display: block;
+}
+/* L'unità è SUBORDINATA alla cifra: è l'arancio che non compete. */
+.t-unita {
+  font-size: .36em; font-weight: 500;
+  letter-spacing: var(--tr-titolo);
+  color: var(--c-ar);
+}
+
+.t-t1 {
+  font-family: var(--f-display); font-weight: 500;
+  font-size: clamp(21px, 2.1vw, 27px);
+  line-height: 1.22; letter-spacing: var(--tr-titolo);
+  color: var(--c-t1);
+}
+/* Titolo di card / tile del bento. */
+.t-t2 {
+  font-family: var(--f-display); font-weight: 700;
+  font-size: 17px; line-height: 1.32; letter-spacing: -.010em;
+  color: var(--c-t1);
+}
+
+.t-deck {
+  font-family: var(--f-testo); font-weight: 400;
+  font-size: clamp(16px, 1.25vw, 19px);
+  line-height: 1.58; letter-spacing: var(--tr-corpo);
+  max-inline-size: 58ch; color: var(--c-t2);
+  text-wrap: pretty;
+}
+.t-corpo {
+  font-family: var(--f-testo); font-weight: 400;
+  font-size: 16px; line-height: 1.62; letter-spacing: var(--tr-corpo);
+  max-inline-size: var(--w-lettura); color: var(--c-t2);
+  text-wrap: pretty;
+}
+.t-piccolo {
+  font-family: var(--f-testo); font-weight: 400;
+  font-size: 15px; line-height: 1.54; letter-spacing: var(--tr-piccolo);
+  color: var(--c-t2);
+}
+
+/* ── EYEBROW ──────────────────────────────────────────────────────────────
+   Senza parentesi quadre: erano la firma del riferimento, non la nostra.
+   Quello che resta a fare il lavoro è il tracking largo e il gradino di
+   colore — che è tutto quello che serve a un occhiello.                  */
+.t-eyebrow {
+  font-family: var(--f-display); font-weight: 700;
+  font-size: 12px; line-height: 1.2;
+  letter-spacing: var(--tr-eyebrow); text-transform: uppercase;
+  color: var(--c-t3);
+}
+
+/* La pill dell'hero: fondo arancione translucido, testo arancione chiaro.
+   Sul tint serve --c-ar-hot: #FF8200 su quel fondo scende sotto 4,5:1.   */
+.pill-eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 9px 18px; border-radius: var(--r-pill);
+  background: rgba(255,130,0,.13);
+  border: 1px solid rgba(255,130,0,.22);
+  font-family: var(--f-display); font-weight: 700;
+  font-size: 12px; line-height: 1;
+  letter-spacing: var(--tr-eyebrow); text-transform: uppercase;
+  color: var(--c-ar-hot);
+}
+
+/* ── MONO — i dati. Le CIFRE hanno letter-spacing 0: tracciare i numeri fa
+      oscillare le colonne. ──────────────────────────────────────────────── */
+.t-meta {
+  font-family: var(--f-display); font-weight: 500;
+  font-size: 13px; line-height: 1.45;
+  letter-spacing: var(--tr-meta); color: var(--c-t3);
+}
+.t-dato {
+  font-family: var(--f-display); font-weight: 500;
+  font-size: 15px; letter-spacing: 0;
+  font-variant-numeric: tabular-nums; color: var(--c-t2);
+}
+.t-micro {
+  font-family: var(--f-display); font-weight: 500;
+  font-size: 11px; letter-spacing: .10em;
+  text-transform: uppercase; color: var(--c-t3);
+}
+
+.num { font-variant-numeric: tabular-nums; }
+.ar { color: var(--c-ar); }
+/* Nella hero la parola d'accento è anche il picco di peso: un solo punto
+   di massima forza per schermata, mai due.                              */
+.t-hero .ar { font-weight: 700; }
+.ar-glow { color: var(--c-ar); text-shadow: var(--e-glow-testo); }
+.centro { text-align: center; }

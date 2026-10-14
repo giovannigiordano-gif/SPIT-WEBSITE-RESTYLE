@@ -1,0 +1,120 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   SALESPROCESS · motion.css
+   70% CSS nativo, 25% GSAP, 5% niente.
+   Il movimento è TEXTURE, non collezione di effetti: un solo gesto, un asse
+   per tipo di materia, una sola curva d'ingresso.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── APERTURA · 940ms, CSS al parse, zero JS ──────────────────────────────
+   L'elemento LCP è il testo dell'H1 e non deve MAI dipendere dal bundle.
+   Il testo è OPACO dal primo frame: si muove la maschera, non il testo.  */
+
+.apri-1 { translate: 0 var(--dy); opacity: 0; animation: apri-rise var(--t-reveal) var(--ease-salita) 80ms both; }
+.apri-2 { translate: 0 var(--dy); opacity: 0; animation: apri-rise var(--t-reveal) var(--ease-salita) 480ms both; }
+.apri-3 { translate: 0 var(--dy); opacity: 0; animation: apri-rise var(--t-reveal) var(--ease-salita) 600ms both; }
+.apri-4 { translate: var(--dx) var(--dy); opacity: 0; animation: apri-rise var(--t-reveal) var(--ease-salita) 720ms both; }
+@keyframes apri-rise { to { translate: 0 0; opacity: 1; } }
+
+/* Le righe dell'H1 salgono dentro una maschera. */
+.hero .mask > [data-riga] { animation: apri-mask var(--t-maschera) var(--ease-salita) both; }
+.hero .mask > [data-riga="0"] { animation-delay: 180ms; }
+.hero .mask > [data-riga="1"] { animation-delay: 290ms; }
+@keyframes apri-mask { to { translate: 0 0; } }
+
+/* I moduli del mark si accendono uno per uno: è l'unica animazione di logo
+   che vale la pena fare, e dura meno dell'apertura.                       */
+.nav .marchio__mark rect { opacity: 0; animation: apri-modulo 240ms var(--ease-salita) both; }
+.nav .marchio__mark rect:nth-child(1)  { animation-delay: 40ms }
+.nav .marchio__mark rect:nth-child(2)  { animation-delay: 66ms }
+.nav .marchio__mark rect:nth-child(3)  { animation-delay: 92ms }
+.nav .marchio__mark rect:nth-child(4)  { animation-delay: 118ms }
+.nav .marchio__mark rect:nth-child(5)  { animation-delay: 144ms }
+.nav .marchio__mark rect:nth-child(6)  { animation-delay: 170ms }
+.nav .marchio__mark rect:nth-child(7)  { animation-delay: 196ms }
+.nav .marchio__mark rect:nth-child(8)  { animation-delay: 222ms }
+.nav .marchio__mark rect:nth-child(9)  { animation-delay: 248ms }
+.nav .marchio__mark rect:nth-child(10) { animation-delay: 274ms }
+.nav .marchio__mark rect:nth-child(11) { animation-delay: 300ms }
+@keyframes apri-modulo { to { opacity: 1; } }
+
+/* Nell'hero la maschera a scalinata è a TEMPO, non a scroll: è sopra la
+   piega, e una animation-timeline: view() lì non scatterebbe mai.        */
+.hero .scalinata img, .testa-pag .scalinata img {
+  animation: sali-scalino var(--t-maschera) var(--ease-salita) both;
+  animation-timeline: auto;
+  animation-delay: calc(700ms + var(--i) * 90ms);
+}
+
+/* COSA NON FACCIAMO: nessun GSAP Flip con reparenting dei moduli verso la
+   nav. Il backdrop-filter della nav stabilisce un containing block per i
+   discendenti posizionati, quindi un Flip.from({absolute:true}) che atterra
+   dentro la nav calcola gli offset contro la nav e non contro il viewport.
+   E sarebbe gated dal bundle: su 4G la pagina è già leggibile, e quattro
+   quadrati che la attraversano 1,5s dopo il primo paint leggono come un
+   errore di rendering, non come una firma.                                */
+
+/* ── IL MURO · FATTURARE ×3 ───────────────────────────────────────────────
+   Zero JS, compositor thread. Per la sensazione di «pressa» si anima
+   scaleY sul wrapper: composite, zero relayout.
+   MAI animare font-variation-settings o font-weight: non sono
+   compositabili, e poiché la larghezza dei glifi cresce col peso una riga
+   vicina al wrap può rifloware a metà animazione producendo CLS.         */
+.muro__righe .mask { transform-origin: bottom left; }
+.muro__righe .mask > .t-muro {
+  animation: sali-muro var(--t-maschera) var(--ease-salita) both;
+  animation-timeline: view();
+  animation-range-start: entry calc(18% + var(--i) * 8%);
+  animation-range-end: cover 46%;
+}
+@keyframes sali-muro { from { translate: 0 105%; scale: 1 1.05; } to { translate: 0 0; scale: 1 1; } }
+
+@supports not (animation-timeline: view()) {
+  .muro__righe .mask > .t-muro {
+    animation: none; translate: 0 105%;
+    transition: translate var(--t-maschera) var(--ease-salita);
+    transition-delay: calc(var(--i) * 140ms);
+  }
+  .muro.is-in .mask > .t-muro { translate: 0 0; }
+}
+
+/* ── REDUCED MOTION ───────────────────────────────────────────────────────
+   MAI `*{animation:none!important}`: farebbe scomparire per sempre ogni
+   elemento con fill-mode:both che parte da opacity 0. Qui il travel va a
+   zero, la dissolvenza sopravvive, ogni stato resta raggiungibile.       */
+@media (prefers-reduced-motion: reduce) {
+  .hero .mask > [data-riga],
+  .muro__righe .mask > .t-muro { translate: 0 0 !important; scale: 1 !important; }
+}
+
+/* ── REVEAL DELLE TESTE DI SEZIONE ────────────────────────────────────────
+   Fino a qui le teste di sezione entravano SENZA ingresso: era il buco di
+   motion più visibile del sito. Ora usano il dispositivo che la pagina già
+   possiede — la maschera verticale dell'hero e del muro — applicato una
+   volta sola e allo stesso modo in tutte le sezioni.
+   UN SOLO gesto ripetuto, non un effetto diverso per fascia: è quello che
+   distingue un sistema di motion da una collezione di animazioni.      */
+.testa > .t-eyebrow,
+.testa > .duevoci > *,
+.testa > .t-d2,
+.testa > .t-deck {
+  animation: sale-testa var(--t-reveal) var(--ease-salita) both;
+  animation-timeline: view();
+  animation-range: entry 8% cover 34%;
+}
+/* Lo stagger sulle timeline scroll-driven NON si fa con animation-delay
+   (che viene ignorato): si sposta animation-range-start.               */
+.testa > .t-eyebrow      { animation-range-start: entry 8%; }
+.testa > .duevoci > *,
+.testa > .t-d2           { animation-range-start: entry 13%; }
+.testa > .duevoci > :last-child { animation-range-start: entry 17%; }
+.testa > .t-deck         { animation-range-start: entry 21%; }
+
+@keyframes sale-testa {
+  from { opacity: 0; translate: 0 var(--travel); }
+  to   { opacity: 1; translate: 0 0; }
+}
+
+@supports not (animation-timeline: view()) {
+  .testa > .t-eyebrow, .testa > .duevoci > *, .testa > .t-d2, .testa > .t-deck { animation: none; }
+}
+/* In reduced-motion il travel è già 0 dal token: resta una dissolvenza. */

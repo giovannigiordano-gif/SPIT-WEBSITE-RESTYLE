@@ -1,0 +1,899 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   SALESPROCESS · sections.css
+   Sequenza e anatomia allineate al riferimento sharpify.io.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── HERO ────────────────────────────────────────────────────────────────
+   CENTRATO, con l'alone radiale che scende dall'alto: è la firma visiva
+   del riferimento (loro la fanno con un top.webp, noi in CSS — più
+   leggera, nitida a ogni DPR e ritintabile da un token).                 */
+.hero {
+  position: relative; isolation: isolate;
+  padding-top: 190px; padding-bottom: var(--s-8);
+  text-align: center; overflow: clip;
+  /* Il fondo dell hero e NERO, non la base: un alone si legge come luce
+     solo se sotto c e il nero. Il raccordo verso --c-base lo fa il
+     gradiente finale, cosi la giunzione col nastro resta invisibile.   */
+  background:
+    linear-gradient(180deg, transparent 0%, transparent 62%, var(--c-base) 100%),
+    var(--c-deep);
+}
+.hero::before {
+  content: ''; position: absolute; z-index: 0;
+  inset: -200px -20% auto -20%; height: 1250px;
+  background: var(--alone); pointer-events: none;
+  /* +18% di intensità solo qui: il token è lo stesso, alzato per la
+     sezione che deve essere il picco della pagina.                     */
+  filter: saturate(112%) brightness(118%);
+}
+.hero__in { position: relative; z-index: 1; display: grid; justify-items: center; gap: var(--s-5); }
+.hero .t-hero { max-inline-size: 21ch; margin-inline: auto; }
+/* L'attacco: detto piano. Peso 500, un terzo della scala, colore
+   secondario. È il "non" che rende necessario il "ma".                 */
+.hero .t-hero [data-riga="0"] {
+  font-weight: 500;
+  font-size: clamp(20px, 2.5vw, 38px);
+  line-height: 1.14; letter-spacing: -.026em;
+  color: var(--c-t2);
+}
+/* Il colpo: piena scala, peso 700, misura serrata. */
+.hero .t-hero [data-riga="1"] {
+  font-size: clamp(40px, 8.4vw, 132px);
+  line-height: .96; letter-spacing: -.044em;
+  max-inline-size: 15ch; margin-inline: auto;
+}
+.hero .t-hero .mask:first-child { margin-bottom: var(--s-3); }
+/* Il deck e la sotto-label si ABBASSANO: se tutto alza la voce, la
+   sezione torna piatta. Il picco deve restare uno.                     */
+.hero .t-deck {
+  max-inline-size: 46ch; margin-inline: auto;
+  font-size: clamp(16px, 1.1vw, 18px); color: var(--c-t3);
+}
+.hero__sotto { color: var(--c-t4); }
+.hero .cta-riga { margin-top: var(--s-3); }
+
+/* ── IL PUGNO ─────────────────────────────────────────────────────────────
+   L'asset del brand entra in home per la prima volta. Sale dal bordo
+   inferiore ed è TAGLIATO dalla sezione: il braccio sembra reggere la
+   pagina invece di stare appoggiato dentro una card.                     */
+.hero { padding-bottom: 0; }
+.hero__pugno {
+  position: relative; z-index: 1;
+  width: min(430px, 62vw); margin: var(--s-7) auto 0;
+}
+.scalinata--pugno {
+  aspect-ratio: 478 / 640;
+  /* L'avambraccio non viene GHIGLIOTTINATO: si dissolve. Un taglio netto a
+     metà arto con il nero sotto legge come un errore di ritaglio, non come
+     una scelta di inquadratura.                                          */
+  -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 76%, transparent 100%);
+          mask-image: linear-gradient(180deg, #000 0%, #000 76%, transparent 100%);
+}
+/* Le quattro colonne hanno larghezze frazionarie: senza un filo di
+   sovrapposizione la sottopixel lascia cuciture verticali visibili dove il
+   soggetto attraversa un confine di colonna.                            */
+.scalinata--pugno > span { margin-right: -.5px; }
+.scalinata--pugno > span:last-child { margin-right: 0; }
+.scalinata--pugno img { object-position: center top; }
+@media (max-width: 640px) { .hero__pugno { width: min(300px, 74vw); margin-top: var(--s-6); } }
+
+@media (max-width: 1100px) { .hero { padding-top: 130px; } }
+@media (max-width: 640px)  { .hero::before { height: 820px; } }
+
+/* ── NASTRO DELLE PROVE ─────────────────────────────────────────────────
+   Il carosello di card-risultato che nel riferimento sfonda il fondo
+   dell'hero. La prova entra PRIMA dell'offerta, e con la fonte.         */
+.nastro { position: relative; padding-block: var(--s-7) var(--s-9); }
+.nastro__wrap { overflow: hidden; }
+.nastro__pista {
+  display: flex; gap: 20px; width: max-content; will-change: transform;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+          mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+}
+.scheda {
+  flex: none; width: 300px; aspect-ratio: 3/4;
+  position: relative; overflow: hidden;
+  border-radius: var(--r-card); border: 1px solid var(--c-filo);
+  background: var(--c-sup-1);
+  display: grid; align-content: end; gap: 10px; padding: var(--s-5);
+  transition: border-color var(--t-micro) linear;
+  scale: var(--s, 1); opacity: var(--o, 1);   /* li scrive il rAF */
+}
+.scheda:hover { border-color: var(--c-bordo-ui); }
+.scheda__bg { position: absolute; inset: 0; z-index: -2; }
+.scheda__bg img { width: 100%; height: 100%; object-fit: cover; }
+.scheda::before {                             /* scrim a 4 stop */
+  content: ''; position: absolute; inset: 0; z-index: -1;
+  background: linear-gradient(180deg, rgba(0,0,0,.20) 0%, rgba(0,0,0,.34) 40%, rgba(0,0,0,.62) 74%, rgba(0,0,0,.80) 100%);
+}
+.scheda__logo {
+  position: absolute; left: var(--s-5); top: var(--s-5);
+  height: 26px; width: auto; max-width: 130px; object-fit: contain;
+  object-position: left center; opacity: .95;
+}
+.scheda__num { font: 500 34px/1 var(--f-display); letter-spacing: -.038em; color: var(--c-t1); font-variant-numeric: tabular-nums; }
+.scheda__cart { display: flex; flex-wrap: wrap; gap: 4px 10px; }
+/* Il fondo qui è foto + scrim, più chiaro della base: --c-t3 scenderebbe
+   a 3,77:1 su 11px. Dentro le card il gradino minimo è --c-t2.          */
+.scheda .t-micro { color: var(--c-t2); }
+.scheda__fonte { color: var(--c-t2); }
+/* Hover: densità informativa in più, movimento in più zero.
+   (Al riferimento questo hover manca del tutto.)                        */
+.scheda__extra { display: grid; grid-template-rows: 0fr; opacity: 0;
+  transition: grid-template-rows var(--t-micro) var(--ease-scatto), opacity var(--t-micro) linear; }
+.scheda__extra > span { overflow: hidden; }
+.scheda:hover .scheda__extra, .scheda:focus-within .scheda__extra { grid-template-rows: 1fr; opacity: 1; }
+
+.pausa {
+  width: 40px; height: 40px; display: grid; place-items: center; flex: none;
+  border: 1px solid var(--c-bordo-ui); border-radius: var(--r-8);
+  color: var(--c-t3); font: 500 11px/1 var(--f-display);
+  transition: color var(--t-micro) linear, border-color var(--t-micro) linear;
+}
+.pausa:hover { color: var(--c-t1); border-color: var(--c-t1); }
+
+/* FALLBACK MOBILE e REDUCED-MOTION: il rAF non parte affatto. Più veloce,
+   più accessibile, più familiare.                                        */
+@media (max-width: 1100px), (prefers-reduced-motion: reduce) {
+  .nastro__wrap { overflow-x: auto; scroll-snap-type: x mandatory; overscroll-behavior-x: contain; }
+  .nastro__pista { -webkit-mask-image: none; mask-image: none; transform: none !important; }
+  .scheda { scroll-snap-align: center; scale: 1; opacity: 1; width: 78vw; max-width: 320px; }
+  .pausa { display: none; }
+}
+
+/* ── STATEMENT ──────────────────────────────────────────────────────────
+   «We build, run and manage marketing & sales systems.» del riferimento.
+   È l'unico elemento scrubbato della pagina: un evento speciale resta
+   speciale perché non ha concorrenti.                                    */
+.statement { padding-block: var(--s-10); text-align: center; }
+/* Lo stato di RIPOSO deve già passare il contrasto: a .16 la frase era a
+   1,61:1, cioè illeggibile se il JS non arriva o l'utente non scrolla.
+   .38 su #161519 = 3,6:1, sopra la soglia del testo grande.             */
+.statement .frase { color: rgba(255,255,255,.38); margin-inline: auto; max-inline-size: 24ch; }
+
+/* ── TITOLO A DUE VOCI ──────────────────────────────────────────────────
+   Il dispositivo di «WHAT WE DO / Relentlessly»: caps bold + serif
+   italic. Due usi per pagina, non uno in più.                            */
+.duevoci { display: grid; gap: 2px; }
+.duevoci .t-voce { margin-left: .06em; }
+
+/* ── BENTO ──────────────────────────────────────────────────────────────
+   Griglia UNIFORME, zero varianza di span: il costo di scansione azzerato
+   è ciò che permette densità alta senza affollamento.                    */
+.bento { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.tile { padding: var(--s-5); display: grid; gap: var(--s-4); align-content: start; }
+.tile .t-piccolo { color: var(--c-t3); }
+.tile:hover { translate: 0 calc(var(--lift-card) * -1); }
+@media (max-width: 1100px) { .bento { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 820px)  { .bento { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 520px)  { .bento { grid-template-columns: 1fr; } }
+
+/* ── STAT CARD A LENTE ──────────────────────────────────────────────────
+   Il bagliore ESCE dalla feritoia di 2px e viene diffuso dal vetro: non è
+   un box-shadow, è una lente. Il nucleo resta chiaro, perché arancio@.30
+   diretto su nero dà #552F07, marrone.
+   ZERO count-up: il numero appare già finito, CLS 0 per costruzione.     */
+/* Il vetro della lente schiarisce il fondo: stesso ragionamento delle
+   card, stesso gradino minimo.                                          */
+
+/* ── FASCIA CHIARA — unica rottura di valore, ≤3% dei pixel ────────────
+   Arriva dopo migliaia di px di scuro, quindi colpisce come un flash.
+   #FF8200 su crema dà 2,0:1: qui l'accento è --c-ar-carta.              */
+.carta { background: var(--c-carta); color: var(--c-inchiostro); padding-block: var(--s-9); }
+.carta__lab { font: 700 12px/1 var(--f-display); letter-spacing: var(--tr-eyebrow); text-transform: uppercase; color: var(--c-inch-2); margin-bottom: var(--s-6); }
+.carta__grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: var(--s-8); align-items: center; }
+.carta__loghi { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-6) var(--s-7); }
+/* Altezza base 26px con OVERRIDE MANUALE per singolo logo: l'altezza
+   uguale non dà peso ottico uguale. Sono sei righe di CSS e sono
+   direzione artistica vera.                                              */
+.carta__loghi img {
+  height: 30px; width: auto; max-width: 156px; object-fit: contain;
+  /* i PNG sono bianchi su trasparente: invert li porta a nero per la carta */
+  filter: invert(1); opacity: .78;
+  transition: opacity var(--t-micro) linear;
+}
+.carta__loghi img:hover { opacity: 1; }
+.carta__ver { font: 400 14px/1.7 var(--f-display); color: var(--c-inchiostro); }
+.carta__ver a { color: var(--c-ar-carta); text-decoration: underline; text-underline-offset: 3px; }
+.carta__ver em { color: var(--c-inch-2); font-style: normal; }
+@media (max-width: 900px) { .carta__grid { grid-template-columns: 1fr; gap: var(--s-6); } }
+
+/* ── I VOLTI ────────────────────────────────────────────────────────────
+   Qui facciamo l'OPPOSTO del riferimento, che può essere un'entità senza
+   facce perché vende software-like. Noi vendiamo persone che entrano in
+   azienda, e il compratore italiano di PMI compra dalla faccia.
+   VIETATO il duotone nero/arancio: disumanizza la prova che converte più. */
+.volti { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px 16px; }
+.volto { display: grid; gap: 12px; }
+.volto__ph {
+  aspect-ratio: 1; border-radius: var(--r-card); overflow: hidden; position: relative;
+  background: var(--c-sup-2); filter: grayscale(.9);
+  transition: filter var(--t-micro) linear;
+}
+.volto:hover .volto__ph { filter: grayscale(0); }
+.volto__ph img { width: 100%; height: 100%; object-fit: cover; }
+.volto__tag {
+  position: absolute; left: 10px; bottom: 10px;
+  background: rgba(0,0,0,.62); backdrop-filter: blur(4px);
+  border-radius: var(--r-hard); padding: 5px 9px;
+  font: 700 10px/1 var(--f-display); letter-spacing: .10em;
+  text-transform: uppercase; color: #FFCF9E;
+}
+.volto__vuoto { position: absolute; inset: 0; display: grid; place-items: center; }
+@media (max-width: 1024px) { .volti { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 700px)  { .volti { grid-template-columns: repeat(2, 1fr); } }
+
+/* ── LA MACCHINA — i 4 reparti e i 3 passaggi di consegna ──────────────
+   È il nostro contenuto, non del riferimento: sposta l'argomento dai
+   quattro reparti ai TRE PASSAGGI, che è la cosa che nessun competitor
+   italiano sta dicendo.
+   VINCOLO: ogni frame deve funzionare come screenshot statico.          */
+.macchina { display: grid; gap: var(--s-6); }
+.macchina__pista { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; align-items: stretch; }
+.reparto {
+  position: relative; overflow: hidden;
+  display: grid; gap: var(--s-4); align-content: start; padding: var(--s-5);
+  border: 1px solid var(--c-filo); border-radius: var(--r-card);
+  background: var(--c-sup-1);
+  transition: border-color var(--t-stato) linear, background-color var(--t-stato) linear;
+}
+.reparto.is-on { border-color: var(--c-bordo-ar); background: rgba(255,130,0,.07); }
+/* Il numero fantasma dà profondità alla card senza aggiungere oggetti:
+   è tipografia, non decorazione.                                        */
+.reparto__n {
+  position: absolute; top: var(--s-4); right: var(--s-5);
+  font: 700 44px/1 var(--f-display); letter-spacing: -.04em;
+  color: rgba(255,255,255,.07);
+  transition: color var(--t-stato) linear;
+}
+.reparto.is-on .reparto__n { color: rgba(255,130,0,.20); }
+.reparto .icoq { transition: background-color var(--t-stato) linear, border-color var(--t-stato) linear, color var(--t-stato) linear; }
+.reparto.is-on .icoq { background: rgba(255,130,0,.16); border-color: var(--c-bordo-ar); }
+.reparto__out { color: var(--c-t3); font-weight: 500; margin-top: auto; padding-top: var(--s-4); border-top: 1px solid var(--c-filo); transition: color var(--t-stato) linear; }
+.reparto.is-on .reparto__out { color: var(--c-ar); }
+
+.handoff__riga { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.handoff {
+  display: flex; align-items: center; gap: 10px; padding: 12px 16px;
+  background: rgba(255,130,0,.08); border: 1px solid rgba(255,130,0,.18);
+  border-radius: var(--r-pill);
+  font: 700 11px/1.3 var(--f-display); letter-spacing: .08em;
+  text-transform: uppercase; color: #FFCF9E;
+  opacity: 0; transition: opacity var(--t-stato) linear;
+}
+.handoff.is-on { opacity: 1; }
+@media (max-width: 1024px) {
+  .macchina__pista, .handoff__riga { grid-template-columns: 1fr; }
+  .handoff { opacity: 1; }
+}
+
+/* ── CONTRO-ESEMPIO ────────────────────────────────────────────────────
+   Costruire il problema PRIMA di vendere la soluzione, in una fascia
+   STATICA: i connettori sono disegnati, non animati, così questa fascia
+   funziona anche come screenshot.                                        */
+.rottura { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.rottura__b { padding: var(--s-5); border: 1px solid var(--c-filo); border-radius: var(--r-card); background: var(--c-sup-1); position: relative; }
+.rottura__b + .rottura__b::before {
+  content: ''; position: absolute; left: -16px; top: 50%; width: 16px; height: 2px;
+  background: repeating-linear-gradient(90deg, var(--c-rottura) 0 5px, transparent 5px 10px);
+}
+.rottura__chip {
+  display: inline-flex; margin-top: var(--s-4);
+  font: 700 10px/1 var(--f-display); letter-spacing: .10em; text-transform: uppercase;
+  color: var(--c-rottura); border: 1px solid var(--c-rottura); border-radius: var(--r-hard); padding: 6px 9px;
+}
+@media (max-width: 900px) {
+  .rottura { grid-template-columns: 1fr; }
+  .rottura__b + .rottura__b::before { left: 50%; top: -16px; width: 2px; height: 16px;
+    background: repeating-linear-gradient(180deg, var(--c-rottura) 0 5px, transparent 5px 10px); }
+}
+
+/* ── FILTRO · chi entra, chi no ────────────────────────────────────────
+   Rendere VERIFICABILE la selettività, che è l'unica cosa che giustifica
+   «Candida la tua azienda». Nessun countdown: la scarsità si dichiara
+   come fatto strutturale, mai come pressione temporale.                  */
+.filtro { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-8); }
+.filtro__col { padding: var(--s-6); border: 1px solid var(--c-filo); border-radius: var(--r-panel); background: var(--c-sup-1); }
+.filtro__col h3 { margin-bottom: var(--s-5); }
+@media (max-width: 820px) { .filtro { grid-template-columns: 1fr; gap: var(--s-5); } }
+
+/* ── RISORSE ───────────────────────────────────────────────────────────
+   Il posto che nel riferimento occupa «[ RESOURCES & INSIGHTS ]».       */
+.risorse { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.risorsa { padding: var(--s-6); display: grid; gap: var(--s-4); align-content: start; min-height: 280px; }
+.risorsa__data { color: var(--c-ar-hot); }
+@media (max-width: 900px) { .risorse { grid-template-columns: 1fr; } }
+
+/* ── IL MURO · FATTURARE ×3 ────────────────────────────────────────────
+   Il payoff arriva alla FINE come titolo di coda, non al 5% della pagina
+   come decorazione. Le virgole cadono nello stack verticale. Il punto
+   esclamativo non esiste.                                                */
+.muro { padding-block: var(--s-11) var(--s-9); position: relative; overflow: clip; }
+.muro::before {
+  content: ''; position: absolute; inset: auto -10% -300px -10%; height: 800px;
+  background: radial-gradient(60% 60% at 50% 100%, rgba(184,91,0,.30) 0%, rgba(184,91,0,0) 70%);
+  pointer-events: none;
+}
+.muro__piede { display: grid; gap: var(--s-4); justify-items: start; margin-top: var(--s-7); position: relative; }
+@media (max-width: 768px) { .muro { padding-block: var(--s-9) var(--s-8); } }
+
+/* ── CANDIDATURA ───────────────────────────────────────────────────────
+   Chiudere VALUTANDO, non implorando. UNA VOLTA SOLA in tutto il sito:
+   oggi il blocco caffè è incollato identico su home, quiz, eventi e
+   carriera.                                                              */
+.cand { position: relative; padding-block: var(--s-10); overflow: clip; }
+.cand::before {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background: var(--alone-fioco);
+}
+.cand__grid { position: relative; display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-8); align-items: start; }
+.form { background: var(--c-sup-2); border: 1px solid var(--c-filo); border-radius: var(--r-panel); padding: var(--s-6); display: grid; gap: var(--s-4); }
+.campo { display: grid; gap: 8px; }
+/* Label SEMPRE visibile sopra il campo: mai il placeholder come label. */
+.campo > label { font: 700 11px/1 var(--f-display); letter-spacing: .10em; text-transform: uppercase; color: var(--c-t3); }
+.campo input, .campo select {
+  height: 52px; padding-inline: var(--s-4);
+  background: var(--c-sup-1); color: var(--c-t1);
+  border: 1px solid var(--c-bordo-ui); border-radius: var(--r-8);
+  font: 400 16px/1 var(--f-display);
+  transition: border-color var(--t-micro) linear, box-shadow var(--t-micro) linear;
+}
+.campo input::placeholder { color: var(--c-t4); }
+.campo input:focus, .campo select:focus { outline: 0; border-color: var(--c-ar); box-shadow: 0 0 0 3px rgba(255,130,0,.18); }
+.form .cta { width: 100%; }
+/* Squalifica in tempo reale: il lead non idoneo viene PARCHEGGIATO invece
+   che bruciato, e il quiz viene assorbito dal form.                      */
+.squalifica { display: none; padding: var(--s-4); border-radius: var(--r-8); background: rgba(204,51,102,.10); border: 1px solid rgba(204,51,102,.28); }
+.form.is-squalificato .squalifica { display: block; }
+@media (max-width: 900px) { .cand__grid { grid-template-columns: 1fr; } }
+
+/* ── TESTA DI PAGINA INTERNA ───────────────────────────────────────────── */
+.testa-pag { position: relative; padding-top: 180px; padding-bottom: var(--s-8); overflow: clip; text-align: center; }
+.testa-pag {
+  background: linear-gradient(180deg, transparent 0%, transparent 58%, var(--c-base) 100%), var(--c-deep);
+}
+.testa-pag::before {
+  content: ''; position: absolute; z-index: 0; inset: -200px -20% auto -20%; height: 900px;
+  background: var(--alone); pointer-events: none;
+}
+.testa-pag__in { display: grid; justify-items: center; gap: var(--s-5); position: relative; }
+.testa-pag .t-deck { margin-inline: auto; }
+@media (max-width: 1100px) { .testa-pag { padding-top: 120px; } }
+
+/* ── TABELLA ───────────────────────────────────────────────────────────── */
+.tab__filtri { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: var(--s-5); }
+.tab__conta { margin-left: auto; }
+.tabella th {
+  height: 46px; text-align: left; padding-inline: var(--s-4);
+  background: var(--c-sup-1); border-bottom: 1px solid var(--c-filo-forte);
+  font: 700 11px/1 var(--f-display); letter-spacing: .10em; text-transform: uppercase; color: var(--c-t3);
+}
+.tabella td {
+  height: 58px; padding-inline: var(--s-4); border-bottom: 1px solid var(--c-filo);
+  font: 400 15px/1.4 var(--f-display); font-variant-numeric: tabular-nums; color: var(--c-t2);
+}
+.tabella tbody tr { transition: background-color var(--t-micro) linear; }
+.tabella tbody tr:hover { background: var(--c-sup-2); }
+.tabella td:first-child { color: var(--c-t1); font-weight: 500; }
+.tabella .sla { color: var(--c-ar); }
+/* @760px la tabella CAMBIA FORMA in card: se non entra, cambia forma.
+   Non scorre in orizzontale e non è una tabella finta.                   */
+@media (max-width: 760px) {
+  .tabella thead { display: none; }
+  .tabella tr { display: grid; gap: 2px; padding: var(--s-4) 0; border-bottom: 1px solid var(--c-filo); }
+  .tabella td { height: auto; padding: 3px 0; border: 0; display: grid; grid-template-columns: 13ch 1fr; gap: var(--s-3); }
+  .tabella td::before { content: attr(data-l); color: var(--c-t4); font-size: 11px; font-weight: 700; letter-spacing: .10em; text-transform: uppercase; }
+}
+
+/* ── FASCICOLI ─────────────────────────────────────────────────────────── */
+.fascicolo { display: grid; grid-template-columns: 1fr 1.05fr; border-radius: var(--r-panel); overflow: hidden; background: var(--c-sup-1); border: 1px solid var(--c-filo); }
+.fascicolo + .fascicolo { margin-top: var(--s-6); }
+.fascicolo__panel { padding: var(--s-7); display: grid; gap: var(--s-5); align-content: center; }
+.fascicolo__logo { height: 26px; width: auto; opacity: .8; mix-blend-mode: screen; }
+.fascicolo__dati { display: flex; flex-wrap: wrap; gap: 6px 18px; }
+@media (max-width: 900px) { .fascicolo { grid-template-columns: 1fr; } .fascicolo__panel { padding: var(--s-6); } }
+
+/* ── IL TETTO — lo statement come momento ─────────────────────────────────
+   Sostituisce la vecchia frase scrubbata. Il concetto non è descritto: i
+   quattro reparti CONVERGONO sotto una linea che si disegna, e si
+   risolvono in un numero solo.
+   Tutti gli stati di partenza sono definiti qui e portati a zero dal JS:
+   così a motion spento la scena è già nella sua forma finale leggibile. */
+.tetto { position: relative; padding-block: var(--s-11); overflow: clip; }
+.tetto::before {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background: var(--alone-fioco);
+}
+.tetto__in { position: relative; text-align: center; }
+.tetto__oc { margin-bottom: var(--s-8); }
+.tetto__scena { display: grid; justify-items: center; gap: var(--s-5); }
+
+/* I quattro reparti: una riga, ognuno in una pill neutra. */
+.tetto__reparti {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 12px; width: min(720px, 94%);
+}
+.tetto__reparti li {
+  display: grid; place-items: center;
+  padding: 13px 12px; border-radius: var(--r-pill);
+  border: 1px solid var(--c-filo-forte); background: var(--c-sup-1);
+  font: 500 clamp(14px, 1.3vw, 17px)/1 var(--f-display); letter-spacing: -.01em;
+  color: var(--c-t2);
+  white-space: nowrap;
+}
+
+/* La trave: il tetto vero e i quattro tiranti che scendono sui reparti. */
+.tetto__trave {
+  position: relative;
+  width: min(720px, 94%);
+  height: 34px;
+  margin-bottom: var(--s-2);
+}
+/* 2px, non 1: a 1px la linea sparisce nel ridimensionamento e non regge il
+   ruolo di protagonista che ha in questa scena.                        */
+.tetto__linea {
+  position: absolute; inset: 0 0 auto; height: 2px;
+  background: var(--c-ar); border-radius: 2px;
+  transform-origin: left center;
+  box-shadow: 0 0 16px rgba(255,130,0,.55), 0 0 44px rgba(255,130,0,.30);
+}
+.tetto__tir {
+  position: absolute; top: 2px; width: 1px; height: 32px;
+  background: linear-gradient(180deg, var(--c-ar), rgba(255,130,0,0));
+  transform-origin: top center;
+  left: calc(12.5% + var(--k) * 25%);
+}
+
+/* Il payoff chiude la scena alla scala del display. */
+.tetto__payoff {
+  font-family: var(--f-display); font-weight: 700;
+  font-size: clamp(30px, 5.4vw, 76px); line-height: 1.02;
+  letter-spacing: -.040em; color: var(--c-t1);
+  margin-top: var(--s-3);
+}
+
+@media (max-width: 700px) {
+  .tetto { padding-block: var(--s-9); }
+  .tetto__reparti { grid-template-columns: repeat(2, 1fr); }
+  .tetto__reparti li { padding: 11px 10px; font-size: 13px; }
+  /* A due colonne i tiranti puntano al posto sbagliato: escono. */
+  .tetto__tir { display: none; }
+  .tetto__trave { height: 8px; }
+}
+
+/* ── LA SQUADRA — slider che introduce la pagina Team ─────────────────────
+   Sostituisce la griglia statica di tredici ritratti: in home serve un
+   assaggio in movimento che porta ALLA pagina, non l'elenco completo.  */
+.squadra__testa {
+  display: flex; flex-wrap: wrap; align-items: end;
+  justify-content: space-between; gap: var(--s-5);
+}
+.squadra__testa > div { max-inline-size: 62ch; }
+.squadra__cmd { display: flex; gap: 8px; }
+.frecc {
+  width: 46px; height: 46px; display: grid; place-items: center;
+  border: 1px solid var(--c-bordo-ui); border-radius: 50%;
+  color: var(--c-t2);
+  transition: color var(--t-micro) linear, border-color var(--t-micro) linear,
+              background-color var(--t-micro) linear;
+}
+.frecc svg { width: 20px; height: 20px; }
+.frecc:hover { color: var(--c-t1); border-color: var(--c-ar); background: rgba(255,130,0,.10); }
+.squadra .pausa { width: 46px; height: 46px; border-radius: 50%; }
+
+.squadra__wrap { overflow: hidden; margin-top: var(--s-7); }
+.squadra__pista {
+  display: flex; gap: 16px; width: max-content; will-change: transform;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
+          mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
+}
+
+/* La scheda persona: il ritratto è l'oggetto, il testo entra al passaggio.
+   Nessun lift, nessuna ombra: la card si SCHIARISCE e si satura.       */
+.pers {
+  position: relative; flex: none;
+  width: 268px; aspect-ratio: 3 / 4;
+  border-radius: var(--r-card); overflow: hidden;
+  background: var(--c-sup-2); border: 1px solid var(--c-filo);
+  scale: var(--s, 1); opacity: var(--o, 1);
+  transition: border-color var(--t-micro) linear;
+}
+.pers:hover { border-color: var(--c-bordo-ui); }
+.pers img {
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+  filter: grayscale(1) contrast(1.04);
+  transition: filter var(--t-stato) linear, scale var(--t-stato) var(--ease-salita);
+}
+.pers:hover img { filter: grayscale(0); scale: 1.03; }
+.pers::after {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(180deg, rgba(0,0,0,0) 34%, rgba(0,0,0,.55) 66%, rgba(0,0,0,.86) 100%);
+}
+.pers__txt {
+  position: absolute; inset: auto 0 0; z-index: 1;
+  padding: var(--s-5); display: grid; gap: 3px;
+}
+/* Etichetta tipografica, non un chip: un rettangolo arancione sopra una
+   faccia è un oggetto in più, e la fotografia è già la cosa da guardare. */
+.pers__rep {
+  display: inline-flex; align-items: center; gap: 9px;
+  font: 700 10px/1 var(--f-display); letter-spacing: .16em;
+  text-transform: uppercase; color: rgba(255,255,255,.72);
+  background: none; border: 0; padding: 0; border-radius: 0;
+}
+.pers__rep i {
+  /* 26px fissi e scaleX: `width` e una proprieta di LAYOUT e non e
+     compositabile — animarla costa un reflow per frame su ogni card
+     del carosello.                                                    */
+  width: 26px; height: 2px; flex: none; border-radius: 2px;
+  background: var(--c-ar);
+  transform-origin: left center;
+  scale: .62 1;
+  transition: scale var(--t-stato) var(--ease-scatto);
+}
+.pers:hover .pers__rep i { scale: 1 1; }
+
+/* L'ultima scheda non è una persona: è la porta alla pagina Team. */
+.pers--porta {
+  display: grid; align-content: center; justify-items: start;
+  gap: var(--s-4); padding: var(--s-6);
+  background: rgba(255,130,0,.09); border-color: var(--c-bordo-ar);
+}
+.pers--porta::after { display: none; }
+.pers--porta:hover { background: rgba(255,130,0,.14); }
+.pers--porta .frecc { border-color: var(--c-ar); color: var(--c-ar); }
+
+@media (max-width: 1100px), (prefers-reduced-motion: reduce) {
+  .squadra__wrap { overflow-x: auto; scroll-snap-type: x mandatory; overscroll-behavior-x: contain; }
+  .squadra__pista { -webkit-mask-image: none; mask-image: none; transform: none !important; }
+  .pers { scroll-snap-align: center; scale: 1; opacity: 1; width: 74vw; max-width: 290px; }
+  .squadra__cmd { display: none; }
+}
+
+/* ── IL TITOLO CON IL LOGO ────────────────────────────────────────────────
+   «Siamo Sales Process» non è un occhiello: è un titolo. E il nome non è
+   scritto col font — è il logo del cliente, allineato alla parola.
+   L'altezza del lockup è legata a em, così scala col titolo senza tabelle
+   di corrispondenza; il nudge verticale allinea il wordmark alla base.  */
+.tetto__titolo {
+  display: flex; align-items: baseline; justify-content: center;
+  flex-wrap: wrap; gap: .28em;
+  font-family: var(--f-display); font-weight: 700;
+  font-size: clamp(30px, 5vw, 68px);
+  line-height: 1; letter-spacing: -.038em;
+  color: var(--c-t1);
+  margin-bottom: var(--s-9);
+}
+.tetto__titolo img {
+  height: 1.12em; width: auto;
+  /* il lockup include il mark, più alto del wordmark: il nudge riporta la
+     parola sulla linea di base del testo accanto.                       */
+  transform: translateY(.155em);
+}
+@media (max-width: 560px) {
+  .tetto__titolo { gap: .2em; margin-bottom: var(--s-7); }
+}
+
+/* ── FREGIO · il payoff come texture ─────────────────────────────────────
+   Le parole del brand a piena larghezza. Una piena, una in contorno:
+   il contorno è ciò che impedisce alla fascia di diventare un muro
+   arancione. Una sola animazione CSS, zero JS.                          */
+.fregio {
+  overflow: hidden; padding-block: var(--s-6);
+  border-block: 1px solid var(--c-filo);
+  background: var(--c-deep);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+          mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+.fregio__pista {
+  display: flex; align-items: center; gap: .34em;
+  width: max-content;
+  animation: fregio 30s linear infinite;
+}
+.fregio__g {
+  font-family: var(--f-display); font-weight: 700;
+  font-size: clamp(38px, 6vw, 88px); line-height: 1;
+  letter-spacing: -.042em; text-transform: uppercase;
+  color: var(--c-t1); white-space: nowrap;
+}
+/* Il contorno: -webkit-text-stroke è supportato da tutti i motori
+   correnti. Fallback dichiarato sotto per chi non lo ha.               */
+.fregio__g--out {
+  color: transparent;
+  -webkit-text-stroke: 1.4px rgba(255,255,255,.34);
+}
+@supports not ((-webkit-text-stroke: 1px red)) {
+  .fregio__g--out { color: rgba(255,255,255,.22); }
+}
+.fregio__p {
+  font-family: var(--f-display); font-weight: 700;
+  font-size: clamp(30px, 4.4vw, 62px); line-height: 1;
+  color: var(--c-ar); translate: 0 -.08em;
+}
+@keyframes fregio { to { transform: translate3d(-50%, 0, 0); } }
+.fregio:hover .fregio__pista { animation-play-state: paused; }
+@media (prefers-reduced-motion: reduce) {
+  .fregio { overflow-x: auto; -webkit-mask-image: none; mask-image: none; }
+  .fregio__pista { animation: none; }
+}
+
+/* ── I CARTELLI ───────────────────────────────────────────────────────────
+   I due pugni con i cartelli, a fianco del testo. Sono asset del brand,
+   non illustrazioni: dicono le due sole cose che il cliente compra.    */
+.cartelli {
+  position: relative; background: var(--c-deep);
+  /* Padding-top generoso: i cartelli portano il messaggio nella parte ALTA
+     dell'immagine, quindi tagliarli in cima è l'unico taglio che non si
+     può fare. Il basso invece si dissolve.                             */
+  padding-block: var(--s-9) 0;
+  overflow: clip;
+}
+.cartelli::before {
+  content: ''; position: absolute; inset: auto -10% -40% -10%; height: 70%;
+  background: radial-gradient(50% 70% at 50% 100%, rgba(184,91,0,.24), rgba(184,91,0,0) 72%);
+  pointer-events: none;
+}
+.cartelli__in {
+  position: relative;
+  display: grid; grid-template-columns: 1fr 1.3fr 1fr;
+  align-items: end; gap: var(--s-5);
+}
+.cartelli__txt {
+  display: grid; gap: var(--s-4); justify-items: center; text-align: center;
+  padding-bottom: var(--s-8);
+}
+.cartelli__txt .t-deck { margin-inline: auto; max-inline-size: 44ch; }
+.cartelli__f { margin: 0; }
+.cartelli__f img {
+  width: 100%; height: auto; display: block;
+  /* Cap sull'altezza: senza, a viewport largo l'immagine cresce fino a
+     sfondare la sezione e il cartello finisce fuori quadro.            */
+  max-height: 460px; object-fit: contain; object-position: bottom;
+  /* i cartelli si alzano dal bordo inferiore e si dissolvono: nessun
+     taglio netto a metà avambraccio.                                   */
+  -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 82%, transparent 100%);
+          mask-image: linear-gradient(180deg, #000 0%, #000 82%, transparent 100%);
+}
+/* Un filo di rotazione opposta: i due pugni si guardano invece di stare
+   in parallelo. 2,5 gradi, non di più — oltre diventa un collage.      */
+.cartelli__f--sx img { rotate: -2.5deg; transform-origin: bottom right; }
+.cartelli__f--dx img { rotate: 2.5deg;  transform-origin: bottom left; }
+
+@media (max-width: 1024px) {
+  .cartelli__in { grid-template-columns: 1fr 1fr; }
+  .cartelli__txt { grid-column: 1 / -1; order: -1; padding-bottom: var(--s-6); }
+}
+@media (max-width: 560px) {
+  .cartelli__f--dx { display: none; }
+  .cartelli__in { grid-template-columns: 1fr; }
+}
+
+/* ── IL MURO, CENTRATO ────────────────────────────────────────────────────
+   Le tre righe identiche sull'asse centrale si leggono come un colpo
+   ripetuto; a scalinata si leggevano come un elenco.                   */
+.muro__in { text-align: center; position: relative; }
+.muro__oc { margin-bottom: var(--s-7); }
+.muro__righe { display: grid; justify-items: center; }
+.muro__righe .mask { transform-origin: bottom center; }
+.muro__piede {
+  display: grid; gap: var(--s-5); justify-items: center;
+  margin-top: var(--s-8);
+}
+.muro__piede .t-deck { margin-inline: auto; max-inline-size: 52ch; }
+
+/* ── FOOTER · CONTATTI ────────────────────────────────────────────────────
+   Il numero verde è il contatto che una PMI italiana usa davvero, quindi
+   ha il trattamento di un pulsante e non di una riga di testo.
+   Il verde è --c-ok, già nel sistema come token semantico: nessun colore
+   nuovo entra per un solo elemento.                                     */
+.footer__contatti { display: grid; gap: var(--s-4); align-content: start; }
+.verde {
+  display: inline-flex; align-items: center; gap: 12px;
+  max-width: 100%; min-width: 0;
+  padding: 12px 18px 12px 14px;
+  border: 1px solid rgba(74,222,128,.34); border-radius: var(--r-8);
+  background: rgba(74,222,128,.08);
+  color: var(--c-ok);
+  transition: background-color var(--t-micro) linear, border-color var(--t-micro) linear;
+}
+.verde:hover { background: rgba(74,222,128,.14); border-color: var(--c-ok); }
+.verde svg { width: 22px; height: 22px; flex: none; }
+.verde span { display: grid; gap: 1px; min-width: 0; }
+.verde b, .verde em { overflow-wrap: anywhere; }
+.verde em {
+  font: 700 10px/1 var(--f-display); letter-spacing: .12em;
+  text-transform: uppercase; font-style: normal; color: rgba(74,222,128,.72);
+}
+.verde b {
+  font: 700 18px/1.1 var(--f-display); letter-spacing: -.02em;
+  font-variant-numeric: tabular-nums; color: var(--c-ok);
+}
+/* Segnaposto dichiarato: il numero non è ancora stato fornito. */
+.verde__n:not([data-num]) { font-size: 13px; letter-spacing: .04em; opacity: .8; }
+
+.footer__mail { font: 400 15px/1.4 var(--f-display); color: var(--c-t2); overflow-wrap: anywhere; }
+.footer__sedi { color: var(--c-t3); overflow-wrap: anywhere; }
+.footer__sedi b { color: var(--c-t2); font-weight: 500; }
+.footer__social svg { width: 18px; height: 18px; }
+
+/* ── TESTIMONIANZE VIDEO ──────────────────────────────────────────────────
+   FACCIATA, non embed: cinque iframe al caricamento costerebbero oltre un
+   megabyte e tre secondi di INP. Si carica il player solo al click, e la
+   locandina è una WebP da 30KB.                                         */
+.video { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.vid {
+  position: relative; display: block; overflow: hidden;
+  border-radius: var(--r-card); border: 1px solid var(--c-filo);
+  background: var(--c-sup-2); aspect-ratio: 16 / 9;
+  transition: border-color var(--t-micro) linear, translate var(--t-micro) var(--ease-scatto);
+}
+.vid:hover { border-color: var(--c-bordo-ui); translate: 0 calc(var(--lift-card) * -1); }
+.vid__ph { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: grayscale(.55) contrast(1.05); transition: filter var(--t-stato) linear, scale var(--t-stato) var(--ease-salita); }
+.vid:hover .vid__ph { filter: grayscale(0); scale: 1.04; }
+.vid::after {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(180deg, rgba(0,0,0,.12) 0%, rgba(0,0,0,.30) 46%, rgba(0,0,0,.82) 100%);
+}
+.vid__play {
+  position: absolute; left: 50%; top: 50%; translate: -50% -50%; z-index: 2;
+  width: 62px; height: 62px; display: grid; place-items: center;
+  border-radius: 50%; background: rgba(255,130,0,.92); color: var(--c-su-ar);
+  box-shadow: 0 0 0 0 rgba(255,130,0,.45);
+  transition: scale var(--t-micro) var(--ease-scatto), box-shadow var(--t-stato) linear;
+}
+.vid__play svg { width: 22px; height: 22px; margin-left: 3px; }
+.vid:hover .vid__play { scale: 1.09; box-shadow: 0 0 0 14px rgba(255,130,0,.14); }
+/* Sostituito al click: l'iframe prende tutto il box. */
+.vid iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; z-index: 3; }
+@media (max-width: 900px) { .video { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 560px) { .video { grid-template-columns: 1fr; } }
+
+/* ── DNA · i dieci comandamenti ───────────────────────────────────────────
+   Sul sito attuale sono dieci paragrafi senza titolo, uno sotto l'altro:
+   nessuno li legge. Qui ognuno prende il suo numero e il suo titolo, e la
+   lista diventa una griglia scandita.                                   */
+.comand { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; counter-reset: c; }
+.com {
+  position: relative; overflow: hidden;
+  padding: var(--s-6); display: grid; gap: var(--s-3); align-content: start;
+}
+.com__n {
+  position: absolute; top: var(--s-4); right: var(--s-5);
+  font: 700 40px/1 var(--f-display); letter-spacing: -.04em;
+  color: rgba(255,255,255,.06);
+}
+.com:hover .com__n { color: rgba(255,130,0,.20); }
+@media (max-width: 820px) { .comand { grid-template-columns: 1fr; } }
+
+/* Missione e visione: due sole righe, trattate come tali. */
+.qualita { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.qualita article { padding: var(--s-7); display: grid; gap: var(--s-4); align-content: start; }
+@media (max-width: 820px) { .qualita { grid-template-columns: 1fr; } }
+
+/* ── LA PORTA DELLA GRIGLIA VIDEO ─────────────────────────────────────────
+   Sesta cella: chiude il 3×2 con un'azione invece di lasciare un buco.
+   Stesso dispositivo della porta dello slider team.                    */
+.vid--porta {
+  display: grid; align-content: center; justify-items: start; gap: var(--s-3);
+  padding: var(--s-6); aspect-ratio: 16 / 9;
+  background: rgba(255,130,0,.09); border-color: var(--c-bordo-ar);
+}
+.vid--porta::after { display: none; }
+.vid--porta:hover { background: rgba(255,130,0,.14); }
+.vid--porta .frecc { border-color: var(--c-ar); color: var(--c-ar); width: 40px; height: 40px; }
+.vid--porta .frecc svg { width: 18px; height: 18px; }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   LA SEZIONE NUMERI, RIFATTA
+   Prima: tre lastre di vetro con un blob dietro e il numero al centro. Il
+   numero non dominava, e le tre card erano indistinguibili fra loro.
+   Ora: il numero è enorme e in cima, sotto un istogramma RAPPRESENTA la
+   quantità invece di decorarla, e ogni card ha la sua temperatura.
+   ═══════════════════════════════════════════════════════════════════════════ */
+.numeri { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+
+.lente {
+  position: relative; overflow: hidden;
+  border-radius: var(--r-panel);
+  border: 1px solid var(--c-filo);
+  background: rgba(255,255,255,.028);
+  padding: 0;
+  transition: border-color var(--t-stato) linear, translate var(--t-stato) var(--ease-scatto);
+  /* la scalinata come sistema di layout: le card salgono di un gradino */
+  margin-top: calc(var(--i) * -14px);
+}
+.lente:hover { translate: 0 -4px; }
+
+/* L'alone: una sola luce d'angolo per card, dipinta, non animata. */
+.lente__alone {
+  position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  background: radial-gradient(76% 62% at 84% -6%, var(--tinta, rgba(184,91,0,.30)) 0%, transparent 66%);
+}
+.lente--calda  { --tinta: rgba(255,130,0,.26); }
+.lente--fredda { --tinta: rgba(60,110,210,.26); }
+.lente--verde  { --tinta: rgba(40,170,110,.24); }
+.lente--calda:hover  { border-color: rgba(255,130,0,.42); }
+.lente--fredda:hover { border-color: rgba(60,110,210,.42); }
+.lente--verde:hover  { border-color: rgba(40,170,110,.42); }
+
+.lente__in {
+  position: relative; z-index: 1;
+  padding: var(--s-6) var(--s-6) var(--s-5);
+  display: grid; gap: var(--s-3); align-content: start;
+  min-height: 340px;
+}
+
+/* La riga di contesto: un filetto e due parole. Non una freccia unicode:
+   l'avevo usata, ed è esattamente il glifo-al-posto-dell-icona da evitare. */
+.lente__su {
+  display: flex; align-items: center; gap: 9px;
+  font: 700 10px/1 var(--f-display); letter-spacing: .16em;
+  text-transform: uppercase; color: var(--c-t3);
+}
+.lente__su::before {
+  content: ''; width: 18px; height: 2px; border-radius: 2px;
+  background: currentColor; opacity: .5;
+}
+
+/* Il numero DOMINA: è il motivo per cui la sezione esiste. */
+.lente__num {
+  font-family: var(--f-display); font-weight: 700;
+  font-size: clamp(64px, 8.4vw, 124px); line-height: .88;
+  letter-spacing: -.05em; color: var(--c-t1);
+  font-variant-numeric: tabular-nums;
+  /* min-inline-size in ch: zero CLS quando il valore cambia */
+  min-inline-size: 3ch;
+  margin-block: var(--s-2) 0;
+}
+.lente__lab {
+  font: 700 15px/1.35 var(--f-display); letter-spacing: .02em;
+  text-transform: uppercase; color: var(--c-t2);
+  max-inline-size: 20ch;
+}
+
+/* L'istogramma RAPPRESENTA la quantità: dodici barre per 150 e per 750,
+   otto per 33. Non è un ornamento, è una scala — ed è per questo che la
+   card da 750 dichiara «una barra = 60».                              */
+.lente__isto {
+  display: flex; align-items: flex-end; gap: 5px;
+  height: 46px; margin-top: auto; padding-top: var(--s-4);
+}
+.lente__isto i {
+  flex: 1; height: var(--h); border-radius: 2px;
+  background: linear-gradient(180deg, rgba(255,255,255,.30), rgba(255,255,255,.07));
+  transform-origin: bottom center;
+  animation: isto-sale .5s var(--ease-salita) both;
+  animation-timeline: view();
+  animation-range-start: entry calc(16% + var(--b) * 1.6%);
+  animation-range-end: cover 46%;
+}
+/* L'ultima barra prende la tinta della card: è il valore di oggi. */
+.lente--calda  .lente__isto i:last-child { background: linear-gradient(180deg, #FF8200, rgba(255,130,0,.35)); }
+.lente--fredda .lente__isto i:last-child { background: linear-gradient(180deg, #5B8FE8, rgba(91,143,232,.35)); }
+.lente--verde  .lente__isto i:last-child { background: linear-gradient(180deg, #35C089, rgba(53,192,137,.35)); }
+@keyframes isto-sale { from { scale: 1 0; opacity: 0; } }
+@supports not (animation-timeline: view()) { .lente__isto i { animation: none; } }
+@media (prefers-reduced-motion: reduce) { .lente__isto i { animation: none; } }
+
+.lente__fonte {
+  font: 500 11px/1.4 var(--f-display); letter-spacing: .09em;
+  text-transform: uppercase; color: var(--c-t3);
+  padding-top: var(--s-4); border-top: 1px solid var(--c-filo);
+}
+
+@media (max-width: 900px) {
+  .numeri { grid-template-columns: 1fr; }
+  .lente { margin-top: 0; }
+  .lente__in { min-height: 0; }
+}
+
+/* ── LA CELLA VIDEO ───────────────────────────────────────────────────────
+   Card + didascalia sotto. Le locandine portano già nome e risultato
+   stampati: sovrapporci una seconda etichetta le rendeva illeggibili
+   entrambe.                                                            */
+.vidbox { margin: 0; display: grid; gap: var(--s-3); }
+.vidbox__cap { display: grid; gap: 2px; padding-inline: 2px; }
+.vidbox .vid { width: 100%; }
+/* La sfumatura sulla locandina non serve più: non c'è testo sopra. Resta
+   solo un velo leggero perché il pulsante stacchi.                     */
+.vid::after { background: linear-gradient(180deg, rgba(0,0,0,.10) 0%, rgba(0,0,0,.22) 100%) !important; }

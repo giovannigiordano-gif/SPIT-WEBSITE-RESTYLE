@@ -1,0 +1,287 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   SALESPROCESS · base.css — reset, contenitori, componenti, particella
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+  background: var(--c-base);
+  scrollbar-color: var(--c-filo-forte) var(--c-base);
+}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+body {
+  margin: 0;
+  padding-top: 40px;                    /* la barra annuncio */
+  background: var(--c-base);
+  color: var(--c-t2);
+  font-family: var(--f-testo);
+  font-size: 16px; line-height: 1.62;
+  letter-spacing: var(--tr-corpo);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+html.barra-off body { padding-top: 0; }
+
+h1, h2, h3, h4, p, figure, dl, dd, blockquote { margin: 0; }
+ul, ol { margin: 0; padding: 0; list-style: none; }
+img, svg, video { display: block; max-width: 100%; }
+button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+a { color: inherit; text-decoration: none; }
+table { border-collapse: collapse; width: 100%; }
+:target { scroll-margin-top: 140px; }
+
+/* L'arancio è l'unico colore della palette che soddisfa SC 1.4.11 senza
+   sforzo: i bordi bianchi decorativi arrivano a 1,3:1.                    */
+:focus-visible { outline: 2px solid var(--c-ar); outline-offset: 3px; border-radius: 2px; }
+.carta :focus-visible { outline-color: var(--c-inchiostro); }
+
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.skip {
+  position: absolute; left: 20px; top: 52px; z-index: var(--z-overlay);
+  padding: 12px 18px; background: var(--c-ar); color: var(--c-su-ar);
+  font: 700 14px/1 var(--f-display); border-radius: var(--r-hard);
+  /* translate, non la proprietà top: top è di layout e non è
+     compositabile.                                                       */
+  translate: 0 -160px;
+  transition: translate var(--t-micro) var(--ease-scatto);
+}
+.skip:focus { translate: 0 160px; }
+
+/* ── CONTENITORI ─────────────────────────────────────────────────────────── */
+.wrap        { width: 100%; margin-inline: auto; padding-inline: var(--margine); }
+.wrap--nav   { max-width: var(--w-nav); }
+.wrap--piena { max-width: var(--w-piena); }
+.wrap--grid  { max-width: var(--w-griglia); }
+.wrap--ed    { max-width: var(--w-ed); }
+.wrap--stat  { max-width: var(--w-stat); }
+
+@media (max-width: 1024px) { :root { --margine: 24px; } }
+@media (max-width: 480px)  { :root { --margine: 18px; } }
+
+/* ── SEZIONI GIUNTATE A FILO ──────────────────────────────────────────────
+   gap inter-sezione 0px, come nel riferimento. Il ritmo verticale esiste
+   solo come padding interno: senza confini il cervello non conta le
+   sezioni, e la pagina si legge come un documento continuo.              */
+.sez { position: relative; padding-block: var(--s-10); }
+.sez--fitta { padding-block: var(--s-8); }
+.sez--deep  { background: var(--c-deep); }
+/* L'alone si riaccende, fioco, dietro le fasce che devono respirare. */
+.sez--alone::before {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background: var(--alone-fioco);
+}
+.sez > .wrap { position: relative; }
+@media (max-width: 768px) { .sez { padding-block: var(--s-9); } }
+
+/* ── TESTA DI SEZIONE ─────────────────────────────────────────────────────
+   Una sola formula. Nel riferimento è sempre allineata a sinistra tranne
+   nelle fasce di apertura: qui la variante `.testa--c` lo replica.       */
+.testa { display: grid; gap: var(--s-5); margin-bottom: var(--s-8); }
+.testa--c { justify-items: center; text-align: center; }
+.testa--c .t-deck { margin-inline: auto; }
+
+/* ── LA PARTICELLA ────────────────────────────────────────────────────────
+   Il quadrato del mark. REGOLA DI TAGLIO: se un quadrato non CONTA
+   qualcosa, non NOMINA qualcosa o non SCOPRE qualcosa, esce.             */
+.q { display: inline-block; flex: none; width: var(--q); height: var(--q); border-radius: var(--q-r); background: currentColor; }
+.q--8 { width: 8px; height: 8px; }
+.q--ar { background: var(--c-ar); }
+
+.lista { display: grid; gap: var(--s-3); }
+.lista li { display: grid; grid-template-columns: 8px 1fr; gap: 14px; align-items: start; }
+.lista li::before { content: ''; width: 8px; height: 8px; margin-top: .58em; border-radius: var(--q-r); background: var(--c-ar); }
+.lista--ok li::before { background: var(--c-ok); }
+.lista--no li::before { background: var(--c-rottura); clip-path: polygon(0 0, 100% 50%, 0 100%); }
+
+/* ── CTA — tutti pill, come nel riferimento ───────────────────────────────
+   Tre livelli: bianco (hero), arancione (nav e conversione), outline.    */
+.cta {
+  --x: 50%; --y: 50%;
+  position: relative; isolation: isolate;   /* senza, il blend screen del
+                                               glow sfonda sul fondo pagina */
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  height: 50px; padding-inline: 26px;
+  font: 700 15px/1 var(--f-display); letter-spacing: -.005em;
+  border-radius: var(--r-pill);
+  transition: background-color var(--t-micro) var(--ease-scatto),
+              color var(--t-micro) linear,
+              translate var(--t-micro) var(--ease-scatto),
+              border-color var(--t-micro) var(--ease-scatto);
+}
+.cta--bianco  { background: #F8F8F8; color: #100F12; }
+.cta--bianco:hover { background: #FFFFFF; translate: 0 calc(var(--lift-btn) * -1); }
+.cta--ar { background: var(--c-ar); color: var(--c-su-ar); }
+/* Nessun arancio più brillante esiste (B=0, R clippato): l'hover scurisce
+   il fill e allarga il glow.                                             */
+.cta--ar:hover { background: var(--c-ar-fill); translate: 0 calc(var(--lift-btn) * -1); }
+.cta--out { border: 1px solid var(--c-bordo-ui); color: var(--c-t1); }
+.cta--out:hover { border-color: var(--c-ar); background: rgba(255,130,0,.10); translate: 0 calc(var(--lift-btn) * -1); }
+/* min-height 24px: sono target autonomi, non link dentro una frase, quindi
+   SC 2.5.8 non li esenta.                                               */
+.cta--testo { min-height: 24px; height: auto; padding: 0; border-radius: 0; color: var(--c-t1); font-weight: 500; }
+.cta:active { translate: 0 0; scale: .985; }
+.cta--sm { height: 40px; padding-inline: 18px; font-size: 14px; }
+
+.cta .q { transition: translate var(--t-micro) var(--ease-scatto); }
+.cta:hover .q { translate: 3px -2px; }   /* un gradino lungo la diagonale:
+                                            vale più di un'icona freccia  */
+
+/* La luce che segue il cursore. Il bottone non si muove VERSO il cursore:
+   resta fermo e si illumina dove sei. Niente magnetic hover — è il cliché
+   più riconoscibile del 2019-2021.                                       */
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .cta--luce::before, .cta--luce::after {
+    content: ''; position: absolute; z-index: -1; border-radius: inherit;
+    opacity: 0; pointer-events: none; transition: opacity var(--t-micro) linear;
+  }
+  .cta--luce::before {
+    inset: -3px; mix-blend-mode: screen;
+    background:
+      radial-gradient(80px 80px at var(--x) var(--y), rgba(255,255,255,.85) 0%, rgba(255,255,255,.28) 45%, transparent 70%),
+      radial-gradient(120px 120px at var(--x) var(--y), var(--glow-halo-f) 0%, transparent 75%);
+  }
+  .cta--luce::after {
+    inset: -12px; filter: blur(22px);      /* il blur è DIPINTO, non animato */
+    background: radial-gradient(200px 200px at var(--x) var(--y), var(--glow-halo), transparent 80%);
+  }
+  .cta--luce:hover::before, .cta--luce:hover::after { opacity: 1; }
+}
+
+.cta-riga { display: flex; flex-wrap: wrap; gap: var(--s-3) var(--s-4); align-items: center; }
+.cta-riga--c { justify-content: center; }
+
+.link-wipe {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-repeat: no-repeat; background-position: 0 100%; background-size: 0 1px;
+  transition: background-size var(--t-stato) var(--ease-scatto), color var(--t-micro) linear;
+}
+.link-wipe:hover { background-size: 100% 1px; color: var(--c-ar-hot); }
+
+/* Destinazione non ancora fornita dal cliente: non è un link (href="#"
+   salterebbe in cima alla pagina), ed è dichiarato come tale.           */
+.todo { color: var(--c-t3); cursor: default; }
+/* Sulla fascia crema --c-t3 e bianco al 56%: invisibile. Li serve
+   inchiostro, e lo stesso vale per il bordo del badge.                  */
+.carta .todo { color: var(--c-inch-2); }
+.carta .todo::after { color: var(--c-ar-carta); border-color: rgba(138,67,0,.34); }
+.todo::after {
+  content: 'in arrivo'; margin-left: 8px;
+  font-size: 10px; font-weight: 700; letter-spacing: .10em; text-transform: uppercase;
+  color: var(--c-ar-hot); border: 1px solid rgba(255,130,0,.28);
+  border-radius: var(--r-hard); padding: 2px 5px; vertical-align: 2px;
+}
+
+/* ── SUPERFICI ───────────────────────────────────────────────────────────── */
+.card {
+  background: var(--c-sup-1);
+  border: 1px solid var(--c-filo);
+  border-radius: var(--r-card);
+  transition: background-color var(--t-micro) linear, border-color var(--t-micro) linear,
+              translate var(--t-micro) var(--ease-scatto);
+}
+.card:hover { background: var(--c-sup-2); border-color: var(--c-filo-forte); }
+.card--panel { border-radius: var(--r-panel); }
+
+.chip {
+  display: inline-flex; align-items: center; gap: 8px;
+  height: 34px; padding-inline: 14px;
+  font: 500 12px/1 var(--f-display); letter-spacing: .10em; text-transform: uppercase;
+  color: var(--c-t3);
+  border: 1px solid var(--c-bordo-ui); border-radius: var(--r-hard);
+  transition: color var(--t-micro) linear, background-color var(--t-micro) linear, border-color var(--t-micro) linear;
+}
+.chip:hover { color: var(--c-t1); background: var(--c-sup-2); }
+.chip[aria-pressed="true"] { color: var(--c-ar); background: rgba(255,130,0,.10); border-color: var(--c-bordo-ar); }
+
+/* Il quadratino-icona dei tile del bento: nel riferimento è un rounded
+   square con tint dell'accento. Qui l'icona è il MODULO del mark, non una
+   icona a caso — è il posto dove il DNA entra senza fare rumore.        */
+.icoq {
+  width: 46px; height: 46px; flex: none;
+  display: grid; place-items: center;
+  border-radius: 13px;
+  background: rgba(255,255,255,.045);
+  border: 1px solid rgba(255,255,255,.10);
+  color: var(--c-ar);
+  transition: background-color var(--t-micro) linear, border-color var(--t-micro) linear;
+}
+.icoq svg { width: 22px; height: 22px; }
+.card:hover .icoq { background: rgba(255,130,0,.12); border-color: rgba(255,130,0,.26); }
+
+.fonte { display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: center; }
+
+/* ── LA MASCHERA A SCALINATA ──────────────────────────────────────────────
+   Le fotografie non compaiono: vengono SCOPERTE da un bordo a quattro
+   gradini che sale. 100% compositor, nessuna clip-path animata.
+   È il momento-firma che resta nostro: nessuno può copiarlo perché nessuno
+   ha questo marchio.                                                      */
+.scalinata { display: grid; grid-template-columns: repeat(4, 1fr); aspect-ratio: 4/5; overflow: clip; }
+.scalinata > span { position: relative; overflow: clip; }
+.scalinata img {
+  position: absolute; inset-block: 0; height: 100%;
+  /* max-width:none è OBBLIGATORIO: il reset img{max-width:100%} clamperebbe
+     il 400% e ogni colonna mostrerebbe un quarto schiacciato.            */
+  width: 400%; max-width: none; left: calc(var(--i) * -100%);
+  object-fit: cover; object-position: center;
+  translate: 0 101%;
+  animation: sali-scalino var(--t-maschera) var(--ease-salita) both;
+  animation-timeline: view();
+  /* Sulle timeline scroll-driven `animation-delay` NON si applica:
+     lo stagger si fa spostando `animation-range-start`.                  */
+  animation-range-start: entry calc(8% + var(--i) * 7%);
+  animation-range-end: cover 42%;
+}
+@keyframes sali-scalino { to { translate: 0 0; } }
+
+@supports not (animation-timeline: view()) {
+  .scalinata img { animation: none; transition: translate var(--t-maschera) var(--ease-salita); transition-delay: calc(var(--i) * 90ms); }
+  .scalinata.is-in img { translate: 0 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .scalinata img { translate: 0 0; animation: none; }
+}
+@media (max-width: 768px) { .scalinata { aspect-ratio: 1/1; } }
+
+/* ── REVEAL — la materia entra con una CITAZIONE della diagonale ─────────
+   Il TESTO non la usa mai: entra in verticale dentro una maschera, perché
+   si legge in orizzontale. Non esiste una terza direzione.               */
+.rise {
+  translate: var(--dx) var(--dy); opacity: 0;
+  animation: rise var(--t-reveal) var(--ease-salita) both;
+  animation-timeline: view();
+  animation-range-start: entry calc(10% + var(--i, 0) * 5%);
+  animation-range-end: cover 36%;
+}
+@keyframes rise { to { translate: 0 0; opacity: 1; } }
+@supports not (animation-timeline: view()) {
+  .rise { animation: none; transition: translate var(--t-reveal) var(--ease-salita), opacity var(--t-reveal) linear; transition-delay: calc(var(--i, 0) * 70ms); }
+  .rise.is-in { translate: 0 0; opacity: 1; }
+}
+
+.mask { display: block; overflow: clip; }
+.mask > * { display: block; translate: 0 104%; }
+
+/* ── GRANA ────────────────────────────────────────────────────────────────
+   Un solo paint iniziale. Limite d'uso duro: sopra .04 è sporco.        */
+.grana { position: fixed; inset: 0; z-index: var(--z-grana); pointer-events: none; opacity: .025; background-image: var(--grana-tile); background-size: 128px 128px; }
+@media (min-resolution: 2dppx) { .grana { opacity: .018; } }
+
+/* ── MARQUEE DEI LOGHI ────────────────────────────────────────────────────
+   I loghi clienti sono PNG bianchi su trasparente: `screen` li fonde con
+   qualunque fondo scuro senza aloni.                                     */
+.loghi { overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent); mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent); }
+.loghi__pista { display: flex; align-items: center; gap: var(--s-9); width: max-content; animation: scorri 46s linear infinite; }
+.loghi img {
+  height: 34px; width: auto; max-width: 170px; object-fit: contain;
+  opacity: .70; transition: opacity var(--t-micro) linear;
+}
+.loghi img:hover { opacity: 1; }
+@keyframes scorri { to { transform: translate3d(-50%, 0, 0); } }
+.loghi:hover .loghi__pista, .loghi:focus-within .loghi__pista { animation-play-state: paused; }
+@media (prefers-reduced-motion: reduce) {
+  .loghi { overflow-x: auto; mask-image: none; -webkit-mask-image: none; }
+  .loghi__pista { animation: none; }
+}

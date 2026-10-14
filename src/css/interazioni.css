@@ -1,0 +1,202 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   SALESPROCESS · interazioni.css — ingressi automatici e hover
+   ---------------------------------------------------------------------------
+   Un solo gesto d'ingresso (sale + dissolve) e un solo dispositivo di hover
+   (la luce che segue il cursore), applicati in modo uniforme. La differenza
+   fra un sistema di motion e una collezione di animazioni è che qui non c'è
+   un effetto diverso per sezione.
+   Tutto su transform/opacity o su un repaint di area minima.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── INGRESSO A CASCATA PER LE GRIGLIE ────────────────────────────────────
+   Bento, video, risorse, comandamenti, sedi, filtro, contro-esempio.
+   Lo stagger si fa spostando animation-range-start, perché sulle timeline
+   scroll-driven animation-delay viene IGNORATO.                        */
+.bento > *, .video > *, .risorse > *, .comand > *,
+.dove__info > *, .filtro > *, .qualita > *, .rottura > * {
+  animation: sale-griglia var(--t-reveal) var(--ease-salita) both;
+  animation-timeline: view();
+  animation-range-end: cover 40%;
+}
+@keyframes sale-griglia {
+  from { opacity: 0; translate: var(--dx) 26px; }
+  to   { opacity: 1; translate: 0 0; }
+}
+
+/* Quattro gradini ciclici: una griglia da dodici non deve avere dodici
+   ritardi diversi, o l'ultimo tile entra troppo tardi.                */
+.bento > :nth-child(4n+1), .video > :nth-child(4n+1), .risorse > :nth-child(4n+1),
+.comand > :nth-child(4n+1), .rottura > :nth-child(4n+1) { animation-range-start: entry 10%; }
+.bento > :nth-child(4n+2), .video > :nth-child(4n+2), .risorse > :nth-child(4n+2),
+.comand > :nth-child(4n+2), .rottura > :nth-child(4n+2) { animation-range-start: entry 14%; }
+.bento > :nth-child(4n+3), .video > :nth-child(4n+3), .risorse > :nth-child(4n+3),
+.comand > :nth-child(4n+3), .rottura > :nth-child(4n+3) { animation-range-start: entry 18%; }
+.bento > :nth-child(4n+4), .video > :nth-child(4n+4), .risorse > :nth-child(4n+4),
+.comand > :nth-child(4n+4), .rottura > :nth-child(4n+4) { animation-range-start: entry 22%; }
+.dove__info > :nth-child(1), .filtro > :nth-child(1), .qualita > :nth-child(1) { animation-range-start: entry 10%; }
+.dove__info > :nth-child(2), .filtro > :nth-child(2), .qualita > :nth-child(2) { animation-range-start: entry 15%; }
+.dove__info > :nth-child(3) { animation-range-start: entry 20%; }
+
+@supports not (animation-timeline: view()) {
+  .bento > *, .video > *, .risorse > *, .comand > *,
+  .dove__info > *, .filtro > *, .qualita > *, .rottura > * { animation: none; }
+}
+
+/* ── LA LUCE CHE SEGUE IL CURSORE SULLE SUPERFICI ─────────────────────────
+   Lo stesso dispositivo dei CTA, portato sulle card. NON un tilt 3D e NON
+   un magnetic hover: la superficie resta ferma e si illumina dove sei.
+   --mx/--my le scrive un solo handler delegato, throttlato in rAF.     */
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .card, .lente, .sede, .rottura__b { position: relative; --mx: 50%; --my: 50%; }
+  .card::after, .lente::after, .sede::after, .rottura__b::after {
+    content: ''; position: absolute; inset: 0; z-index: 0;
+    border-radius: inherit; pointer-events: none;
+    opacity: 0; transition: opacity var(--t-stato) linear;
+    background: radial-gradient(340px 340px at var(--mx) var(--my),
+                rgba(255,255,255,.075) 0%, rgba(255,130,0,.05) 38%, transparent 68%);
+  }
+  .card:hover::after, .lente:hover::after,
+  .sede:hover::after, .rottura__b:hover::after { opacity: 1; }
+  /* il contenuto sta SOPRA la luce */
+  .card > *, .sede > *, .rottura__b > *, .lente > * { position: relative; z-index: 1; }
+}
+
+/* ── HOVER DEI TILE ───────────────────────────────────────────────────────
+   L'icona fa un passo, il titolo si sposta di un filo, e nell'angolo
+   compare un taglio di luce: dice «questo è un argomento», non una card
+   decorativa. Ampiezza massima 3px, come tutto il resto del sistema.  */
+.tile { position: relative; overflow: hidden; }
+.tile .icoq svg { transition: scale var(--t-micro) var(--ease-scatto); }
+.tile:hover .icoq svg { scale: 1.08; }
+.tile .t-t2 { transition: translate var(--t-micro) var(--ease-scatto); }
+.tile:hover .t-t2 { translate: 2px 0; }
+.tile::before {
+  content: ''; position: absolute; top: 0; right: 0; z-index: 2;
+  width: 52px; height: 52px; pointer-events: none;
+  background: linear-gradient(225deg, rgba(255,130,0,.18) 0%, transparent 64%);
+  opacity: 0; transition: opacity var(--t-stato) linear;
+}
+.tile:hover::before { opacity: 1; }
+
+/* ── BARRA DI AVANZAMENTO ─────────────────────────────────────────────────
+   Un filo arancione sotto la nav, legato allo scroll del documento con
+   animation-timeline: scroll(). Zero JS, gira sul compositor e resta
+   fluida anche col main thread occupato.                               */
+.avanza {
+  position: fixed; left: 0; right: 0; z-index: calc(var(--z-nav) + 1);
+  top: 115px; height: 2px;
+  background: var(--c-ar);
+  transform-origin: left center;
+  scale: 0 1;
+  animation: avanza-x linear both;
+  animation-timeline: scroll(root block);
+  box-shadow: 0 0 12px rgba(255,130,0,.5);
+  pointer-events: none;
+}
+html.barra-off .avanza { top: 75px; }
+@keyframes avanza-x { to { scale: 1 1; } }
+@media (max-width: 1100px) { .avanza { top: 99px; } html.barra-off .avanza { top: 59px; } }
+@supports not (animation-timeline: scroll(root block)) { .avanza { display: none; } }
+@media (prefers-reduced-motion: reduce) { .avanza { display: none; } }
+
+/* ── DERIVA DELL'ALONE NELLE LENTI ────────────────────────────────────────
+   Il blob dietro i numeri respira. 18 secondi, ampiezza piccola: si nota
+   solo se ci si sofferma, che è esattamente lo scopo.                  */
+.lente__alone { animation: deriva 18s ease-in-out infinite alternate; }
+@keyframes deriva {
+  from { opacity: .82; scale: 1; }
+  to   { opacity: 1;   scale: 1.08; }
+}
+@media (prefers-reduced-motion: reduce) { .lente__alone { animation: none; } }
+
+/* ── IL MARCHIO IN NAV ───────────────────────────────────────────────────── */
+.marchio__img { transition: scale var(--t-micro) var(--ease-scatto); }
+.marchio:hover .marchio__img { scale: 1.03; }
+
+/* ── RIGHE DI TABELLA ─────────────────────────────────────────────────────
+   Al passaggio compare un filo arancione a sinistra: dice quale riga stai
+   leggendo senza spostarla.                                            */
+.tabella tbody td:first-child { position: relative; }
+.tabella tbody td:first-child::before {
+  content: ''; position: absolute; left: 0; top: 8px; bottom: 8px; width: 2px;
+  background: var(--c-ar); border-radius: 2px;
+  scale: 1 0; transform-origin: center;
+  transition: scale var(--t-micro) var(--ease-scatto);
+}
+.tabella tbody tr:hover td:first-child::before { scale: 1 1; }
+
+/* ── I LOGHI CLIENTI ──────────────────────────────────────────────────────
+   Il singolo logo si alza e va a piena opacità: la riga smette di essere
+   un tappeto e diventa un elenco di aziende.                           */
+.loghi img { transition: opacity var(--t-micro) linear, translate var(--t-micro) var(--ease-scatto); }
+.loghi img:hover { opacity: 1; translate: 0 -3px; }
+
+/* ── LE PILL DEL TETTO ────────────────────────────────────────────────────
+   Al passaggio il reparto si accende come nella scena della macchina:
+   stesso linguaggio, stesso significato.                               */
+.tetto__reparti li {
+  transition: border-color var(--t-micro) linear, background-color var(--t-micro) linear,
+              color var(--t-micro) linear;
+}
+.tetto__reparti li:hover {
+  border-color: var(--c-bordo-ar); background: rgba(255,130,0,.08); color: var(--c-t1);
+}
+
+/* ── LE SCHEDE PERSONA · sistemate ────────────────────────────────────────
+   Erano troppo scure ai bordi (0,55 di opacità leggeva come un errore) e
+   il blocco di testo era compresso. Ora il minimo è 0,72 (lo scrive il
+   rAF), il testo ha respiro e il nome sale al passaggio.               */
+.pers__txt { padding: var(--s-5) var(--s-5) var(--s-6); gap: 5px; }
+.pers__txt .t-t2 { transition: translate var(--t-stato) var(--ease-salita); }
+.pers:hover .pers__txt .t-t2 { translate: 0 -2px; }
+.pers__rep { margin-bottom: 10px; }
+.pers::before {
+  content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  border-radius: inherit;
+  box-shadow: inset 0 0 0 1px rgba(255,130,0,0);
+  transition: box-shadow var(--t-stato) linear;
+}
+.pers:hover::before { box-shadow: inset 0 0 0 1px rgba(255,130,0,.42); }
+
+/* ── LA MAPPA A FACCIATA ──────────────────────────────────────────────────
+   L'embed di Google scarica oltre un megabyte e scrive cookie di
+   profilazione al primo byte: con una cookie policy attiva, caricarlo
+   senza consenso è un problema legale, non solo di performance.       */
+.dove__grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 20px; align-items: stretch; }
+.dove__info { display: grid; gap: 16px; align-content: start; }
+.sede { padding: var(--s-5); display: grid; gap: var(--s-3); justify-items: start; }
+
+.mappa {
+  position: relative; overflow: hidden;
+  min-height: 420px; border-radius: var(--r-panel);
+  border: 1px solid var(--c-filo); background: var(--c-sup-1);
+}
+.mappa__facciata {
+  position: absolute; inset: 0; display: grid; place-content: center;
+  justify-items: center; gap: var(--s-4); text-align: center; padding: var(--s-6);
+}
+/* La griglia vive SOLO qui: sta al posto di una mappa, quindi non è
+   decorazione ma un segnaposto che dice «qui c'è una pianta».        */
+.mappa__grid { position: absolute; inset: 0; z-index: 0; }
+.mappa__pin {
+  position: relative; z-index: 1;
+  width: 58px; height: 58px; display: grid; place-items: center;
+  border-radius: 50%; color: var(--c-ar);
+  background: rgba(255,130,0,.10); border: 1px solid rgba(255,130,0,.28);
+  animation: pin-pulsa 2.6s ease-in-out infinite;
+}
+.mappa__pin svg { width: 26px; height: 26px; }
+@keyframes pin-pulsa {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255,130,0,.30); }
+  60%      { box-shadow: 0 0 0 16px rgba(255,130,0,0); }
+}
+@media (prefers-reduced-motion: reduce) { .mappa__pin { animation: none; } }
+.mappa__btn, .mappa__nota { position: relative; z-index: 1; }
+.mappa__nota { max-inline-size: 34ch; }
+.mappa iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; z-index: 2; }
+.mappa.is-on .mappa__facciata { display: none; }
+
+@media (max-width: 900px) {
+  .dove__grid { grid-template-columns: 1fr; }
+  .mappa { min-height: 320px; }
+}

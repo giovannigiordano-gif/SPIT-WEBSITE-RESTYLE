@@ -1,0 +1,201 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   SALESPROCESS · chrome.css — barra annuncio, nav, footer, piastra mobile
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── BARRA ANNUNCIO ──────────────────────────────────────────────────────
+   Come nel riferimento: fascia piena a gradiente d'accento, testo scuro,
+   una pill scura dentro, un dot e la × a destra.
+   Sul gradiente arancione il testo è sempre #100F12: bianco su #FF8200
+   dà 2,49:1 e non passa.                                                 */
+.barra {
+  position: fixed; inset: 0 0 auto; z-index: var(--z-barra);
+  height: 40px;
+  display: flex; align-items: center; justify-content: center; gap: var(--s-3);
+  padding: 0 44px 0 16px;
+  /* Ogni stop deve reggere il testo scuro: #100F12 su #C56200 = 4,56:1,
+     su #FF9A38 = 8,4:1. Sotto #C56200 il testo scuro non passa più, e un
+     testo chiaro su arancio è peggio (bianco su #FF8200 = 2,49:1).      */
+  background: linear-gradient(90deg, #C56200 0%, #FF8200 46%, #FF9A38 100%);
+  color: var(--c-su-ar);
+  font: 700 13px/1 var(--f-display); letter-spacing: -.005em;
+  white-space: nowrap; overflow: hidden;
+}
+html.barra-off .barra { display: none; }
+.barra__dot { width: 7px; height: 7px; border-radius: 50%; background: #4A2200; flex: none; }
+.barra__sep { opacity: .45; }
+.barra__pill {
+  display: inline-flex; align-items: center; gap: 6px;
+  height: 26px; padding-inline: 12px; border-radius: var(--r-pill);
+  background: #1A1206; color: #FFCF9E;
+  font: 700 12px/1 var(--f-display);
+  transition: background-color var(--t-micro) linear;
+}
+.barra__pill:hover { background: #000; }
+.barra__x {
+  position: absolute; right: 10px; top: 50%; translate: 0 -50%;
+  width: 28px; height: 28px; display: grid; place-items: center;
+  color: #4A2200; transition: color var(--t-micro) linear;
+}
+.barra__x:hover { color: #000; }
+
+/* DEGRADAZIONE misurata, non indovinata: a 375px restano 287px utili
+   dopo il padding, e quattro span nowrap non ci stanno.                 */
+.barra > * { min-width: 0; }
+@media (max-width: 900px) { .barra__slot { display: none; } }
+@media (max-width: 700px) { .barra__data { display: none; } }
+@media (max-width: 560px) {
+  .barra { font-size: 12px; gap: var(--s-2); padding-inline: 12px 40px; }
+  .barra__pill { padding-inline: 10px; }
+  .barra__pill span { display: none; }
+}
+
+/* ── NAV STICKY ──────────────────────────────────────────────────────────
+   Trasparente sopra l'alone, si vela sullo scroll. Isteresi a due soglie:
+   attiva a 48px, disattiva a 12px — senza, il backdrop-filter sfarfalla su
+   trackpad e in rubber-band, perché transiziona in 320ms.                */
+.nav {
+  position: fixed; top: 40px; left: 0; right: 0; z-index: var(--z-nav);
+  height: 76px;
+  background: transparent; border-bottom: 1px solid transparent;
+  transition: background-color var(--t-stato) var(--ease-scatto),
+              border-color var(--t-stato) var(--ease-scatto),
+              backdrop-filter var(--t-stato) var(--ease-scatto);
+}
+html.barra-off .nav { top: 0; }
+.nav.is-fissa {
+  background: var(--c-sup-nav);
+  backdrop-filter: saturate(140%) blur(18px);
+  border-bottom-color: var(--c-filo);
+}
+@media (prefers-reduced-transparency: reduce) { .nav.is-fissa { backdrop-filter: none; } }
+.nav__in { display: flex; align-items: center; height: 100%; gap: var(--s-6); }
+
+.marchio { display: flex; align-items: center; flex: none; }
+.marchio__img { width: auto; }
+
+.nav__voci { display: flex; gap: 2px; }
+.nav__voci a {
+  padding: 9px 14px; border-radius: var(--r-8);
+  font: 500 15px/1 var(--f-display); letter-spacing: -.008em; color: var(--c-t2);
+  transition: color var(--t-micro) linear, background-color var(--t-micro) linear;
+}
+/* NESSUN transform in header: la gerarchia di hover ha due livelli —
+   in header solo colore, in pagina colore + lift.                        */
+.nav__voci a:hover,
+.nav__voci a[aria-current="page"] { color: var(--c-t1); background: var(--c-sup-2); }
+
+.nav__dx { display: flex; align-items: center; gap: var(--s-3); margin-left: auto; }
+/* Il gruppo-pill: nel riferimento è lo switch di lingua. Qui porta il
+   telefono, che per una PMI italiana vale più di un selettore di lingua. */
+.gruppo {
+  display: flex; align-items: center; gap: 2px; padding: 3px;
+  background: var(--c-sup-2); border: 1px solid var(--c-filo);
+  border-radius: var(--r-pill);
+}
+.gruppo a {
+  height: 30px; padding-inline: 13px; display: inline-flex; align-items: center;
+  border-radius: var(--r-pill);
+  font: 700 12px/1 var(--f-display); letter-spacing: .04em; color: var(--c-t3);
+  transition: color var(--t-micro) linear, background-color var(--t-micro) linear;
+}
+.gruppo a:hover { color: var(--c-t1); }
+.gruppo a.is-on { background: rgba(255,130,0,.16); color: var(--c-ar-hot); }
+.nav__login { font: 500 14px/1 var(--f-display); color: var(--c-t2); padding: 9px 6px; }
+.nav__login:hover { color: var(--c-t1); }
+.nav .cta { height: 42px; padding-inline: 20px; font-size: 14px; }
+
+.burger {
+  display: none; width: 44px; height: 44px;
+  border: 1px solid var(--c-bordo-ui); border-radius: var(--r-8);
+  place-items: center; color: var(--c-t1);
+}
+.burger span { position: relative; display: block; width: 16px; height: 1.5px; background: currentColor; }
+.burger span::before, .burger span::after { content: ''; position: absolute; left: 0; width: 16px; height: 1.5px; background: currentColor; }
+.burger span::before { top: -5px; }
+.burger span::after  { top: 5px; }
+
+@media (max-width: 1100px) {
+  .nav { height: 60px; background: var(--c-base); border-bottom-color: var(--c-filo); }
+  .nav__voci, .gruppo, .nav__login { display: none; }
+  .burger { display: grid; }
+}
+@media (max-width: 620px) {
+  /* La piastra fissa in basso porta già questo stesso CTA a tutta
+     larghezza: qui è ridondante e fa sfondare la barra.               */
+  .nav .cta--nav { display: none; }
+  .nav__in { gap: var(--s-4); }
+  .marchio__img { height: 26px !important; }
+}
+
+/* Menu mobile a pannello pieno. */
+.menu {
+  position: fixed; inset: 100px 0 0; z-index: calc(var(--z-nav) - 1);
+  background: var(--c-base); padding: var(--s-6) var(--margine);
+  display: none; overflow-y: auto;
+}
+html.barra-off .menu { inset: 60px 0 0; }
+.menu.is-on { display: block; }
+.menu a {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: var(--s-4) 0; border-bottom: 1px solid var(--c-filo);
+  font: 500 22px/1.2 var(--f-display); letter-spacing: -.02em; color: var(--c-t1);
+}
+.menu .cta { margin-top: var(--s-6); width: 100%; }
+
+/* ── PIASTRA CTA MOBILE ─────────────────────────────────────────────────── */
+.piastra {
+  position: fixed; inset: auto 0 0; z-index: var(--z-nav);
+  display: none; padding: 12px var(--margine) calc(12px + env(safe-area-inset-bottom));
+  background: var(--c-sup-nav); backdrop-filter: blur(18px);
+  border-top: 1px solid var(--c-filo);
+  transition: translate var(--t-stato) var(--ease-scatto);
+}
+.piastra .cta { width: 100%; }
+.piastra.is-off { translate: 0 130%; }
+@media (max-width: 1100px) { .piastra { display: block; } body { padding-bottom: 76px; } }
+
+/* ── FOOTER ──────────────────────────────────────────────────────────────
+   Colonne come nel riferimento, su nero profondo. Tre livelli di grigio
+   come unica gerarchia.                                                   */
+.footer { background: var(--c-deep); border-top: 1px solid var(--c-filo); padding-block: var(--s-9) 0; }
+.footer__grid {
+  display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr 1fr;
+  gap: 40px 32px; padding-bottom: var(--s-8); border-bottom: 1px solid var(--c-filo);
+}
+/* Senza min-width:0 una colonna grid non scende sotto il min-content dei
+   suoi figli, e il blocco del numero verde fa sfondare la griglia.    */
+.footer__grid > * { min-width: 0; }
+.footer__h {
+  font: 700 12px/1.2 var(--f-display); letter-spacing: var(--tr-eyebrow);
+  text-transform: uppercase; color: var(--c-t3); margin-bottom: var(--s-5);
+}
+.footer ul { display: grid; gap: 11px; }
+.footer li a {
+  font: 400 15px/1.4 var(--f-display); color: var(--c-t3);
+  display: inline-flex; align-items: center; min-height: 24px;
+}
+.footer li a:hover { color: var(--c-t1); }
+.footer__social { display: flex; gap: 10px; margin-top: var(--s-5); }
+.footer__social a {
+  width: 38px; height: 38px; display: grid; place-items: center;
+  border: 1px solid var(--c-bordo-ui); border-radius: var(--r-8);
+  font: 700 11px/1 var(--f-display); letter-spacing: .06em; color: var(--c-t3);
+  transition: color var(--t-micro) linear, border-color var(--t-micro) linear, background-color var(--t-micro) linear;
+}
+.footer__social a:hover { color: var(--c-ar); border-color: var(--c-ar); background: rgba(255,130,0,.10); }
+/* Segnaposto: gli URL dei social non sono ancora stati forniti. Non sono
+   link, perché un href="#" salterebbe in cima alla pagina.               */
+.footer__social .todo-ico {
+  width: 38px; height: 38px; display: grid; place-items: center;
+  border: 1px dashed var(--c-filo-forte); border-radius: var(--r-8);
+  font: 700 11px/1 var(--f-display); letter-spacing: .06em; color: var(--c-t4);
+}
+.footer__legale { display: flex; flex-wrap: wrap; gap: 8px 22px; padding-block: var(--s-6); font: 400 13px/1.5 var(--f-display); color: var(--c-t3); }
+.footer__chiusa { display: flex; gap: 4px; padding-bottom: var(--s-7); }
+.footer__chiusa i { width: 9px; height: 9px; border-radius: var(--q-r); background: var(--c-ar); }
+
+@media (max-width: 1024px) { .footer__grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 620px)  { .footer__grid { grid-template-columns: 1fr; gap: 32px; } }
+/* Il numero verde è il blocco più largo del footer: a schermo strettissimo
+   va a capo invece di spingere la griglia.                              */
+@media (max-width: 380px) { .verde { padding-inline: 12px; } .verde b { font-size: 16px; } }

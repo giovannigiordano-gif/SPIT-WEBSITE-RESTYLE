@@ -1,0 +1,10 @@
+# dipendenze e cache di strumenti
+node_modules/
+.playwright-cli/
+.playwright-mcp/
+
+# screenshot di verifica (pesanti, rigenerabili) — le coppie prima/dopo scelte stanno in docs/prima-dopo/
+qa/
+
+# impostazioni locali dell'editor/agente
+.claude/settings.local.json
