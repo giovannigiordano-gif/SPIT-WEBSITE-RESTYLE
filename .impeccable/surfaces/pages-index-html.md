@@ -22,8 +22,8 @@ la stessa dissolvenza su ogni sezione e le card tutte uguali.
 
 OWN-WORLD: nero palco #020202 e base #161519 come un unico fondo continuo, arancio #FF8200 come luce
 (alone, bordo acceso, numero), quadrato 12px raggio 2 come modulo di tutto (liste, grafici a unità,
-transizioni a gradini), mani nere con oggetto arancione come fotografia, DM Sans 500/700 + Instrument
-Serif italic, filetti al 12% di bianco, pill per le azioni.
+transizioni a gradini), mani nere con oggetto arancione come fotografia, DM Sans 500/700 (Instrument
+Serif italic ritirato nel giro 2 di verifica: una sola famiglia), filetti al 12% di bianco, pill per le azioni.
 
 STORY: il titolare vede i contatti sparsi diventare una scalinata (il processo), capisce che il
 fatturato si perde nei passaggi fra reparti, vede il contatto attraversare i quattro reparti senza

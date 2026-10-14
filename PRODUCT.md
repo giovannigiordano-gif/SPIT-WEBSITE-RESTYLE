@@ -46,7 +46,8 @@ oggi su WordPress + Elementor: lo stack definitivo è una decisione aperta con i
 - Logo vero del cliente (mark a cinque quadrati in scalinata + wordmark), mai ridisegnato.
 - Arancio `#FF8200` come unico accento; mai testo bianco su arancio.
 - Pelle allineata a sharpify.io, richiesta dal cliente: fondo near-black, DM Sans peso 500 al display,
-  Instrument Serif italic come contrappunto, raggi 2/8/12/999px.
+  raggi 2/8/12/999px. (Instrument Serif italic, contrappunto del riferimento, è stato ritirato nel
+  giro 2 di verifica del restyling: il sito è tutto DM Sans.)
 - Decisioni già chiuse col cliente: niente parentesi quadre negli occhielli, mai IBM Plex Mono, nessun
   nome di persona nella sezione metodo, niente quadratini arancioni sulle card team e reparti,
   Francesco Piergianni rimosso, fascia ISO/P.IVA rimossa, muro FATTURARE centrato.

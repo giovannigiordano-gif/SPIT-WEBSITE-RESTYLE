@@ -150,7 +150,7 @@
   --r-8:8px;
   --r-card:12px;   /* card e tile del bento                              */
   --r-panel:20px;
-  --r-pill:999px;  /* SOLO i CTA e le eyebrow-pill                       */
+  --r-pill:999px;  /* SOLO CTA e chip (l'occhiello non è più una pill)  */
 
   /* ── LA PARTICELLA — il modulo del mark ────────────────────────────── */
   --q:12px; --q-r:2px; --q-gap:4px;

@@ -23,7 +23,7 @@
 }
 .diag__box:hover { border-color: var(--c-bordo-ui); background: rgba(255,255,255,.06); }
 .diag__n {
-  font: 700 12px/1 var(--f-display); letter-spacing: .14em;
+  font: 700 12px/1 var(--f-display); letter-spacing: 0; font-variant-numeric: tabular-nums;
   color: var(--c-t3);   /* t4 (3,8:1) è riservato a testo ≥ 24px */
 }
 .diag__nome { font: 700 17px/1.25 var(--f-display); letter-spacing: -.012em; color: var(--c-t1); }
@@ -59,8 +59,8 @@
 .varco__et {
   position: absolute; left: 50%; top: 100px; translate: -50% 0;
   white-space: nowrap; text-align: center;
-  font: 700 12px/1.35 var(--f-display); letter-spacing: .06em;
-  text-transform: uppercase; color: var(--c-rottura);
+  font: 600 13px/1.3 var(--f-display); letter-spacing: 0;
+  text-transform: none; color: var(--c-rottura);
 }
 
 /* ── IL PAVIMENTO ─────────────────────────────────────────────────────────
@@ -74,8 +74,8 @@
 .diag__suolo-et {
   position: absolute; top: -9px; left: 0;
   padding-right: 12px; background: transparent;
-  font: 700 12px/1 var(--f-display); letter-spacing: .08em;
-  text-transform: uppercase; color: var(--c-rottura);
+  font: 600 13px/1 var(--f-display); letter-spacing: 0;
+  text-transform: none; color: var(--c-rottura);
 }
 /* la label ha bisogno di mangiarsi la linea sotto di sé */
 .diag__suolo-et::before {

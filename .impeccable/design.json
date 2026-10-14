@@ -1,0 +1,192 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-14T12:00:00Z",
+  "title": "Design System: Sales Process Italia",
+  "extensions": {
+    "colorMeta": {
+      "arancio":          { "role": "primary",  "displayName": "Arancio Sales Process", "canonical": "#FF8200", "tonalRamp": ["#4A2200", "#8A4300", "#B85B00", "#C56200", "#E87300", "#FF8200", "#FF9A38", "#FFCF9E"] },
+      "arancio-caldo":    { "role": "primary",  "displayName": "Arancio Caldo", "canonical": "#FF9A38", "tonalRamp": ["#4A2200", "#8A4300", "#B85B00", "#E87300", "#FF8200", "#FF9A38", "#FFB45C", "#FFE6C4"] },
+      "arancio-pressato": { "role": "primary",  "displayName": "Arancio Pressato", "canonical": "#E87300", "tonalRamp": ["#4A2200", "#8A4300", "#B85B00", "#C56200", "#E06F00", "#E87300", "#FF8200", "#FF9A38"] },
+      "arancio-brace":    { "role": "primary",  "displayName": "Brace", "canonical": "#B85B00", "tonalRamp": ["#2A1410", "#4A2200", "#783800", "#8A4300", "#B85B00", "#C56200", "#E87300", "#FF8200"] },
+      "su-arancio":       { "role": "neutral",  "displayName": "Inchiostro su Arancio", "canonical": "#100F12", "tonalRamp": ["#000000", "#020202", "#060607", "#0B0A0C", "#100F12", "#161519", "#1C1B20", "#3A3741"] },
+      "fondo-base":       { "role": "neutral",  "displayName": "Base Fredda", "canonical": "#161519", "tonalRamp": ["#000000", "#020202", "#060607", "#0B0A0C", "#111318", "#161519", "#1C1B20", "#3A3741"] },
+      "nero-palco":       { "role": "neutral",  "displayName": "Nero Palco", "canonical": "#020202", "tonalRamp": ["#000000", "#020202", "#060607", "#0B0A0C", "#111318", "#161519", "#1C1B20", "#3A3741"] },
+      "testo-1":          { "role": "neutral",  "displayName": "Bianco Riferimento", "canonical": "#F8F8F8", "tonalRamp": ["#FFFFFF1F", "#FFFFFF33", "#FFFFFF57", "#FFFFFF66", "#FFFFFF8F", "#FFFFFFCC", "#F8F8F8", "#FFFFFF"] },
+      "testo-2":          { "role": "neutral",  "displayName": "Testo 2", "canonical": "rgba(255,255,255,.80)" },
+      "testo-3":          { "role": "neutral",  "displayName": "Testo 3", "canonical": "rgba(255,255,255,.56)" },
+      "testo-4":          { "role": "neutral",  "displayName": "Testo 4 (solo >= 24px)", "canonical": "rgba(255,255,255,.40)" },
+      "superficie-1":     { "role": "neutral",  "displayName": "Superficie 1", "canonical": "rgba(255,255,255,.040)" },
+      "superficie-2":     { "role": "neutral",  "displayName": "Superficie 2", "canonical": "rgba(255,255,255,.060)" },
+      "superficie-3":     { "role": "neutral",  "displayName": "Superficie 3", "canonical": "rgba(255,255,255,.090)" },
+      "velo-nav":         { "role": "neutral",  "displayName": "Velo Nav", "canonical": "rgba(18,17,21,.82)" },
+      "filo":             { "role": "neutral",  "displayName": "Filo", "canonical": "rgba(255,255,255,.12)" },
+      "filo-forte":       { "role": "neutral",  "displayName": "Filo Forte", "canonical": "rgba(255,255,255,.20)" },
+      "bordo-ui":         { "role": "neutral",  "displayName": "Bordo UI (3:1)", "canonical": "rgba(255,255,255,.34)" },
+      "bordo-arancio":    { "role": "primary",  "displayName": "Bordo Arancio", "canonical": "rgba(255,130,0,.42)" },
+      "rottura":          { "role": "tertiary", "displayName": "Rosso Perdita", "canonical": "#CC3366", "tonalRamp": ["#2A1410", "#4A1426", "#6E1C3A", "#99264D", "#CC3366", "#D95C85", "#E68AA8", "#F2BDCF"] },
+      "ok":               { "role": "tertiary", "displayName": "Verde Numero Verde", "canonical": "#4ADE80", "tonalRamp": ["#0E2E1A", "#14532D", "#166534", "#15803D", "#22C55E", "#4ADE80", "#86EFAC", "#DCFCE7"] }
+    },
+    "typographyMeta": {
+      "display":     { "displayName": "Display", "purpose": "H1 di ogni pagina, centrato. Il colpo dell'hero in home sale a clamp(42px, 8.4vw, 132px), lh .96." },
+      "muro":        { "displayName": "Muro", "purpose": "Solo FATTURARE x3, maiuscolo, centrato, terza riga arancione." },
+      "numero":      { "displayName": "Numero", "purpose": "Cifre del registro; unita a .36em in arancio." },
+      "headline":    { "displayName": "Headline", "purpose": "Ogni titolo di sezione; .duevoci = due righe dello stesso corpo in Testo 1 e Testo 3." },
+      "headline-sm": { "displayName": "Headline piccolo", "purpose": "Titoli di secondo livello." },
+      "title":       { "displayName": "Title", "purpose": "Titoli di blocco." },
+      "title-card":  { "displayName": "Title card", "purpose": "Titoli di card, tile, schede persona." },
+      "deck":        { "displayName": "Deck", "purpose": "Sommario sotto i titoli, max 58ch, Testo 2." },
+      "body":        { "displayName": "Body", "purpose": "Corpo, max 64ch, Testo 2." },
+      "body-sm":     { "displayName": "Body piccolo", "purpose": "Testo secondario di card e liste." },
+      "label":       { "displayName": "Label", "purpose": "Occhiello in tondo con particella da 8px, Testo 3." },
+      "meta":        { "displayName": "Meta", "purpose": "Fonti, date, legende, filtri; cifre tabulari, tracking 0." }
+    },
+    "shadows": [
+      { "name": "alone", "value": "radial-gradient(46% 30% at 50% 2%, rgba(255,146,26,.26) 0%, rgba(255,146,26,0) 70%), radial-gradient(74% 46% at 50% -4%, rgba(196,96,0,.26) 0%, rgba(196,96,0,0) 72%), radial-gradient(120% 74% at 50% -16%, rgba(120,56,0,.30) 0%, rgba(120,56,0,0) 74%)", "purpose": "Alone di pagina dietro hero e aperture interne. Dipinto una volta, mai animato." },
+      { "name": "alone-fioco", "value": "radial-gradient(90% 62% at 50% 0%, rgba(150,70,0,.16) 0%, rgba(150,70,0,0) 74%)", "purpose": "Tetto, candidatura, fasce sez--alone." },
+      { "name": "luce-accesa", "value": "0 0 0 4px rgba(255,130,0,.16), 0 0 26px rgba(255,130,0,.85)", "purpose": "Contatto e varchi accesi nella macchina." },
+      { "name": "trave", "value": "0 0 16px rgba(255,130,0,.6), 0 0 52px rgba(255,130,0,.32)", "purpose": "La trave del tetto." },
+      { "name": "faccia-illuminata", "value": "inset 0 1px 0 rgba(255,255,255,.08), 0 14px 22px -14px rgba(0,0,0,.7)", "purpose": "Blocchi dei reparti sotto il tetto." },
+      { "name": "focus-campo", "value": "0 0 0 3px rgba(255,130,0,.18)", "purpose": "Focus dei campi del form, con bordo arancione." },
+      { "name": "bordo-acceso", "value": "inset 0 0 0 1px rgba(255,130,0,.42)", "purpose": "Hover delle schede persona." },
+      { "name": "luce-cursore", "value": "radial-gradient(340px 340px at var(--mx) var(--my), rgba(255,255,255,.075) 0%, rgba(255,130,0,.05) 38%, transparent 68%)", "purpose": "La luce che segue il cursore su card, lenti, sedi (solo mouse, senza reduced-motion)." }
+    ],
+    "motion": [
+      { "name": "ease-salita", "value": "cubic-bezier(.16,.84,.24,1)", "purpose": "L'unica curva d'ingresso." },
+      { "name": "ease-scatto", "value": "cubic-bezier(.62,0,.20,1)", "purpose": "Stati reversibili (hover, burger, filo della nav)." },
+      { "name": "ease-uscita", "value": "cubic-bezier(.55,0,.80,.16)", "purpose": "Uscite (View Transition, pagina vecchia)." },
+      { "name": "t-micro", "value": "200ms", "purpose": "Hover e micro-stati (100ms in reduced-motion)." },
+      { "name": "t-stato", "value": "320ms", "purpose": "Cambi di stato, nav, riempimenti (140ms in reduced-motion)." },
+      { "name": "t-reveal", "value": "620ms", "purpose": "Ingressi di blocchi e teste (180ms in reduced-motion)." },
+      { "name": "t-maschera", "value": "760ms", "purpose": "Parole in maschera, scalinata, muro (180ms in reduced-motion)." },
+      { "name": "t-apertura", "value": "940ms", "purpose": "Apertura di pagina e zoom foto (200ms in reduced-motion)." },
+      { "name": "t-palco", "value": "1100ms", "purpose": "Dissolvenza incrociata fra atmosfere del palco." },
+      { "name": "travel", "value": "20px", "purpose": "Spostamento d'ingresso; 0px in reduced-motion. --dx = travel x -.45 (citazione della diagonale)." },
+      { "name": "lift", "value": "2px bottoni / 3px massimo", "purpose": "Ampiezza massima degli hover." }
+    ],
+    "breakpoints": [
+      { "name": "nav-compatta", "value": "1100px" },
+      { "name": "occhiello-a-margine", "value": "1024px" },
+      { "name": "colonna", "value": "900px" },
+      { "name": "telefono-piastra", "value": "620px" },
+      { "name": "stretto", "value": "480px" },
+      { "name": "touch", "value": "(pointer: coarse)" }
+    ]
+  },
+  "components": [
+    {
+      "name": "CTA arancione",
+      "kind": "button",
+      "refersTo": "button-arancio",
+      "description": "Il bottone di conversione: pill, fill arancio, testo scuro obbligatorio, hover che scurisce.",
+      "html": "<a class=\"ds-cta ds-cta--ar\" href=\"#\">Candida la tua azienda</a>",
+      "css": ".ds-cta { display: inline-flex; align-items: center; justify-content: center; gap: 10px; height: 50px; padding-inline: 26px; font: 700 15px/1 'DM Sans', 'Segoe UI', system-ui, sans-serif; letter-spacing: -.005em; border-radius: 999px; text-decoration: none; transition: background-color 200ms cubic-bezier(.62,0,.20,1), translate 200ms cubic-bezier(.62,0,.20,1); } .ds-cta--ar { background: #FF8200; color: #100F12; } .ds-cta--ar:hover { background: #E87300; translate: 0 -2px; } .ds-cta:focus-visible { outline: 2px solid #FF8200; outline-offset: 3px; } .ds-cta:active { translate: 0 0; scale: .985; }"
+    },
+    {
+      "name": "CTA bianco",
+      "kind": "button",
+      "refersTo": "button-bianco",
+      "description": "Il bottone dell'hero: bianco riferimento, testo scuro.",
+      "html": "<a class=\"ds-cta-b\" href=\"#\">Scopri il metodo</a>",
+      "css": ".ds-cta-b { display: inline-flex; align-items: center; justify-content: center; height: 50px; padding-inline: 26px; font: 700 15px/1 'DM Sans', 'Segoe UI', system-ui, sans-serif; letter-spacing: -.005em; border-radius: 999px; background: #F8F8F8; color: #100F12; text-decoration: none; transition: background-color 200ms cubic-bezier(.62,0,.20,1), translate 200ms cubic-bezier(.62,0,.20,1); } .ds-cta-b:hover { background: #FFFFFF; translate: 0 -2px; } .ds-cta-b:focus-visible { outline: 2px solid #FF8200; outline-offset: 3px; } .ds-cta-b:active { scale: .985; translate: 0 0; }"
+    },
+    {
+      "name": "CTA outline",
+      "kind": "button",
+      "refersTo": "button-outline",
+      "description": "Il secondo livello: bordo UI, la luce arancione entra da sinistra al passaggio.",
+      "html": "<a class=\"ds-cta-out\" href=\"#\">Vedi i risultati</a>",
+      "css": ".ds-cta-out { position: relative; isolation: isolate; overflow: hidden; display: inline-flex; align-items: center; justify-content: center; height: 50px; padding-inline: 26px; font: 700 15px/1 'DM Sans', 'Segoe UI', system-ui, sans-serif; letter-spacing: -.005em; border-radius: 999px; border: 1px solid rgba(255,255,255,.34); color: #F8F8F8; text-decoration: none; transition: border-color 200ms cubic-bezier(.62,0,.20,1), translate 200ms cubic-bezier(.62,0,.20,1); } .ds-cta-out::before { content: ''; position: absolute; inset: 0; z-index: -1; border-radius: inherit; background: linear-gradient(90deg, rgba(255,130,0,.16), rgba(255,130,0,.08)); transform: scaleX(0); transform-origin: left center; transition: transform 320ms cubic-bezier(.62,0,.20,1); } .ds-cta-out:hover { border-color: #FF8200; translate: 0 -2px; } .ds-cta-out:hover::before { transform: scaleX(1); } .ds-cta-out:focus-visible { outline: 2px solid #FF8200; outline-offset: 3px; }"
+    },
+    {
+      "name": "Chip filtro",
+      "kind": "chip",
+      "refersTo": "chip",
+      "description": "Filtro in tondo, pill; premuto si accende d'arancio.",
+      "html": "<div style=\"display:flex;gap:8px\"><button class=\"ds-chip\" aria-pressed=\"true\">Tutti</button><button class=\"ds-chip\" aria-pressed=\"false\">Industria</button></div>",
+      "css": ".ds-chip { display: inline-flex; align-items: center; height: 38px; padding-inline: 16px; font: 500 14px/1 'DM Sans', 'Segoe UI', system-ui, sans-serif; letter-spacing: -.005em; color: rgba(255,255,255,.80); background: transparent; border: 1px solid rgba(255,255,255,.34); border-radius: 999px; cursor: pointer; transition: color 200ms linear, background-color 200ms linear, border-color 200ms linear; } .ds-chip:hover { color: #F8F8F8; background: rgba(255,255,255,.06); } .ds-chip[aria-pressed=\"true\"] { color: #FF8200; background: rgba(255,130,0,.10); border-color: rgba(255,130,0,.42); } .ds-chip:focus-visible { outline: 2px solid #FF8200; outline-offset: 3px; }"
+    },
+    {
+      "name": "Card",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "Superficie trasparente sul palco: filo al 12%, icona nuda arancione, sale di un gradino di luce al passaggio.",
+      "html": "<article class=\"ds-card\"><svg class=\"ds-card__ico\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M4 20v-4M10 20v-8M16 20V8M22 20V4\"/></svg><h3 class=\"ds-card__t\">Reclutamento</h3><p class=\"ds-card__p\">La rete vendita selezionata, formata e misurata sul fatturato.</p></article>",
+      "css": ".ds-card { display: grid; gap: 12px; padding: 24px; max-width: 320px; background: rgba(255,255,255,.040); border: 1px solid rgba(255,255,255,.12); border-radius: 12px; transition: background-color 200ms linear, border-color 200ms linear; } .ds-card:hover { background: rgba(255,255,255,.060); border-color: rgba(255,255,255,.20); } .ds-card__ico { width: 26px; height: 26px; color: #FF8200; transition: scale 200ms cubic-bezier(.62,0,.20,1); } .ds-card:hover .ds-card__ico { scale: 1.08; } .ds-card__t { margin: 0; font: 700 17px/1.32 'DM Sans', 'Segoe UI', system-ui, sans-serif; letter-spacing: -.01em; color: #F8F8F8; } .ds-card__p { margin: 0; font: 400 15px/1.54 'DM Sans', 'Segoe UI', system-ui, sans-serif; letter-spacing: .01em; color: rgba(255,255,255,.80); }"
+    },
+    {
+      "name": "Campo del form",
+      "kind": "input",
+      "refersTo": "campo",
+      "description": "Label sempre visibile, campo 52px su superficie, focus arancione con anello.",
+      "html": "<div class=\"ds-campo\"><label for=\"ds-f\">Fatturato annuo</label><input id=\"ds-f\" placeholder=\"es. 2.400.000\"></div>",
+      "css": ".ds-campo { display: grid; gap: 8px; max-width: 360px; } .ds-campo label { font: 600 13px/1.2 'DM Sans', 'Segoe UI', system-ui, sans-serif; letter-spacing: .01em; color: rgba(255,255,255,.80); } .ds-campo input { height: 52px; padding-inline: 16px; background: rgba(255,255,255,.040); color: #F8F8F8; border: 1px solid rgba(255,255,255,.34); border-radius: 8px; font: 400 16px/1 'DM Sans', 'Segoe UI', system-ui, sans-serif; caret-color: #FF8200; transition: border-color 200ms linear, box-shadow 200ms linear, background-color 200ms linear; } .ds-campo input:hover { border-color: rgba(255,255,255,.5); } .ds-campo input:focus { outline: 0; border-color: #FF8200; background: rgba(255,130,0,.04); box-shadow: 0 0 0 3px rgba(255,130,0,.18); }"
+    },
+    {
+      "name": "Voci della nav",
+      "kind": "nav",
+      "refersTo": "nav-voce",
+      "description": "Voci in Testo 2; il filo arancione cresce da sinistra al passaggio e resta acceso sulla pagina corrente. Nessun transform sul testo.",
+      "html": "<nav class=\"ds-nav\"><a href=\"#\" aria-current=\"page\">Metodo</a><a href=\"#\">Risultati</a><a href=\"#\">Team</a><a href=\"#\">Eventi</a></nav>",
+      "css": ".ds-nav { display: flex; gap: 2px; padding: 16px; background: rgba(18,17,21,.82); border-bottom: 1px solid rgba(255,255,255,.12); } .ds-nav a { position: relative; padding: 10px 14px; border-radius: 8px; font: 500 15px/1 'DM Sans', 'Segoe UI', system-ui, sans-serif; letter-spacing: -.008em; color: rgba(255,255,255,.80); text-decoration: none; transition: color 200ms linear; } .ds-nav a::after { content: ''; position: absolute; left: 14px; right: 14px; bottom: 3px; height: 2px; border-radius: 2px; background: #FF8200; transform: scaleX(0); transform-origin: left center; transition: transform 320ms cubic-bezier(.62,0,.20,1); } .ds-nav a:hover, .ds-nav a[aria-current=\"page\"] { color: #F8F8F8; } .ds-nav a:hover::after, .ds-nav a[aria-current=\"page\"]::after { transform: scaleX(1); } .ds-nav a:focus-visible { outline: 2px solid #FF8200; outline-offset: 3px; }"
+    },
+    {
+      "name": "Lista con particella",
+      "kind": "custom",
+      "refersTo": "particella",
+      "description": "Il quadrato del mark come punto elenco: arancio, verde per cio che rientra, triangolo rosso per cio che non rientra.",
+      "html": "<ul class=\"ds-lista\"><li>Fatturato fra 1 e 5 milioni</li><li class=\"ok\">Prodotto gia validato</li><li class=\"no\">Sotto 1 milione: non rientra</li></ul>",
+      "css": ".ds-lista { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; font: 400 16px/1.62 'DM Sans', 'Segoe UI', system-ui, sans-serif; color: rgba(255,255,255,.80); } .ds-lista li { display: grid; grid-template-columns: 8px 1fr; gap: 14px; align-items: start; } .ds-lista li::before { content: ''; width: 8px; height: 8px; margin-top: .58em; border-radius: 2px; background: #FF8200; } .ds-lista li.ok::before { background: #4ADE80; } .ds-lista li.no::before { background: #CC3366; clip-path: polygon(0 0, 100% 50%, 0 100%); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "Dal buio dei contatti alla luce del fatturato",
+    "overview": "Il sito è un palco scuro unico. Non c'è una pila di fasce con il loro fondo: c'è una stanza fissa (.palco, a z-index -1) dietro tutta la pagina, e le sezioni, trasparenti, dichiarano quale luce vogliono. Camminando nella pagina cambia l'illuminazione della stanza, non la stanza. Sopra quel buio si muove una sola luce, l'arancio del marchio, che non è mai vernice: è alone, bordo acceso, numero, cursore. Il quadrato del mark (la \"particella\", 12px, raggio 2px) è il modulo di tutto: elenca, conta, nomina, scopre, e alla fine si monta nella scalinata del logo.\n\nLa pelle è vincolata dal cliente e allineata al riferimento sharpify.io: near-black freddo, gerarchia fatta con l'opacità del bianco e non con una palette, DM Sans al display a peso 500, raggi 2/8/12/999px. Il DNA che resta di Sales Process: l'arancio #FF8200, il mark a moduli, il payoff FATTURARE x3, le fotografie con le mani nere e l'oggetto arancione, la voce italiana diretta.\n\nIl movimento è texture, non collezione di effetti: tre gesti (il gradino per la materia, la riga per il testo, la luce per l'interazione), una sola curva d'ingresso, scrub sempre lineare.",
+    "keyCharacteristics": [
+      "Un fondo continuo con sette atmosfere in dissolvenza incrociata (1100ms), accese da un IntersectionObserver sulla fascia centrale del viewport.",
+      "Un solo accento, #FF8200, usato come luce; testo scuro #100F12 su ogni fill arancione.",
+      "Una sola famiglia, DM Sans variabile ospitata in casa; nessun serif, nessun monospace.",
+      "La particella del marchio come modulo di elenchi, grafici a unità, chiuse e bottoni.",
+      "Tre gesti di motion, una curva d'ingresso, reduced-motion gestito a token (il travel va a zero, la dissolvenza sopravvive).",
+      "Bersagli touch >= 44px (--tap) su ogni puntatore grossolano; nessun testo sotto 12px."
+    ],
+    "rules": [
+      { "name": "The Light Rule", "body": "L'arancio è luce, non vernice: sotto il 3% dei pixel. Nei titoli compare in una sola parola dell'H1 di ogni pagina e nel payoff del tetto; ogni h2 .ar torna al colore del titolo (h2 .ar { color: inherit }), anche nei titoli futuri.", "section": "colors" },
+      { "name": "The Dark-on-Fill Rule", "body": "Testo bianco su arancio è vietato (2,49:1). Su ogni fill arancione, barra annuncio compresa, il testo è #100F12. L'hover dei fill scurisce a #E87300 e allarga il glow; non schiarisce mai.", "section": "colors" },
+      { "name": "The Opacity Ladder Rule", "body": "La gerarchia si fa con l'opacità del bianco (100/80/56/40%) e delle superfici (4/6/9%), non con nuovi grigi o nuove tinte. Un grigio opaco su una card è un errore.", "section": "colors" },
+      { "name": "The One Cold Room Rule", "body": "La famiglia delle atmosfere è calda; esiste una sola zona fredda, \"notte\", ed è acciaio spento, non blu. Tutto resta scuro→scuro: il testo non cambia regole di leggibilità fra atmosfere.", "section": "colors" },
+      { "name": "The One Family Rule", "body": "Solo DM Sans. Instrument Serif è ritirato (giro 2), IBM Plex Mono è escluso per decisione del cliente, nessun monospace. Mai animare font-weight o font-variation-settings.", "section": "typography" },
+      { "name": "The Two Tones Rule", "body": "Esiste un solo sistema di titolo. Il titolo \"a due voci\" (.duevoci) è lo stesso Headline in due toni: la prima riga in Testo 1, la seconda in Testo 3. Niente caps + corsivo, niente secondo corpo.", "section": "typography" },
+      { "name": "The 12px Floor Rule", "body": "Nessun testo sotto 12px. Le etichette di servizio stanno a 12–13px, in tondo; il maiuscolo spaziato sopra un titolo è la cadenza da template.", "section": "typography" },
+      { "name": "The Flat Digits Rule", "body": "Le cifre hanno letter-spacing 0 e cifre tabulari: tracciare i numeri fa oscillare le colonne.", "section": "typography" },
+      { "name": "The Continuous Stage Rule", "body": "Le sezioni non dipingono un fondo e non si separano con un filo: il fondo è il palco. Si anima solo l'opacità dei livelli del palco (compositor), mai un gradiente, mai un blur su area grande. Ad alto contrasto le atmosfere si spengono.", "section": "elevation" },
+      { "name": "The Light-Not-Lift Rule", "body": "Una superficie risponde al passaggio illuminandosi dove si trova il cursore (radiale bianco 7,5% + arancio 5%, 340px), non sollevandosi con un'ombra. Spostamento massimo 3px in tutto il sistema.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do tenere l'arancio #FF8200 come unico accento e usarlo come luce: una parola nell'H1 di pagina, il payoff del tetto, numeri, particelle, bordi accesi, focus.",
+      "Do mettere sempre #100F12 su ogni fill arancione e scurire a #E87300 all'hover.",
+      "Do costruire ogni nuova sezione trasparente sul palco e dichiararne l'atmosfera (sf--…, data-atmo), scegliendo fra le sette esistenti.",
+      "Do fare la gerarchia con le opacità del bianco (100/80/56/40%) e delle superfici (4/6/9%).",
+      "Do usare la particella solo se conta, nomina o scopre qualcosa; altrimenti esce.",
+      "Do far entrare la materia con il gradino, il testo con la riga verticale in maschera, l'interazione con la luce al cursore; curva --ease-salita, scrub lineare, spostamento massimo 3px negli hover.",
+      "Do dare 44px a ogni bersaglio su touch, label visibili ai campi, focus 2px arancione con offset 3px.",
+      "Do dare a ogni numero fonte e data, in Meta 13px con cifre tabulari.",
+      "Do usare le fotografie del cliente (mani nere con oggetto arancione) e i ritratti reali, in scala di grigi che si colora al passaggio."
+    ],
+    "donts": [
+      "Don't mettere testo bianco su arancio, mai: nemmeno nella barra annuncio, nel menu o nei bottoni.",
+      "Don't usare Instrument Serif, IBM Plex Mono o qualunque monospace: il sito è tutto DM Sans.",
+      "Don't colorare d'arancio le parole marcate nei titoli di sezione: nove parole arancioni in una pagina sono un tic.",
+      "Don't aggiungere occhielli a sezioni nuove come cadenza di default, né scriverli in maiuscolo spaziato o tra parentesi quadre.",
+      "Don't mettere quadratini arancioni sulle card del team o dei reparti, né un rounded square tinto sotto le icone.",
+      "Don't ridisegnare il logo: si usa il file vero.",
+      "Don't spostare il muro FATTURARE dall'asse centrale.",
+      "Don't dipingere un fondo proprio su una sezione o separarla con un filo di 1px: la pagina diventa una pila di blocchi.",
+      "Don't applicare la stessa dissolvenza a ogni sezione o fare card tutte uguali.",
+      "Don't usare magnetic hover, tilt 3D o easing con overshoot; il testo non entra mai in diagonale.",
+      "Don't animare gradienti, blur su area grande, font-weight o font-variation-settings; si animano solo transform, opacity, clip-path su pochi elementi.",
+      "Don't scrivere testo sotto 12px, né Testo 4 (40%) sotto 24px.",
+      "Don't usare il duotone nero/arancio sui volti: disumanizza la prova che converte di più.",
+      "Don't pubblicare numeri senza fonte né inventare dati mancanti (numero verde, liberatorie, ISO)."
+    ]
+  }
+}

@@ -215,8 +215,8 @@ input, select, textarea { caret-color: var(--c-ar); }
 .carta .todo { color: var(--c-inch-2); }
 .carta .todo::after { color: var(--c-ar-carta); border-color: rgba(138,67,0,.34); }
 .todo::after {
-  content: 'in arrivo'; margin-left: 8px;
-  font-size: 10px; font-weight: 700; letter-spacing: .10em; text-transform: uppercase;
+  content: 'in arrivo'; margin-left: 8px; white-space: nowrap; display: inline-block;
+  font-size: 12px; font-weight: 600; letter-spacing: 0; text-transform: none;
   color: var(--c-ar-hot); border: 1px solid rgba(255,130,0,.28);
   border-radius: var(--r-hard); padding: 2px 5px; vertical-align: 2px;
 }

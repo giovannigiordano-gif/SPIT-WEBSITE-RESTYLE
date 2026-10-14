@@ -84,23 +84,26 @@ tornava tre volte e, col maiuscolo, faceva un secondo sistema di titoli — vedi
 `clamp()`, minimo 12px per le etichette, 16px per il corpo. I titoli chiave si compongono parola per
 parola (split fatto al build, non a runtime: niente CLS, niente bug di autoSplit).
 
-**Ritmo.** Scala 8px (4·8·12·16·24·32·48·64·96·128·168). Le sezioni non dipingono più un fondo proprio:
-stanno su un **palco continuo** (fondo fisso con sei atmosfere in dissolvenza incrociata guidate dalla
+**Ritmo.** Scala a passi di 4px (4·8·12·16·24·32·48·64·96·128·168). Le sezioni non dipingono più un fondo proprio:
+stanno su un **palco continuo** (fondo fisso con sette atmosfere in dissolvenza incrociata guidate dalla
 sezione in vista). Elementi che sbordano fra le sezioni, giunture sfumate, mai un filo netto.
 
 **Linguaggio del movimento — tre gesti, non uno per sezione.**
 1. *Il gradino* (materia): immagini e blocchi salgono scoperti da quattro colonne sfalsate.
 2. *La riga* (testo): parole che salgono dentro una maschera, in verticale, mai in diagonale.
 3. *La luce* (interazione): la luce arancione segue il cursore su superfici e palco; mai tilt da cartolina.
-Curva unica d'ingresso `--ease-salita`, tre durate 180/420/900ms, scrub sempre lineare. Fisica "rigida"
+Curva unica d'ingresso `--ease-salita`; durate a token (120/200/320ms per tocco, micro e stato,
+620/760/940ms per rivelazione, maschera e apertura, 1100ms per il palco), scrub sempre lineare. Fisica "rigida"
 per tutto ciò che è scalinata: niente overshoot.
 
 **Tre momenti firma.**
 1. **Hero 3D — "Non ti vendiamo contatti"**: centinaia di cubi grafite (i contatti) fluttuano in
    profondità attorno al titolo; la luce arancione segue il cursore. Al primo scroll i cubi convergono e
    si montano nella scalinata del logo (ricostruita in Three.js con il metodo img2threejs), che sale
-   oltre il bordo dell'hero dentro la sezione successiva. Mobile, low-power e reduced-motion: still
-   pre-renderizzato della stessa scena, zero JS 3D.
+   oltre il bordo dell'hero dentro la sezione successiva. Mobile, low-power e reduced-motion: la
+   stessa scena in versione DOM (contatti in CSS, marchio SVG che si monta allo scroll con le
+   animazioni scroll-driven), zero JS 3D. *(Il piano era uno still pre-renderizzato; la versione DOM
+   pesa meno e si muove.)*
 2. **La macchina (pin)**: il contatto (un quadrato arancione) attraversa i quattro reparti e i tre
    passaggi di consegna, che si accendono al suo passaggio, fino alla trattativa. È il rovescio esatto
    del contro-esempio, dove gli stessi pacchetti cadono.
@@ -149,7 +152,7 @@ del carosello fuori dal tab order, indice del diagramma a contrasto pieno, e sop
 a scroll che finiscono a `entry 100%` e — per le card con testo — senza dissolvenza: prima un testo
 visibile in fondo alla prima schermata restava a metà opacità (1,8:1) finché non si scorreva.
 - [x] 6 · Due giri completi verifica → correzione a tutti i breakpoint, prima/dopo — giro 1 `fc55572`,
-  giro 2 (vedi sotto)
+  giro 2 `35c2ae8` (vedi sotto)
 
 **Fase 6 — i due giri di verifica**
 
@@ -230,8 +233,8 @@ Candidatura), indice (Fatturare³, Team), manifesto ed elenco numerato (DNA), mu
 ## 4 · Registro delle scelte
 
 - Palette, font, raggi e logo **non cambiano**: sono decisioni chiuse col cliente (HANDOFF §6).
-- Occhielli: il testo resta (è copy approvato), cambia il ruolo: diventano **etichette di margine**
-  sticky (testata corrente) su desktop invece del "kicker" maiuscolo sopra ogni titolo.
+- Occhielli: il testo resta (è copy approvato), cambia il ruolo: diventano **didascalie di margine**
+  (colonna 3/12 da 1024px, con filetto) invece del "kicker" maiuscolo sopra ogni titolo.
 - Le quattro foto-mano diventano i quattro reparti di "Cosa facciamo" (megafono→Pubblicità,
   penna→Marketing, contratto→Reclutamento, tocco→Formazione): l'asset più forte del brand usato per
   quello che significa, invece che come sfondo ripetuto delle schede.

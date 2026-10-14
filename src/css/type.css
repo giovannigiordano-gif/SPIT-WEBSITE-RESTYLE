@@ -7,6 +7,8 @@
      corpo    DM Sans 400 · 16px
      meta     13px / 12px
      eyebrow  12px · 700 · +.12em · uppercase, tra parentesi quadre
+              (QUI NO: occhiello in tondo 15px con la particella, senza
+              parentesi — decisione cliente — né maiuscolo spaziato)
    Il peso del display è **500, non 700**: è la ragione per cui il
    riferimento sembra elegante e non urlato, ed è il dettaglio che quasi
    tutti sbagliano guardandolo.
@@ -210,5 +212,4 @@
    una pagina erano un tic, e toglievano forza a quella dell'H1. Il
    markup resta: è un registro tipografico, non un cambio di copy.      */
 h2 .ar { color: inherit; }
-.tetto__titolo .ar { color: var(--c-ar); }
 .centro { text-align: center; }
