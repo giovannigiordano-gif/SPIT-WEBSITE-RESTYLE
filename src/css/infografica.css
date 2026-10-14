@@ -24,7 +24,7 @@
 .diag__box:hover { border-color: var(--c-bordo-ui); background: rgba(255,255,255,.06); }
 .diag__n {
   font: 700 12px/1 var(--f-display); letter-spacing: .14em;
-  color: var(--c-t4);
+  color: var(--c-t3);   /* t4 (3,8:1) è riservato a testo ≥ 24px */
 }
 .diag__nome { font: 700 17px/1.25 var(--f-display); letter-spacing: -.012em; color: var(--c-t1); }
 .diag__ruolo { font: 400 13px/1.4 var(--f-display); color: var(--c-t3); }

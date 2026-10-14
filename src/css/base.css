@@ -303,7 +303,7 @@ input, select, textarea { caret-color: var(--c-ar); }
   animation: rise var(--t-reveal) var(--ease-salita) both;
   animation-timeline: view();
   animation-range-start: entry calc(10% + var(--i, 0) * 5%);
-  animation-range-end: cover 36%;
+  animation-range-end: entry 100%;
 }
 @keyframes rise { to { translate: 0 0; opacity: 1; } }
 @supports not (animation-timeline: view()) {

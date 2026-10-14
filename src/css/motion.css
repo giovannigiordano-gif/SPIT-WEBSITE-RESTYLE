@@ -32,7 +32,12 @@
 
 /* Nell'hero a TEMPO: è sopra la piega, una timeline di scroll lì non
    partirebbe. Sei parole, 70ms l'una: la frase è composta in 1,2s.    */
-.hero__colpo .w > span { animation: parola-sale var(--t-maschera) var(--ease-salita) both; animation-delay: calc(240ms + var(--w) * 70ms); }
+.hero__colpo .w > span { animation: parola-emerge var(--t-maschera) var(--ease-salita) both; animation-delay: calc(40ms + var(--w) * 55ms); }
+/* Le parole dell'H1 partono GIÀ A METÀ della loro maschera: sono dipinte dal
+   primo fotogramma (l'H1 è l'elemento LCP — misurato: 4,5 s quando partivano
+   nascoste, perché il browser registra il paint solo quando la parola
+   entra) e completano la salita. Il gesto resta; il ritardo sparisce. */
+@keyframes parola-emerge { from { translate: 0 48%; opacity: .55; } }
 
 /* Altrove a SCROLL, sulla view timeline del titolo (non della parola:
    la parola è traslata, il titolo no). Lo stagger sposta l'inizio del
@@ -44,7 +49,9 @@
     animation-timeline: --titolo;
     /* cover, non entry: entry si esaurisce nei primi 130px, mentre il
        titolo è ancora sul bordo basso dove nessuno guarda.             */
-    animation-range: cover calc(4% + var(--w) * 1.3%) cover calc(26% + var(--w) * 1.3%);
+    /* si compone mentre il titolo ENTRA, ed è completo quando è tutto a
+       schermo: mai un titolo visibile con le parole a metà maschera. */
+    animation-range: entry calc(var(--w) * 3.2%) entry 100%;
   }
 }
 /* Gli H1 delle pagine interne sono sopra la piega: a tempo, come l'hero. */
@@ -126,8 +133,8 @@
 .muro__righe .mask > .t-muro {
   animation: sali-muro var(--t-maschera) var(--ease-salita) both;
   animation-timeline: view();
-  animation-range-start: entry calc(18% + var(--i) * 8%);
-  animation-range-end: cover 46%;
+  animation-range-start: entry calc(var(--i) * 14%);
+  animation-range-end: entry 100%;
 }
 @keyframes sali-muro { from { translate: 0 105%; scale: 1 1.05; } to { translate: 0 0; scale: 1 1; } }
 
@@ -164,14 +171,18 @@
 .testa > .t-deck {
   animation: sale-testa var(--t-reveal) var(--ease-salita) both;
   animation-timeline: view();
-  animation-range: entry 8% cover 34%;
+  /* FINE a entry 100%: un elemento interamente a schermo è SEMPRE opaco.
+     Con "cover 34%" un testo visibile in fondo alla prima schermata
+     restava a metà dissolvenza finché non si scorreva (e i controlli di
+     contrasto lo leggevano a 1,8:1).                                  */
+  animation-range-end: entry 100%;
 }
 /* Lo stagger sulle timeline scroll-driven NON si fa con animation-delay
    (che viene ignorato): si sposta animation-range-start.               */
-.testa > .t-eyebrow      { animation-range-start: entry 8%; }
+.testa > .t-eyebrow      { animation-range-start: entry 0%; }
 .testa > .duevoci > :not([data-split]),
-.testa > .t-d2:not([data-split]) { animation-range-start: entry 13%; }
-.testa > .t-deck         { animation-range-start: entry 21%; }
+.testa > .t-d2:not([data-split]) { animation-range-start: entry 10%; }
+.testa > .t-deck         { animation-range-start: entry 20%; }
 
 @keyframes sale-testa {
   from { opacity: 0; translate: 0 var(--travel); }

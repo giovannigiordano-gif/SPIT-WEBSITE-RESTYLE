@@ -16,11 +16,14 @@
 .indice > *, .comand > *, .dove__info > *, .filtro > *, .qualita > *, .conto > * {
   animation: sale-griglia var(--t-reveal) var(--ease-salita) both;
   animation-timeline: view();
-  animation-range-end: cover 40%;
+  animation-range-end: entry 100%;
 }
+/* Solo MOVIMENTO, niente dissolvenza: queste griglie portano testo, e un
+   testo a metà opacità è un testo sotto soglia di contrasto per tutto il
+   tempo in cui l'utente si ferma con la card tagliata dal bordo. */
 @keyframes sale-griglia {
-  from { opacity: 0; translate: var(--dx) 26px; }
-  to   { opacity: 1; translate: 0 0; }
+  from { translate: var(--dx) 30px; }
+  to   { translate: 0 0; }
 }
 
 /* Quattro gradini ciclici: una griglia da dodici non deve avere dodici
@@ -38,8 +41,8 @@
    alla fotografia. clip-path su quattro elementi, non su una pagina. */
 .reparti4 > * { animation-name: sale-pannello; }
 @keyframes sale-pannello {
-  from { opacity: 0; translate: 0 48px; clip-path: inset(18% 0 0 0 round var(--r-card)); }
-  to   { opacity: 1; translate: 0 0;    clip-path: inset(0 0 0 0 round var(--r-card)); }
+  from { translate: 0 48px; clip-path: inset(22% 0 0 0 round var(--r-card)); }
+  to   { translate: 0 0;    clip-path: inset(0 0 0 0 round var(--r-card)); }
 }
 
 @supports not (animation-timeline: view()) {

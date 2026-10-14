@@ -184,14 +184,17 @@ const $$ = (s, r = document) => [...r.querySelectorAll(s)];
    intermedio inventato fra la partenza e l'arrivo.
    La fotografia di sfondo è uscita: le quattro mani ora sono i quattro
    reparti di "Cosa facciamo", dove significano qualcosa.             */
+/* La torre è disegnata, non costruita: due elementi (le righe piene e la
+   riga parziale) con un motivo a quadrati in CSS, invece di un <i> per
+   quadrato — erano settecento nodi in pagina solo per i grafici.      */
 const torre = (v, cls) => {
   const n = Math.round(v * 10);
-  return `<span class="torre ${cls}" style="--n:${n}">${'<i></i>'.repeat(n)}</span>`;
+  return `<span class="torre ${cls}" style="--r:${Math.floor(n / 10)};--p:${n % 10}"><i class="torre__resto"></i><i class="torre__pieno"></i></span>`;
 };
 const logoCliente = (id, cls) => {
   const L = LOGHI.find(x => x[0] === id);
   const [w, h] = L ? misuraLogo(L[1]) : [120, 30];
-  return `<img class="${cls}" src="/assets/clients-white/${id}.png" alt="" width="${w}" height="${h}" loading="lazy" decoding="async">`;
+  return `<img class="${cls}" src="/assets/clients-white/${id}.webp" alt="" width="${w}" height="${h}" loading="lazy" decoding="async">`;
 };
 const scheda = (p) => el('article', 'scheda', `
   <div class="scheda__testa">
@@ -242,7 +245,7 @@ const pannello = (b, i) => {
   const n = el('article', 'pannello');
   n.style.setProperty('--i', i);
   n.innerHTML = `
-    <div class="pannello__foto"><img src="/assets/webp/${f}.webp" alt="" width="${w}" height="800" loading="lazy" decoding="async"></div>
+    <div class="pannello__foto"><img src="/assets/webp/${f}.webp" srcset="/assets/webp/${f}-320.webp 320w, /assets/webp/${f}.webp ${w}w" sizes="(max-width: 640px) 40vw, (max-width: 1100px) 48vw, 25vw" alt="" width="${w}" height="800" loading="lazy" decoding="async"></div>
     <div class="pannello__txt">
       <span class="pannello__n" aria-hidden="true">0${i + 1}</span>
       <h3 class="pannello__tit">${b.t}</h3>
@@ -267,10 +270,10 @@ const REP_ICO = { 1: 'target', 2: 'imbuto', 3: 'persone', 4: 'salita' };
 const reparto = (r) => {
   const n = el('article', 'reparto');
   n.dataset.rep = r.i;
+  n.dataset.n = '0' + r.i;
   n.style.setProperty('--k', r.i - 1);
   n.innerHTML = `
-    <span class="reparto__n" aria-hidden="true">0${r.i}</span>
-    <span class="icoq">${ICO[REP_ICO[r.i]]}</span>
+        <span class="icoq">${ICO[REP_ICO[r.i]]}</span>
     <h3 class="t-t2">${r.nome}</h3>
     <p class="t-piccolo reparto__claim">${r.claim}</p>
     <p class="t-piccolo reparto__out">${r.out}</p>`;
@@ -290,7 +293,7 @@ const handoff = (h, i) => {
 
 const volto = (v) => el('article', 'volto', `
   <div class="volto__ph">
-    <img src="/assets/team-webp/${v.f}.webp" alt="${v.nome}, ${v.ruolo}" width="640" height="640" loading="lazy">
+    <img src="/assets/team-webp/${v.f}-400.webp" srcset="/assets/team-webp/${v.f}-400.webp 400w, /assets/team-webp/${v.f}.webp 640w" sizes="(max-width: 700px) 46vw, (max-width: 1024px) 31vw, 290px" alt="${v.nome}, ${v.ruolo}" width="640" height="640" loading="lazy" decoding="async">
     <span class="volto__tag">${REP_NOMI[v.rep - 1]}</span>
   </div>
   <div>
@@ -305,9 +308,8 @@ const persona = (v) => {
      oggetto del carosello che sembrava cliccabile senza esserlo.     */
   const n = el('a', 'pers');
   n.href = '/team.html';
-  n.setAttribute('role', 'listitem');
   n.innerHTML = `
-    <img src="/assets/team-webp/${v.f}.webp" alt="${v.nome}, ${v.ruolo}" width="640" height="640" loading="lazy">
+    <img src="/assets/team-webp/${v.f}-400.webp" srcset="/assets/team-webp/${v.f}-400.webp 400w, /assets/team-webp/${v.f}.webp 640w" sizes="(max-width: 1100px) 72vw, 272px" alt="${v.nome}, ${v.ruolo}" width="640" height="640" loading="lazy" decoding="async">
     <div class="pers__txt">
       <span class="pers__rep"><i aria-hidden="true"></i>${REP_NOMI[v.rep - 1]}</span>
       <p class="t-t2">${v.nome}</p>
@@ -321,7 +323,6 @@ const persona = (v) => {
 const porta = () => {
   const a = el('a', 'pers pers--porta');
   a.href = '/team.html';
-  a.setAttribute('role', 'listitem');
   a.innerHTML = `
     <p class="t-eyebrow" style="color:var(--c-ar-hot)">Tutte e tredici</p>
     <p class="t-t1" style="max-inline-size:14ch">Conosci il reparto che entra in azienda.</p>
@@ -361,12 +362,12 @@ const VIDEO = [
 
 /* FACCIATA: cinque iframe al caricamento costerebbero oltre un megabyte e
    secondi di INP. Si carica il player solo al click.                    */
-const video = (v) => {
+const video = (v, i) => {
   const f = el('figure', 'vidbox');
   f.innerHTML = `
     <button class="vid" type="button" data-id="${v.id}" data-tipo="${v.tipo}"
             aria-label="Guarda la testimonianza di ${v.nome}">
-      <img class="vid__ph" src="/assets/video/${v.id}.webp" alt="" width="720" height="405" loading="lazy">
+      <img class="vid__ph" src="/assets/video/${v.id}-400.webp" srcset="/assets/video/${v.id}-400.webp 400w, /assets/video/${v.id}.webp 720w" sizes="${i === 0 ? '(max-width: 900px) 92vw, 62vw' : '(max-width: 560px) 92vw, (max-width: 900px) 46vw, 31vw'}" alt="" width="720" height="405" loading="lazy" decoding="async">
       <span class="vid__play" aria-hidden="true">
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.2v13.6L19 12z"/></svg>
       </span>
@@ -409,7 +410,11 @@ const comandamento = (c, i) => {
 };
 
 /* ── MONTAGGIO ───────────────────────────────────────────────────────────── */
-document.addEventListener('DOMContentLoaded', () => {
+/* Montaggio IMMEDIATO: dati.js è caricato con defer, quindi quando gira il
+   DOM è già completo. Prima era uno script bloccante che montava su
+   DOMContentLoaded: bloccava il primo paint e, peggio, montava DOPO che
+   motion.js aveva già misurato i caroselli (vuoti).                    */
+const monta = () => {
 
   /* Nastro: contenuto + cloni aria-hidden per il loop senza salti. */
   const pista = $('#nastro-pista');
@@ -479,7 +484,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (sq) {
     VOLTI.forEach(v => sq.append(persona(v)));
     sq.append(porta());
-    VOLTI.forEach(v => { const c = persona(v); c.setAttribute('aria-hidden', 'true'); sq.append(c) });
+    VOLTI.forEach(v => { const c = persona(v); c.setAttribute('aria-hidden', 'true'); c.tabIndex = -1; sq.append(c) });
     const p2 = porta(); p2.setAttribute('aria-hidden', 'true'); p2.tabIndex = -1; sq.append(p2);
   }
 
@@ -527,4 +532,5 @@ document.addEventListener('DOMContentLoaded', () => {
       } else render(b.dataset.f);
     });
   }
-});
+};
+if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', monta); else monta();

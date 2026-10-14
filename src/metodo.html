@@ -16,19 +16,9 @@
 <script>(function(){function n(){}function p(v){['ready','finished','updateCallbackDone'].forEach(function(k){if(v[k]&&v[k].catch)v[k].catch(n)})}addEventListener('pageswap',function(e){var v=e.viewTransition;if(!v)return;p(v);if(document.visibilityState!=='visible'||navigator.webdriver)v.skipTransition()});addEventListener('pagereveal',function(e){if(e.viewTransition)p(e.viewTransition)});addEventListener('unhandledrejection',function(e){var r=e.reason;if(r&&r.name==='InvalidStateError'&&/Transition was aborted|ViewTransition/.test(r.message))e.preventDefault()})})()</script>
 
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=Instrument+Serif:ital@1&display=swap">
-
-<link rel="stylesheet" href="/css/tokens.css">
-<link rel="stylesheet" href="/css/type.css">
-<link rel="stylesheet" href="/css/base.css">
-<link rel="stylesheet" href="/css/chrome.css">
-<link rel="stylesheet" href="/css/sfondi.css">
-<link rel="stylesheet" href="/css/sections.css">
-<link rel="stylesheet" href="/css/infografica.css">
-<link rel="stylesheet" href="/css/motion.css">
-<link rel="stylesheet" href="/css/interazioni.css">
+<link rel="preload" href="/assets/fonts/dm-sans-latin-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+<link rel="stylesheet" href="/css/sito.css?v=d89adba62b">
 </head>
 <body data-pagina="metodo">
 <div class="palco" aria-hidden="true"><i data-a="nero"></i><i data-a="brace"></i><i data-a="alba"></i><i data-a="radente"></i><i data-a="notte"></i><i data-a="pozzo"></i><i data-a="fuoco"></i><b class="palco__torcia"></b></div>
@@ -52,7 +42,7 @@
 <header class="nav" id="nav">
   <div class="wrap wrap--nav nav__in">
     <a class="marchio" href="/" aria-label="Sales Process, home">
-      <img class="marchio__img" src="/assets/brand/logo.webp" alt="Sales Process" style="height:30px" width="4118" height="846">
+      <img class="marchio__img" src="/assets/brand/logo-h64.webp" srcset="/assets/brand/logo-h64.webp 312w, /assets/brand/logo-h160.webp 779w" sizes="146px" alt="Sales Process" style="height:30px" width="312" height="64">
     </a>
     <nav class="nav__voci" aria-label="Principale">
       <a href="/metodo.html" aria-current="page">Metodo</a>
@@ -265,7 +255,7 @@
   <div class="wrap wrap--piena">
     <div class="footer__grid">
       <div>
-        <a class="marchio" href="/" aria-label="Sales Process, home"><img class="marchio__img" src="/assets/brand/logo-full.webp" alt="Sales Process" style="height:54px" width="4118" height="1001"></a>
+        <a class="marchio" href="/" aria-label="Sales Process, home"><img class="marchio__img" src="/assets/brand/logo-full-h112.webp" alt="Sales Process" style="height:54px" width="461" height="112" loading="lazy" decoding="async"></a>
         <p class="t-piccolo" style="margin-top:var(--s-4);max-inline-size:30ch;color:var(--c-t3)">Quattro reparti sotto lo stesso tetto. Un numero solo da guardare: il tuo fatturato.</p>
         <div class="footer__social"><a href="https://www.linkedin.com/company/insider-crew/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.2 9.4h3v11.4h-3z"/><circle cx="5.7" cy="5.6" r="1.9"/><path d="M14.6 9.1c-1.5 0-2.6.7-3.1 1.6V9.4h-3v11.4h3v-6c0-1.5.7-2.4 1.9-2.4 1.1 0 1.7.8 1.7 2.4v6h3v-6.5c0-3.2-1.5-5.2-3.5-5.2z"/></svg></a><a href="https://www.instagram.com/salesprocessit/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="3.6" y="3.6" width="16.8" height="16.8" rx="4.6" fill="none" stroke="currentColor" stroke-width="1.75"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.75"/><circle cx="17" cy="7" r="1.2"/></svg></a><a href="https://www.youtube.com/channel/UCEGb8y5mF0-CqjJ6-ktxqOw" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.1 8.3a2.6 2.6 0 0 0-1.8-1.8C17.7 6 12 6 12 6s-5.7 0-7.3.5A2.6 2.6 0 0 0 2.9 8.3C2.5 9.9 2.5 12 2.5 12s0 2.1.4 3.7a2.6 2.6 0 0 0 1.8 1.8C6.3 18 12 18 12 18s5.7 0 7.3-.5a2.6 2.6 0 0 0 1.8-1.8c.4-1.6.4-3.7.4-3.7s0-2.1-.4-3.7z"/><path d="M10.2 15.1V8.9l5.2 3.1z" fill="#080706"/></svg></a><a href="https://www.facebook.com/salesprocessitalia" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M14.5 8.5h2.2V5.6h-2.4c-2.5 0-4 1.6-4 4.1v2.1H8.2v2.9h2.1V21h3.1v-6.3h2.3l.4-2.9h-2.7v-1.7c0-.9.4-1.6 1.1-1.6z"/></svg></a></div>
       </div>
@@ -324,9 +314,11 @@
 
 <div class="grana" aria-hidden="true"></div>
 
+<!-- Ordine voluto: i defer girano nell'ordine del documento, e dati.js
+     (i contenuti) non deve aspettare il CDN di GSAP. -->
+<script src="/js/dati.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js" defer></script>
-<script src="/js/dati.js"></script>
 <script src="/js/motion.js" defer></script>
 </body>
 </html>

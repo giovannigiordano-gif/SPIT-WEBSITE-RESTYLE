@@ -5,6 +5,7 @@
 import { readFile, writeFile, readdir } from 'node:fs/promises'
 import { fileURLToPath } from 'node:url'
 import { join } from 'node:path'
+import { createHash } from 'node:crypto'
 
 const ROOT = fileURLToPath(new URL('../', import.meta.url))
 const PAGES = join(ROOT, 'pages')
@@ -25,11 +26,11 @@ const NAV_EXTRA = [{ href: '/fatturare.html', label: 'Fatturare³' }]
    ridisegna: si usa. Due varianti tagliate dallo stesso file:
      logo.webp       mark + wordmark, per la nav
      logo-full.webp  lockup completo con il payoff, per il footer        */
-const LOGO = (h, full = false) => {
-  const f = full ? 'logo-full' : 'logo'
-  const nh = full ? 1001 : 846
-  return `<img class="marchio__img" src="/assets/brand/${f}.webp" alt="Sales Process" style="height:${h}px" width="4118" height="${nh}">`
-}
+/* Varianti a misura (tools/immagini.mjs): il PNG da 4118px mostrato alto
+   30px pesava come una fotografia.                                      */
+const LOGO = (h, full = false) => full
+  ? `<img class="marchio__img" src="/assets/brand/logo-full-h112.webp" alt="Sales Process" style="height:${h}px" width="461" height="112" loading="lazy" decoding="async">`
+  : `<img class="marchio__img" src="/assets/brand/logo-h64.webp" srcset="/assets/brand/logo-h64.webp 312w, /assets/brand/logo-h160.webp 779w" sizes="${Math.round(h * 4.87)}px" alt="Sales Process" style="height:${h}px" width="312" height="64">`
 
 /* Icone social disegnate, stessa convenzione del resto del sito: nessun
    glifo, nessuna webfont di icone.                                      */
@@ -261,19 +262,9 @@ ${slug === 'home' ? `<!-- Il 3D dell'hero è solo per desktop con puntatore fine
      marchio DOM si monterebbe e poi sparirebbe nei cubi della scena 3D. -->
 <script>try{if(matchMedia('(min-width:1024px) and (pointer:fine) and (prefers-reduced-motion:no-preference)').matches&&!(navigator.connection&&navigator.connection.saveData))document.documentElement.classList.add('vuole-3d')}catch(e){}</script>` : ''}
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=Instrument+Serif:ital@1&display=swap">
-
-<link rel="stylesheet" href="/css/tokens.css">
-<link rel="stylesheet" href="/css/type.css">
-<link rel="stylesheet" href="/css/base.css">
-<link rel="stylesheet" href="/css/chrome.css">
-<link rel="stylesheet" href="/css/sfondi.css">
-<link rel="stylesheet" href="/css/sections.css">
-<link rel="stylesheet" href="/css/infografica.css">
-<link rel="stylesheet" href="/css/motion.css">
-<link rel="stylesheet" href="/css/interazioni.css">
+<link rel="preload" href="/assets/fonts/dm-sans-latin-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+<link rel="stylesheet" href="/css/sito.css?v=${VERSIONE}">
 </head>
 <body data-pagina="${slug}">
 ${palco()}
@@ -287,13 +278,31 @@ ${body}
 </main>
 ${footer()}
 
+<!-- Ordine voluto: i defer girano nell'ordine del documento, e dati.js
+     (i contenuti) non deve aspettare il CDN di GSAP. -->
+<script src="/js/dati.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js" defer></script>
-<script src="/js/dati.js"></script>
 <script src="/js/motion.js" defer></script>
 </body>
 </html>
 `
+
+/* ── UN SOLO FOGLIO DI STILE ──────────────────────────────────────────────
+   I dieci fogli sorgente restano separati e commentati (si modificano
+   quelli); il build li concatena NELL'ORDINE DI CASCATA in src/css/sito.css,
+   togliendo commenti e spazi. Prima erano nove richieste bloccanti più il
+   foglio di Google Fonts: su mobile in 4G lento valevano 1,6 s di render
+   bloccato. Il parametro ?v= è l'impronta del contenuto: cambia solo se
+   cambia il CSS.                                                        */
+const FOGLI = ['font', 'tokens', 'type', 'base', 'chrome', 'sfondi', 'sections', 'infografica', 'motion', 'interazioni']
+const sorgenti = await Promise.all(FOGLI.map(n => readFile(join(OUT, 'css', n + '.css'), 'utf8')))
+const css = sorgenti.map(c => c
+  .replace(/\/\*[\s\S]*?\*\//g, '')
+  .replace(/\s*\n\s*/g, '\n').replace(/\n+/g, '\n').trim()).join('\n')
+await writeFile(join(OUT, 'css', 'sito.css'), css)
+const VERSIONE = createHash('sha1').update(css).digest('hex').slice(0, 10)
+console.log('→ src/css/sito.css  (' + css.length + ' byte, v=' + VERSIONE + ')')
 
 const files = (await readdir(PAGES)).filter(f => f.endsWith('.html'))
 for (const f of files) {

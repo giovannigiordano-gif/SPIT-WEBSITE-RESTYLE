@@ -114,13 +114,63 @@ lo scroll smussato rompe find-in-page, tastiera e lettori di schermo; lo smoothi
 
 ## 3 · Fasi
 
-- [x] 0 · Installazione skill, git + branch, audit, direzione (questo file, `PRODUCT.md`)
-- [ ] 1 · Design system: palco continuo, scala, etichette di margine, componenti, bug 10–16
-- [ ] 2 · Sezioni della home una per una
-- [ ] 3 · Pagine interne
-- [ ] 4 · Movimento + 3D (hero, macchina, muro, cursore)
-- [ ] 5 · Rifinitura, performance (Lighthouse mobile ≥ 90), accessibilità
+- [x] 0 · Installazione skill, git + branch, audit, direzione (questo file, `PRODUCT.md`) — `dca5424`
+- [x] 1 · Design system: palco continuo, testate di margine, componenti, bug 10–16 — `72fca77`
+- [x] 2 · Sezioni della home una per una — `f72f27e`
+- [x] 3 · Pagine interne — `b6b6716`
+- [x] 4 · Movimento + 3D (hero WebGL, torcia, muro, passaggio fra pagine) — `e1c03bf`
+- [x] 5 · Performance (Lighthouse mobile ≥ 90) e accessibilità
+
+**Fase 5 — performance e accessibilità** (Lighthouse 12.6.1, profilo mobile, server locale con brotli)
+
+| Pagina | Prima | Dopo · Perf | A11y | BP | SEO | LCP | CLS |
+|---|---|---|---|---|---|---|---|
+| Home | 79 / 92 / 100 / 100 | **96** | **100** | 100 | 100 | 2,8 s | 0 |
+| Metodo | — | 98 | 100 | 100 | 100 | 2,3 s | 0 |
+| Risultati | — | 97 | 100 | 100 | 100 | 2,6 s | 0 |
+| DNA | — | 98 | 100 | 100 | 100 | 2,3 s | 0 |
+| Team | — | 96 | 100 | 100 | 100 | 2,7 s | 0 |
+| Eventi | — | 98 | 100 | 100 | 100 | 2,2 s | 0 |
+| Fatturare³ | — | 99 | 100 | 100 | 100 | 2,2 s | 0,003 |
+| Candidatura | — | 99 | 100 | 100 | 100 | 2,1 s | 0 |
+
+Cosa ha fatto la differenza: un solo CSS (`sito.css`, generato dal build con impronta `?v=`) al posto di
+nove fogli + Google Fonts; font ospitati in casa (DM Sans variabile, precaricato) — risolve anche il
+peso 600 che veniva arrotondato al 700; `dati.js` in `defer` e montato subito (prima bloccava il primo
+paint, e montava DOPO che motion.js aveva misurato i caroselli vuoti); le parole dell'H1 partono a metà
+maschera (dipinte dal primo fotogramma: LCP da 4,5 a 2,8 s); varianti a misura delle immagini
+(`tools/immagini.mjs`); grafici a torre disegnati con una maschera (−650 nodi); server di sviluppo con
+brotli e `no-cache` al posto di `no-store` (bfcache).
+Accessibilità: numeri fantasma come contenuto generato dal CSS, `role="listitem"` tolto dai link, cloni
+del carosello fuori dal tab order, indice del diagramma a contrasto pieno, e soprattutto le rivelazioni
+a scroll che finiscono a `entry 100%` e — per le card con testo — senza dissolvenza: prima un testo
+visibile in fondo alla prima schermata restava a metà opacità (1,8:1) finché non si scorreva.
 - [ ] 6 · Due giri completi verifica → correzione a tutti i breakpoint, prima/dopo
+
+### Cosa è stato fatto, fase per fase (skill applicate)
+
+**Fase 1 — design system** (impeccable craft-floor, design-taste-frontend, ui-ux-pro-max checklist)
+- Palco fisso con 7 atmosfere in dissolvenza (`sfondi.css`), sezioni trasparenti: spariti stacchi e fili.
+- Occhielli in tondo con la particella; su desktop didascalia di margine (colonna 3/12).
+- Token: respiro fluido `--sez-y`, soglia testo 12–13px, `--tap` 44px, `--barra-h/--nav-h`.
+- Barra = un solo link; nav senza doppione "Scrivici/Scrivi"; Fatturare³ nel menu mobile; menu animato,
+  burger→X, fuoco nel pannello; footer a 6 colonne; frecce e pausa in SVG; skip link sistemato.
+
+**Fase 2 — home** (frontend-design, motion-design, gpt-taste)
+- Hero con campo di contatti e marchio che si monta; titoli composti parola per parola (split al build).
+- Schede-grafico a unità; fregio scroll-driven; tetto a blocchi; registro dei numeri; quattro reparti
+  fotografici + indice degli otto servizi; parallasse dei pugni; conto 4/3/0 come registro; macchina a
+  binario con il pacchetto (pin desktop, colonna su mobile); video in gerarchia; risorse come indice.
+
+**Fase 3 — pagine interne**: parola fantasma nelle aperture, registro e linea del tempo (Eventi,
+Candidatura), indice (Fatturare³, Team), manifesto ed elenco numerato (DNA), muro di settori (Risultati).
+
+**Fase 4 — 3D e movimento** (img2threejs, motion-design)
+- `src/js/scena3d.js`: three.js r170 da jsDelivr, solo desktop/puntatore fine, dopo il load in idle.
+- Verifica img2threejs (`src/_dev/marchio3d.html`, render `qa/f4/verifica-marchio.jpg`): i quattro tratti
+  d'identità (progressione 0,83, zig-zag, raggio 22%, arancio) presenti; un difetto trovato e corretto
+  (lo smusso esterno ingrossava i blocchi del 5% → `bevelOffset` negativo). Punteggio stimato 0,88.
+- Torcia sul palco, parallasse nei pannelli, luce sulle lettere del muro, View Transition a scalinata.
 
 ## 4 · Registro delle scelte
 
@@ -137,6 +187,17 @@ lo scroll smussato rompe find-in-page, tastiera e lettori di schermo; lo smoothi
 
 - Chrome taglia gli screenshot oltre 16.384px e ricomincia dall'alto → audit a tranche da 8.000px.
 - Il pane del browser dell'app è nascosto: lì le immagini lazy non partono. Verifica sempre via Playwright CLI.
+- Negli screenshot full-page il palco (fisso) copre solo il primo viewport: la fascia scura sotto
+  l'apertura delle pagine è un artefatto di cattura. Per le giunture fanno fede le passeggiate a scroll
+  (`tools/qa/run-scorri.sh`).
+- `.bento--reparti` perdeva contro `.bento` (stessa specificità, regola successiva) → `.bento.bento--reparti`.
+- Muro: lo shorthand `background` nella riga arancione azzerava `background-clip: text` → rettangolo pieno.
+  Corretto con `background-image`.
+- View Transition fra documenti: in una scheda nascosta o in headless la cattura della pagina vecchia
+  aspetta 4 s (timeout) prima di navigare. Il passaggio ora si salta lì (`pageswap` + `skipTransition`),
+  e una guardia stretta su `unhandledrejection` tiene pulita la console.
+- Ho tolto due etichette che avevo aggiunto io ("Articolo 01…", "Ruolo aperto"): erano copy nuovo e la
+  seconda implicava che le posizioni fossero aperte.
 
 ## 6 · Da decidere insieme
 
