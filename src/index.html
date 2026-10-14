@@ -13,7 +13,7 @@
      navigazione resterebbe ferma fino al timeout di 4 secondi. Lì il
      passaggio si SALTA subito. Le promesse rifiutate si consumano qui, prima
      del primo paint, così la console resta pulita. -->
-<script>(function(){function n(){}function p(v){['ready','finished','updateCallbackDone'].forEach(function(k){if(v[k]&&v[k].catch)v[k].catch(n)})}addEventListener('pageswap',function(e){var v=e.viewTransition;if(!v)return;p(v);if(document.visibilityState!=='visible'||navigator.webdriver)v.skipTransition()});addEventListener('pagereveal',function(e){if(e.viewTransition)p(e.viewTransition)});addEventListener('unhandledrejection',function(e){var r=e.reason;if(r&&r.name==='InvalidStateError'&&/Transition was aborted|ViewTransition/.test(r.message))e.preventDefault()})})()</script>
+<script>(function(){function n(){}function p(v){['ready','finished','updateCallbackDone'].forEach(function(k){if(v[k]&&v[k].catch)v[k].catch(n)})}addEventListener('pageswap',function(e){var v=e.viewTransition;if(!v)return;p(v);if(document.visibilityState!=='visible'||navigator.webdriver)v.skipTransition()});addEventListener('pagereveal',function(e){var v=e.viewTransition,k=null,d=document,nn=[];try{k=sessionStorage.getItem('vt-foto');sessionStorage.removeItem('vt-foto')}catch(x){}if(!v)return;p(v);if(!k)return;if(k==='team'){d.querySelectorAll('#scala-volti img').forEach(function(i){var m=(i.getAttribute('src')||'').split('/').pop().split('-')[0];if(m){i.style.viewTransitionName='volto-'+m;i.style.viewTransitionClass='volto';nn.push(i)}})}else{var f=d.getElementById('foto-pagina');if(f&&(f.getAttribute('src')||'').indexOf('/'+k+'-')>0){f.style.viewTransitionName='foto-pagina';nn.push(f)}}if(!nn.length)return;d.documentElement.classList.add('vt-arrivo');v.finished.then(function(){nn.forEach(function(i){i.style.viewTransitionName='';i.style.viewTransitionClass=''})},n)});addEventListener('unhandledrejection',function(e){var r=e.reason;if(r&&r.name==='InvalidStateError'&&/Transition was aborted|ViewTransition/.test(r.message))e.preventDefault()})})()</script>
 <!-- Il 3D dell'hero è solo per desktop con puntatore fine e senza
      reduced-motion. Il segnale va messo PRIMA del primo paint: altrimenti il
      marchio DOM si monterebbe e poi sparirebbe nei cubi della scena 3D. -->
@@ -21,7 +21,13 @@
 
 <link rel="preload" href="/assets/fonts/dm-sans-latin-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
-<link rel="stylesheet" href="/css/sito.css?v=8eec19fcd3">
+<!-- La pagina sotto il cursore si scarica prima del clic (Speculation Rules,
+     Chrome: «moderate» = dopo 200ms sopra un link, o al tocco). Solo il
+     prefetch dell'HTML, mai il prerender: niente script eseguiti in anticipo.
+     Con il passaggio a gradini e la foto che vola, il cambio di pagina
+     parte senza attesa di rete. -->
+<script type="speculationrules">{"prefetch":[{"where":{"or":[{"href_matches":"/*.html"},{"href_matches":"/"}]},"eagerness":"moderate"}]}</script>
+<link rel="stylesheet" href="/css/sito.css?v=88cefcdb9f">
 </head>
 <body data-pagina="home">
 <div class="palco" aria-hidden="true"><i data-a="nero"></i><i data-a="brace"></i><i data-a="alba"></i><i data-a="radente"></i><i data-a="notte"></i><i data-a="pozzo"></i><i data-a="fuoco"></i><b class="palco__torcia"></b></div>
@@ -240,10 +246,7 @@
       </div>
     </div>
 
-    <p class="contro__chiusa">
-      E paghi <strong>quattro volte lo stesso contatto</strong>:
-      una per portarlo, una per scaldarlo, una per assumere chi lo chiama, una per insegnargli a chiudere.
-    </p>
+    <p class="contro__chiusa" data-accendi style="--n:24"> <span class="acc" style="--k:0">E</span> <span class="acc" style="--k:1">paghi</span> <span class="acc" style="--k:2"><strong>quattro</strong></span> <span class="acc" style="--k:3"><strong>volte</strong></span> <span class="acc" style="--k:4"><strong>lo</strong></span> <span class="acc" style="--k:5"><strong>stesso</strong></span> <span class="acc" style="--k:6"><strong>contatto</strong>:</span> <span class="acc" style="--k:7">una</span> <span class="acc" style="--k:8">per</span> <span class="acc" style="--k:9">portarlo,</span> <span class="acc" style="--k:10">una</span> <span class="acc" style="--k:11">per</span> <span class="acc" style="--k:12">scaldarlo,</span> <span class="acc" style="--k:13">una</span> <span class="acc" style="--k:14">per</span> <span class="acc" style="--k:15">assumere</span> <span class="acc" style="--k:16">chi</span> <span class="acc" style="--k:17">lo</span> <span class="acc" style="--k:18">chiama,</span> <span class="acc" style="--k:19">una</span> <span class="acc" style="--k:20">per</span> <span class="acc" style="--k:21">insegnargli</span> <span class="acc" style="--k:22">a</span> <span class="acc" style="--k:23">chiudere.</span> </p>
   </div>
 </section>
 

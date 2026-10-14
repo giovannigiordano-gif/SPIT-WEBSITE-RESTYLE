@@ -38,6 +38,20 @@
   font-variant-numeric: tabular-nums;
   margin-block: 0 var(--s-3);
 }
+/* IL NUMERO A RULLO (giro 3 effetti, dati.js): ogni cifra è una colonna
+   0–9 ×3 che scorre fino alla sua cifra; le colonne a destra fanno più
+   giri e partono dopo, come un contatore meccanico. La colonna è alta una
+   riga (1em) e ritaglia; il margine negativo restituisce l'interlinea .86
+   del numero, così la riga non cambia altezza. */
+.rullo { display: inline-flex; vertical-align: top; margin-block: -.07em; }
+.rullo__c, .rullo__x { display: block; height: 1em; line-height: 1; overflow: clip; }
+.rullo__c { display: flex; justify-content: center; width: var(--wd); }
+.rullo__s {
+  flex: none; display: block; width: .72em; white-space: pre-line; text-align: center; line-height: 1;
+  translate: 0 calc(var(--f) * -1em);
+  transition: translate 1.9s cubic-bezier(.12, .78, .16, 1) calc(var(--c) * 110ms);
+}
+.rullo.is-fermo .rullo__s { translate: 0 0; transition: none; }
 .u-voce__lab { font: 500 clamp(17px, 1.3vw, 20px)/1.25 var(--f-display); letter-spacing: -.01em; color: var(--c-t1); max-inline-size: 24ch; }
 .u-voce__campo { display: grid; gap: var(--s-4); padding-top: clamp(4px, 1.2vw, 18px); }
 .ucampo { position: relative; width: 100%; }
@@ -137,19 +151,29 @@
    gap sotto di sé così che i segmenti si uniscano. Movimento ridotto e
    browser senza view(): la colonna di sempre, tutta accesa.          */
 .staffetta:not(.is-scena) :is(.passaggio, .staffetta__fine) { position: relative; }
+.staffetta__pista { --filo-x: calc(var(--margine) * -.5); }
+/* Su telefono il margine è di 18px: a metà margine il filo stava a 8px
+   dal bordo dello schermo (revisione giro 2). Qui la colonna rientra di
+   22px e il filo corre sul suo bordo sinistro, dove inizia il testo di
+   ogni altra sezione; il filo di separazione dei reparti non lo tocca più. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) and (max-width: 899px) {
+    .staffetta:not(.is-scena) .staffetta__pista { --filo-x: -21px; padding-left: 22px; }
+  }
+}
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
     .staffetta:not(.is-scena) :is(.stazione, .passaggio)::after,
     .staffetta:not(.is-scena) .staffetta__fine::before {
       content: ''; position: absolute; top: 0; bottom: calc(-1 * var(--passo));
-      left: calc(var(--margine) * -.5 - 1px); width: 2px; border-radius: 2px;
+      left: calc(var(--filo-x) - 1px); width: 2px; border-radius: 2px;
       background: var(--c-ar); transform-origin: 50% 0; scale: 1 0; pointer-events: none;
       animation: filo-scende linear both; animation-timeline: view();
       animation-range: entry var(--lettura) entry calc(100% + var(--lettura));
     }
     .staffetta:not(.is-scena) .staffetta__fine::before { bottom: 50%; }
     .staffetta:not(.is-scena) .staffetta__fine::after {
-      content: ''; position: absolute; top: 50%; left: calc(var(--margine) * -.5 - 5px);
+      content: ''; position: absolute; top: 50%; left: calc(var(--filo-x) - 5px);
       width: 10px; height: 10px; border-radius: var(--q-r); background: var(--c-ar);
       translate: 0 -50%; scale: 0; pointer-events: none;
       animation: filo-atterra linear both; animation-timeline: view();
@@ -205,15 +229,19 @@
 
 /* ── LA SCENA (desktop, home) ──────────────────────────────────────────── */
 .staffetta-sez:has(.staffetta.is-scena) { padding-block: 0; }
-.staffetta.is-scena { height: 100vh; height: 100svh; display: grid; align-content: center; overflow: hidden; }
+/* Revisione giro 2: centrata in verticale, la scena lasciava 357px di
+   vuoto fra i CTA del capitolo 02 e il segnacapitolo 03. Ora il titolo
+   parte in alto, alla distanza di ogni altro capitolo; i fotogrammi
+   restano centrati sulla pista.                                        */
+.staffetta.is-scena { height: 100vh; height: 100svh; display: grid; align-content: start; overflow: hidden; }
 .staffetta.is-scena .staffetta__pista {
   display: flex; align-items: center; gap: clamp(48px, 5vw, 96px);
   width: max-content; margin: 0;
   padding-inline: max(var(--margine), calc((100vw - var(--w-piena)) / 2 + var(--margine))) 12vw;
-  padding-top: calc(var(--barra-h) + var(--nav-h) * .5);
+  padding-top: calc(var(--barra-h) + var(--nav-h) + clamp(14px, 3vh, 32px));
   will-change: transform;
 }
-.staffetta.is-scena .staffetta__testa { width: min(40vw, 600px); flex: none; }
+.staffetta.is-scena .staffetta__testa { width: min(40vw, 600px); flex: none; align-self: flex-start; }
 .staffetta.is-scena .stazione { width: clamp(280px, 22vw, 360px); flex: none; border-top: 0; padding-top: 0; }
 .staffetta.is-scena .passaggio { width: clamp(340px, 34vw, 560px); flex: none; }
 .staffetta.is-scena .passaggio__foto { width: 100%; }
@@ -295,3 +323,49 @@
   .finale__testo { padding-bottom: var(--s-6); }
   .finale__foto { width: min(78%, 420px); }
 }
+
+/* ── IL FINALE FERMO (giro 3 effetti) ─────────────────────────────────────
+   Revisione giro 2: a 1440 il trofeo finiva di salire quando il muro era
+   già uscito dallo schermo, payoff e trofeo non stavano mai insieme. Su
+   desktop la sezione è alta due schermi e il contenuto resta FERMO
+   (sticky) per il secondo: le tre righe atterrano, il braccio alza il
+   cubo dal pavimento, la luce sale, poi la frase e il CTA; la scena
+   composta resta ferma mezzo schermo prima del piè di pagina. Gli
+   intervalli sono sulla timeline della sezione: entry = il riquadro sale
+   nello schermo, contain = il riquadro è fermo.
+   Telefono, schermi bassi, motion ridotto, browser senza view(): la
+   versione in colonna di sempre.                                        */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) and (min-width: 1024px) and (min-height: 680px) {
+    .finale { height: 200vh; height: 200svh; padding-top: 0; }
+    .finale::before { content: none; }
+    .finale__in {
+      position: sticky; top: 0; height: 100vh; height: 100svh; isolation: isolate;
+      padding-top: calc(var(--barra-h) + var(--nav-h)); align-items: center;
+    }
+    .finale__in::before {
+      content: ''; position: absolute; z-index: -1; left: 50%; bottom: -340px;
+      width: 120vw; height: 860px; translate: -50% 0;
+      background: radial-gradient(56% 58% at 72% 100%, rgba(184,91,0,.34) 0%, rgba(184,91,0,0) 70%);
+      pointer-events: none;
+      animation: pavimento-acceso linear both; animation-timeline: --finale;
+      animation-range: entry 40% contain 50%;
+    }
+    .finale__testo { padding-bottom: 0; }
+    .finale__foto { align-self: end; }
+    .finale__foto img {
+      max-height: calc(100svh - var(--barra-h) - var(--nav-h) - 16px);
+      animation-name: trofeo-fermo; animation-range: entry 50% contain 42%;
+    }
+    .finale .finale__payoff .mask > .finale__riga {
+      animation-timeline: --finale;
+      animation-range: entry calc(60% + var(--i) * 10%) contain calc(6% + var(--i) * 9%);
+    }
+    .finale__testo > :not(.finale__payoff) {
+      animation: finale-segue linear both; animation-timeline: --finale;
+      animation-range: contain 26% contain 46%;
+    }
+  }
+}
+@keyframes trofeo-fermo { from { translate: 0 42%; rotate: -7deg; } }
+@keyframes finale-segue { from { opacity: 0; translate: 0 28px; } }

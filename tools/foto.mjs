@@ -40,7 +40,9 @@ const REPARTI = {
      nella zona dei monitor, altrove la mano sotto la lampada diventava arancione */
   'reparto-pubblicita':   { sat: [.70, .86], larga: { sat: [.48, .70], zona: [.10, .06, 1, .40] }, stretto: [.24, .01, .86, .63] },
   'reparto-marketing':    { sat: [.70, .86], stretto: [.31, .16, .93, .78] },
-  'reparto-reclutamento': { sat: [.70, .86], stretto: [.14, .09, .76, .71] },
+  /* ciclo 2: il taglio tiene la cartellina arancione, l'unico oggetto
+     acceso della scena (prima restava fuori, la foto era tutta grigia) */
+  'reparto-reclutamento': { sat: [.70, .86], stretto: [.34, .14, .98, .78] },
   'reparto-formazione':   { sat: [.70, .86], stretto: [.19, .04, .81, .66] },
 }
 const smooth = (a, b, x) => { const t = Math.min(1, Math.max(0, (x - a) / (b - a))); return t * t * (3 - 2 * t) }

@@ -152,11 +152,44 @@
       if (torna) burger.focus({ preventScroll: true });
     };
 
+    /* LA FOTO CHE PASSA DI MANO (giro 3 effetti). Verso un'altra pagina il
+       menu NON si chiude: la pagina vecchia viene fotografata così com'è,
+       e l'anteprima accesa riceve il nome che la pagina nuova darà alla
+       sua fotografia d'apertura (pagereveal, nel <head>). Prima il box
+       dell'anteprima si stringe sulla foto (è in object-fit: contain in un
+       riquadro più largo): il volo parte dalla foto, non dal riquadro.
+       Senza View Transitions fra documenti si naviga e basta.          */
+    const senzaNomi = () => ant.forEach(n => [n, ...$$('img', n)].forEach(i => { i.style.viewTransitionName = ''; i.style.viewTransitionClass = ''; }));
+    const stringi = (img) => {
+      const b = img.getBoundingClientRect(), box = img.offsetParent?.getBoundingClientRect();
+      if (!box || !img.naturalWidth) return;
+      const ar = img.naturalWidth / img.naturalHeight;
+      let w = b.width, h = w / ar; if (h > b.height) { h = b.height; w = h * ar; }
+      Object.assign(img.style, { inset: 'auto', left: `${b.left - box.left + (b.width - w) / 2}px`, top: `${b.top - box.top + b.height - h}px`, width: `${w}px`, height: `${h}px` });
+    };
+    const vola = (a) => {
+      if (!('onpagereveal' in window) || RM() || a.origin !== location.origin || a.pathname === location.pathname) return false;
+      senzaNomi();
+      const p = ant.find(n => n.dataset.foto === a.dataset.foto && n.classList.contains('is-on') && n.getClientRects().length);
+      if (p?.tagName === 'IMG') { stringi(p); p.style.viewTransitionName = 'foto-pagina'; }
+      else if (p) $$('img', p).forEach(i => { i.style.viewTransitionName = 'volto-' + (i.getAttribute('src') || '').split('/').pop().split('-')[0]; i.style.viewTransitionClass = 'volto'; });
+      if (p) try { sessionStorage.setItem('vt-foto', a.dataset.foto); } catch (x) { /* niente volo */ }
+      /* la card ha un nome suo: si dissolve in fretta (con il suo «Chiudi»)
+         invece di restare sotto la pagina nuova mentre sale a gradini */
+      card.style.viewTransitionName = 'menu-card';
+      menu.classList.add('is-parte'); a.classList.add('is-scelta');
+      return true;
+    };
+
     burger.addEventListener('click', apri);
     chiudiBtn?.addEventListener('click', () => chiudi());
     menu.addEventListener('click', (e) => {
-      if (!card.contains(e.target)) chiudi();
-      else if (e.target.closest('a')) chiudi(false);
+      if (!card.contains(e.target)) { chiudi(); return; }
+      const a = e.target.closest('a'); if (!a) return;
+      /* ctrl/⌘/maiuscolo/clic centrale: nuova scheda, la pagina resta qui */
+      if (e.button || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      if (a.dataset.foto && vola(a)) return;
+      chiudi(false);
     });
     menu.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') { e.preventDefault(); chiudi(); return; }
@@ -176,6 +209,9 @@
     /* Tornando indietro dalla cache del browser il menu non resta aperto. */
     addEventListener('pageshow', (e) => {
       if (!e.persisted) return;
+      senzaNomi(); card.style.viewTransitionName = '';
+      menu.classList.remove('is-parte'); voci.forEach(v => v.classList.remove('is-scelta'));
+      ant.forEach(n => ['inset', 'left', 'top', 'width', 'height'].forEach(k => n.style.removeProperty(k)));
       aperto = false; menu.classList.remove('is-on'); menu.hidden = true;
       radice.classList.remove('menu-aperto'); burger.setAttribute('aria-expanded', 'false');
     });

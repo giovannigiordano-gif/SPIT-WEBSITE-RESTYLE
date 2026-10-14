@@ -215,6 +215,12 @@ html.menu-aperto { overflow: hidden; scrollbar-gutter: stable; }
 .menu__desc { font: 500 15px/1.35 var(--f-display); color: var(--c-t3); transition: color var(--t-micro) linear; }
 /* Sopra l'elenco le altre voci si spengono: resta accesa quella scelta. */
 .menu__voci:hover a .menu__nome { color: rgba(255,255,255,.48); }   /* ~5:1 sul fondo della card */
+/* La partenza (giro 3 effetti): al clic verso un'altra pagina il menu resta
+   aperto per il volo della foto; la voce scelta resta accesa e le altre si
+   spengono subito, così il clic ha una risposta mentre la pagina arriva. */
+.menu.is-parte .menu__voci a:not(.is-scelta) { opacity: .18; transition: opacity 220ms linear; }
+.menu.is-parte .menu__voci a.is-scelta .menu__nome { color: var(--c-t1); translate: .36em 0; }
+.menu.is-parte .menu__voci a.is-scelta .menu__nome::before { scale: 1; }
 .menu__voci a:hover .menu__nome, .menu__voci a:focus-visible .menu__nome { color: var(--c-t1); translate: .36em 0; }
 .menu__voci a:hover .menu__nome::before, .menu__voci a:focus-visible .menu__nome::before { scale: 1; }
 .menu__voci a:hover .menu__desc, .menu__voci a:focus-visible .menu__desc { color: var(--c-t1); }

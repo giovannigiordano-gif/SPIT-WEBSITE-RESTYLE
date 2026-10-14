@@ -29,7 +29,10 @@ async page => {
   p.on('response', r => { if (r.status() >= 400) log.push({ t: 'http' + r.status(), x: r.url(), u: p.url() }); });
   p.on('requestfailed', r => log.push({ t: 'reqfail', x: r.url() + ' ' + (r.failure()?.errorText || ''), u: p.url() }));
 
-  const FINALE = `*,*::before,*::after{animation-delay:-60s!important;animation-play-state:paused!important;animation-timeline:auto!important;transition:none!important;scroll-behavior:auto!important}`;
+  const FINALE = `*,*::before,*::after{animation-delay:-60s!important;animation-play-state:paused!important;animation-timeline:auto!important;transition:none!important;scroll-behavior:auto!important}.hero__in{animation:none!important}.rullo__s{translate:0 calc(var(--f) * -1em)!important}`;
+  /* giro 3 effetti: l'hero che si allontana è un'USCITA (il suo stato finale è
+     il titolo spento) e il rullo è una transizione: lo stato da controllare
+     è quello a riposo, non quello finale. */
   const report = [];
 
   for (const nome of CFG.pages) {
@@ -48,8 +51,8 @@ async page => {
     await p.evaluate(async () => {
       document.querySelectorAll('img[loading="lazy"]').forEach(i => { i.loading = 'eager'; });
       const H = document.documentElement.scrollHeight;
-      for (let y = 0; y < H; y += 500) { scrollTo(0, y); await new Promise(r => setTimeout(r, 60)); }
-      scrollTo(0, 0);
+      for (let y = 0; y < H; y += 500) { scrollTo({ top: y, behavior: 'instant' }); await new Promise(r => setTimeout(r, 60)); }
+      scrollTo({ top: 0, behavior: 'instant' });
       await Promise.all([...document.images].map(i => (i.complete && i.naturalWidth) ? 0 : new Promise(r => { i.onload = i.onerror = r; setTimeout(r, 6000); })));
       /* caricate non vuol dire dipinte: con decoding="async" lo scatto a
          pagina intera arrivava prima della decodifica delle immagini fuori
@@ -68,7 +71,7 @@ async page => {
 
     const m = await p.evaluate((mob) => {
       const vw = document.documentElement.clientWidth;
-      scrollTo(600, 0); const sx = scrollX; scrollTo(0, 0);
+      scrollTo({ left: 600, top: 0, behavior: 'instant' }); const sx = scrollX; scrollTo({ left: 0, top: 0, behavior: 'instant' });
       const vis = (n) => { const r = n.getBoundingClientRect(); const cs = getComputedStyle(n); return r.width > 0 && r.height > 0 && cs.visibility !== 'hidden' && cs.display !== 'none' && n.closest('[aria-hidden="true"]') === null; };
       const sporge = [];
       document.querySelectorAll('main *, header *, footer *').forEach(n => {

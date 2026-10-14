@@ -445,6 +445,38 @@ proposta: due oscillazioni e poi fermi.
 cliente che sono scelte di tono e non errori («in fondo al tuo bilancio», «Do more with less»,
 «Uffici di rappresentanza») → elencate per il cliente in §6.
 
+*Giro 2 (revisione) e giro 3 degli effetti — «aggiungi ancora effetti wow, deve superare il sito
+della Apple».* Il vocabolario delle pagine prodotto Apple tradotto nei tre gesti del sistema, senza una
+riga di testo nuovo; più le correzioni chieste dal revisore della home al giro 2.
+- **La foto che passa di mano** (tutte le pagine): dal menu a card gigante la fotografia della pagina
+  sotto il cursore VOLA al suo posto nell'apertura della pagina nuova, mentre la pagina sale a gradini
+  attorno a lei; verso il Team volano i cinque volti, uno dietro l'altro. View Transitions fra documenti
+  con un nome dato al volo (motion.js nella pagina che parte, `pagereveal` nel <head> di quella che
+  arriva, `<link rel=expect blocking=render>`). La card del menu si dissolve da sola in 280ms; al clic
+  la voce scelta resta accesa e le altre si spengono. Più: la pagina sotto il cursore si scarica prima
+  del clic (Speculation Rules, solo prefetch dell'HTML). È una cosa che il sito Apple non fa.
+- **La frase che si accende** (home e Metodo «E paghi quattro volte lo stesso contatto…», DNA chiusa del
+  manifesto): parole grigie che si accendono alla linea di lettura (split di build `data-accendi`).
+  Spenta è --c-t4, 3,8:1: sopra la soglia AA per testo grande anche prima di accendersi.
+- **Il numero a rullo** (home e Risultati, 150 · 33 · 750): contatore meccanico, colonne di cifre alla
+  larghezza vera del DM Sans (il font servito non ha cifre tabellari: misurate), il numero vero resta
+  nel testo per i lettori di schermo.
+- **Il finale fermo** (home, desktop): la sezione è alta due schermi e il contenuto resta fermo per il
+  secondo: le tre righe atterrano, il braccio alza il cubo, la luce sale, poi frase e CTA. Risolve il
+  rilievo del giro 2 (trofeo e payoff non stavano mai nello stesso schermo).
+- **L'hero che si allontana**, **il numero del capitolo che si posa** (entra a 2,3× e si posa accanto al
+  nome), **gli schermi che si alzano** (le testimonianze entrano inclinate e si alzano in piano).
+- **Correzioni del giro 2**: gli otto servizi su telefono sono una galleria orizzontale nativa (da
+  1.000px a ~230px); «Dove siamo» con mezzo respiro (non è un capitolo); 02 → 03 da 357 a ~220px (una
+  regola non scattava più quando GSAP avvolge la staffetta nel suo pin-spacer); il filo della staffetta
+  su telefono corre sul bordo della colonna, senza gancio; la foto del reclutamento ritagliata sulla
+  cartellina arancione; nel Metodo i due segnacapitolo hanno di nuovo il numero.
+- **Strumenti**: l'audit scorre in modo istantaneo e non porta allo stato finale le animazioni d'uscita
+  (l'hero «spento» falsava la misura dei bersagli tattili).
+Verifica: catture a più punti di scroll (1440 e 390) e del volo fra le pagine fotogramma per
+fotogramma; 38/38 test; movimento ridotto su 8 pagine pulito; audit 8 pagine × 5 larghezze senza
+rilievi; Lighthouse mobile Home 96, Metodo 97, DNA 98, Risultati 97, accessibilità 100, CLS 0.
+
 ### Cosa è stato fatto, fase per fase (skill applicate)
 
 **Fase 1 — design system** (impeccable craft-floor, design-taste-frontend, ui-ux-pro-max checklist)

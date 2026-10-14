@@ -50,6 +50,19 @@
    reduced-motion i pannelli sono già scoperti. */
 @media (prefers-reduced-motion: reduce) { .reparti4 > * { animation: none; } }
 
+/* GLI SCHERMI CHE SI ALZANO (giro 3 effetti): le testimonianze entrano
+   inclinate all'indietro, come schermi posati sul tavolo, e si alzano in
+   piano mentre salgono. Prospettiva per elemento (non sul contenitore),
+   così il primo video grande e i piccoli si inclinano allo stesso modo. */
+.video > .vidbox { animation-name: schermo-alza; transform-origin: 50% 100%; animation-range-end: cover 36%; }
+@keyframes schermo-alza {
+  from { transform: perspective(1400px) translateY(64px) rotateX(24deg) scale(.95); }
+  to   { transform: perspective(1400px) translateY(0) rotateX(0) scale(1); }
+}
+/* Su telefono gli otto servizi sono una galleria orizzontale: dentro un
+   contenitore che scorre di lato view() non ha un asse, niente ingresso. */
+@media (max-width: 640px) { .servizi > .servizio { animation: none; } }
+
 @supports not (animation-timeline: view()) {
   .bento > *, .reparti4 > *, .servizi > *, .video > *, .indice > *, .comand > *,
   .dove__info > *, .filtro > *, .qualita > * { animation: none; }

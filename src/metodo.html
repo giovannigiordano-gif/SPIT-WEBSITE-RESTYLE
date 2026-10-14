@@ -13,12 +13,19 @@
      navigazione resterebbe ferma fino al timeout di 4 secondi. Lì il
      passaggio si SALTA subito. Le promesse rifiutate si consumano qui, prima
      del primo paint, così la console resta pulita. -->
-<script>(function(){function n(){}function p(v){['ready','finished','updateCallbackDone'].forEach(function(k){if(v[k]&&v[k].catch)v[k].catch(n)})}addEventListener('pageswap',function(e){var v=e.viewTransition;if(!v)return;p(v);if(document.visibilityState!=='visible'||navigator.webdriver)v.skipTransition()});addEventListener('pagereveal',function(e){if(e.viewTransition)p(e.viewTransition)});addEventListener('unhandledrejection',function(e){var r=e.reason;if(r&&r.name==='InvalidStateError'&&/Transition was aborted|ViewTransition/.test(r.message))e.preventDefault()})})()</script>
+<link rel="expect" href="#foto-pagina" blocking="render">
+<script>(function(){function n(){}function p(v){['ready','finished','updateCallbackDone'].forEach(function(k){if(v[k]&&v[k].catch)v[k].catch(n)})}addEventListener('pageswap',function(e){var v=e.viewTransition;if(!v)return;p(v);if(document.visibilityState!=='visible'||navigator.webdriver)v.skipTransition()});addEventListener('pagereveal',function(e){var v=e.viewTransition,k=null,d=document,nn=[];try{k=sessionStorage.getItem('vt-foto');sessionStorage.removeItem('vt-foto')}catch(x){}if(!v)return;p(v);if(!k)return;if(k==='team'){d.querySelectorAll('#scala-volti img').forEach(function(i){var m=(i.getAttribute('src')||'').split('/').pop().split('-')[0];if(m){i.style.viewTransitionName='volto-'+m;i.style.viewTransitionClass='volto';nn.push(i)}})}else{var f=d.getElementById('foto-pagina');if(f&&(f.getAttribute('src')||'').indexOf('/'+k+'-')>0){f.style.viewTransitionName='foto-pagina';nn.push(f)}}if(!nn.length)return;d.documentElement.classList.add('vt-arrivo');v.finished.then(function(){nn.forEach(function(i){i.style.viewTransitionName='';i.style.viewTransitionClass=''})},n)});addEventListener('unhandledrejection',function(e){var r=e.reason;if(r&&r.name==='InvalidStateError'&&/Transition was aborted|ViewTransition/.test(r.message))e.preventDefault()})})()</script>
 
 
 <link rel="preload" href="/assets/fonts/dm-sans-latin-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
-<link rel="stylesheet" href="/css/sito.css?v=8eec19fcd3">
+<!-- La pagina sotto il cursore si scarica prima del clic (Speculation Rules,
+     Chrome: «moderate» = dopo 200ms sopra un link, o al tocco). Solo il
+     prefetch dell'HTML, mai il prerender: niente script eseguiti in anticipo.
+     Con il passaggio a gradini e la foto che vola, il cambio di pagina
+     parte senza attesa di rete. -->
+<script type="speculationrules">{"prefetch":[{"where":{"or":[{"href_matches":"/*.html"},{"href_matches":"/"}]},"eagerness":"moderate"}]}</script>
+<link rel="stylesheet" href="/css/sito.css?v=88cefcdb9f">
 </head>
 <body data-pagina="metodo">
 <div class="palco" aria-hidden="true"><i data-a="nero"></i><i data-a="brace"></i><i data-a="alba"></i><i data-a="radente"></i><i data-a="notte"></i><i data-a="pozzo"></i><i data-a="fuoco"></i><b class="palco__torcia"></b></div>
@@ -110,7 +117,7 @@
       </div>
     </div>
     <figure class="testa-pag__foto testa-pag__foto--gradini">
-      <img src="/assets/foto/metodo-scalinata-800.webp" srcset="/assets/foto/metodo-scalinata-480.webp 480w, /assets/foto/metodo-scalinata-800.webp 800w, /assets/foto/metodo-scalinata-1200.webp 1200w" sizes="(max-width: 900px) 74vw, 38vw" alt="Una mano posa l'ultimo cubo arancione in cima a una scalinata di cubi" width="1200" height="1500" fetchpriority="low" decoding="async">
+      <img id="foto-pagina" src="/assets/foto/metodo-scalinata-800.webp" srcset="/assets/foto/metodo-scalinata-480.webp 480w, /assets/foto/metodo-scalinata-800.webp 800w, /assets/foto/metodo-scalinata-1200.webp 1200w" sizes="(max-width: 900px) 74vw, 38vw" alt="Una mano posa l'ultimo cubo arancione in cima a una scalinata di cubi" width="1200" height="1500" fetchpriority="low" decoding="async">
     </figure>
   </div>
 </section>
@@ -122,7 +129,7 @@
   <div class="wrap wrap--piena">
     <!-- Due capitoli come in home, senza numero: i numeri a contorno qui
          sono quelli dei quattro reparti, poco sotto. -->
-    <p class="capo"><span class="capo__nome">Il problema</span></p>
+    <p class="capo"><span class="capo__n" data-n="01">01</span><span class="capo__nome">Il problema</span></p>
     <div class="testa">
       <h2 class="t-d2" data-split><span class="w" style="--w:0"><span>Quattro</span></span> <span class="w" style="--w:1"><span>fornitori</span></span> <span class="w" style="--w:2"><span>diversi</span></span> <span class="w" style="--w:3"><span>non</span></span> <span class="w" style="--w:4"><span>sono</span></span> <span class="w" style="--w:5"><span>un</span></span> <span class="w" style="--w:6"><span>reparto.</span></span> <span class="w" style="--w:7"><span><span class="segue">Sono</span></span></span> <span class="w" style="--w:8"><span><span class="segue">tre</span></span></span> <span class="w" style="--w:9"><span><span class="segue">passaggi</span></span></span> <span class="w" style="--w:10"><span><span class="segue">che</span></span></span> <span class="w" style="--w:11"><span><span class="segue">cadono</span></span></span> <span class="w" style="--w:12"><span><span class="segue">per</span></span></span> <span class="w" style="--w:13"><span><span class="segue">terra.</span></span></span></h2>
       <p class="t-deck">L'agenzia che compra la pubblicità non parla con chi scrive le mail. Chi scrive le mail non sa chi hai assunto. Chi hai assunto non l'ha formato nessuno.</p>
@@ -157,10 +164,7 @@
       </div>
     </div>
 
-    <p class="contro__chiusa">
-      E paghi <strong>quattro volte lo stesso contatto</strong>:
-      una per portarlo, una per scaldarlo, una per assumere chi lo chiama, una per insegnargli a chiudere.
-    </p>
+    <p class="contro__chiusa" data-accendi style="--n:24"> <span class="acc" style="--k:0">E</span> <span class="acc" style="--k:1">paghi</span> <span class="acc" style="--k:2"><strong>quattro</strong></span> <span class="acc" style="--k:3"><strong>volte</strong></span> <span class="acc" style="--k:4"><strong>lo</strong></span> <span class="acc" style="--k:5"><strong>stesso</strong></span> <span class="acc" style="--k:6"><strong>contatto</strong>:</span> <span class="acc" style="--k:7">una</span> <span class="acc" style="--k:8">per</span> <span class="acc" style="--k:9">portarlo,</span> <span class="acc" style="--k:10">una</span> <span class="acc" style="--k:11">per</span> <span class="acc" style="--k:12">scaldarlo,</span> <span class="acc" style="--k:13">una</span> <span class="acc" style="--k:14">per</span> <span class="acc" style="--k:15">assumere</span> <span class="acc" style="--k:16">chi</span> <span class="acc" style="--k:17">lo</span> <span class="acc" style="--k:18">chiama,</span> <span class="acc" style="--k:19">una</span> <span class="acc" style="--k:20">per</span> <span class="acc" style="--k:21">insegnargli</span> <span class="acc" style="--k:22">a</span> <span class="acc" style="--k:23">chiudere.</span> </p>
   </div>
 </section>
 
@@ -173,7 +177,7 @@
   <div class="staffetta staffetta--colonna" id="staffetta">
     <div class="staffetta__pista" id="staffetta-pista">
       <div class="staffetta__testa">
-        <p class="capo"><span class="capo__nome">Il metodo</span></p>
+        <p class="capo"><span class="capo__n" data-n="02">02</span><span class="capo__nome">Il metodo</span></p>
         <h2 class="t-d2" data-split><span class="w" style="--w:0"><span>Quattro</span></span> <span class="w" style="--w:1"><span>reparti,</span></span> <span class="w" style="--w:2"><span><span class="segue">tre</span></span></span> <span class="w" style="--w:3"><span><span class="segue">passaggi</span></span></span> <span class="w" style="--w:4"><span><span class="segue">di</span></span></span> <span class="w" style="--w:5"><span><span class="segue">consegna.</span></span></span></h2>
       </div>
       <!-- /js/dati.js: quattro reparti e tre passaggi, alternati -->

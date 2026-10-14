@@ -116,6 +116,81 @@
   @view-transition { navigation: none; }
 }
 
+/* ── LA FOTO CHE PASSA DI MANO (giro 3 effetti) ──────────────────────────
+   Dal menu a card gigante: la fotografia della pagina sotto il cursore
+   VOLA al suo posto nell'apertura della pagina nuova, mentre la pagina
+   sale a gradini attorno a lei. Verso il Team volano i cinque volti, uno
+   dietro l'altro. Il nome lo danno motion.js (pagina che parte) e il
+   <head> (pagina che arriva, evento pagereveal); a volo finito si toglie.
+   Nella pagina d'arrivo la foto non rifà la sua apertura: è già lì.     */
+::view-transition-group(foto-pagina),
+::view-transition-group(*.volto) {
+  animation-duration: 860ms;
+  animation-timing-function: cubic-bezier(.2, .82, .22, 1);
+}
+::view-transition-old(foto-pagina), ::view-transition-new(foto-pagina) {
+  height: 100%; object-fit: contain; object-position: 50% 100%;
+  animation-duration: 520ms;
+}
+::view-transition-old(menu-card) { animation: vt-card-via 280ms var(--ease-uscita) both; }
+@keyframes vt-card-via { to { opacity: 0; scale: .985; } }
+::view-transition-group(volto-bardolla) { animation-delay: 40ms; }
+::view-transition-group(volto-ratti)    { animation-delay: 80ms; }
+::view-transition-group(volto-elicio)   { animation-delay: 120ms; }
+::view-transition-group(volto-amodio)   { animation-delay: 160ms; }
+.vt-arrivo .testa-pag__foto,
+.vt-arrivo .testa-pag__foto img,
+.vt-arrivo .scala-volti img { animation: none; opacity: 1; translate: 0 0; }
+
+/* ── LA FRASE CHE SI ACCENDE (giro 3 effetti) ────────────────────────────
+   [data-accendi] (split del build, una .acc per parola): la frase è già
+   scritta e non si muove; mentre sale nello schermo la linea di lettura
+   la accende parola per parola, grigio → bianco, alla velocità a cui la
+   si legge. Spenta è --c-t4 (3,8:1 sul palco): la frase è grande, quindi
+   sopra la soglia AA anche prima di accendersi. Movimento ridotto e
+   browser senza view(): accesa da subito.                              */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    [data-accendi] { view-timeline: --frase block; }
+    [data-accendi] .acc, [data-accendi] .acc * {
+      animation: accendi linear both; animation-timeline: --frase;
+      animation-range: cover calc(14% + var(--k) / var(--n) * 36%) cover calc(19% + var(--k) / var(--n) * 36%);
+    }
+  }
+}
+@keyframes accendi { from { color: var(--c-t4); } }
+
+/* ── L'HERO CHE SI ALLONTANA (giro 3 effetti) ────────────────────────────
+   Scorrendo, il blocco del titolo arretra (scala, sale di poco, si
+   spegne) mentre i contatti convergono nel marchio: la copertina lascia
+   il posto al racconto invece di scorrere via come un foglio. A scroll
+   zero è identico (l'H1 resta l'elemento LCP, mai toccato al caricamento). */
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .hero__in {
+      animation: hero-arretra linear both;
+      animation-timeline: scroll(root block); animation-range: 4vh 74vh;
+      transform-origin: 50% 0;
+    }
+  }
+}
+@keyframes hero-arretra { to { opacity: 0; scale: .88; translate: 0 -5vh; } }
+
+/* ── IL NUMERO DEL CAPITOLO SI POSA (giro 3 effetti) ─────────────────────
+   Il numero a contorno di ogni capitolo entra grande, più del doppio, e
+   si posa accanto al suo nome mentre il capitolo sale: il cambio di
+   capitolo si annuncia come un titolo di sala, poi diventa segnaletica. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .capo__n {
+      animation: capo-posa linear both; animation-timeline: view();
+      animation-range: entry 0% cover 30%; transform-origin: 0 85%;
+    }
+    .capo--c .capo__n { transform-origin: 50% 85%; }
+  }
+}
+@keyframes capo-posa { from { scale: 2.3; opacity: 0; } 50% { opacity: 1; } }
+
 /* ── IL FINALE · FATTURARE ×3 ─────────────────────────────────────────────
    Zero JS, compositor thread: le tre righe salgono una per una dentro la
    loro maschera, con una leggera pressa verticale (scaleY, composite).

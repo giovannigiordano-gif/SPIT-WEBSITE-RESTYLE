@@ -107,8 +107,11 @@
 }
 
 /* La frase che chiude il capitolo: il costo, detto una volta e grande. */
+/* Giro 3 effetti: la frase del costo è il punto del capitolo, e si
+   accende parola per parola (motion.css, [data-accendi]). Alla misura
+   di una frase detta, non di una nota. */
 .contro__chiusa {
-  margin-top: clamp(44px, 4.4vw, 72px); max-inline-size: 46ch;
-  font: 500 clamp(20px, 1.7vw, 26px)/1.4 var(--f-display); letter-spacing: -.01em; color: var(--c-t2);
+  margin-top: clamp(56px, 6vw, 104px); max-inline-size: 30ch;
+  font: 600 clamp(26px, 2.9vw, 46px)/1.16 var(--f-display); letter-spacing: -.022em; color: var(--c-t2);
 }
-.contro__chiusa strong { font-weight: 600; color: var(--c-t1); }
+.contro__chiusa strong { font-weight: 700; color: var(--c-t1); }

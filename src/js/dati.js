@@ -233,12 +233,34 @@ const campo = (x, i) => {
     ${strato(x.v, col, 'u' + i + 'a', x.acceso, 'ucampo__acceso')}
   </div>`;
 };
+/* IL NUMERO A RULLO (giro 3 effetti): ogni cifra è una colonna di
+   0–9 ripetuti tre volte che scorre fino alla sua cifra, come un
+   contatore meccanico; la cifra più a destra fa più giri. Il numero vero
+   è nel testo per i lettori di schermo, le colonne sono aria-hidden.
+   Movimento ridotto, o senza IntersectionObserver: le cifre sono già
+   ferme sul numero.                                                    */
+/* Il DM Sans servito non ha cifre tabellari: ogni cifra ha la sua
+   larghezza (in em, peso 700, spaziatura -.045em, misurate). La colonna
+   prende quella della cifra d'arrivo, così il numero fermo ha la stessa
+   spaziatura del numero scritto; le cifre più larghe che passano durante
+   il giro sono ritagliate ai lati, centrate. */
+const LARGO = [.648, .271, .492, .52, .575, .514, .545, .483, .542, .545];
+const NASTRO = '0123456789'.repeat(3).split('').join('\n');
+const rullo = (s) => {
+  const tot = (s.match(/\d/g) || []).length;
+  let j = 0;
+  return `<span class="sr">${s}</span><span class="rullo" aria-hidden="true">${[...s].map(c => {
+    if (!/\d/.test(c)) return `<span class="rullo__x">${c}</span>`;
+    const giri = Math.min(2, j), col = j++;
+    return `<span class="rullo__c" style="--f:${giri * 10 + +c};--c:${col};--wd:${LARGO[+c]}em"><span class="rullo__s">${NASTRO}</span></span>`;
+  }).join('')}</span>`;
+};
 const voce = (x, i) => {
   const n = el('article', 'u-voce');
   n.style.setProperty('--i', i);
   n.innerHTML = `
     <div class="u-voce__dato">
-      <p class="u-voce__num num">${fmt.format(x.v)}</p>
+      <p class="u-voce__num num">${rullo(fmt.format(x.v))}</p>
       <p class="u-voce__lab">${x.lab}, <span class="u-voce__su">${x.su}</span></p>
     </div>
     <div class="u-voce__campo">
@@ -266,7 +288,7 @@ const ridisegnaCampi = () => $$('#numeri-grid .u-voce').forEach((n, i) => {
 const FOTO_REP = {
   target:  ['reparto-pubblicita',   '72% 30%'],
   imbuto:  ['reparto-marketing',    '72% 45%'],
-  persone: ['reparto-reclutamento', '30% 35%'],
+  persone: ['reparto-reclutamento', '94% 35%'],
   salita:  ['reparto-formazione',   '50% 20%'],
 };
 const pannello = (b, i) => {
@@ -472,6 +494,15 @@ const monta = () => {
   const ng = $('#numeri-grid');
   if (ng) {
     ng.append(...NUMERI.map(voce));
+    const rulli = $$('.rullo', ng);
+    if ('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      rulli.forEach(r => r.classList.add('is-fermo'));
+      const io = new IntersectionObserver(es => es.forEach(e => {
+        if (!e.isIntersecting) return;
+        e.target.classList.remove('is-fermo'); io.unobserve(e.target);
+      }), { rootMargin: '0px 0px -18% 0px', threshold: .9 });
+      rulli.forEach(r => io.observe(r));
+    }
     matchMedia('(max-width: 700px)').addEventListener('change', ridisegnaCampi);
   }
 
@@ -480,7 +511,12 @@ const monta = () => {
     bento.classList.add('bento--reparti');
     const quattro = el('div', 'reparti4');
     quattro.append(...BENTO.slice(0, 4).map(pannello));
-    const otto = el('ul', 'servizi');
+    /* Su telefono gli otto servizi sono una galleria orizzontale (giro 3):
+       la galleria è raggiungibile da tastiera e ha un nome. */
+    const otto = el('ul', 'servizi', null, { 'aria-label': 'Gli altri servizi' });
+    const galleria = matchMedia('(max-width: 640px)');
+    const tab = () => galleria.matches ? otto.setAttribute('tabindex', '0') : otto.removeAttribute('tabindex');
+    tab(); galleria.addEventListener('change', tab);
     otto.append(...BENTO.slice(4).map(servizio));
     bento.append(quattro, otto);
   }

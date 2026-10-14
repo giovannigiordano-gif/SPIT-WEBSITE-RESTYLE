@@ -72,12 +72,19 @@ const frecce = (html) => html
    terra</span>) vengono chiusi e riaperti a ogni spazio, così l'annidamento
    resta valido e ogni parola tiene il suo colore.                        */
 const VUOTO = /^(?:<[^>]+>)*$/
-function parole(inner) {
+/* Due involucri per la stessa parola. La MASCHERA (data-split): la parola
+   sale dentro un ritaglio. L'ACCESA (data-accendi, giro 3 effetti): la
+   parola resta ferma e si accende, grigia → bianca, quando la linea di
+   lettura la raggiunge; il contenitore riceve il totale (--n) per
+   distribuire le accensioni sulla frase.                               */
+const MASCHERA = (k, p) => `<span class="w" style="--w:${k}"><span>${p}</span></span>`
+const ACCESA = (k, p) => `<span class="acc" style="--k:${k}">${p}</span>`
+function parole(inner, avvolgi = MASCHERA) {
   const tok = inner.match(/<[^>]+>|\s+|[^<\s]+/g) || []
   let out = '', parola = '', pila = [], k = 0
   const emetti = () => {
     if (!parola) return
-    out += VUOTO.test(parola) ? parola : `<span class="w" style="--w:${k++}"><span>${parola}</span></span>`
+    out += VUOTO.test(parola) ? parola : avvolgi(k++, parola)
     parola = ''
   }
   for (const t of tok) {
@@ -96,8 +103,8 @@ function parole(inner) {
   emetti()
   return out
 }
-function spezza(html) {
-  const apre = /<(\w+)\b[^>]*\sdata-split\b[^>]*>/g
+function spezza(html, attr = 'data-split', avvolgi = MASCHERA) {
+  const apre = new RegExp(`<(\\w+)\\b[^>]*\\s${attr}\\b[^>]*>`, 'g')
   let out = '', da = 0, m
   while ((m = apre.exec(html))) {
     const nome = m[1], dentro = apre.lastIndex
@@ -105,7 +112,13 @@ function spezza(html) {
     let livello = 1, t
     while ((t = tag.exec(html))) { livello += t[1] ? -1 : 1; if (!livello) break }
     if (!t) break
-    out += html.slice(da, dentro) + parole(html.slice(dentro, t.index))
+    const corpo = parole(html.slice(dentro, t.index), avvolgi)
+    let apertura = m[0]
+    if (avvolgi === ACCESA) {
+      const n = (corpo.match(/class="acc"/g) || []).length
+      apertura = /\sstyle="/.test(apertura) ? apertura.replace(/\sstyle="([^"]*)"/, ` style="$1;--n:${n}"`) : apertura.replace(/>$/, ` style="--n:${n}">`)
+    }
+    out += html.slice(da, m.index) + apertura + corpo
     da = t.index; apre.lastIndex = t.index
   }
   return out + html.slice(da)
@@ -116,6 +129,15 @@ function spezza(html) {
    incrociata (sfondi.css). motion.js accende quella della sezione al
    centro del viewport; l'html nasce già su "nero", il palco dell'apertura. */
 const ATMO = ['nero', 'brace', 'alba', 'radente', 'notte', 'pozzo', 'fuoco']
+
+/* ── LA FOTO CHE PASSA DI MANO (giro 3 effetti) ───────────────────────────
+   Dal menu, la fotografia della pagina sotto il cursore VOLA al suo posto
+   nell'apertura della pagina nuova (View Transitions fra documenti, con un
+   nome dato al volo: motion.js nella pagina che parte, pagereveal qui nel
+   <head> in quella che arriva). Il nome va dato prima del primo
+   fotogramma, quindi il primo fotogramma aspetta che l'elemento sia stato
+   letto: <link rel="expect" blocking="render">.                         */
+const ATTESA = { metodo: 'foto-pagina', risultati: 'foto-pagina', dna: 'foto-pagina', eventi: 'foto-pagina', fatturare: 'foto-pagina', candidatura: 'foto-pagina', team: 'scala-volti' }
 const palco = () => `<div class="palco" aria-hidden="true">${ATMO.map(a => `<i data-a="${a}"></i>`).join('')}<b class="palco__torcia"></b></div>`
 
 /* La fascia è UN link: prima il bersaglio era la sola pill, che sotto i
@@ -283,7 +305,7 @@ const shell = ({ title, desc, slug, body }) => `<!doctype html>
      navigazione resterebbe ferma fino al timeout di 4 secondi. Lì il
      passaggio si SALTA subito. Le promesse rifiutate si consumano qui, prima
      del primo paint, così la console resta pulita. -->
-<script>(function(){function n(){}function p(v){['ready','finished','updateCallbackDone'].forEach(function(k){if(v[k]&&v[k].catch)v[k].catch(n)})}addEventListener('pageswap',function(e){var v=e.viewTransition;if(!v)return;p(v);if(document.visibilityState!=='visible'||navigator.webdriver)v.skipTransition()});addEventListener('pagereveal',function(e){if(e.viewTransition)p(e.viewTransition)});addEventListener('unhandledrejection',function(e){var r=e.reason;if(r&&r.name==='InvalidStateError'&&/Transition was aborted|ViewTransition/.test(r.message))e.preventDefault()})})()</script>
+${ATTESA[slug] ? `<link rel="expect" href="#${ATTESA[slug]}" blocking="render">\n` : ''}<script>(function(){function n(){}function p(v){['ready','finished','updateCallbackDone'].forEach(function(k){if(v[k]&&v[k].catch)v[k].catch(n)})}addEventListener('pageswap',function(e){var v=e.viewTransition;if(!v)return;p(v);if(document.visibilityState!=='visible'||navigator.webdriver)v.skipTransition()});addEventListener('pagereveal',function(e){var v=e.viewTransition,k=null,d=document,nn=[];try{k=sessionStorage.getItem('vt-foto');sessionStorage.removeItem('vt-foto')}catch(x){}if(!v)return;p(v);if(!k)return;if(k==='team'){d.querySelectorAll('#scala-volti img').forEach(function(i){var m=(i.getAttribute('src')||'').split('/').pop().split('-')[0];if(m){i.style.viewTransitionName='volto-'+m;i.style.viewTransitionClass='volto';nn.push(i)}})}else{var f=d.getElementById('foto-pagina');if(f&&(f.getAttribute('src')||'').indexOf('/'+k+'-')>0){f.style.viewTransitionName='foto-pagina';nn.push(f)}}if(!nn.length)return;d.documentElement.classList.add('vt-arrivo');v.finished.then(function(){nn.forEach(function(i){i.style.viewTransitionName='';i.style.viewTransitionClass=''})},n)});addEventListener('unhandledrejection',function(e){var r=e.reason;if(r&&r.name==='InvalidStateError'&&/Transition was aborted|ViewTransition/.test(r.message))e.preventDefault()})})()</script>
 ${slug === 'home' ? `<!-- Il 3D dell'hero è solo per desktop con puntatore fine e senza
      reduced-motion. Il segnale va messo PRIMA del primo paint: altrimenti il
      marchio DOM si monterebbe e poi sparirebbe nei cubi della scena 3D. -->
@@ -291,6 +313,12 @@ ${slug === 'home' ? `<!-- Il 3D dell'hero è solo per desktop con puntatore fine
 
 <link rel="preload" href="/assets/fonts/dm-sans-latin-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+<!-- La pagina sotto il cursore si scarica prima del clic (Speculation Rules,
+     Chrome: «moderate» = dopo 200ms sopra un link, o al tocco). Solo il
+     prefetch dell'HTML, mai il prerender: niente script eseguiti in anticipo.
+     Con il passaggio a gradini e la foto che vola, il cambio di pagina
+     parte senza attesa di rete. -->
+<script type="speculationrules">{"prefetch":[{"where":{"or":[{"href_matches":"/*.html"},{"href_matches":"/"}]},"eagerness":"moderate"}]}</script>
 <link rel="stylesheet" href="/css/sito.css?v=${VERSIONE}">
 </head>
 <body data-pagina="${slug}">
@@ -357,7 +385,7 @@ for (const f of files) {
     title: meta.title || 'Sales Process',
     desc: meta.desc || '',
     slug: slug === 'index' ? 'home' : slug,
-    body: spezza(raw.slice(m ? m[0].length : 0))
+    body: spezza(spezza(raw.slice(m ? m[0].length : 0)), 'data-accendi', ACCESA)
       .replaceAll('<!--LOGO-PODCAST-->', logoPodcast())
       /* dove il nome è già nel titolo (Fatturare³): il logo o niente */
       .replaceAll('<!--LOGO-PODCAST-SOLO-->', LOGO_PODCAST ? logoPodcast() : ''),
