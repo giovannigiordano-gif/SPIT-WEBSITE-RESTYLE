@@ -1913,7 +1913,7 @@ animation-timeline: view();
 animation-range-end: entry 100%;
 }
 @keyframes sale-griglia {
-from { translate: var(--dx) 30px; }
+from { translate: var(--dx) calc(var(--travel) * 1.5); }
 to   { translate: 0 0; }
 }
 :is(.bento, .reparti4, .servizi, .video, .risorse, .comand, .conto, .indice) > :nth-child(4n+1) { animation-range-start: entry 10%; }
@@ -1925,9 +1925,10 @@ to   { translate: 0 0; }
 .dove__info > :nth-child(3) { animation-range-start: entry 20%; }
 .reparti4 > * { animation-name: sale-pannello; }
 @keyframes sale-pannello {
-from { translate: 0 48px; clip-path: inset(22% 0 0 0 round var(--r-card)); }
+from { translate: 0 calc(var(--travel) * 2.4); clip-path: inset(22% 0 0 0 round var(--r-card)); }
 to   { translate: 0 0;    clip-path: inset(0 0 0 0 round var(--r-card)); }
 }
+@media (prefers-reduced-motion: reduce) { .reparti4 > * { animation: none; } }
 @supports not (animation-timeline: view()) {
 .bento > *, .reparti4 > *, .servizi > *, .video > *, .risorse > *, .indice > *, .comand > *,
 .dove__info > *, .filtro > *, .qualita > *, .conto > * { animation: none; }

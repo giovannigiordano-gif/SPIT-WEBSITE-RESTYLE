@@ -161,7 +161,14 @@
 
     wrap.addEventListener('pointerenter', () => { target = 0; });
     wrap.addEventListener('pointerleave', () => { if (!bloccato) target = v; });
-    wrap.addEventListener('focusin',  () => { target = 0; });
+    /* Con la tastiera la scheda che riceve il fuoco viene portata al centro:
+       la pista è traslata via transform, quindi il browser non può farla
+       scorrere in vista da solo e il fuoco finirebbe fuori schermo.    */
+    wrap.addEventListener('focusin', (e) => {
+      target = 0;
+      const c = cache.find(x => x.n === e.target.closest(cards));
+      if (c) { pos = innerWidth / 2 - (c.l + c.w / 2); avvolgi(); }
+    });
     wrap.addEventListener('focusout', () => { if (!bloccato) target = v; });
 
     /* SC 2.2.2 Pause/Stop/Hide è livello A: il controllo è reale. */
