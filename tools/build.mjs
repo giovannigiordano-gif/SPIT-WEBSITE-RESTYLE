@@ -196,7 +196,7 @@ const footer = () => `
         <li><a href="/risultati.html">I fascicoli</a></li>
         <li><a href="/risultati.html#numeri">I numeri</a></li>
         <li><a href="/risultati.html#settori">I 33 settori</a></li>
-        <li><a href="/risultati.html#carta">Certificazione</a></li>
+        <li><span class="todo footer__todo">Certificazione</span></li>
       </ul></div>
       <div><h2 class="footer__h">Fatturare³</h2><ul>
         <li><a href="/fatturare.html">Il podcast</a></li>

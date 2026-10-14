@@ -53,7 +53,7 @@ input, select, textarea { caret-color: var(--c-ar); }
    metodo restava visibile sopra il contenuto della sezione precedente. */
 .skip {
   position: absolute; left: 20px; top: calc(var(--barra-h, 40px) + 12px); z-index: var(--z-overlay);
-  padding: 12px 18px; background: var(--c-ar); color: var(--c-su-ar);
+  padding: 15px 18px; background: var(--c-ar); color: var(--c-su-ar);
   font: 700 14px/1 var(--f-display); border-radius: var(--r-hard);
   clip-path: inset(50%); opacity: 0;
   translate: 0 -8px;

@@ -294,7 +294,7 @@ input, select, textarea { caret-color: var(--c-ar); }
 .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 .skip {
 position: absolute; left: 20px; top: calc(var(--barra-h, 40px) + 12px); z-index: var(--z-overlay);
-padding: 12px 18px; background: var(--c-ar); color: var(--c-su-ar);
+padding: 15px 18px; background: var(--c-ar); color: var(--c-su-ar);
 font: 700 14px/1 var(--f-display); border-radius: var(--r-hard);
 clip-path: inset(50%); opacity: 0;
 translate: 0 -8px;
@@ -647,7 +647,7 @@ transition: translate var(--t-stato) var(--ease-scatto);
 }
 .piastra .cta { width: 100%; height: 52px; }
 .piastra.is-off { translate: 0 130%; }
-@media (max-width: 1100px) { .piastra { display: block; } body { padding-bottom: 76px; } }
+@media (max-width: 620px) { .piastra { display: block; } body { padding-bottom: 76px; } }
 .footer {
 position: relative;
 padding-block: clamp(80px, 6vw + 40px, 128px) 0;
@@ -698,9 +698,13 @@ grid-template-areas: "brand brand contatti contatti" "m r f a"; }
 @media (max-width: 760px) {
 .footer__grid { grid-template-columns: 1fr 1fr; gap: 36px 20px;
 grid-template-areas: "brand brand" "m r" "f a" "contatti contatti"; }
-.footer li a { min-height: var(--tap); }
+}
+@media (pointer: coarse) {
+.footer li a, .footer__legale a, .footer__mail { min-height: var(--tap); min-width: var(--tap); }
+.nav .cta { height: var(--tap); }
 }
 @media (max-width: 380px) { .verde { padding-inline: 12px; } .verde b { font-size: 16px; } }
+.footer__todo { display: inline-flex; align-items: center; min-height: 34px; font: 400 14.5px/1.4 var(--f-display); }
 .sf { position: relative; isolation: isolate; }
 .palco {
 position: fixed; inset: 0; z-index: var(--z-palco);
