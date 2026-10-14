@@ -390,7 +390,23 @@ html.vuole-3d .hero__mark { opacity: 0; }
     border: 1px solid var(--c-filo); border-radius: var(--r-card);
     background: rgba(255,255,255,.025);
   }
+  /* quanto resta della galleria: un filo arancione che cresce con lo
+     scorrimento, sul binario grigio (revisione della regia) */
+  .bento { timeline-scope: --servizi; }
+  .servizi { scroll-timeline: --servizi inline; }
+  .bento::after {
+    content: ''; display: block; height: 2px; margin-top: 12px; border-radius: 2px;
+    background: linear-gradient(var(--c-ar), var(--c-ar)) 0 0 / var(--servizi-p) 100% no-repeat, var(--c-filo);
+  }
 }
+@property --servizi-p { syntax: '<percentage>'; inherits: false; initial-value: 14%; }
+@supports (animation-timeline: scroll()) {
+  @media (max-width: 640px) { .bento::after { animation: servizi-avanza linear both; animation-timeline: --servizi; } }
+}
+@supports not (animation-timeline: scroll()) {
+  @media (max-width: 640px) { .bento::after { display: none; } }
+}
+@keyframes servizi-avanza { from { --servizi-p: 14%; } to { --servizi-p: 100%; } }
 
 /* Nei cartelli il titolo sta fra i due pugni, al corpo pieno dei titoli
    di capitolo (giro 4: a 48px era più piccolo degli h3 che lo seguono). */

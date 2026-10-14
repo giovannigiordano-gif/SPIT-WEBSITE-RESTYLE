@@ -49,9 +49,17 @@
 .rullo__s {
   flex: none; display: block; width: .72em; white-space: pre-line; text-align: center; line-height: 1;
   translate: 0 calc(var(--f) * -1em);
-  transition: translate 1.9s cubic-bezier(.12, .78, .16, 1) calc(var(--c) * 110ms);
+  transition: translate 1.6s cubic-bezier(.3, .55, .1, 1) calc(var(--c) * 90ms);
 }
+/* Fermo, il tamburo mostra la sua riga vuota (prima: zeri tagliati alla
+   larghezza della cifra d'arrivo). Mentre gira, le cifre entrano ed escono
+   sfumando dai bordi come su un tamburo vero (revisione della regia: la
+   terza colonna passava 60 cifre al secondo e sfarfallava). */
 .rullo.is-fermo .rullo__s { translate: 0 0; transition: none; }
+.rullo.is-gira .rullo__c {
+  -webkit-mask-image: linear-gradient(transparent, #000 18% 82%, transparent);
+          mask-image: linear-gradient(transparent, #000 18% 82%, transparent);
+}
 .u-voce__lab { font: 500 clamp(17px, 1.3vw, 20px)/1.25 var(--f-display); letter-spacing: -.01em; color: var(--c-t1); max-inline-size: 24ch; }
 .u-voce__campo { display: grid; gap: var(--s-4); padding-top: clamp(4px, 1.2vw, 18px); }
 .ucampo { position: relative; width: 100%; }
@@ -158,9 +166,24 @@
    ogni altra sezione; il filo di separazione dei reparti non lo tocca più. */
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) and (max-width: 899px) {
-    .staffetta:not(.is-scena) .staffetta__pista { --filo-x: -21px; padding-left: 22px; }
+    .staffetta:not(.is-scena) .staffetta__pista { --filo-x: -21px; --pista-pl: 22px; padding-left: 22px; }
   }
 }
+/* IL CUBO SUL FILO (giro 3 effetti, motion.js): un cubo del marchio
+   cavalca la punta del filo, dal primo reparto alla trattativa, dove si
+   posa — il contatto portato di mano in mano, sui telefoni che non hanno
+   la scena orizzontale, e nel Metodo. */
+.staffetta:not(.is-scena) .staffetta__pista { position: relative; }
+.staffetta__cubo {
+  position: absolute; top: -7px; left: calc(var(--pista-pl, 0px) + var(--filo-x) - 7px); z-index: 2;
+  width: 14px; height: 14px; border-radius: 24%; pointer-events: none;
+  background: linear-gradient(145deg, #FFA24A, #E06F00);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.35), 0 0 16px rgba(255,130,0,.55);
+  transition: scale var(--t-stato) var(--ease-salita), opacity var(--t-stato) linear;
+}
+.staffetta__cubo.is-fermo { opacity: 0; scale: .6; }
+.staffetta__cubo.is-posato { scale: 1.3; }
+.staffetta.is-scena .staffetta__cubo { display: none; }
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
     .staffetta:not(.is-scena) :is(.stazione, .passaggio)::after,
@@ -355,17 +378,46 @@
     .finale__foto { align-self: end; }
     .finale__foto img {
       max-height: calc(100svh - var(--barra-h) - var(--nav-h) - 16px);
-      animation-name: trofeo-fermo; animation-range: entry 50% contain 42%;
+      animation-name: trofeo-fermo; animation-range: entry 35% contain 40%;
     }
+    /* revisione della regia: a entry 40–60% metà schermo era vuota */
     .finale .finale__payoff .mask > .finale__riga {
       animation-timeline: --finale;
-      animation-range: entry calc(60% + var(--i) * 10%) contain calc(6% + var(--i) * 9%);
+      animation-range: entry calc(42% + var(--i) * 10%) contain calc(4% + var(--i) * 8%);
     }
     .finale__testo > :not(.finale__payoff) {
       animation: finale-segue linear both; animation-timeline: --finale;
       animation-range: contain 26% contain 46%;
     }
+    /* il fuoco della tastiera sul CTA lo mostra pieno, a qualunque punto */
+    .finale__testo > :focus-within { animation: none; }
+    /* L'ULTIMO PASSAGGIO È TUO: alzato il trofeo, la luce lascia il cubo,
+       scivola fino al CTA e lo accende da dietro. Il racconto del cubo
+       finisce su un'azione, non sul piè di pagina. */
+    .finale .cta-riga::before {
+      animation: luce-passa linear both; animation-timeline: --finale;
+      animation-range: contain 46% contain 70%;
+    }
   }
 }
+.finale .cta-riga { position: relative; isolation: isolate; }
+.finale .cta-riga::before {
+  content: ''; position: absolute; z-index: -1; left: -70px; top: 50%;
+  width: 380px; height: 190px; translate: 0 -50%;
+  background: radial-gradient(closest-side, rgba(255,130,0,.40), rgba(255,130,0,0));
+  pointer-events: none;
+}
+@keyframes luce-passa {
+  from { opacity: 0; translate: 52vw calc(-50% - 26vh); scale: 1.7; }
+  25%  { opacity: 1; }
+  to   { opacity: 1; translate: 0 -50%; scale: 1; }
+}
+/* telefono e schermi bassi: la luce si accende una volta sola, in posto */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) and (max-width: 1023px), (prefers-reduced-motion: no-preference) and (max-height: 679px) {
+    .finale .cta-riga::before { animation: luce-accende linear both; animation-timeline: view(); animation-range: entry 40% cover 55%; }
+  }
+}
+@keyframes luce-accende { from { opacity: 0; scale: .4; } }
 @keyframes trofeo-fermo { from { translate: 0 42%; rotate: -7deg; } }
 @keyframes finale-segue { from { opacity: 0; translate: 0 28px; } }

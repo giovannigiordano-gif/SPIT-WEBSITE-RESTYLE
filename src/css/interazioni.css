@@ -54,10 +54,20 @@
    inclinate all'indietro, come schermi posati sul tavolo, e si alzano in
    piano mentre salgono. Prospettiva per elemento (non sul contenitore),
    così il primo video grande e i piccoli si inclinano allo stesso modo. */
-.video > .vidbox { animation-name: schermo-alza; transform-origin: 50% 100%; animation-range-end: cover 36%; }
+/* Revisione della regia: con la curva d'ingresso l'inclinazione si
+   esauriva nel primo 10% e le card erano già piatte quando le si vedeva;
+   e girava anche a movimento ridotto. Ora lineare, su un tratto lungo, e
+   finisce su transform: none (nessuno strato 3D permanente). */
+@media (prefers-reduced-motion: no-preference) {
+  .video > .vidbox {
+    animation-name: schermo-alza; animation-timing-function: linear;
+    animation-range: entry 0% cover 45%; transform-origin: 50% 100%;
+  }
+}
+@media (prefers-reduced-motion: reduce) { .video > .vidbox { animation: none; } }
 @keyframes schermo-alza {
-  from { transform: perspective(1400px) translateY(64px) rotateX(24deg) scale(.95); }
-  to   { transform: perspective(1400px) translateY(0) rotateX(0) scale(1); }
+  from { transform: perspective(1200px) translateY(56px) rotateX(20deg) scale(.96); }
+  to   { transform: none; }
 }
 /* Su telefono gli otto servizi sono una galleria orizzontale: dentro un
    contenitore che scorre di lato view() non ha un asse, niente ingresso. */

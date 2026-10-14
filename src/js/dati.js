@@ -245,14 +245,15 @@ const campo = (x, i) => {
    spaziatura del numero scritto; le cifre più larghe che passano durante
    il giro sono ritagliate ai lati, centrate. */
 const LARGO = [.648, .271, .492, .52, .575, .514, .545, .483, .542, .545];
-const NASTRO = '0123456789'.repeat(3).split('').join('\n');
+/* la prima riga è vuota (uno spazio fisso): fermo, il tamburo non mostra
+   zeri tagliati; la cifra d'arrivo è quindi a --f = 1 + giri·10 + cifra */
+const NASTRO = '\u00A0\n' + '0123456789'.repeat(2).split('').join('\n');
 const rullo = (s) => {
-  const tot = (s.match(/\d/g) || []).length;
   let j = 0;
   return `<span class="sr">${s}</span><span class="rullo" aria-hidden="true">${[...s].map(c => {
     if (!/\d/.test(c)) return `<span class="rullo__x">${c}</span>`;
-    const giri = Math.min(2, j), col = j++;
-    return `<span class="rullo__c" style="--f:${giri * 10 + +c};--c:${col};--wd:${LARGO[+c]}em"><span class="rullo__s">${NASTRO}</span></span>`;
+    const giri = Math.min(1, j), col = j++;
+    return `<span class="rullo__c" style="--f:${1 + giri * 10 + +c};--c:${col};--wd:${LARGO[+c]}em"><span class="rullo__s">${NASTRO}</span></span>`;
   }).join('')}</span>`;
 };
 const voce = (x, i) => {
@@ -499,8 +500,10 @@ const monta = () => {
       rulli.forEach(r => r.classList.add('is-fermo'));
       const io = new IntersectionObserver(es => es.forEach(e => {
         if (!e.isIntersecting) return;
-        e.target.classList.remove('is-fermo'); io.unobserve(e.target);
-      }), { rootMargin: '0px 0px -18% 0px', threshold: .9 });
+        const r = e.target, colonne = $$('.rullo__c', r).length;
+        r.classList.remove('is-fermo'); r.classList.add('is-gira'); io.unobserve(r);
+        setTimeout(() => r.classList.remove('is-gira'), 1650 + colonne * 90);
+      }), { rootMargin: '0px 0px -10% 0px', threshold: .6 });
       rulli.forEach(r => io.observe(r));
     }
     matchMedia('(max-width: 700px)').addEventListener('change', ridisegnaCampi);

@@ -321,7 +321,8 @@ export async function avvia(host, { hero = host.closest('.hero') } = {}) {
 
     renderer.render(scene, camera);
   };
-  const avviaCiclo = () => { if (!raf && visibile && !document.hidden) { ultimo = performance.now(); raf = requestAnimationFrame(frame); } };
+  const sottoMenu = () => document.documentElement.classList.contains('menu-aperto');
+  const avviaCiclo = () => { if (!raf && visibile && !document.hidden && !sottoMenu()) { ultimo = performance.now(); raf = requestAnimationFrame(frame); } };
   const ferma = () => { cancelAnimationFrame(raf); raf = 0; };
 
   host.append(canvas);
@@ -329,6 +330,9 @@ export async function avvia(host, { hero = host.closest('.hero') } = {}) {
   let rt; addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(misura, 120); }, { passive: true });
   new IntersectionObserver(([e]) => { visibile = e.isIntersecting; visibile ? avviaCiclo() : ferma(); }, { rootMargin: '120px' }).observe(host);
   document.addEventListener('visibilitychange', () => { document.hidden ? ferma() : avviaCiclo(); });
+  /* sotto la card del menu, opaca, la scena non si vede: si ferma (revisione della regia) */
+  new MutationObserver(() => { sottoMenu() ? ferma() : avviaCiclo(); })
+    .observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
   avviaCiclo();
   /* Il primo fotogramma è pronto: la versione DOM può dissolversi. */
   requestAnimationFrame(() => requestAnimationFrame(() => hero.classList.add('is-3d')));

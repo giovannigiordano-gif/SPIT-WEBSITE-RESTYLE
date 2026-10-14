@@ -477,6 +477,34 @@ Verifica: catture a più punti di scroll (1440 e 390) e del volo fra le pagine f
 fotogramma; 38/38 test; movimento ridotto su 8 pagine pulito; audit 8 pagine × 5 larghezze senza
 rilievi; Lighthouse mobile Home 96, Metodo 97, DNA 98, Risultati 97, accessibilità 100, CLS 0.
 
+*Giro 3, revisione della regia* (agente: «Hero 3D, staffetta e finale fermo sono al livello Apple;
+Apple vince ancora sui fotogrammi di mezzo»). Applicato:
+- **Bug**: le testimonianze si inclinavano anche a movimento ridotto; il fuoco della tastiera poteva
+  finire su un bottone invisibile (hero in uscita, CTA del finale): ora il fuoco lo riporta pieno; zeri
+  tagliati nel rullo fermo (la prima riga del tamburo ora è vuota); il menu poteva riaprirsi spento
+  dopo una partenza interrotta; la scena 3D girava sotto la card del menu, opaca (ora si ferma).
+- **Il volo dal menu, coreografato**: fra 100 e 250ms si sovrapponevano elenco, titolo vecchio e
+  titolo nuovo e i gradini non si vedevano. Ora la card se ne va in 180ms, la pagina vecchia sparisce,
+  la foto resta sola sul buio e la pagina nuova sale a gradini attorno a lei (tipo di transizione
+  dal-menu); in volo la foto si solleva del 6%; i cinque volti partono a 90ms l'uno dall'altro.
+- **Regolazioni**: rullo con un giro in più al massimo e il tamburo che sfuma ai bordi mentre gira
+  (prima sfarfallava); hero che resta pieno per il primo terzo dell'uscita; numero del capitolo da 1,8×
+  e il nome che si scopre dopo, mai sotto il numero; schermi lineari su un tratto lungo; finale e
+  frase che si accende ritarati; filo arancione che dice quanto resta della galleria dei servizi.
+- **Tre momenti nuovi proposti dalla regia**: *il bottone diventa la pagina* («Candida la tua
+  azienda», ovunque: il bottone si allarga, si spegne nel buio e dentro compare la candidatura —
+  parte dal colore del bottone, bianco nell'hero, arancio altrove; mai testo bianco sull'arancio);
+  *il cubo sul filo* (su telefono e nel Metodo un cubo del marchio cavalca la punta del filo della
+  staffetta e si posa sulla trattativa); *l'ultimo passaggio è tuo* (nel finale la luce lascia il cubo
+  e va ad accendere il CTA).
+- **Movimento ridotto**: un controllo nuovo elenca ogni animazione viva a movimento ridotto; restano
+  solo dissolvenze (le tre righe del finale erano già bloccate da una regola !important, ora anche
+  senza animazione).
+Verifica: catture del volo, del bottone e del cubo fotogramma per fotogramma; 38/38 test; audit
+senza rilievi; Lighthouse mobile Home 96, Candidatura 98, Team 96, accessibilità 100, CLS 0.
+Nota per i test: in un browser automatico i passaggi fra pagine vengono saltati a intermittenza
+(anche sui link semplici): non è il sito, è l'ambiente di prova.
+
 ### Cosa è stato fatto, fase per fase (skill applicate)
 
 **Fase 1 — design system** (impeccable craft-floor, design-taste-frontend, ui-ux-pro-max checklist)

@@ -133,6 +133,7 @@
 
     const apri = () => {
       if (aperto) return; aperto = true; clearTimeout(tNascondi);
+      riparti();
       carica(); mostra(base());
       menu.hidden = false;
       origine();
@@ -160,6 +161,13 @@
        riquadro più largo): il volo parte dalla foto, non dal riquadro.
        Senza View Transitions fra documenti si naviga e basta.          */
     const senzaNomi = () => ant.forEach(n => [n, ...$$('img', n)].forEach(i => { i.style.viewTransitionName = ''; i.style.viewTransitionClass = ''; }));
+    /* una partenza interrotta (Esc durante un caricamento lento, Indietro
+       dalla cache) non deve lasciare il menu spento al prossimo giro */
+    const riparti = () => {
+      senzaNomi(); card.style.viewTransitionName = '';
+      menu.classList.remove('is-parte'); voci.forEach(v => v.classList.remove('is-scelta'));
+      ant.forEach(n => ['inset', 'left', 'top', 'width', 'height'].forEach(k => n.style.removeProperty(k)));
+    };
     const stringi = (img) => {
       const b = img.getBoundingClientRect(), box = img.offsetParent?.getBoundingClientRect();
       if (!box || !img.naturalWidth) return;
@@ -209,9 +217,7 @@
     /* Tornando indietro dalla cache del browser il menu non resta aperto. */
     addEventListener('pageshow', (e) => {
       if (!e.persisted) return;
-      senzaNomi(); card.style.viewTransitionName = '';
-      menu.classList.remove('is-parte'); voci.forEach(v => v.classList.remove('is-scelta'));
-      ant.forEach(n => ['inset', 'left', 'top', 'width', 'height'].forEach(k => n.style.removeProperty(k)));
+      riparti();
       aperto = false; menu.classList.remove('is-on'); menu.hidden = true;
       radice.classList.remove('menu-aperto'); burger.setAttribute('aria-expanded', 'false');
     });
@@ -500,6 +506,52 @@
     mappa.append(f);
     mappa.classList.add('is-on');
   });
+
+  /* ── IL BOTTONE DIVENTA LA PAGINA (giro 3 effetti) ─────────────────────
+     «Candida la tua azienda» (nav, hero, piastra del telefono, finale): il
+     bottone cliccato riceve il nome che la candidatura dà alla sua
+     apertura (pagereveal nel <head>), e l'arancio del bottone si allarga
+     fino a diventare la pagina (motion.css). Non dal menu: lì la card si
+     sta chiudendo.                                                      */
+  if ('onpagereveal' in window) document.addEventListener('click', (e) => {
+    const a = e.target.closest('a.cta[href="/candidatura.html"]');
+    if (!a || a.closest('.menu') || e.defaultPrevented || e.button || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    if (RM() || location.pathname === '/candidatura.html') return;
+    a.style.viewTransitionName = 'cta-pagina';
+    /* il colore da cui parte l'apertura è quello del bottone: bianco nell'hero, arancio altrove */
+    try { sessionStorage.setItem('vt-cta', a.classList.contains('cta--bianco') ? 'bianco' : 'ar'); } catch (x) { /* niente apertura */ }
+  });
+  addEventListener('pageshow', (e) => { if (e.persisted) $$('a.cta').forEach(a => { a.style.viewTransitionName = ''; }); });
+
+  /* ── IL CUBO SUL FILO (giro 3 effetti) ──────────────────────────────────
+     Dove la staffetta è una colonna (Metodo; home sotto i 1024px) il filo
+     arancione scende alla linea di lettura (60% dello schermo): un cubo del
+     marchio ne cavalca la punta dal primo reparto alla trattativa, dove si
+     posa. Solo dove il filo esiste (view() e movimento pieno); un listener
+     di scroll, attivo solo con la colonna in vista, un fotogramma alla volta. */
+  const pistaCol = $('#staffetta-pista');
+  if (pistaCol && CSS.supports('animation-timeline: view()') && !RM()) {
+    const sc = $('#staffetta'), fine = $('.staffetta__fine', pistaCol), primo = $('.stazione', pistaCol);
+    const cubo = document.createElement('i');
+    cubo.className = 'staffetta__cubo is-fermo'; cubo.setAttribute('aria-hidden', 'true');
+    pistaCol.append(cubo);
+    let rq = 0;
+    const muovi = () => {
+      rq = 0;
+      if (!primo || !fine || sc.classList.contains('is-scena')) return;
+      const r = pistaCol.getBoundingClientRect(), f = fine.getBoundingClientRect();
+      const y0 = primo.getBoundingClientRect().top - r.top, y1 = f.top + f.height / 2 - r.top;
+      const y = Math.min(y1, Math.max(y0, innerHeight * .6 - r.top));
+      cubo.style.translate = `0 ${y.toFixed(1)}px`;
+      cubo.classList.toggle('is-fermo', y <= y0 + 1);
+      cubo.classList.toggle('is-posato', y >= y1 - 1);
+    };
+    const chiedi = () => { if (!rq) rq = requestAnimationFrame(muovi); };
+    new IntersectionObserver(([e]) => {
+      if (e.isIntersecting) { addEventListener('scroll', chiedi, { passive: true }); addEventListener('resize', chiedi, { passive: true }); chiedi(); }
+      else { removeEventListener('scroll', chiedi); removeEventListener('resize', chiedi); }
+    }).observe(pistaCol);
+  }
 
   /* ── GSAP: due sole scene in tutta la pagina ──────────────────────────── */
   const avviaGsap = () => {

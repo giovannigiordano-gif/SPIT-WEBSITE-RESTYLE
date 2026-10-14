@@ -1105,7 +1105,21 @@ scroll-snap-align: start; padding: 18px 18px 20px;
 border: 1px solid var(--c-filo); border-radius: var(--r-card);
 background: rgba(255,255,255,.025);
 }
+.bento { timeline-scope: --servizi; }
+.servizi { scroll-timeline: --servizi inline; }
+.bento::after {
+content: ''; display: block; height: 2px; margin-top: 12px; border-radius: 2px;
+background: linear-gradient(var(--c-ar), var(--c-ar)) 0 0 / var(--servizi-p) 100% no-repeat, var(--c-filo);
 }
+}
+@property --servizi-p { syntax: '<percentage>'; inherits: false; initial-value: 14%; }
+@supports (animation-timeline: scroll()) {
+@media (max-width: 640px) { .bento::after { animation: servizi-avanza linear both; animation-timeline: --servizi; } }
+}
+@supports not (animation-timeline: scroll()) {
+@media (max-width: 640px) { .bento::after { display: none; } }
+}
+@keyframes servizi-avanza { from { --servizi-p: 14%; } to { --servizi-p: 100%; } }
 .cartelli__txt .t-d2 { max-inline-size: 16ch; margin-inline: auto; }
 .cartelli { position: relative; padding-block: var(--sez-y) 0; overflow: clip; }
 .cartelli.sez--capo { padding-top: calc(var(--sez-y) * 1.2); }
@@ -1675,9 +1689,13 @@ margin-block: 0 var(--s-3);
 .rullo__s {
 flex: none; display: block; width: .72em; white-space: pre-line; text-align: center; line-height: 1;
 translate: 0 calc(var(--f) * -1em);
-transition: translate 1.9s cubic-bezier(.12, .78, .16, 1) calc(var(--c) * 110ms);
+transition: translate 1.6s cubic-bezier(.3, .55, .1, 1) calc(var(--c) * 90ms);
 }
 .rullo.is-fermo .rullo__s { translate: 0 0; transition: none; }
+.rullo.is-gira .rullo__c {
+-webkit-mask-image: linear-gradient(transparent, #000 18% 82%, transparent);
+mask-image: linear-gradient(transparent, #000 18% 82%, transparent);
+}
 .u-voce__lab { font: 500 clamp(17px, 1.3vw, 20px)/1.25 var(--f-display); letter-spacing: -.01em; color: var(--c-t1); max-inline-size: 24ch; }
 .u-voce__campo { display: grid; gap: var(--s-4); padding-top: clamp(4px, 1.2vw, 18px); }
 .ucampo { position: relative; width: 100%; }
@@ -1744,9 +1762,20 @@ mask-image: radial-gradient(ellipse 80% 78% at 50% 50%, #000 62%, transparent 10
 .staffetta__pista { --filo-x: calc(var(--margine) * -.5); }
 @supports (animation-timeline: view()) {
 @media (prefers-reduced-motion: no-preference) and (max-width: 899px) {
-.staffetta:not(.is-scena) .staffetta__pista { --filo-x: -21px; padding-left: 22px; }
+.staffetta:not(.is-scena) .staffetta__pista { --filo-x: -21px; --pista-pl: 22px; padding-left: 22px; }
 }
 }
+.staffetta:not(.is-scena) .staffetta__pista { position: relative; }
+.staffetta__cubo {
+position: absolute; top: -7px; left: calc(var(--pista-pl, 0px) + var(--filo-x) - 7px); z-index: 2;
+width: 14px; height: 14px; border-radius: 24%; pointer-events: none;
+background: linear-gradient(145deg, #FFA24A, #E06F00);
+box-shadow: inset 0 1px 0 rgba(255,255,255,.35), 0 0 16px rgba(255,130,0,.55);
+transition: scale var(--t-stato) var(--ease-salita), opacity var(--t-stato) linear;
+}
+.staffetta__cubo.is-fermo { opacity: 0; scale: .6; }
+.staffetta__cubo.is-posato { scale: 1.3; }
+.staffetta.is-scena .staffetta__cubo { display: none; }
 @supports (animation-timeline: view()) {
 @media (prefers-reduced-motion: no-preference) {
 .staffetta:not(.is-scena) :is(.stazione, .passaggio)::after,
@@ -1903,18 +1932,41 @@ animation-range: entry 40% contain 50%;
 .finale__foto { align-self: end; }
 .finale__foto img {
 max-height: calc(100svh - var(--barra-h) - var(--nav-h) - 16px);
-animation-name: trofeo-fermo; animation-range: entry 50% contain 42%;
+animation-name: trofeo-fermo; animation-range: entry 35% contain 40%;
 }
 .finale .finale__payoff .mask > .finale__riga {
 animation-timeline: --finale;
-animation-range: entry calc(60% + var(--i) * 10%) contain calc(6% + var(--i) * 9%);
+animation-range: entry calc(42% + var(--i) * 10%) contain calc(4% + var(--i) * 8%);
 }
 .finale__testo > :not(.finale__payoff) {
 animation: finale-segue linear both; animation-timeline: --finale;
 animation-range: contain 26% contain 46%;
 }
+.finale__testo > :focus-within { animation: none; }
+.finale .cta-riga::before {
+animation: luce-passa linear both; animation-timeline: --finale;
+animation-range: contain 46% contain 70%;
 }
 }
+}
+.finale .cta-riga { position: relative; isolation: isolate; }
+.finale .cta-riga::before {
+content: ''; position: absolute; z-index: -1; left: -70px; top: 50%;
+width: 380px; height: 190px; translate: 0 -50%;
+background: radial-gradient(closest-side, rgba(255,130,0,.40), rgba(255,130,0,0));
+pointer-events: none;
+}
+@keyframes luce-passa {
+from { opacity: 0; translate: 52vw calc(-50% - 26vh); scale: 1.7; }
+25%  { opacity: 1; }
+to   { opacity: 1; translate: 0 -50%; scale: 1; }
+}
+@supports (animation-timeline: view()) {
+@media (prefers-reduced-motion: no-preference) and (max-width: 1023px), (prefers-reduced-motion: no-preference) and (max-height: 679px) {
+.finale .cta-riga::before { animation: luce-accende linear both; animation-timeline: view(); animation-range: entry 40% cover 55%; }
+}
+}
+@keyframes luce-accende { from { opacity: 0; scale: .4; } }
 @keyframes trofeo-fermo { from { translate: 0 42%; rotate: -7deg; } }
 @keyframes finale-segue { from { opacity: 0; translate: 0 28px; } }
 .chiusa__in { display: grid; justify-items: center; gap: var(--s-7); text-align: center; }
@@ -2145,19 +2197,42 @@ to   { clip-path: polygon(0 -36%, 25% -36%, 25% -24%, 50% -24%, 50% -12%, 75% -1
 }
 ::view-transition-group(foto-pagina),
 ::view-transition-group(*.volto) {
-animation-duration: 860ms;
+animation-duration: 900ms;
 animation-timing-function: cubic-bezier(.2, .82, .22, 1);
 }
+::view-transition-group(*.volto) { animation-duration: 780ms; }
+::view-transition-image-pair(foto-pagina),
+::view-transition-image-pair(*.volto) { animation-name: vt-solleva; animation-timing-function: cubic-bezier(.3, .7, .2, 1); }
+@keyframes vt-solleva { 40% { scale: 1.06; } }
 ::view-transition-old(foto-pagina), ::view-transition-new(foto-pagina) {
 height: 100%; object-fit: contain; object-position: 50% 100%;
 animation-duration: 520ms;
 }
-::view-transition-old(menu-card) { animation: vt-card-via 280ms var(--ease-uscita) both; }
+::view-transition-old(menu-card) { animation: vt-card-via 180ms cubic-bezier(.4, 0, 1, 1) both; }
 @keyframes vt-card-via { to { opacity: 0; scale: .985; } }
-::view-transition-group(volto-bardolla) { animation-delay: 40ms; }
-::view-transition-group(volto-ratti)    { animation-delay: 80ms; }
-::view-transition-group(volto-elicio)   { animation-delay: 120ms; }
-::view-transition-group(volto-amodio)   { animation-delay: 160ms; }
+:active-view-transition-type(dal-menu)::view-transition-old(root) { animation: none; opacity: 0; }
+:active-view-transition-type(dal-menu)::view-transition-new(root) { animation: vt-entra 820ms cubic-bezier(.5, 0, .15, 1) 120ms both; }
+::view-transition-group(volto-bardolla) { animation-delay: 90ms; }
+::view-transition-group(volto-ratti)    { animation-delay: 180ms; }
+::view-transition-group(volto-elicio)   { animation-delay: 270ms; }
+::view-transition-group(volto-amodio)   { animation-delay: 360ms; }
+::view-transition-group(cta-pagina) { animation-duration: 680ms; animation-timing-function: cubic-bezier(.3, .7, .1, 1); }
+::view-transition-image-pair(cta-pagina) {
+overflow: clip; border-radius: 999px; background-color: var(--c-ar);
+animation-name: cta-si-apre; animation-timing-function: cubic-bezier(.3, .7, .1, 1);
+}
+:active-view-transition-type(cta-bianco)::view-transition-image-pair(cta-pagina) { background-color: var(--c-t1); }
+@keyframes cta-si-apre {
+35%  { background-color: var(--c-base); border-radius: 28px; }
+72%  { background-color: var(--c-base); border-radius: 10px; }
+to   { background-color: rgba(22,21,25,0); border-radius: 0; }
+}
+::view-transition-old(cta-pagina) { animation: vt-dissolve 120ms linear both; }
+::view-transition-new(cta-pagina) { height: 100%; object-fit: cover; object-position: 50% 0; animation: vt-appare 300ms ease-out 330ms both; }
+:active-view-transition-type(dal-cta)::view-transition-old(root) { animation: vt-dissolve 300ms linear both; }
+:active-view-transition-type(dal-cta)::view-transition-new(root) { animation: vt-appare 300ms ease-out 340ms both; }
+@keyframes vt-dissolve { to { opacity: 0; } }
+@keyframes vt-appare { from { opacity: 0; } }
 .vt-arrivo .testa-pag__foto,
 .vt-arrivo .testa-pag__foto img,
 .vt-arrivo .scala-volti img { animation: none; opacity: 1; translate: 0 0; }
@@ -2166,7 +2241,7 @@ animation-duration: 520ms;
 [data-accendi] { view-timeline: --frase block; }
 [data-accendi] .acc, [data-accendi] .acc * {
 animation: accendi linear both; animation-timeline: --frase;
-animation-range: cover calc(14% + var(--k) / var(--n) * 36%) cover calc(19% + var(--k) / var(--n) * 36%);
+animation-range: cover calc(16% + var(--k) / var(--n) * 30%) cover calc(23% + var(--k) / var(--n) * 30%);
 }
 }
 }
@@ -2175,22 +2250,27 @@ animation-range: cover calc(14% + var(--k) / var(--n) * 36%) cover calc(19% + va
 @media (prefers-reduced-motion: no-preference) {
 .hero__in {
 animation: hero-arretra linear both;
-animation-timeline: scroll(root block); animation-range: 4vh 74vh;
+animation-timeline: scroll(root block); animation-range: 0 70vh;
 transform-origin: 50% 0;
 }
+@media (max-width: 900px) { .hero__in { animation-range: 15vh 85vh; } }
+.hero__in:focus-within { animation: none; }
 }
 }
-@keyframes hero-arretra { to { opacity: 0; scale: .88; translate: 0 -5vh; } }
+@keyframes hero-arretra { 0%, 35% { opacity: 1; } to { opacity: 0; scale: .9; translate: 0 -2vh; } }
 @supports (animation-timeline: view()) {
 @media (prefers-reduced-motion: no-preference) {
+.capo { view-timeline: --capo block; }
 .capo__n {
-animation: capo-posa linear both; animation-timeline: view();
-animation-range: entry 0% cover 30%; transform-origin: 0 85%;
+animation: capo-posa cubic-bezier(.2, .7, .2, 1) both; animation-timeline: --capo;
+animation-range: entry 20% cover 40%; transform-origin: 0 85%;
 }
 .capo--c .capo__n { transform-origin: 50% 85%; }
+.capo__nome { animation: capo-nome linear both; animation-timeline: --capo; animation-range: cover 33% cover 41%; }
 }
 }
-@keyframes capo-posa { from { scale: 2.3; opacity: 0; } 50% { opacity: 1; } }
+@keyframes capo-posa { from { scale: 1.8; opacity: 0; } 45% { opacity: 1; } }
+@keyframes capo-nome { from { clip-path: inset(0 100% 0 0); } }
 .finale__payoff .mask { transform-origin: bottom left; }
 .finale__payoff .mask > .finale__riga {
 animation: sali-muro var(--t-maschera) var(--ease-salita) both;
@@ -2199,6 +2279,7 @@ animation-range-start: entry calc(var(--i) * 14%);
 animation-range-end: entry 100%;
 }
 @keyframes sali-muro { from { translate: 0 105%; scale: 1 1.05; } to { translate: 0 0; scale: 1 1; } }
+@media (prefers-reduced-motion: reduce) { .finale__payoff .mask > .finale__riga { animation: none; translate: 0 0; scale: 1 1; } }
 @supports not (animation-timeline: view()) {
 .finale__payoff .mask > .finale__riga {
 animation: none; translate: 0 105%;
@@ -2251,10 +2332,16 @@ from { translate: 0 calc(var(--travel) * 2.4); clip-path: inset(22% 0 0 0 round 
 to   { translate: 0 0;    clip-path: inset(0 0 0 0 round var(--r-card)); }
 }
 @media (prefers-reduced-motion: reduce) { .reparti4 > * { animation: none; } }
-.video > .vidbox { animation-name: schermo-alza; transform-origin: 50% 100%; animation-range-end: cover 36%; }
+@media (prefers-reduced-motion: no-preference) {
+.video > .vidbox {
+animation-name: schermo-alza; animation-timing-function: linear;
+animation-range: entry 0% cover 45%; transform-origin: 50% 100%;
+}
+}
+@media (prefers-reduced-motion: reduce) { .video > .vidbox { animation: none; } }
 @keyframes schermo-alza {
-from { transform: perspective(1400px) translateY(64px) rotateX(24deg) scale(.95); }
-to   { transform: perspective(1400px) translateY(0) rotateX(0) scale(1); }
+from { transform: perspective(1200px) translateY(56px) rotateX(20deg) scale(.96); }
+to   { transform: none; }
 }
 @media (max-width: 640px) { .servizi > .servizio { animation: none; } }
 @supports not (animation-timeline: view()) {
