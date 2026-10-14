@@ -14,8 +14,11 @@ html {
 
 body {
   margin: 0;
-  padding-top: 40px;                    /* la barra annuncio */
-  background: var(--c-base);
+  /* padding-top = altezza della barra annuncio: token --barra-h in
+     chrome.css, che va a 0 quando la barra è chiusa.                  */
+  /* TRASPARENTE: il fondo lo dipinge il palco fisso (sfondi.css). Un
+     background qui coprirebbe il palco, che sta a z-index negativo.   */
+  background: transparent;
   color: var(--c-t2);
   font-family: var(--f-testo);
   font-size: 16px; line-height: 1.62;
@@ -23,7 +26,6 @@ body {
   -webkit-font-smoothing: antialiased;
   overflow-x: clip;
 }
-html.barra-off body { padding-top: 0; }
 
 h1, h2, h3, h4, p, figure, dl, dd, blockquote { margin: 0; }
 ul, ol { margin: 0; padding: 0; list-style: none; }
@@ -38,17 +40,26 @@ table { border-collapse: collapse; width: 100%; }
 :focus-visible { outline: 2px solid var(--c-ar); outline-offset: 3px; border-radius: 2px; }
 .carta :focus-visible { outline-color: var(--c-inchiostro); }
 
+/* ── LE SUPERFICI CHE NON DISEGNIAMO ──────────────────────────────────────
+   Selezione, cursore di testo e cifre: con i default del browser la
+   pagina sembra assemblata, non costruita. Selezione arancio pieno con il
+   testo scuro obbligatorio sul fill (bianco su #FF8200 = 2,49:1).       */
+::selection { background: var(--c-ar); color: var(--c-su-ar); }
+input, select, textarea { caret-color: var(--c-ar); }
+
 .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+/* Lo skip link è NASCOSTO DAVVERO finché non riceve il fuoco: prima era
+   solo spostato di 160px con translate, e quello dentro la scena del
+   metodo restava visibile sopra il contenuto della sezione precedente. */
 .skip {
-  position: absolute; left: 20px; top: 52px; z-index: var(--z-overlay);
+  position: absolute; left: 20px; top: calc(var(--barra-h, 40px) + 12px); z-index: var(--z-overlay);
   padding: 12px 18px; background: var(--c-ar); color: var(--c-su-ar);
   font: 700 14px/1 var(--f-display); border-radius: var(--r-hard);
-  /* translate, non la proprietà top: top è di layout e non è
-     compositabile.                                                       */
-  translate: 0 -160px;
-  transition: translate var(--t-micro) var(--ease-scatto);
+  clip-path: inset(50%); opacity: 0;
+  translate: 0 -8px;
+  transition: translate var(--t-micro) var(--ease-scatto), opacity var(--t-micro) linear;
 }
-.skip:focus { translate: 0 160px; }
+.skip:focus { clip-path: none; opacity: 1; translate: 0 0; }
 
 /* ── CONTENITORI ─────────────────────────────────────────────────────────── */
 .wrap        { width: 100%; margin-inline: auto; padding-inline: var(--margine); }
@@ -61,27 +72,42 @@ table { border-collapse: collapse; width: 100%; }
 @media (max-width: 1024px) { :root { --margine: 24px; } }
 @media (max-width: 480px)  { :root { --margine: 18px; } }
 
-/* ── SEZIONI GIUNTATE A FILO ──────────────────────────────────────────────
-   gap inter-sezione 0px, come nel riferimento. Il ritmo verticale esiste
-   solo come padding interno: senza confini il cervello non conta le
-   sezioni, e la pagina si legge come un documento continuo.              */
-.sez { position: relative; padding-block: var(--s-10); }
-.sez--fitta { padding-block: var(--s-8); }
-.sez--deep  { background: var(--c-deep); }
-/* L'alone si riaccende, fioco, dietro le fasce che devono respirare. */
+/* ── SEZIONI SUL PALCO ────────────────────────────────────────────────────
+   Nessun fondo, nessun confine: il fondo è il palco (sfondi.css). Il ritmo
+   verticale è il padding fluido --sez-y.                                */
+.sez { position: relative; padding-block: var(--sez-y); }
+.sez--fitta { padding-block: var(--sez-y-fitta); }
+/* L'alone si riaccende, fioco, dietro le fasce che devono respirare. È
+   radiale e muore nel trasparente: nessun bordo.                       */
 .sez--alone::before {
   content: ''; position: absolute; inset: 0; pointer-events: none;
   background: var(--alone-fioco);
 }
 .sez > .wrap { position: relative; }
-@media (max-width: 768px) { .sez { padding-block: var(--s-9); } }
 
-/* ── TESTA DI SEZIONE ─────────────────────────────────────────────────────
-   Una sola formula. Nel riferimento è sempre allineata a sinistra tranne
-   nelle fasce di apertura: qui la variante `.testa--c` lo replica.       */
-.testa { display: grid; gap: var(--s-5); margin-bottom: var(--s-8); }
+/* ── TESTA DI SEZIONE · la didascalia di margine ──────────────────────────
+   Su desktop l'occhiello esce da SOPRA il titolo e va nella colonna di
+   margine: una didascalia allineata alla prima riga, con un filetto che
+   guida l'occhio dentro il titolo. È la testata delle riviste svizzere,
+   non il "kicker" maiuscolo sopra ogni titolo che rende ogni pagina
+   generata uguale all'altra.
+   Sotto i 1100px torna sopra il titolo, piccolo, in tondo.             */
+.testa { display: grid; gap: var(--s-5); margin-bottom: clamp(40px, 3vw + 28px, 64px); }
 .testa--c { justify-items: center; text-align: center; }
 .testa--c .t-deck { margin-inline: auto; }
+@media (min-width: 1100px) {
+  .testa:not(.testa--c):has(> .t-eyebrow) {
+    grid-template-columns: minmax(0, 3fr) minmax(0, 9fr);
+    column-gap: var(--s-7);
+  }
+  .testa:not(.testa--c):has(> .t-eyebrow) > * { grid-column: 2; }
+  .testa:not(.testa--c) > .t-eyebrow {
+    grid-column: 1; grid-row: 1; align-self: start;
+    padding-top: var(--s-3);
+    border-top: 1px solid var(--c-filo-forte);
+  }
+  .testa:not(.testa--c) > .t-eyebrow + * { grid-row: 1; }
+}
 
 /* ── LA PARTICELLA ────────────────────────────────────────────────────────
    Il quadrato del mark. REGOLA DI TAGLIO: se un quadrato non CONTA
@@ -117,13 +143,33 @@ table { border-collapse: collapse; width: 100%; }
 /* Nessun arancio più brillante esiste (B=0, R clippato): l'hover scurisce
    il fill e allarga il glow.                                             */
 .cta--ar:hover { background: var(--c-ar-fill); translate: 0 calc(var(--lift-btn) * -1); }
-.cta--out { border: 1px solid var(--c-bordo-ui); color: var(--c-t1); }
-.cta--out:hover { border-color: var(--c-ar); background: rgba(255,130,0,.10); translate: 0 calc(var(--lift-btn) * -1); }
+/* L'outline si RIEMPIE da sinistra al passaggio: la luce entra nel bottone
+   invece di accendersi tutta insieme. scaleX su uno pseudo-elemento:
+   compositor, nessun repaint del bordo.                                */
+.cta--out { border: 1px solid var(--c-bordo-ui); color: var(--c-t1); overflow: hidden; }
+.cta--out::before {
+  content: ''; position: absolute; inset: 0; z-index: -1; border-radius: inherit;
+  background: linear-gradient(90deg, rgba(255,130,0,.16), rgba(255,130,0,.08));
+  transform: scaleX(0); transform-origin: left center;
+  transition: transform var(--t-stato) var(--ease-scatto);
+}
+.cta--out:hover { border-color: var(--c-ar); translate: 0 calc(var(--lift-btn) * -1); }
+.cta--out:hover::before { transform: scaleX(1); }
 /* min-height 24px: sono target autonomi, non link dentro una frase, quindi
-   SC 2.5.8 non li esenta.                                               */
+   SC 2.5.8 non li esenta. Su touch salgono a 44px (richiesta committente). */
 .cta--testo { min-height: 24px; height: auto; padding: 0; border-radius: 0; color: var(--c-t1); font-weight: 500; }
 .cta:active { translate: 0 0; scale: .985; }
-.cta--sm { height: 40px; padding-inline: 18px; font-size: 14px; }
+.cta--sm { height: 44px; padding-inline: 18px; font-size: 14px; }
+@media (pointer: coarse) { .cta--testo { min-height: var(--tap); } }
+
+/* ── LA FRECCIA DISEGNATA ─────────────────────────────────────────────────
+   Le frecce "→" e "↓" nel testo dei link diventano un'icona SVG al build
+   (tools/build.mjs): un glifo unicode cambia disegno a ogni font di
+   fallback, l'icona no. Al passaggio fa un passo nella sua direzione.  */
+.freccia { display: inline-block; width: 1.05em; height: 1.05em; flex: none; vertical-align: -.16em; margin-left: .18em;
+  transition: translate var(--t-micro) var(--ease-scatto); }
+:is(a, button):hover > .freccia, :is(a, button):focus-visible > .freccia { translate: 3px 0; }
+:is(a, button):hover > .freccia--giu, :is(a, button):focus-visible > .freccia--giu { translate: 0 3px; }
 
 .cta .q { transition: translate var(--t-micro) var(--ease-scatto); }
 .cta:hover .q { translate: 3px -2px; }   /* un gradino lungo la diagonale:
@@ -195,6 +241,7 @@ table { border-collapse: collapse; width: 100%; }
 }
 .chip:hover { color: var(--c-t1); background: var(--c-sup-2); }
 .chip[aria-pressed="true"] { color: var(--c-ar); background: rgba(255,130,0,.10); border-color: var(--c-bordo-ar); }
+@media (pointer: coarse) { button.chip { height: var(--tap); } }
 
 /* Il quadratino-icona dei tile del bento: nel riferimento è un rounded
    square con tint dell'accento. Qui l'icona è il MODULO del mark, non una

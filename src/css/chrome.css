@@ -1,67 +1,83 @@
 /* ═══════════════════════════════════════════════════════════════════════════
-   SALESPROCESS · chrome.css — barra annuncio, nav, footer, piastra mobile
+   SALESPROCESS · chrome.css — barra annuncio, nav, menu, piastra, footer
+   Le altezze della barra e della nav sono TOKEN: prima "40px" era scritto a
+   mano in sei punti diversi (body, nav, menu, avanza, skip, barra-off).
    ═══════════════════════════════════════════════════════════════════════════ */
 
+:root { --barra-h: 40px; --nav-h: 76px; }
+@media (max-width: 1100px) { :root { --nav-h: 60px; } }
+@media (pointer: coarse) { :root { --barra-h: 44px; } }
+html.barra-off { --barra-h: 0px; }
+
+body { padding-top: var(--barra-h); }
+
 /* ── BARRA ANNUNCIO ──────────────────────────────────────────────────────
-   Come nel riferimento: fascia piena a gradiente d'accento, testo scuro,
-   una pill scura dentro, un dot e la × a destra.
+   Tutta la fascia è UN link verso l'evento: prima il bersaglio era una
+   pill che sotto i 560px si riduceva a un ovale nero di 20×26px.
    Sul gradiente arancione il testo è sempre #100F12: bianco su #FF8200
-   dà 2,49:1 e non passa.                                                 */
+   dà 2,49:1 e non passa.                                               */
 .barra {
   position: fixed; inset: 0 0 auto; z-index: var(--z-barra);
-  height: 40px;
-  display: flex; align-items: center; justify-content: center; gap: var(--s-3);
-  padding: 0 44px 0 16px;
-  /* Ogni stop deve reggere il testo scuro: #100F12 su #C56200 = 4,56:1,
-     su #FF9A38 = 8,4:1. Sotto #C56200 il testo scuro non passa più, e un
-     testo chiaro su arancio è peggio (bianco su #FF8200 = 2,49:1).      */
+  height: var(--barra-h);
   background: linear-gradient(90deg, #C56200 0%, #FF8200 46%, #FF9A38 100%);
   color: var(--c-su-ar);
-  font: 700 13px/1 var(--f-display); letter-spacing: -.005em;
-  white-space: nowrap; overflow: hidden;
+  overflow: hidden;
 }
 html.barra-off .barra { display: none; }
-.barra__dot { width: 7px; height: 7px; border-radius: 50%; background: #4A2200; flex: none; }
+.barra__link {
+  height: 100%;
+  display: flex; align-items: center; justify-content: center; gap: var(--s-3);
+  padding: 0 calc(var(--tap) + 8px) 0 16px;
+  font: 700 13px/1 var(--f-display); letter-spacing: -.005em;
+  white-space: nowrap;
+}
+.barra__link > * { min-width: 0; }
+.barra__dot { width: 7px; height: 7px; border-radius: 50%; background: #4A2200; flex: none;
+  animation: barra-pulsa 2.4s ease-in-out infinite; }
+@keyframes barra-pulsa { 50% { box-shadow: 0 0 0 5px rgba(74,34,0,0); } 0%, 100% { box-shadow: 0 0 0 0 rgba(74,34,0,.45); } }
 .barra__sep { opacity: .45; }
 .barra__pill {
-  display: inline-flex; align-items: center; gap: 6px;
+  display: inline-flex; align-items: center; gap: 4px;
   height: 26px; padding-inline: 12px; border-radius: var(--r-pill);
   background: #1A1206; color: #FFCF9E;
   font: 700 12px/1 var(--f-display);
   transition: background-color var(--t-micro) linear;
 }
-.barra__pill:hover { background: #000; }
+.barra__link:hover .barra__pill { background: #000; }
+.barra__link:hover .freccia { translate: 3px 0; }
 .barra__x {
-  position: absolute; right: 10px; top: 50%; translate: 0 -50%;
-  width: 28px; height: 28px; display: grid; place-items: center;
+  position: absolute; right: 0; top: 0;
+  width: var(--tap); height: 100%; display: grid; place-items: center;
   color: #4A2200; transition: color var(--t-micro) linear;
 }
 .barra__x:hover { color: #000; }
+.barra__link:focus-visible { outline-offset: -4px; outline-color: #1A1206; }
+.barra__x:focus-visible { outline-offset: -6px; outline-color: #1A1206; }
 
-/* DEGRADAZIONE misurata, non indovinata: a 375px restano 287px utili
-   dopo il padding, e quattro span nowrap non ci stanno.                 */
-.barra > * { min-width: 0; }
+/* DEGRADAZIONE misurata: a 360px restano ~300px utili. Prima esce il
+   numero di posti, poi la data; sotto 420px la pill diventa solo la
+   freccia, perché il bersaglio è già l'intera fascia.                 */
 @media (max-width: 900px) { .barra__slot { display: none; } }
 @media (max-width: 700px) { .barra__data { display: none; } }
-@media (max-width: 560px) {
-  .barra { font-size: 12px; gap: var(--s-2); padding-inline: 12px 40px; }
-  .barra__pill { padding-inline: 10px; }
-  .barra__pill span { display: none; }
+@media (max-width: 420px) {
+  .barra__link { gap: var(--s-2); padding-left: 12px; font-size: 12.5px; }
+  .barra__pill { padding-inline: 8px; }
+  .barra__pill > span { display: none; }
 }
+@media (prefers-reduced-motion: reduce) { .barra__dot { animation: none; } }
 
-/* ── NAV STICKY ──────────────────────────────────────────────────────────
-   Trasparente sopra l'alone, si vela sullo scroll. Isteresi a due soglie:
-   attiva a 48px, disattiva a 12px — senza, il backdrop-filter sfarfalla su
-   trackpad e in rubber-band, perché transiziona in 320ms.                */
+/* ── NAV FISSA ───────────────────────────────────────────────────────────
+   Trasparente sopra l'hero, si vela sullo scroll. Isteresi a due soglie
+   (attiva a 48px, disattiva a 12px): senza, il backdrop-filter sfarfalla
+   su trackpad e in rubber-band.                                        */
 .nav {
-  position: fixed; top: 40px; left: 0; right: 0; z-index: var(--z-nav);
-  height: 76px;
+  position: fixed; top: var(--barra-h); left: 0; right: 0; z-index: var(--z-nav);
+  height: var(--nav-h);
   background: transparent; border-bottom: 1px solid transparent;
   transition: background-color var(--t-stato) var(--ease-scatto),
               border-color var(--t-stato) var(--ease-scatto),
               backdrop-filter var(--t-stato) var(--ease-scatto);
 }
-html.barra-off .nav { top: 0; }
 .nav.is-fissa {
   background: var(--c-sup-nav);
   backdrop-filter: saturate(140%) blur(18px);
@@ -70,23 +86,34 @@ html.barra-off .nav { top: 0; }
 @media (prefers-reduced-transparency: reduce) { .nav.is-fissa { backdrop-filter: none; } }
 .nav__in { display: flex; align-items: center; height: 100%; gap: var(--s-6); }
 
-.marchio { display: flex; align-items: center; flex: none; }
+.marchio { display: flex; align-items: center; flex: none; min-height: var(--tap); }
 .marchio__img { width: auto; }
 
+/* Le voci: il filo arancione che nasce dalla particella. Al passaggio il
+   filo cresce da sinistra; la pagina corrente lo tiene acceso. NESSUN
+   transform sul testo: in header si muove la luce, non le parole.     */
 .nav__voci { display: flex; gap: 2px; }
 .nav__voci a {
-  padding: 9px 14px; border-radius: var(--r-8);
+  position: relative;
+  padding: 10px 14px; border-radius: var(--r-8);
   font: 500 15px/1 var(--f-display); letter-spacing: -.008em; color: var(--c-t2);
-  transition: color var(--t-micro) linear, background-color var(--t-micro) linear;
+  transition: color var(--t-micro) linear;
 }
-/* NESSUN transform in header: la gerarchia di hover ha due livelli —
-   in header solo colore, in pagina colore + lift.                        */
-.nav__voci a:hover,
-.nav__voci a[aria-current="page"] { color: var(--c-t1); background: var(--c-sup-2); }
+.nav__voci a::after {
+  content: ''; position: absolute; left: 14px; right: 14px; bottom: 3px; height: 2px;
+  border-radius: 2px; background: var(--c-ar);
+  transform: scaleX(0); transform-origin: left center;
+  transition: transform var(--t-stato) var(--ease-scatto);
+}
+.nav__voci a:hover { color: var(--c-t1); }
+.nav__voci a:hover::after { transform: scaleX(1); }
+.nav__voci a[aria-current="page"] { color: var(--c-t1); }
+.nav__voci a[aria-current="page"]::after { transform: scaleX(1); box-shadow: 0 0 10px rgba(255,130,0,.6); }
 
-.nav__dx { display: flex; align-items: center; gap: var(--s-3); margin-left: auto; }
-/* Il gruppo-pill: nel riferimento è lo switch di lingua. Qui porta il
-   telefono, che per una PMI italiana vale più di un selettore di lingua. */
+.nav__dx { display: flex; align-items: center; gap: var(--s-4); margin-left: auto; }
+/* Il gruppo-pill porta il telefono: per una PMI italiana vale più di un
+   selettore di lingua. Senza numero verde non esiste (build.mjs): due
+   link identici "Scrivici / Scrivi" erano un difetto, non un gruppo.  */
 .gruppo {
   display: flex; align-items: center; gap: 2px; padding: 3px;
   background: var(--c-sup-2); border: 1px solid var(--c-filo);
@@ -100,22 +127,33 @@ html.barra-off .nav { top: 0; }
 }
 .gruppo a:hover { color: var(--c-t1); }
 .gruppo a.is-on { background: rgba(255,130,0,.16); color: var(--c-ar-hot); }
-.nav__login { font: 500 14px/1 var(--f-display); color: var(--c-t2); padding: 9px 6px; }
+.nav__login { font: 500 14px/1 var(--f-display); color: var(--c-t2); padding: 12px 6px;
+  transition: color var(--t-micro) linear; }
 .nav__login:hover { color: var(--c-t1); }
 .nav .cta { height: 42px; padding-inline: 20px; font-size: 14px; }
 
 .burger {
-  display: none; width: 44px; height: 44px;
+  display: none; width: var(--tap); height: var(--tap);
   border: 1px solid var(--c-bordo-ui); border-radius: var(--r-8);
   place-items: center; color: var(--c-t1);
 }
-.burger span { position: relative; display: block; width: 16px; height: 1.5px; background: currentColor; }
-.burger span::before, .burger span::after { content: ''; position: absolute; left: 0; width: 16px; height: 1.5px; background: currentColor; }
-.burger span::before { top: -5px; }
-.burger span::after  { top: 5px; }
+.burger span { position: relative; display: block; width: 16px; height: 1.5px; background: currentColor;
+  transition: background-color 0s linear var(--t-micro); }
+.burger span::before, .burger span::after { content: ''; position: absolute; left: 0; width: 16px; height: 1.5px; background: currentColor;
+  transition: translate var(--t-micro) var(--ease-scatto) var(--t-micro), rotate var(--t-micro) var(--ease-scatto); }
+.burger span::before { top: 0; translate: 0 -5px; }
+.burger span::after  { top: 0; translate: 0 5px; }
+/* Il burger diventa una × in due tempi: prima le barre si incontrano al
+   centro, poi ruotano. Le stesse proprietà, a ritroso, alla chiusura.   */
+.burger[aria-expanded="true"] span { background-color: transparent; transition-delay: 0s; }
+.burger[aria-expanded="true"] span::before,
+.burger[aria-expanded="true"] span::after { translate: 0 0;
+  transition: translate var(--t-micro) var(--ease-scatto), rotate var(--t-micro) var(--ease-scatto) var(--t-micro); }
+.burger[aria-expanded="true"] span::before { rotate: 45deg; }
+.burger[aria-expanded="true"] span::after  { rotate: -45deg; }
 
 @media (max-width: 1100px) {
-  .nav { height: 60px; background: var(--c-base); border-bottom-color: var(--c-filo); }
+  .nav { background: var(--c-base); border-bottom-color: var(--c-filo); }
   .nav__voci, .gruppo, .nav__login { display: none; }
   .burger { display: grid; }
 }
@@ -127,20 +165,28 @@ html.barra-off .nav { top: 0; }
   .marchio__img { height: 26px !important; }
 }
 
-/* Menu mobile a pannello pieno. */
+/* ── MENU MOBILE ─────────────────────────────────────────────────────────
+   Il pannello scende dalla nav e le voci salgono a gradini: lo stesso
+   gesto della maschera a scalinata, applicato alla navigazione.        */
 .menu {
-  position: fixed; inset: 100px 0 0; z-index: calc(var(--z-nav) - 1);
-  background: var(--c-base); padding: var(--s-6) var(--margine);
-  display: none; overflow-y: auto;
+  position: fixed; inset: calc(var(--barra-h) + var(--nav-h)) 0 0; z-index: calc(var(--z-nav) - 1);
+  background: var(--c-base); padding: var(--s-5) var(--margine) calc(var(--s-6) + env(safe-area-inset-bottom));
+  display: none; overflow-y: auto; overscroll-behavior: contain;
 }
-html.barra-off .menu { inset: 60px 0 0; }
-.menu.is-on { display: block; }
+.menu.is-on { display: block; animation: menu-scende var(--t-stato) var(--ease-salita) both; }
+@keyframes menu-scende { from { opacity: 0; translate: 0 -12px; } }
 .menu a {
   display: flex; align-items: center; justify-content: space-between;
-  padding: var(--s-4) 0; border-bottom: 1px solid var(--c-filo);
-  font: 500 22px/1.2 var(--f-display); letter-spacing: -.02em; color: var(--c-t1);
+  min-height: 60px; padding: var(--s-3) 0; border-bottom: 1px solid var(--c-filo);
+  font: 500 24px/1.2 var(--f-display); letter-spacing: -.02em; color: var(--c-t1);
 }
-.menu .cta { margin-top: var(--s-6); width: 100%; }
+.menu.is-on > a { animation: menu-voce var(--t-reveal) var(--ease-salita) both; animation-delay: calc(80ms + var(--i, 0) * 45ms); }
+@keyframes menu-voce { from { opacity: 0; translate: 0 18px; } }
+.menu a .freccia { color: var(--c-ar); }
+.menu .cta { margin-top: var(--s-6); width: 100%; height: 56px; border-bottom: 0; font-size: 16px; justify-content: center; }
+.menu__contatti { margin-top: var(--s-5); display: grid; gap: var(--s-2); }
+.menu__contatti a { min-height: var(--tap); border: 0; font: 500 16px/1.3 var(--f-display); color: var(--c-t2); justify-content: flex-start; }
+@media (prefers-reduced-motion: reduce) { .menu.is-on, .menu.is-on > a { animation: none; } }
 
 /* ── PIASTRA CTA MOBILE ─────────────────────────────────────────────────── */
 .piastra {
@@ -150,52 +196,68 @@ html.barra-off .menu { inset: 60px 0 0; }
   border-top: 1px solid var(--c-filo);
   transition: translate var(--t-stato) var(--ease-scatto);
 }
-.piastra .cta { width: 100%; }
+.piastra .cta { width: 100%; height: 52px; }
 .piastra.is-off { translate: 0 130%; }
 @media (max-width: 1100px) { .piastra { display: block; } body { padding-bottom: 76px; } }
 
 /* ── FOOTER ──────────────────────────────────────────────────────────────
-   Colonne come nel riferimento, su nero profondo. Tre livelli di grigio
-   come unica gerarchia.                                                   */
-.footer { background: var(--c-deep); border-top: 1px solid var(--c-filo); padding-block: var(--s-9) 0; }
+   Nessun filo netto in cima: il pavimento si scurisce sul palco.
+   Sei blocchi, sei colonne: prima la griglia ne aveva cinque e i contatti
+   cadevano da soli su una seconda riga.                                */
+.footer {
+  position: relative;
+  padding-block: clamp(80px, 6vw + 40px, 128px) 0;
+  background: linear-gradient(180deg, rgba(2,2,2,0) 0%, rgba(2,2,2,.86) 140px, #020202 100%);
+}
 .footer__grid {
-  display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr 1fr;
-  gap: 40px 32px; padding-bottom: var(--s-8); border-bottom: 1px solid var(--c-filo);
+  display: grid; grid-template-columns: 1.35fr repeat(4, minmax(0, 1fr)) 1.45fr;
+  grid-template-areas: "brand m r f a contatti";
+  gap: 40px 28px; padding-bottom: var(--s-8); border-bottom: 1px solid var(--c-filo);
 }
-/* Senza min-width:0 una colonna grid non scende sotto il min-content dei
-   suoi figli, e il blocco del numero verde fa sfondare la griglia.    */
 .footer__grid > * { min-width: 0; }
+.footer__grid > :nth-child(1) { grid-area: brand; }
+.footer__grid > :nth-child(2) { grid-area: m; }
+.footer__grid > :nth-child(3) { grid-area: r; }
+.footer__grid > :nth-child(4) { grid-area: f; }
+.footer__grid > :nth-child(5) { grid-area: a; }
+.footer__grid > :nth-child(6) { grid-area: contatti; }
 .footer__h {
-  font: 700 12px/1.2 var(--f-display); letter-spacing: var(--tr-eyebrow);
-  text-transform: uppercase; color: var(--c-t3); margin-bottom: var(--s-5);
+  font: 500 15px/1.2 var(--f-display); letter-spacing: -.005em;
+  color: var(--c-t1); margin-bottom: var(--s-4);
 }
-.footer ul { display: grid; gap: 11px; }
+.footer ul { display: grid; gap: 2px; }
 .footer li a {
   font: 400 15px/1.4 var(--f-display); color: var(--c-t3);
-  display: inline-flex; align-items: center; min-height: 24px;
+  display: inline-flex; align-items: center; min-height: 34px;
+  transition: color var(--t-micro) linear, translate var(--t-micro) var(--ease-scatto);
 }
-.footer li a:hover { color: var(--c-t1); }
+.footer li a:hover { color: var(--c-t1); translate: 3px 0; }
 .footer__social { display: flex; gap: 10px; margin-top: var(--s-5); }
 .footer__social a {
-  width: 38px; height: 38px; display: grid; place-items: center;
+  width: var(--tap); height: var(--tap); display: grid; place-items: center;
   border: 1px solid var(--c-bordo-ui); border-radius: var(--r-8);
-  font: 700 11px/1 var(--f-display); letter-spacing: .06em; color: var(--c-t3);
-  transition: color var(--t-micro) linear, border-color var(--t-micro) linear, background-color var(--t-micro) linear;
+  color: var(--c-t3);
+  transition: color var(--t-micro) linear, border-color var(--t-micro) linear, background-color var(--t-micro) linear, translate var(--t-micro) var(--ease-scatto);
 }
-.footer__social a:hover { color: var(--c-ar); border-color: var(--c-ar); background: rgba(255,130,0,.10); }
-/* Segnaposto: gli URL dei social non sono ancora stati forniti. Non sono
-   link, perché un href="#" salterebbe in cima alla pagina.               */
-.footer__social .todo-ico {
-  width: 38px; height: 38px; display: grid; place-items: center;
-  border: 1px dashed var(--c-filo-forte); border-radius: var(--r-8);
-  font: 700 11px/1 var(--f-display); letter-spacing: .06em; color: var(--c-t4);
-}
+.footer__social a:hover { color: var(--c-ar); border-color: var(--c-ar); background: rgba(255,130,0,.10); translate: 0 -2px; }
 .footer__legale { display: flex; flex-wrap: wrap; gap: 8px 22px; padding-block: var(--s-6); font: 400 13px/1.5 var(--f-display); color: var(--c-t3); }
-.footer__chiusa { display: flex; gap: 4px; padding-bottom: var(--s-7); }
+.footer__legale a { min-height: 24px; display: inline-flex; align-items: center; }
+/* La chiusa: i quattro quadrati diventano la scalinata del marchio. */
+.footer__chiusa { display: flex; align-items: flex-end; gap: 4px; padding-bottom: var(--s-7); }
 .footer__chiusa i { width: 9px; height: 9px; border-radius: var(--q-r); background: var(--c-ar); }
+.footer__chiusa i:nth-child(2) { translate: 0 -5px; }
+.footer__chiusa i:nth-child(3) { translate: 0 -10px; }
+.footer__chiusa i:nth-child(4) { translate: 0 -15px; }
 
-@media (max-width: 1024px) { .footer__grid { grid-template-columns: 1fr 1fr; } }
-@media (max-width: 620px)  { .footer__grid { grid-template-columns: 1fr; gap: 32px; } }
+@media (max-width: 1199px) {
+  .footer__grid { grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-areas: "brand brand contatti contatti" "m r f a"; }
+}
+@media (max-width: 760px) {
+  .footer__grid { grid-template-columns: 1fr 1fr; gap: 36px 20px;
+    grid-template-areas: "brand brand" "m r" "f a" "contatti contatti"; }
+  .footer li a { min-height: var(--tap); }
+}
 /* Il numero verde è il blocco più largo del footer: a schermo strettissimo
    va a capo invece di spingere la griglia.                              */
 @media (max-width: 380px) { .verde { padding-inline: 12px; } .verde b { font-size: 16px; } }

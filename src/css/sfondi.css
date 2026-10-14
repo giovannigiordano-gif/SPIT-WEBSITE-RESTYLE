@@ -1,109 +1,120 @@
 /* ═══════════════════════════════════════════════════════════════════════════
-   SALESPROCESS · sfondi.css — le atmosfere delle fasce
+   SALESPROCESS · sfondi.css — IL PALCO
    ---------------------------------------------------------------------------
-   Il sito era un unico nero dall'inizio alla fine: corretto come sistema,
-   monotono come esperienza. Qui entra un RITMO — sette atmosfere, non
-   settanta, e ognuna ha un posto assegnato nella sequenza.
-   Tre vincoli che tengono l'insieme:
-     1. la famiglia è calda. L'unica fascia FREDDA è una, e serve da
-        contrasto: due la farebbero diventare un tema, non un accento.
-     2. nessun gradiente attraversa il pivot di contrasto (mai arancio↔
-        bianco): sono tutti scuro→scuro, quindi il testo non cambia mai
-        regole di leggibilità passando da una fascia all'altra.
-     3. tutto è DIPINTO una volta. Nessun gradiente animato, nessun blur
-        su area grande, nessun mix-blend-mode: un solo paint iniziale.
+   Prima ogni fascia dipingeva il suo fondo e un filo di 1px la separava dalla
+   successiva: la pagina si leggeva come una pila di blocchi, e ogni cambio di
+   atmosfera era uno stacco netto.
+   Ora il fondo è UNO: un palco fisso dietro tutta la pagina, con le sette
+   atmosfere dipinte una volta e in dissolvenza incrociata. Le sezioni sono
+   trasparenti e DICHIARANO la loro luce (`sf--notte`, `data-atmo`…); motion.js
+   accende quella della sezione che passa al centro del viewport. Camminando
+   nella pagina cambia l'illuminazione della stanza, non la stanza.
+   Vincoli che restano dalla versione precedente:
+     1. la famiglia è calda; una sola zona fredda (notte);
+     2. tutto scuro→scuro: il testo non cambia regole di leggibilità;
+     3. dipinto UNA volta: si anima solo l'opacità dei livelli (compositor),
+        mai un gradiente, mai un blur su area grande.
    ═══════════════════════════════════════════════════════════════════════════ */
 
+/* Le sezioni non dipingono più niente: tengono solo il loro contesto di
+   impilamento, perché le luci locali (alone dell'hero, glow del muro)
+   stanno sotto al contenuto e sopra al palco.                           */
 .sf { position: relative; isolation: isolate; }
-.sf > * { position: relative; z-index: 1; }
-.sf::before {
-  content: ''; position: absolute; inset: 0; z-index: 0;
+
+.palco {
+  position: fixed; inset: 0; z-index: var(--z-palco);
+  background: var(--c-base);
   pointer-events: none;
+  contain: strict;
+}
+.palco > i {
+  position: absolute; inset: 0;
+  opacity: 0; visibility: hidden;
+  transition: opacity var(--t-palco) cubic-bezier(.4,0,.2,1),
+              visibility 0s linear var(--t-palco);
+}
+/* Il livello acceso: visibility torna subito, l'opacità sale. */
+html[data-atmo="nero"]    .palco > [data-a="nero"],
+html[data-atmo="brace"]   .palco > [data-a="brace"],
+html[data-atmo="alba"]    .palco > [data-a="alba"],
+html[data-atmo="radente"] .palco > [data-a="radente"],
+html[data-atmo="notte"]   .palco > [data-a="notte"],
+html[data-atmo="pozzo"]   .palco > [data-a="pozzo"],
+html[data-atmo="fuoco"]   .palco > [data-a="fuoco"] {
+  opacity: 1; visibility: visible;
+  transition: opacity var(--t-palco) cubic-bezier(.4,0,.2,1), visibility 0s;
 }
 
-/* ── ALBA · la luce sale dal bordo inferiore ──────────────────────────────
-   Per le fasce che chiudono un ragionamento: la luce arriva da sotto, come
-   se la sezione successiva fosse già accesa.                            */
-.sf--alba { background: var(--c-base); }
-.sf--alba::before {
+/* Una vignettatura comune a tutte: il chiaroscuro è ciò che fa sembrare il
+   nero una stanza e non un colore di fondo.                              */
+.palco::after {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(120% 90% at 50% 45%, rgba(0,0,0,0) 55%, rgba(0,0,0,.42) 100%);
+}
+
+/* ── NERO · il palco spento ───────────────────────────────────────────────
+   Hero, aperture delle pagine interne, cartelli, footer: il nero profondo
+   su cui l'oggetto arancione si legge come luce.                         */
+.palco > [data-a="nero"] { background: var(--c-deep); }
+
+/* ── BRACE · veletta calda dall'alto a sinistra ─────────────────────────── */
+.palco > [data-a="brace"] {
   background:
-    radial-gradient(72% 58% at 50% 112%, rgba(255,130,0,.16) 0%, rgba(255,130,0,0) 68%),
-    radial-gradient(120% 80% at 50% 128%, rgba(150,70,0,.20) 0%, rgba(150,70,0,0) 72%);
+    radial-gradient(70% 60% at 6% 0%, rgba(184,91,0,.20) 0%, rgba(184,91,0,0) 70%),
+    linear-gradient(180deg, #1D1714 0%, #161519 62%);
 }
 
-/* ── BRACE · veletta calda, come cenere ancora tiepida ────────────────────
-   Il passaggio più morbido: alza la temperatura senza accendere niente. */
-.sf--brace {
+/* ── ALBA · la luce sale dal bordo inferiore ────────────────────────────── */
+.palco > [data-a="alba"] {
   background:
-    linear-gradient(180deg, rgba(38,24,16,.55) 0%, rgba(22,21,25,0) 62%),
-    var(--c-base);
-}
-.sf--brace::before {
-  background: radial-gradient(84% 62% at 8% 6%, rgba(184,91,0,.14) 0%, rgba(184,91,0,0) 66%);
+    radial-gradient(80% 62% at 50% 112%, rgba(255,130,0,.20) 0%, rgba(255,130,0,0) 68%),
+    radial-gradient(130% 80% at 50% 130%, rgba(150,70,0,.26) 0%, rgba(150,70,0,0) 72%),
+    #141317;
 }
 
-/* ── NOTTE · l'UNICA fascia fredda del sito ───────────────────────────────
-   Serve da contrasto: in una pagina tutta calda una sola fascia fredda si
-   nota come un cambio di stanza. Due la farebbero diventare un tema.
-   Il blu è #1E3A6E, già nel sistema: è il blob della seconda lente.    */
-.sf--notte { background: #10131A; }
-.sf--notte::before {
+/* ── RADENTE · luce rasa da sinistra ────────────────────────────────────── */
+.palco > [data-a="radente"] {
   background:
-    radial-gradient(76% 56% at 50% -8%, rgba(30,58,110,.34) 0%, rgba(30,58,110,0) 66%),
-    radial-gradient(60% 50% at 88% 108%, rgba(30,58,110,.20) 0%, rgba(30,58,110,0) 70%);
+    radial-gradient(50% 110% at -8% 50%, rgba(184,91,0,.22) 0%, rgba(184,91,0,0) 70%),
+    linear-gradient(90deg, rgba(255,255,255,.03) 0%, rgba(255,255,255,0) 46%),
+    #161519;
 }
-/* Sul freddo l'arancio vibra di più: qui l'accento scende di un gradino. */
-.sf--notte .ar { color: var(--c-ar-hot); }
 
-/* ── RADENTE · la luce arriva da sinistra ─────────────────────────────────
-   Qui c'era una griglia a due assi. È il cliché più riconoscibile dei
-   fondi generati — il detector lo segnala, e ha ragione: una carta
-   millimetrata decorativa non dice niente. La griglia resta SOLO dentro
-   la facciata della mappa, dove sta al posto di una mappa e quindi
-   significa qualcosa.
-   Al suo posto una direzione di luce diversa da tutte le altre: alba
-   illumina da sotto, brace dall'alto a sinistra, pozzo dall'alto a
-   destra, notte dai due poli. Questa raso da sinistra, e basta a far
-   sentire il cambio di stanza senza aggiungere un pattern.           */
-.sf--radente { background: var(--c-base); }
-.sf--radente::before {
+/* ── NOTTE · l'UNICA zona fredda ─────────────────────────────────────────── */
+.palco > [data-a="notte"] {
   background:
-    radial-gradient(46% 100% at -6% 50%, rgba(184,91,0,.20) 0%, rgba(184,91,0,0) 70%),
-    linear-gradient(90deg, rgba(255,255,255,.028) 0%, rgba(255,255,255,0) 46%);
+    radial-gradient(80% 60% at 50% -10%, rgba(30,58,110,.42) 0%, rgba(30,58,110,0) 66%),
+    radial-gradient(60% 50% at 92% 110%, rgba(30,58,110,.24) 0%, rgba(30,58,110,0) 70%),
+    #0F121A;
 }
 
-/* ── FUOCO · la fascia a massima temperatura ───────────────────────────────
-   Una sola in tutta la pagina, e sta sotto il contro-esempio: è l'unico
-   punto in cui il sito alza la voce sul problema invece che sulla
-   soluzione.                                                            */
-.sf--fuoco {
+/* ── POZZO · nero profondo, una luce d'angolo ───────────────────────────── */
+.palco > [data-a="pozzo"] {
   background:
-    linear-gradient(180deg, rgba(58,20,10,.62) 0%, rgba(22,21,25,.2) 70%, var(--c-base) 100%),
-    var(--c-base);
+    radial-gradient(56% 50% at 100% 0%, rgba(184,91,0,.16) 0%, rgba(184,91,0,0) 64%),
+    #060607;
 }
-.sf--fuoco::before {
+
+/* ── FUOCO · la stanza più calda, sotto il contro-esempio ───────────────── */
+.palco > [data-a="fuoco"] {
   background:
-    radial-gradient(58% 44% at 18% 8%, rgba(204,51,102,.16) 0%, rgba(204,51,102,0) 62%),
-    radial-gradient(70% 52% at 86% 24%, rgba(255,130,0,.16) 0%, rgba(255,130,0,0) 66%);
+    radial-gradient(60% 50% at 16% 0%, rgba(204,51,102,.20) 0%, rgba(204,51,102,0) 64%),
+    radial-gradient(70% 56% at 88% 18%, rgba(255,130,0,.18) 0%, rgba(255,130,0,0) 66%),
+    linear-gradient(180deg, #2A1510 0%, #161519 80%);
 }
 
-/* ── POZZO · nero profondo con una sola luce d'angolo ─────────────────────
-   Per le fasce dense: il fondo scende, e una luce sola tiene su l'angolo
-   perché il blocco non diventi un buco.                                */
-.sf--pozzo { background: var(--c-deep); }
-.sf--pozzo::before {
-  background: radial-gradient(56% 46% at 96% 4%, rgba(184,91,0,.13) 0%, rgba(184,91,0,0) 64%);
-}
+/* Sul freddo l'arancio vibra di più: lì l'accento scende di un gradino. */
+html[data-atmo="notte"] .sf--notte .ar { color: var(--c-ar-hot); }
 
-/* ── GIUNZIONI ────────────────────────────────────────────────────────────
-   Fra due atmosfere diverse serve un filo, altrimenti il cambio di fondo
-   legge come un errore di rendering. 1px di bianco al 6%: si vede solo
-   dove serve.                                                           */
-.sf + .sf { border-top: 1px solid rgba(255,255,255,.06); }
+/* ── FALLBACK SENZA JS ─────────────────────────────────────────────────────
+   build.mjs scrive data-atmo="nero" sull'html: anche se motion.js non
+   arriva, il palco è acceso sull'atmosfera d'apertura.                  */
 
 @media (prefers-contrast: more) {
   /* Ad alto contrasto le atmosfere si spengono: sono un lusso, non
      informazione, e qui rubano leggibilità.                            */
-  .sf::before { display: none; }
-  .sf--notte, .sf--pozzo { background: var(--c-base); }
+  .palco > i, .palco::after { display: none; }
+}
+@media (prefers-reduced-transparency: reduce) {
+  .palco > i { transition: none; }
 }

@@ -134,46 +134,67 @@
   color: var(--c-t2);
 }
 
-/* ── EYEBROW ──────────────────────────────────────────────────────────────
-   Senza parentesi quadre: erano la firma del riferimento, non la nostra.
-   Quello che resta a fare il lavoro è il tracking largo e il gradino di
-   colore — che è tutto quello che serve a un occhiello.                  */
+/* ── L'OCCHIELLO, RIFATTO ─────────────────────────────────────────────────
+   Senza parentesi quadre (decisione cliente) e ora anche senza il maiuscolo
+   spaziato: quella cadenza — etichetta minuscola tracciata sopra ogni
+   titolo — è la firma delle pagine generate, non la nostra.
+   Al suo posto la PARTICELLA del marchio che nomina la sezione, e il testo
+   in tondo come una didascalia. Il quadrato qui ha un lavoro: nomina.
+   Su desktop la didascalia esce dalla colonna del titolo (base.css).   */
 .t-eyebrow {
-  font-family: var(--f-display); font-weight: 700;
-  font-size: 12px; line-height: 1.2;
-  letter-spacing: var(--tr-eyebrow); text-transform: uppercase;
+  display: flex; align-items: baseline; gap: 10px;
+  font-family: var(--f-display); font-weight: 500;
+  font-size: 15px; line-height: 1.35;
+  letter-spacing: -.005em; text-transform: none;
   color: var(--c-t3);
 }
+.t-eyebrow::before {
+  content: ''; flex: none; width: 8px; height: 8px;
+  border-radius: var(--q-r); background: var(--c-ar);
+  translate: 0 -.08em;
+}
+.centro.t-eyebrow, .testa--c > .t-eyebrow { justify-content: center; }
+/* Dentro card e celle l'occhiello è un'etichetta, non una testata: niente
+   particella, il colore lo dà il contesto.                             */
+.card .t-eyebrow::before, .pers .t-eyebrow::before, .vid .t-eyebrow::before { display: none; }
 
 /* La pill dell'hero: fondo arancione translucido, testo arancione chiaro.
-   Sul tint serve --c-ar-hot: #FF8200 su quel fondo scende sotto 4,5:1.   */
+   Sul tint serve --c-ar-hot: #FF8200 su quel fondo scende sotto 4,5:1.
+   In tondo anche qui: è l'unica etichetta della prima schermata.       */
 .pill-eyebrow {
-  display: inline-flex; align-items: center; gap: 8px;
-  padding: 9px 18px; border-radius: var(--r-pill);
-  background: rgba(255,130,0,.13);
-  border: 1px solid rgba(255,130,0,.22);
-  font-family: var(--f-display); font-weight: 700;
-  font-size: 12px; line-height: 1;
-  letter-spacing: var(--tr-eyebrow); text-transform: uppercase;
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 10px 18px 10px 14px; border-radius: var(--r-pill);
+  background: rgba(255,130,0,.12);
+  border: 1px solid rgba(255,130,0,.24);
+  font-family: var(--f-display); font-weight: 500;
+  font-size: 14px; line-height: 1;
+  letter-spacing: 0; text-transform: none;
   color: var(--c-ar-hot);
 }
+.pill-eyebrow::before {
+  content: ''; width: 7px; height: 7px; border-radius: var(--q-r);
+  background: var(--c-ar); box-shadow: 0 0 10px rgba(255,130,0,.8);
+}
 
-/* ── MONO — i dati. Le CIFRE hanno letter-spacing 0: tracciare i numeri fa
+/* ── I DATI. Le CIFRE hanno letter-spacing 0: tracciare i numeri fa
       oscillare le colonne. ──────────────────────────────────────────────── */
 .t-meta {
   font-family: var(--f-display); font-weight: 500;
-  font-size: 13px; line-height: 1.45;
-  letter-spacing: var(--tr-meta); color: var(--c-t3);
+  font-size: var(--fs-meta); line-height: 1.45;
+  letter-spacing: 0; color: var(--c-t3);
 }
 .t-dato {
   font-family: var(--f-display); font-weight: 500;
   font-size: 15px; letter-spacing: 0;
   font-variant-numeric: tabular-nums; color: var(--c-t2);
 }
+/* La didascalia di servizio: fonti, date, filtri. 13px in tondo (prima 11px
+   maiuscolo tracciato): si legge, e non urla per essere minuscola.     */
 .t-micro {
   font-family: var(--f-display); font-weight: 500;
-  font-size: 11px; letter-spacing: .10em;
-  text-transform: uppercase; color: var(--c-t3);
+  font-size: var(--fs-meta); line-height: 1.45; letter-spacing: 0;
+  text-transform: none; color: var(--c-t3);
+  font-variant-numeric: tabular-nums;
 }
 
 .num { font-variant-numeric: tabular-nums; }

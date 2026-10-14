@@ -6,8 +6,11 @@
      · gerarchia costruita con l'OPACITÀ DEL BIANCO, non con una palette
      · alone radiale dall'alto dietro l'hero (loro: un top.webp; noi: CSS)
      · display DM Sans **500** — non 700 — a 112px, lh 1.08, ls −4px (−.036em)
-     · raggi 2 / 8 / 12 / 99px · eyebrow tra parentesi quadre
+     · raggi 2 / 8 / 12 / 99px · occhielli SENZA parentesi (decisione cliente)
      · UN SOLO accento
+   RESTYLING "WOW" (ottobre 2026): il fondo non è più dipinto sezione per
+   sezione ma da un PALCO fisso (sfondi.css) con le atmosfere in dissolvenza
+   incrociata. L'arancio diventa la LUCE che si sposta sul palco.
    DNA SalesProcess che resta: l'arancio #FF8200, il mark a moduli, il payoff
    FATTURARE ×3, le fotografie mano-su-nero, la voce italiana.
    ---------------------------------------------------------------------------
@@ -123,6 +126,17 @@
   /* ── SPAZIO — tutto multiplo di 4 ──────────────────────────────────── */
   --s-1:4px;  --s-2:8px;  --s-3:12px; --s-4:16px; --s-5:24px; --s-6:32px;
   --s-7:48px; --s-8:64px; --s-9:96px; --s-10:128px; --s-11:168px;
+  /* Il respiro di sezione è FLUIDO: 72px a 360, 136px a 1440. Sul palco
+     continuo due padding fissi da 128px sommati facevano 256px di vuoto
+     fra due contenuti, che senza un cambio di fondo legge come un buco. */
+  --sez-y: clamp(72px, 5.9vw + 51px, 136px);
+  --sez-y-fitta: clamp(48px, 3vw + 37px, 80px);
+
+  /* ── TESTO MINUTO — soglie ─────────────────────────────────────────────
+     Nessun testo sotto 12px (prima ce n'erano a 10 e 11). Le etichette di
+     servizio stanno a 12–13px, in tondo, non in maiuscolo spaziato: il
+     maiuscolo tracciato sopra ogni titolo è la cadenza da template.     */
+  --fs-micro: 12px; --fs-meta: 13px; --fs-piccolo: 15px; --fs-corpo: 16px;
 
   /* ── CONTENITORI ───────────────────────────────────────────────────── */
   --w-nav:1400px; --w-piena:1280px; --w-griglia:1200px;
@@ -149,7 +163,10 @@
   --stagger:70ms; --stagger-riga:140ms;
   --ease-salita: cubic-bezier(.16,.84,.24,1);   /* LA curva d'ingresso    */
   --ease-scatto: cubic-bezier(.62,0,.20,1);     /* stati reversibili      */
+  --ease-uscita: cubic-bezier(.55,0,.80,.16);   /* uscite: accelera, ~65%
+                                                   della durata d'ingresso */
   --ease-quadro: steps(4,end);
+  --t-palco: 1100ms;                            /* dissolvenza fra atmosfere */
   /* scrub e loop: SEMPRE linear — l'easing lo fa lo scroll.             */
 
   --travel:20px;
@@ -164,7 +181,11 @@
      Nessuna animazione, nessun mix-blend-mode, nessun filter.           */
   --grana-tile: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="3" stitchTiles="stitch"/></filter><rect width="128" height="128" filter="url(%23n)"/></svg>');
 
-  --z-grana:60; --z-nav:9000; --z-barra:9500; --z-overlay:9800;
+  --z-palco:-1; --z-grana:60; --z-nav:9000; --z-barra:9500; --z-overlay:9800;
+
+  /* Il bersaglio tattile minimo. 44px è la richiesta del committente (e la
+     soglia Apple); SC 2.5.8 ne chiede 24, qui si tiene il doppio.        */
+  --tap: 44px;
 }
 
 /* ── REDUCED MOTION: token, non interruttore ──────────────────────────────

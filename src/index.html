@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="it">
+<html lang="it" data-atmo="nero">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -23,19 +23,21 @@
 <link rel="stylesheet" href="/css/interazioni.css">
 </head>
 <body data-pagina="home">
-
+<div class="palco" aria-hidden="true"><i data-a="nero"></i><i data-a="brace"></i><i data-a="alba"></i><i data-a="radente"></i><i data-a="notte"></i><i data-a="pozzo"></i><i data-a="fuoco"></i></div>
 <a class="skip" href="#main">Salta al contenuto</a>
 
 <div class="barra" id="barra">
-  <span class="barra__dot" aria-hidden="true"></span>
-  <span>Sales Process Day 2026</span>
-  <span class="barra__sep barra__data" aria-hidden="true">·</span>
-  <span class="barra__data">14 ottobre · Milano</span>
-  <span class="barra__slot barra__sep" aria-hidden="true">·</span>
-  <span class="barra__slot">30 posti in sala</span>
-  <a class="barra__pill" href="/eventi.html"><span>Prendi il tuo posto</span> <span aria-hidden="true">→</span></a>
+  <a class="barra__link" href="/eventi.html">
+    <span class="barra__dot" aria-hidden="true"></span>
+    <span>Sales Process Day 2026</span>
+    <span class="barra__sep barra__data" aria-hidden="true">·</span>
+    <span class="barra__data">14 ottobre · Milano</span>
+    <span class="barra__slot barra__sep" aria-hidden="true">·</span>
+    <span class="barra__slot">30 posti in sala</span>
+    <span class="barra__pill"><span>Prendi il tuo posto</span><svg class="freccia" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12h14.5M13.5 6.5 19 12l-5.5 5.5"/></svg></span>
+  </a>
   <button class="barra__x" id="barra-x" aria-label="Chiudi l'annuncio">
-    <svg width="11" height="11" viewBox="0 0 11 11" aria-hidden="true"><path d="M1 1l9 9M10 1l-9 9" stroke="currentColor" stroke-width="1.6"/></svg>
+    <svg width="12" height="12" viewBox="0 0 11 11" aria-hidden="true"><path d="M1 1l9 9M10 1l-9 9" stroke="currentColor" stroke-width="1.6"/></svg>
   </button>
 </div>
 
@@ -52,10 +54,7 @@
       <a href="/eventi.html">Eventi</a>
     </nav>
     <div class="nav__dx">
-      <div class="gruppo" aria-label="Contatti rapidi">
-        <a class="is-on" href="mailto:amministrazione@salesprocess.it">Scrivici</a>
-        <a href="mailto:amministrazione@salesprocess.it">Scrivi</a>
-      </div>
+      <a class="nav__login" href="mailto:amministrazione@salesprocess.it">Scrivici</a>
       <a class="nav__login" href="/fatturare.html">Podcast</a>
       <a class="cta cta--ar cta--luce cta--nav" href="/candidatura.html">Candida la tua azienda</a>
       <button class="burger" id="burger" aria-label="Apri il menu" aria-expanded="false" aria-controls="menu"><span></span></button>
@@ -64,13 +63,17 @@
 </header>
 
 <div class="menu" id="menu">
-  <a href="/metodo.html">Metodo<span aria-hidden="true">→</span></a>
-  <a href="/risultati.html">Risultati<span aria-hidden="true">→</span></a>
-  <a href="/dna.html">DNA<span aria-hidden="true">→</span></a>
-  <a href="/team.html">Team<span aria-hidden="true">→</span></a>
-  <a href="/eventi.html">Eventi<span aria-hidden="true">→</span></a>
-  <a href="/candidatura.html">Candidatura<span aria-hidden="true">→</span></a>
-  <a class="cta cta--ar" href="/candidatura.html">Candida la tua azienda</a>
+  <a href="/metodo.html" style="--i:0">Metodo<svg class="freccia" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12h14.5M13.5 6.5 19 12l-5.5 5.5"/></svg></a>
+  <a href="/risultati.html" style="--i:1">Risultati<svg class="freccia" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12h14.5M13.5 6.5 19 12l-5.5 5.5"/></svg></a>
+  <a href="/dna.html" style="--i:2">DNA<svg class="freccia" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12h14.5M13.5 6.5 19 12l-5.5 5.5"/></svg></a>
+  <a href="/team.html" style="--i:3">Team<svg class="freccia" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12h14.5M13.5 6.5 19 12l-5.5 5.5"/></svg></a>
+  <a href="/eventi.html" style="--i:4">Eventi<svg class="freccia" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12h14.5M13.5 6.5 19 12l-5.5 5.5"/></svg></a>
+  <a href="/fatturare.html" style="--i:5">Fatturare³<svg class="freccia" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12h14.5M13.5 6.5 19 12l-5.5 5.5"/></svg></a>
+  <a href="/candidatura.html" style="--i:6">Candidatura<svg class="freccia" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12h14.5M13.5 6.5 19 12l-5.5 5.5"/></svg></a>
+  <a class="cta cta--ar" href="/candidatura.html" style="--i:7">Candida la tua azienda</a>
+  <div class="menu__contatti">
+    <a href="mailto:amministrazione@salesprocess.it" style="--i:8">amministrazione@salesprocess.it</a>
+  </div>
 </div>
 <div class="avanza" aria-hidden="true"></div>
 
@@ -95,7 +98,7 @@
 
     <div class="cta-riga cta-riga--c apri-3">
       <a class="cta cta--bianco" href="/candidatura.html">Candida la tua azienda</a>
-      <a class="cta cta--out" href="/metodo.html">Guarda come funziona il 4 in 1 →</a>
+      <a class="cta cta--out" href="/metodo.html">Guarda come funziona il 4 in 1<svg class="freccia" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12h14.5M13.5 6.5 19 12l-5.5 5.5"/></svg></a>
     </div>
 
     <!-- Sotto-label: è la sola cosa che trasforma «Candida la tua azienda»
@@ -130,7 +133,7 @@
       <p class="t-eyebrow">I numeri dei clienti, non le promesse</p>
       <h2 class="sr" id="prove-h">Risultati dei clienti</h2>
     </div>
-    <button class="pausa" id="nastro-pausa" aria-pressed="false" aria-label="Ferma il nastro">❚❚</button>
+    <button class="pausa" id="nastro-pausa" aria-pressed="false" aria-label="Ferma il nastro"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M8.5 5.5v13M15.5 5.5v13"/></svg></button>
   </div>
 
   <div class="nastro__wrap" id="nastro-wrap">
@@ -234,7 +237,7 @@
       <p class="t-piccolo" style="color:var(--c-t3)">L'ultimo entrato: <strong style="color:var(--c-t1);font-weight:500">Evergreen Life</strong>, impiantistica, ingresso a 1,4 M€.</p>
       <!-- La granularità batte la grandezza: 33 nomi battono 2.300 clienti
            senza nomi.                                                      -->
-      <a class="cta cta--testo link-wipe t-piccolo" href="/risultati.html#settori">Vedi i 33 settori, uno per uno →</a>
+      <a class="cta cta--testo link-wipe t-piccolo" href="/risultati.html#settori">Vedi i 33 settori, uno per uno<svg class="freccia" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12h14.5M13.5 6.5 19 12l-5.5 5.5"/></svg></a>
     </div>
   </div>
 </section>
@@ -255,7 +258,7 @@
     <div class="bento" id="bento"><!-- /js/dati.js --></div>
     <div class="cta-riga" style="margin-top:var(--s-7)">
       <a class="cta cta--ar cta--luce" href="/candidatura.html">Candida la tua azienda</a>
-      <a class="cta cta--out" href="/metodo.html">Il metodo, passaggio per passaggio →</a>
+      <a class="cta cta--out" href="/metodo.html">Il metodo, passaggio per passaggio<svg class="freccia" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12h14.5M13.5 6.5 19 12l-5.5 5.5"/></svg></a>
     </div>
   </div>
 </section>
@@ -277,7 +280,7 @@
       <h2 class="t-d2">Due numeri, non un <span class="ar">report</span>.</h2>
       <p class="t-deck">Tutto il resto — le impression, i clic, i lead, le attività svolte — è mezzo. Questi due sono il fine, e sono gli unici che ti diciamo ogni settimana.</p>
       <div class="cta-riga">
-        <a class="cta cta--out" href="/risultati.html">Guarda i numeri dei clienti →</a>
+        <a class="cta cta--out" href="/risultati.html">Guarda i numeri dei clienti<svg class="freccia" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12h14.5M13.5 6.5 19 12l-5.5 5.5"/></svg></a>
       </div>
     </div>
 
@@ -410,7 +413,7 @@
         <button class="frecc" id="sq-next" aria-label="Persona successiva" aria-controls="squadra-pista">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
         </button>
-        <button class="pausa" id="squadra-pausa" aria-pressed="false" aria-label="Ferma lo scorrimento">❚❚</button>
+        <button class="pausa" id="squadra-pausa" aria-pressed="false" aria-label="Ferma lo scorrimento"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M8.5 5.5v13M15.5 5.5v13"/></svg></button>
       </div>
     </div>
   </div>
@@ -456,19 +459,19 @@
         <p class="t-micro risorsa__data">Podcast · dal 2023</p>
         <h3 class="t-t1">Fatturare Fatturare Fatturare</h3>
         <p class="t-piccolo" style="color:var(--c-t3)">Come si costruisce un reparto vendita, raccontato con i numeri veri delle aziende che ci passano dentro.</p>
-        <a class="cta cta--testo link-wipe t-piccolo" style="margin-top:auto" href="/fatturare.html">Ascolta l'ultimo episodio →</a>
+        <a class="cta cta--testo link-wipe t-piccolo" style="margin-top:auto" href="/fatturare.html">Ascolta l'ultimo episodio<svg class="freccia" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12h14.5M13.5 6.5 19 12l-5.5 5.5"/></svg></a>
       </article>
       <article class="card risorsa">
         <p class="t-micro risorsa__data">Evento · 14.10.2026 · Milano</p>
         <h3 class="t-t1">Sales Process Day</h3>
         <p class="t-piccolo" style="color:var(--c-t3)">Una giornata sui processi di vendita per titolari di PMI. Trenta posti in sala, rimborso immediato al desk se non ti è servito.</p>
-        <a class="cta cta--testo link-wipe t-piccolo" style="margin-top:auto" href="/eventi.html">Prendi uno dei 30 posti →</a>
+        <a class="cta cta--testo link-wipe t-piccolo" style="margin-top:auto" href="/eventi.html">Prendi uno dei 30 posti<svg class="freccia" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12h14.5M13.5 6.5 19 12l-5.5 5.5"/></svg></a>
       </article>
       <article class="card risorsa">
         <p class="t-micro risorsa__data">Libri · due titoli</p>
         <h3 class="t-t1">Il processo, per iscritto</h3>
         <p class="t-piccolo" style="color:var(--c-t3)">Il metodo 4 in 1 spiegato per chi vuole capirlo prima di comprarlo. Si legge in una sera.</p>
-        <a class="cta cta--testo link-wipe t-piccolo" style="margin-top:auto" href="/fatturare.html#libri">Vai ai libri →</a>
+        <a class="cta cta--testo link-wipe t-piccolo" style="margin-top:auto" href="/fatturare.html#libri">Vai ai libri<svg class="freccia" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12h14.5M13.5 6.5 19 12l-5.5 5.5"/></svg></a>
       </article>
     </div>
   </div>
@@ -523,7 +526,7 @@
           <p class="t-eyebrow" style="color:var(--c-ar-hot)">Uffici di rappresentanza</p>
           <p class="t-t1">Via Marco D'Agrate 41<br>20139 Milano (MI)</p>
           <p class="t-piccolo" style="color:var(--c-t3)">Quarto piano. Citofono Sales Process.</p>
-          <a class="cta cta--out cta--sm" href="https://www.google.com/maps/search/?api=1&query=Via+Marco+D%27Agrate+41%2C+20139+Milano" target="_blank" rel="noopener">Apri in Google Maps →</a>
+          <a class="cta cta--out cta--sm" href="https://www.google.com/maps/search/?api=1&query=Via+Marco+D%27Agrate+41%2C+20139+Milano" target="_blank" rel="noopener">Apri in Google Maps<svg class="freccia" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12h14.5M13.5 6.5 19 12l-5.5 5.5"/></svg></a>
         </article>
         <article class="card sede">
           <p class="t-eyebrow">Sede legale</p>
@@ -559,7 +562,7 @@
       <p class="t-deck">È l'unica cosa che misuriamo. Non le impression, non i lead, non le attività svolte: il numero che trovi in fondo al tuo bilancio.</p>
       <div class="cta-riga cta-riga--c">
         <a class="cta cta--ar cta--luce" href="/candidatura.html">Candida la tua azienda</a>
-        <a class="cta cta--out" href="/fatturare.html">Ascolta il podcast →</a>
+        <a class="cta cta--out" href="/fatturare.html">Ascolta il podcast<svg class="freccia" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12h14.5M13.5 6.5 19 12l-5.5 5.5"/></svg></a>
       </div>
     </div>
   </div>

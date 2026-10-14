@@ -11,12 +11,9 @@
   position: relative; isolation: isolate;
   padding-top: 190px; padding-bottom: var(--s-8);
   text-align: center; overflow: clip;
-  /* Il fondo dell hero e NERO, non la base: un alone si legge come luce
-     solo se sotto c e il nero. Il raccordo verso --c-base lo fa il
-     gradiente finale, cosi la giunzione col nastro resta invisibile.   */
-  background:
-    linear-gradient(180deg, transparent 0%, transparent 62%, var(--c-base) 100%),
-    var(--c-deep);
+  /* Nessun fondo proprio: il nero lo dà il palco (atmosfera "nero"), e il
+     raccordo con il nastro è la dissolvenza fra atmosfere, non un
+     gradiente dipinto dentro la sezione.                               */
 }
 .hero::before {
   content: ''; position: absolute; z-index: 0;
@@ -349,9 +346,6 @@
 
 /* ── TESTA DI PAGINA INTERNA ───────────────────────────────────────────── */
 .testa-pag { position: relative; padding-top: 180px; padding-bottom: var(--s-8); overflow: clip; text-align: center; }
-.testa-pag {
-  background: linear-gradient(180deg, transparent 0%, transparent 58%, var(--c-base) 100%), var(--c-deep);
-}
 .testa-pag::before {
   content: ''; position: absolute; z-index: 0; inset: -200px -20% auto -20%; height: 900px;
   background: var(--alone); pointer-events: none;
@@ -621,7 +615,7 @@
    I due pugni con i cartelli, a fianco del testo. Sono asset del brand,
    non illustrazioni: dicono le due sole cose che il cliente compra.    */
 .cartelli {
-  position: relative; background: var(--c-deep);
+  position: relative;
   /* Padding-top generoso: i cartelli portano il messaggio nella parte ALTA
      dell'immagine, quindi tagliarli in cima è l'unico taglio che non si
      può fare. Il basso invece si dissolve.                             */

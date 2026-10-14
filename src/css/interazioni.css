@@ -84,7 +84,7 @@
    fluida anche col main thread occupato.                               */
 .avanza {
   position: fixed; left: 0; right: 0; z-index: calc(var(--z-nav) + 1);
-  top: 115px; height: 2px;
+  top: calc(var(--barra-h) + var(--nav-h) - 1px); height: 2px;
   background: var(--c-ar);
   transform-origin: left center;
   scale: 0 1;
@@ -93,9 +93,7 @@
   box-shadow: 0 0 12px rgba(255,130,0,.5);
   pointer-events: none;
 }
-html.barra-off .avanza { top: 75px; }
 @keyframes avanza-x { to { scale: 1 1; } }
-@media (max-width: 1100px) { .avanza { top: 99px; } html.barra-off .avanza { top: 59px; } }
 @supports not (animation-timeline: scroll(root block)) { .avanza { display: none; } }
 @media (prefers-reduced-motion: reduce) { .avanza { display: none; } }
 

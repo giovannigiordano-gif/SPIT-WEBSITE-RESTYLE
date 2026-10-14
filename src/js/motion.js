@@ -13,12 +13,36 @@
   const $  = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 
+  /* Icone dei comandi di pausa: disegnate, non glifi unicode (❚❚ e ▶
+     cambiano forma a ogni font di fallback).                           */
+  const ICO_PAUSA = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M8.5 5.5v13M15.5 5.5v13"/></svg>';
+  const ICO_PLAY  = '<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M8 5.6v12.8a.6.6 0 0 0 .9.5l10-6.4a.6.6 0 0 0 0-1L8.9 5.1a.6.6 0 0 0-.9.5z"/></svg>';
+
   /* ── BARRA ANNUNCIO ───────────────────────────────────────────────────── */
   try { if (localStorage.getItem('barra') === 'off') document.documentElement.classList.add('barra-off'); } catch {}
   $('#barra-x')?.addEventListener('click', () => {
     document.documentElement.classList.add('barra-off');
     try { localStorage.setItem('barra', 'off'); } catch {}
   });
+
+  /* ── IL PALCO · quale luce è accesa ─────────────────────────────────────
+     Ogni sezione dichiara la sua atmosfera (classe sf--* o data-atmo);
+     quella che attraversa la linea mediana del viewport accende il suo
+     livello sul palco fisso. Il resto è CSS: dissolvenza di opacità,
+     compositor, nessun gradiente ridipinto.                            */
+  const atmoDi = (n) => n.dataset.atmo
+    || (n.className.match(/\bsf--(\w+)/) || [])[1]
+    || (n.matches('.hero, .testa-pag, .cartelli, .footer') ? 'nero'
+      : n.matches('.sez--deep') ? 'pozzo'
+      : n.matches('.muro, .cand') ? 'alba' : 'base');
+  const sezioni = $$('main > section, main > div, .footer');
+  if (sezioni.length && 'IntersectionObserver' in window) {
+    const root = document.documentElement;
+    const ioAtmo = new IntersectionObserver((es) => {
+      for (const e of es) if (e.isIntersecting) root.dataset.atmo = atmoDi(e.target);
+    }, { rootMargin: '-49% 0px -49% 0px' });
+    sezioni.forEach(s => ioAtmo.observe(s));
+  }
 
   /* ── NAV · ISTERESI A DUE SOGLIE ────────────────────────────────────────
      Attiva a 48px, disattiva a 12px. Senza isteresi il backdrop-filter
@@ -46,7 +70,11 @@
       const apri = !menu.classList.contains('is-on');
       menu.classList.toggle('is-on', apri);
       burger.setAttribute('aria-expanded', String(apri));
+      burger.setAttribute('aria-label', apri ? 'Chiudi il menu' : 'Apri il menu');
       document.body.style.overflow = apri ? 'hidden' : '';
+      /* Il fuoco entra nel pannello: con la tastiera il menu aperto non
+         deve restare dietro al burger.                                  */
+      if (apri) menu.querySelector('a')?.focus({ preventScroll: true });
     });
     menu.addEventListener('click', (e) => { if (e.target.closest('a')) chiudi(); });
     addEventListener('keydown', (e) => {
@@ -124,7 +152,7 @@
       bloccato = !bloccato;
       target = bloccato ? 0 : v;
       btn.setAttribute('aria-pressed', String(bloccato));
-      btn.textContent = bloccato ? '▶' : '❚❚';
+      btn.innerHTML = bloccato ? ICO_PLAY : ICO_PAUSA;
       btn.setAttribute('aria-label', bloccato ? 'Riavvia lo scorrimento' : 'Ferma lo scorrimento');
     });
 
@@ -134,7 +162,7 @@
       const larghezza = cache.length ? cache[0].w + 16 : 280;
       const da = pos, a = pos - dir * larghezza, t0 = performance.now();
       bloccato = true; target = 0;
-      if (btn) { btn.setAttribute('aria-pressed', 'true'); btn.textContent = '▶'; }
+      if (btn) { btn.setAttribute('aria-pressed', 'true'); btn.innerHTML = ICO_PLAY; btn.setAttribute('aria-label', 'Riavvia lo scorrimento'); }
       const anima = (t) => {
         const p = Math.min(1, (t - t0) / 460);
         const e = 1 - Math.pow(1 - p, 3);          /* cubic-out */

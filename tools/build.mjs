@@ -55,20 +55,48 @@ const socialHtml = () => SOCIAL.map(s =>
    segnaposto dichiarato. Cambiare QUI e ricostruire.                    */
 const TEL = { num: null, label: 'Numero verde da fornire' }
 const telHref = TEL.num ? 'tel:' + TEL.num.replace(/\s/g, '') : null
+const MAIL = 'amministrazione@salesprocess.it'
 
+/* ── LE FRECCE DISEGNATE ───────────────────────────────────────────────────
+   "→" e "↓" in coda al testo di un link diventano un'icona SVG: un glifo
+   unicode cambia disegno a ogni font di fallback e lo screen reader lo
+   legge ad alta voce ("freccia destra"). L'icona è aria-hidden e fa un
+   passo nella sua direzione al passaggio (base.css, .freccia).          */
+const ICO_FRECCIA = '<svg class="freccia" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12h14.5M13.5 6.5 19 12l-5.5 5.5"/></svg>'
+const ICO_GIU = '<svg class="freccia freccia--giu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4.5V19M6.5 13.5 12 19l5.5-5.5"/></svg>'
+const ICO_PAUSA = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M8.5 5.5v13M15.5 5.5v13"/></svg>'
+const frecce = (html) => html
+  .replace(/>❚❚</g, '>' + ICO_PAUSA + '<')
+  .replace(/<span aria-hidden="true">→<\/span>/g, ICO_FRECCIA)
+  .replace(/\s?→(?=\s*<\/(?:a|span|button)>)/g, ICO_FRECCIA)
+  .replace(/\s?↓(?=\s*<\/(?:a|span|button)>)/g, ICO_GIU)
+
+/* ── IL PALCO ─────────────────────────────────────────────────────────────
+   Il fondo fisso di tutto il sito, con le sette atmosfere in dissolvenza
+   incrociata (sfondi.css). motion.js accende quella della sezione al
+   centro del viewport; l'html nasce già su "nero", il palco dell'apertura. */
+const ATMO = ['nero', 'brace', 'alba', 'radente', 'notte', 'pozzo', 'fuoco']
+const palco = () => `<div class="palco" aria-hidden="true">${ATMO.map(a => `<i data-a="${a}"></i>`).join('')}</div>`
+
+/* La fascia è UN link: prima il bersaglio era la sola pill, che sotto i
+   560px si riduceva a un ovale nero di 20×26px.                        */
 const barra = () => `
 <div class="barra" id="barra">
-  <span class="barra__dot" aria-hidden="true"></span>
-  <span>Sales Process Day 2026</span>
-  <span class="barra__sep barra__data" aria-hidden="true">·</span>
-  <span class="barra__data">14 ottobre · Milano</span>
-  <span class="barra__slot barra__sep" aria-hidden="true">·</span>
-  <span class="barra__slot">30 posti in sala</span>
-  <a class="barra__pill" href="/eventi.html"><span>Prendi il tuo posto</span> <span aria-hidden="true">→</span></a>
+  <a class="barra__link" href="/eventi.html">
+    <span class="barra__dot" aria-hidden="true"></span>
+    <span>Sales Process Day 2026</span>
+    <span class="barra__sep barra__data" aria-hidden="true">·</span>
+    <span class="barra__data">14 ottobre · Milano</span>
+    <span class="barra__slot barra__sep" aria-hidden="true">·</span>
+    <span class="barra__slot">30 posti in sala</span>
+    <span class="barra__pill"><span>Prendi il tuo posto</span>${ICO_FRECCIA}</span>
+  </a>
   <button class="barra__x" id="barra-x" aria-label="Chiudi l'annuncio">
-    <svg width="11" height="11" viewBox="0 0 11 11" aria-hidden="true"><path d="M1 1l9 9M10 1l-9 9" stroke="currentColor" stroke-width="1.6"/></svg>
+    <svg width="12" height="12" viewBox="0 0 11 11" aria-hidden="true"><path d="M1 1l9 9M10 1l-9 9" stroke="currentColor" stroke-width="1.6"/></svg>
   </button>
 </div>`
+
+const corrente = (href, slug) => href === '/' + slug + '.html' ? ' aria-current="page"' : ''
 
 const nav = (slug) => `
 <header class="nav" id="nav">
@@ -77,13 +105,12 @@ const nav = (slug) => `
       ${LOGO(30)}
     </a>
     <nav class="nav__voci" aria-label="Principale">
-      ${NAV.map(v => `<a href="${v.href}"${v.href === '/' + slug + '.html' ? ' aria-current="page"' : ''}>${v.label}</a>`).join('\n      ')}
+      ${NAV.map(v => `<a href="${v.href}"${corrente(v.href, slug)}>${v.label}</a>`).join('\n      ')}
     </nav>
     <div class="nav__dx">
-      <div class="gruppo" aria-label="Contatti rapidi">
-        ${telHref ? `<a class="is-on" href="${telHref}">Chiama</a>` : `<a class="is-on" href="mailto:amministrazione@salesprocess.it">Scrivici</a>`}
-        <a href="mailto:amministrazione@salesprocess.it">Scrivi</a>
-      </div>
+      ${telHref
+        ? `<div class="gruppo" aria-label="Contatti rapidi"><a class="is-on" href="${telHref}">Chiama</a><a href="mailto:${MAIL}">Scrivi</a></div>`
+        : `<a class="nav__login" href="mailto:${MAIL}">Scrivici</a>`}
       <a class="nav__login" href="/fatturare.html">Podcast</a>
       <a class="cta cta--ar cta--luce cta--nav" href="/candidatura.html">Candida la tua azienda</a>
       <button class="burger" id="burger" aria-label="Apri il menu" aria-expanded="false" aria-controls="menu"><span></span></button>
@@ -92,9 +119,12 @@ const nav = (slug) => `
 </header>
 
 <div class="menu" id="menu">
-  ${NAV.map(v => `<a href="${v.href}">${v.label}<span aria-hidden="true">→</span></a>`).join('\n  ')}
-  <a href="/candidatura.html">Candidatura<span aria-hidden="true">→</span></a>
-  <a class="cta cta--ar" href="/candidatura.html">Candida la tua azienda</a>
+  ${[...NAV, ...NAV_EXTRA, { href: '/candidatura.html', label: 'Candidatura' }]
+    .map((v, i) => `<a href="${v.href}" style="--i:${i}"${corrente(v.href, slug)}>${v.label}${ICO_FRECCIA}</a>`).join('\n  ')}
+  <a class="cta cta--ar" href="/candidatura.html" style="--i:7">Candida la tua azienda</a>
+  <div class="menu__contatti">
+    <a href="mailto:${MAIL}" style="--i:8">${MAIL}</a>
+  </div>
 </div>`
 
 const footer = () => `
@@ -162,7 +192,7 @@ const footer = () => `
 <div class="grana" aria-hidden="true"></div>`
 
 const shell = ({ title, desc, slug, body }) => `<!doctype html>
-<html lang="it">
+<html lang="it" data-atmo="nero">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -186,7 +216,7 @@ const shell = ({ title, desc, slug, body }) => `<!doctype html>
 <link rel="stylesheet" href="/css/interazioni.css">
 </head>
 <body data-pagina="${slug}">
-
+${palco()}
 <a class="skip" href="#main">Salta al contenuto</a>
 ${barra()}
 ${nav(slug)}
@@ -215,12 +245,12 @@ for (const f of files) {
     if (kv) meta[kv[1]] = kv[2]
   }
   const slug = f.replace(/\.html$/, '')
-  const out = shell({
+  const out = frecce(shell({
     title: meta.title || 'Sales Process',
     desc: meta.desc || '',
     slug: slug === 'index' ? 'home' : slug,
     body: raw.slice(m ? m[0].length : 0),
-  })
+  }))
   await writeFile(join(OUT, f), out)
   console.log('→ src/' + f + '  (' + out.length + ' byte)')
 }
