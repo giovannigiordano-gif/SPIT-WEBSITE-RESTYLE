@@ -174,7 +174,7 @@
 }
 .pill-eyebrow::before {
   content: ''; width: 7px; height: 7px; border-radius: var(--q-r);
-  background: var(--c-ar); box-shadow: 0 0 10px rgba(255,130,0,.8);
+  background: var(--c-ar);
 }
 
 /* ── I DATI. Le CIFRE hanno letter-spacing 0: tracciare i numeri fa
@@ -203,5 +203,4 @@
 /* Nella hero la parola d'accento è anche il picco di peso: un solo punto
    di massima forza per schermata, mai due.                              */
 .t-hero .ar { font-weight: 700; }
-.ar-glow { color: var(--c-ar); text-shadow: var(--e-glow-testo); }
 .centro { text-align: center; }
