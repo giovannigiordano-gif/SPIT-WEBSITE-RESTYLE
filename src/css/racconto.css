@@ -1,0 +1,209 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   SALESPROCESS · racconto.css — i capitoli riscritti nel giro 3
+   ---------------------------------------------------------------------------
+   Il filo della home è un OGGETTO: il cubo arancione, il quadrato del
+   marchio in volume. Nell'hero è un contatto sparso (3D), nel contro-esempio
+   cade fra due mani, nella staffetta passa di mano, nel finale è alzato
+   come un trofeo. Le fotografie hanno la grammatica della serie del
+   cliente (mani in bianco e nero, oggetto arancione) e il fondo reso
+   trasparente (tools/foto.mjs): galleggiano sul palco, nessuna scatola.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── NASTRO · il titolo ─────────────────────────────────────────────────── */
+.nastro__testa { margin-bottom: clamp(28px, 2.6vw + 12px, 52px); }
+.nastro__testa .t-d2 { max-inline-size: 18ch; }
+
+/* ── I NUMERI A UNITÀ ───────────────────────────────────────────────────────
+   Tre voci di registro, ognuna con il suo campo di quadrati sulla STESSA
+   griglia: l'altezza del campo è la quantità. Il primo (150, gli
+   imprenditori) è l'unico acceso in arancio: è il numero protagonista.  */
+.unita { border-top: 1px solid var(--c-filo-forte); }
+.u-voce {
+  display: grid;
+  grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+  column-gap: clamp(24px, 4.4vw, 80px); row-gap: var(--s-5);
+  align-items: start;
+  padding-block: clamp(28px, 2.6vw + 8px, 52px);
+  border-bottom: 1px solid var(--c-filo);
+}
+.u-voce__su { display: flex; align-items: center; gap: 10px; font: 500 14px/1.3 var(--f-display); color: var(--c-t3); }
+.u-voce__su::before { content: ''; width: 18px; height: 2px; border-radius: 2px; background: currentColor; opacity: .55; }
+.u-voce__num {
+  font: 700 clamp(64px, 7.6vw, 124px)/.86 var(--f-display);
+  letter-spacing: -.045em; color: var(--c-t1);
+  font-variant-numeric: tabular-nums;
+  margin-block: var(--s-3) var(--s-3);
+}
+.u-voce__lab { font: 500 clamp(17px, 1.3vw, 20px)/1.25 var(--f-display); letter-spacing: -.01em; color: var(--c-t1); max-inline-size: 18ch; }
+.u-voce__campo { display: grid; gap: var(--s-4); padding-top: clamp(4px, 1.2vw, 18px); }
+.ucampo { position: relative; width: 100%; }
+.ucampo__strato { position: absolute; inset: 0; width: 100%; height: 100%; display: block; overflow: visible; }
+.u-voce__leg { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font: 500 13px/1.45 var(--f-display); color: var(--c-t3); font-variant-numeric: tabular-nums; }
+.u-voce__leg .q { flex: none; border-radius: 2px; }
+
+/* I campi si accendono riga per riga mentre entrano: steps(righe) fa
+   scattare il ritaglio di una riga intera alla volta, come un conteggio. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .ucampo__acceso {
+      animation: campo-accende linear both;
+      animation-timing-function: steps(var(--righe), end);
+      animation-timeline: view();
+      animation-range: entry 35% cover 52%;
+    }
+  }
+}
+@keyframes campo-accende { from { clip-path: inset(0 0 100% 0); } to { clip-path: inset(0 0 0 0); } }
+
+@media (max-width: 760px) {
+  .u-voce { grid-template-columns: 1fr; }
+  .u-voce__num { margin-block: var(--s-2); }
+}
+
+/* ── LA STAFFETTA ───────────────────────────────────────────────────────────
+   Stato di base (mobile, motion ridotto, senza JS): una COLONNA che si
+   legge dall'alto, con tutti i reparti accesi. Su desktop motion.js
+   aggiunge .is-scena: la sezione si ferma e la pista scorre in
+   orizzontale sotto il contatto.                                       */
+.staffetta-sez { overflow-x: clip; }
+.staffetta { position: relative; }
+.staffetta__pista {
+  display: grid; gap: clamp(32px, 4vw, 56px);
+  width: min(100% - 2 * var(--margine), var(--w-piena));
+  margin-inline: auto;
+}
+.staffetta__testa { display: grid; gap: var(--s-5); justify-items: start; }
+.staffetta__testa .t-d2 { max-inline-size: 16ch; }
+.staffetta__testa .t-deck { max-inline-size: 44ch; }
+
+.stazione {
+  position: relative; isolation: isolate;
+  display: grid; align-content: start; gap: var(--s-4);
+  padding: clamp(24px, 2.2vw, 36px);
+  border: 1px solid var(--c-bordo-ar); border-radius: var(--r-card);
+  background: rgba(255,130,0,.05);
+  transition: border-color var(--t-stato) linear, background-color var(--t-stato) linear, box-shadow var(--t-stato) linear;
+}
+/* Il numero fantasma (decisione cliente: «icona + numero fantasma»):
+   contenuto generato, fuori dall'albero dell'accessibilità.          */
+.stazione::after {
+  content: attr(data-n); position: absolute; z-index: -1;
+  top: clamp(14px, 1.4vw, 22px); right: clamp(18px, 1.8vw, 28px);
+  font: 700 clamp(64px, 6vw, 104px)/1 var(--f-display); letter-spacing: -.05em;
+  color: rgba(255,130,0,.18);
+  transition: color var(--t-stato) linear;
+}
+.stazione .icoq { width: 30px; height: 30px; color: var(--c-ar); transition: color var(--t-stato) linear; }
+.stazione__nome { font: 500 clamp(24px, 2vw, 32px)/1.08 var(--f-display); letter-spacing: -.02em; color: var(--c-t1); max-inline-size: 13ch; }
+.stazione__claim { font: 400 16px/1.55 var(--f-display); color: var(--c-t2); max-inline-size: 32ch; }
+.stazione__out {
+  margin-top: var(--s-2); padding-top: var(--s-4);
+  border-top: 1px solid var(--c-filo);
+  font: 600 15px/1.35 var(--f-display); color: var(--c-ar-hot);
+  font-variant-numeric: tabular-nums;
+  transition: color var(--t-stato) linear;
+}
+
+.passaggio { margin: 0; display: grid; gap: var(--s-4); justify-items: start; }
+.passaggio__foto { width: min(100%, 440px); }
+.passaggio__foto img {
+  display: block; width: 100%; height: auto;
+  /* le braccia entrano dai bordi della foto: sfumano invece di finire
+     tagliate a filo della scatola, che qui non c'è (fondo trasparente) */
+  -webkit-mask-image: radial-gradient(ellipse 72% 70% at 50% 50%, #000 58%, transparent 100%);
+          mask-image: radial-gradient(ellipse 72% 70% at 50% 50%, #000 58%, transparent 100%);
+}
+.passaggio figcaption { display: grid; gap: 3px; }
+.passaggio__n { font: 500 13px/1.3 var(--f-display); color: var(--c-t3); }
+.passaggio__cosa { font: 600 clamp(18px, 1.4vw, 21px)/1.25 var(--f-display); letter-spacing: -.01em; color: var(--c-t1); }
+.passaggio__det { font: 500 14px/1.4 var(--f-display); color: var(--c-ar-hot); font-variant-numeric: tabular-nums; }
+
+.staffetta__fine { max-inline-size: 40ch; font: 400 17px/1.55 var(--f-display); color: var(--c-t2); }
+.staffetta__fine strong { display: block; margin-bottom: var(--s-2); font: 500 clamp(26px, 2.2vw, 34px)/1.1 var(--f-display); letter-spacing: -.02em; color: var(--c-t1); }
+.staffetta__binario { display: none; }
+
+/* ── LA SCENA (desktop) ─────────────────────────────────────────────────── */
+.staffetta-sez:has(.staffetta.is-scena) { padding-block: 0; }
+.staffetta.is-scena { height: 100vh; height: 100svh; display: grid; align-content: center; overflow: hidden; }
+.staffetta.is-scena .staffetta__pista {
+  display: flex; align-items: center; gap: clamp(40px, 4vw, 76px);
+  width: max-content; margin: 0;
+  padding-inline: max(var(--margine), calc((100vw - var(--w-piena)) / 2 + var(--margine))) 40vw;
+  padding-top: calc(var(--barra-h) + var(--nav-h) * .6);
+  will-change: transform;
+}
+.staffetta.is-scena .staffetta__testa { width: min(40vw, 600px); flex: none; }
+.staffetta.is-scena .stazione { width: clamp(290px, 21vw, 340px); flex: none; }
+.staffetta.is-scena .passaggio { width: clamp(320px, 30vw, 480px); flex: none; }
+.staffetta.is-scena .passaggio__foto { width: 100%; }
+.staffetta.is-scena .passaggio__foto img { max-height: 62vh; width: auto; max-width: 100%; margin-inline: auto; }
+.staffetta.is-scena .staffetta__fine { width: min(32vw, 440px); flex: none; }
+
+/* Spenti finché il contatto non arriva: bordo e icona si accendono insieme
+   quando il reparto gli passa sotto. È la luce che entra nel reparto.  */
+.staffetta.is-scena .stazione { border-color: var(--c-filo); background: rgba(255,255,255,.025); }
+.staffetta.is-scena .stazione::after { color: rgba(255,255,255,.06); }
+.staffetta.is-scena .stazione .icoq { color: var(--c-t3); }
+.staffetta.is-scena .stazione__out { color: var(--c-t3); }
+.staffetta.is-scena .stazione.is-on {
+  border-color: var(--c-bordo-ar); background: rgba(255,130,0,.06);
+  box-shadow: 0 0 0 1px rgba(255,130,0,.10), 0 28px 60px -32px rgba(255,130,0,.45);
+}
+.staffetta.is-scena .stazione.is-on::after { color: rgba(255,130,0,.22); }
+.staffetta.is-scena .stazione.is-on .icoq,
+.staffetta.is-scena .stazione.is-on .stazione__out { color: var(--c-ar); }
+.staffetta.is-scena .passaggio { opacity: .55; transition: opacity var(--t-stato) linear; }
+.staffetta.is-scena .passaggio.is-on { opacity: 1; }
+
+/* Il binario e il contatto: il contatto resta FERMO al 32% dello schermo,
+   la pista gli scorre sotto. La parte di binario già percorsa è accesa. */
+.staffetta.is-scena .staffetta__binario {
+  display: block; position: absolute; left: 0; right: 0; bottom: max(7vh, 44px);
+  height: 2px; background: var(--c-filo-forte); pointer-events: none;
+}
+.staffetta__luce { position: absolute; left: 0; top: 0; height: 2px; width: 32vw; background: linear-gradient(90deg, rgba(255,130,0,0), var(--c-ar)); }
+.staffetta__contatto {
+  position: absolute; left: 32vw; top: 1px;
+  width: 18px; height: 18px; translate: -50% -50%; border-radius: 4px;
+  background: var(--c-ar);
+  box-shadow: 0 0 0 4px rgba(255,130,0,.16), 0 0 26px rgba(255,130,0,.85);
+}
+
+/* ── IL FINALE ──────────────────────────────────────────────────────────────
+   Il payoff a filo sinistro, alla misura di un titolo; accanto il braccio
+   che alza il cubo, che sale dal fondo della sezione. La luce viene dal
+   pavimento (atmosfera «alba»).                                        */
+.finale { position: relative; padding-top: var(--sez-y); overflow: clip; }
+.finale::before {
+  content: ''; position: absolute; inset: auto -10% -340px -10%; height: 860px;
+  background: radial-gradient(56% 58% at 72% 100%, rgba(184,91,0,.34) 0%, rgba(184,91,0,0) 70%);
+  pointer-events: none;
+}
+.finale__in {
+  position: relative;
+  display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  column-gap: clamp(24px, 4vw, 72px); align-items: end;
+}
+.finale__testo { display: grid; gap: var(--s-5); justify-items: start; padding-bottom: var(--sez-y); }
+.finale__payoff {
+  display: grid; margin: 0;
+  font: 700 clamp(52px, 7.4vw, 118px)/.9 var(--f-display);
+  letter-spacing: -.035em; text-transform: uppercase; color: var(--c-t1);
+}
+.finale__payoff .mask { display: block; overflow: hidden; padding-bottom: .04em; }
+.finale__riga { display: block; }
+.finale__riga--ar { color: var(--c-ar); }
+.finale__nota { font: 500 14px/1.4 var(--f-display); color: var(--c-t3); }
+.finale__testo .t-deck { max-inline-size: 46ch; }
+.finale__foto { margin: 0; align-self: end; justify-self: center; width: min(100%, 520px); }
+.finale__foto img {
+  display: block; width: 100%; height: auto; max-height: 88vh; object-fit: contain; object-position: bottom;
+  /* il braccio sale dal fondo: lo si lascia sfumare invece di tagliarlo */
+  -webkit-mask-image: linear-gradient(180deg, #000 78%, transparent 100%);
+          mask-image: linear-gradient(180deg, #000 78%, transparent 100%);
+}
+@media (max-width: 900px) {
+  .finale__in { grid-template-columns: 1fr; }
+  .finale__testo { padding-bottom: var(--s-6); }
+  .finale__foto { width: min(78%, 420px); }
+}

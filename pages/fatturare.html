@@ -3,15 +3,22 @@ title: Fatturare Fatturare Fatturare — il podcast, gli articoli, i libri
 desc: Il podcast sul processo di vendita dal 2023, gli articoli e i due libri. Il payoff di Sales Process è anche il nome di quello che pubblichiamo.
 -->
 
-<section class="testa-pag" data-fantasma="Fatturare">
+<!-- ══ APERTURA ══════════════════════════════════════════════════════════
+     Il microfono: il payoff è anche il nome del podcast. -->
+<section class="testa-pag">
   <div class="wrap wrap--piena testa-pag__in">
-    <p class="pill-eyebrow apri-1">Dal 2023</p>
-    <h1 class="t-hero" style="max-inline-size:14ch" data-split>Fatturare Fatturare <span class="ar">Fatturare</span></h1>
-    <p class="t-deck apri-2">È il nostro payoff, il nome del podcast e l'unica cosa che misuriamo. Qui c'è tutto quello che pubblichiamo: episodi, articoli e i due libri.</p>
-    <div class="cta-riga cta-riga--c apri-3">
-      <a class="cta cta--bianco" href="#podcast">Ascolta l'ultimo episodio</a>
-      <a class="cta cta--out" href="#libri">Vai ai libri →</a>
+    <div class="testa-pag__testo">
+      <h1 class="t-hero" data-split>Fatturare Fatturare <span class="ar">Fatturare</span></h1>
+      <p class="t-deck apri-2">È il nostro payoff, il nome del podcast e l'unica cosa che misuriamo. Qui c'è tutto quello che pubblichiamo: episodi, articoli e i due libri.</p>
+      <div class="cta-riga apri-3">
+        <a class="cta cta--bianco" href="#podcast">Ascolta l'ultimo episodio</a>
+        <a class="cta cta--out" href="#libri">Vai ai libri →</a>
+      </div>
+      <p class="testa-pag__meta apri-3">Dal 2023</p>
     </div>
+    <figure class="testa-pag__foto apri-2">
+      <img src="/assets/foto/fatturare-microfono-800.webp" srcset="/assets/foto/fatturare-microfono-480.webp 480w, /assets/foto/fatturare-microfono-800.webp 800w, /assets/foto/fatturare-microfono-1200.webp 1200w" sizes="(max-width: 900px) 74vw, 38vw" alt="Una mano impugna un microfono da studio arancione" width="1200" height="1500" fetchpriority="low" decoding="async">
+    </figure>
   </div>
 </section>
 
@@ -19,11 +26,7 @@ desc: Il podcast sul processo di vendita dal 2023, gli articoli e i due libri. I
 <section class="sez sf sf--brace" id="podcast">
   <div class="wrap wrap--piena">
     <div class="testa">
-      <p class="t-eyebrow">Il podcast</p>
-      <div class="duevoci">
-        <h2 class="t-caps" data-split>Processi di vendita</h2>
-        <p class="t-voce" data-split>raccontati coi numeri veri</p>
-      </div>
+      <h2 class="t-d2" data-split>Processi di vendita <span class="segue">raccontati coi numeri veri.</span></h2>
       <p class="t-deck">Ogni settimana un pezzo di processo: come si compra attenzione, come si qualifica, come si assume un venditore, come si tiene alta una rete. Con i numeri delle aziende che ci passano dentro, quando ce li lasciano pubblicare.</p>
     </div>
     <div class="indice">
@@ -53,8 +56,7 @@ desc: Il podcast sul processo di vendita dal 2023, gli articoli e i due libri. I
 <section class="sez sf sf--pozzo" id="articoli">
   <div class="wrap wrap--piena">
     <div class="testa">
-      <p class="t-eyebrow">Gli articoli</p>
-      <h2 class="t-d2" data-split>Le cose che ci chiedono più spesso, scritte una volta.</h2>
+      <h2 class="t-d2" data-split>Le cose che ci chiedono più spesso, <span class="segue">scritte una volta.</span></h2>
     </div>
     <div class="indice indice--articoli">
       <article class="indice__riga">
@@ -92,39 +94,44 @@ desc: Il podcast sul processo di vendita dal 2023, gli articoli e i due libri. I
   </div>
 </section>
 
-<!-- ══ I LIBRI ═══════════════════════════════════════════════════════════ -->
+<!-- ══ I LIBRI ═══════════════════════════════════════════════════════════
+     Due libri come OGGETTI (dorso, taglio, copertina con il marchio), non
+     due card: titoli e copertine vere sono ancora da fornire, e il
+     segnaposto lo dice. -->
 <section class="sez sf sf--radente" id="libri">
-  <div class="wrap wrap--ed">
+  <div class="wrap wrap--piena">
     <div class="testa">
-      <p class="t-eyebrow">I due libri</p>
-      <h2 class="t-d2" data-split>Il metodo, per <span class="ar">iscritto</span>.</h2>
+      <h2 class="t-d2" data-split>Il metodo, <span class="segue">per iscritto.</span></h2>
       <p class="t-deck">Per chi vuole capirlo prima di comprarlo. Si leggono in una sera e contengono lo stesso processo che applichiamo in azienda.</p>
     </div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px">
-      <article class="card" style="padding:var(--s-6);display:grid;gap:var(--s-4)">
-        <p class="t-micro">Libro 01</p>
-        <h3 class="t-t1"><em style="font-style:normal">[Titolo da cliente]</em></h3>
-        <p class="t-piccolo" style="color:var(--c-t3)">Titolo, copertina e link d'acquisto da fornire.</p>
+    <div class="libri">
+      <article class="libro">
+        <div class="libro__oggetto" aria-hidden="true"><span class="libro__marchio"></span><span class="libro__tit">[Titolo da cliente]</span></div>
+        <div class="libro__txt">
+          <p class="libro__n">Libro 01</p>
+          <h3 class="libro__nome"><em>[Titolo da cliente]</em></h3>
+          <p class="t-piccolo libro__nota">Titolo, copertina e link d'acquisto da fornire.</p>
+        </div>
       </article>
-      <article class="card" style="padding:var(--s-6);display:grid;gap:var(--s-4)">
-        <p class="t-micro">Libro 02</p>
-        <h3 class="t-t1"><em style="font-style:normal">[Titolo da cliente]</em></h3>
-        <p class="t-piccolo" style="color:var(--c-t3)">Titolo, copertina e link d'acquisto da fornire.</p>
+      <article class="libro">
+        <div class="libro__oggetto libro__oggetto--b" aria-hidden="true"><span class="libro__marchio"></span><span class="libro__tit">[Titolo da cliente]</span></div>
+        <div class="libro__txt">
+          <p class="libro__n">Libro 02</p>
+          <h3 class="libro__nome"><em>[Titolo da cliente]</em></h3>
+          <p class="t-piccolo libro__nota">Titolo, copertina e link d'acquisto da fornire.</p>
+        </div>
       </article>
     </div>
   </div>
 </section>
 
-<!-- ══ IL MURO ═══════════════════════════════════════════════════════════ -->
-<section class="muro" id="muro">
-  <div class="wrap wrap--piena">
-    <h2 class="muro__righe" id="muro-righe">
-      <span class="mask"><span class="t-muro" style="--i:0">Fatturare</span></span>
-      <span class="mask"><span class="t-muro" style="--i:1">Fatturare</span></span>
-      <span class="mask"><span class="t-muro t-muro--ar" style="--i:2">Fatturare</span></span>
-    </h2>
-    <div class="muro__piede">
-      <p class="t-meta">È l'unica cosa che misuriamo.</p>
+<!-- ══ CHIUSA ════════════════════════════════════════════════════════════
+     Il titolo della pagina è già il payoff: qui non si ripete il muro, si
+     chiude con la frase che lo spiega. -->
+<section class="sez sez--alone chiusa" id="muro">
+  <div class="wrap wrap--stat chiusa__in">
+    <h2 class="t-d2" data-split>È l'unica cosa <span class="segue">che misuriamo.</span></h2>
+    <div class="cta-riga cta-riga--c">
       <a class="cta cta--ar cta--luce" href="/candidatura.html">Candida la tua azienda</a>
     </div>
   </div>

@@ -78,9 +78,9 @@ const misuraLogo = (wNat) => {
    150 vs +800 imprenditori, 20 vs 30 vs 34 persone, 6 vs 9/12 mesi.
    Serve un valore per concetto, con la sua etichetta e la sua data.      */
 const NUMERI = [
-  { v:150, u:'',   lab:'Imprenditori seguiti',           su:'dal 2020',     barre:12, tinta:'calda',  fonte:'Agg. 09.2026 · gestionale interno', prov:true },
-  { v:33,  u:'',   lab:'Settori differenti',             su:'e continuano', barre:8,  tinta:'fredda', fonte:'Agg. 09.2026 · gestionale interno', prov:true },
-  { v:750, u:'',   lab:'Processi di vendita realizzati', su:'in sei anni',  barre:12, tinta:'verde',  fonte:'Agg. 09.2026 · gestionale interno', prov:true, x10:true },
+  { v:150, lab:'Imprenditori seguiti',           su:'dal 2020',     uno:'un imprenditore',        acceso:'#FF8200',               fonte:'Agg. 09.2026 · gestionale interno', prov:true },
+  { v:33,  lab:'Settori differenti',             su:'e continuano', uno:'un settore',             acceso:'rgba(255,255,255,.5)', fonte:'Agg. 09.2026 · gestionale interno', prov:true },
+  { v:750, lab:'Processi di vendita realizzati', su:'in sei anni',  uno:'un processo di vendita', acceso:'rgba(255,255,255,.5)', fonte:'Agg. 09.2026 · gestionale interno', prov:true },
 ];
 
 /* ── IL BENTO ─────────────────────────────────────────────────────────────
@@ -210,23 +210,47 @@ const scheda = (p) => el('article', 'scheda', `
   <span class="scheda__extra"><span>${p.extra}</span></span>
   <p class="scheda__fonte">Fonte: CRM cliente · agg. 08.2026 · con liberatoria</p>`);
 
-/* ── IL REGISTRO DEI NUMERI ───────────────────────────────────────────────
-   Una VOCE di registro, non una card: numero, etichetta, istogramma che
-   rappresenta la quantità, fonte. Il CSS (.registro) le dispone in modo
-   asimmetrico — la prima a tutta altezza, le altre due in colonna.   */
+/* ── I NUMERI A UNITÀ ─────────────────────────────────────────────────────
+   Un quadrato del marchio = un'unità, sulla STESSA griglia per i tre numeri
+   (50 colonne, 25 sotto i 700px): 150 sono tre righe, 33 mezza riga, 750
+   quindici righe. L'altezza del campo è la quantità, e nessuna barra è
+   disegnata a occhio. Il campo è un SVG con un <pattern> (due rettangoli,
+   non 933 nodi): uno strato spento e uno acceso, e l'acceso si scopre
+   riga per riga allo scroll (racconto.css).                             */
+const colonne = () => matchMedia('(max-width: 700px)').matches ? 25 : 50;
+const strato = (n, col, id, colore, cls) => {
+  const righe = Math.floor(n / col), resto = n % col, h = righe + (resto ? 1 : 0);
+  return `<svg class="ucampo__strato ${cls}" viewBox="0 0 ${col} ${h}" preserveAspectRatio="xMinYMin meet" aria-hidden="true" focusable="false">
+    <defs><pattern id="${id}" width="1" height="1" patternUnits="userSpaceOnUse"><rect x=".14" y=".14" width=".72" height=".72" rx=".16" fill="${colore}"/></pattern></defs>
+    ${righe ? `<rect width="${col}" height="${righe}" fill="url(#${id})"/>` : ''}${resto ? `<rect y="${righe}" width="${resto}" height="1" fill="url(#${id})"/>` : ''}
+  </svg>`;
+};
+const campo = (x, i) => {
+  const col = colonne(), h = Math.ceil(x.v / col);
+  return `<div class="ucampo" style="--righe:${h};aspect-ratio:${col} / ${h}">
+    ${strato(x.v, col, 'u' + i + 's', 'rgba(255,255,255,.07)', '')}
+    ${strato(x.v, col, 'u' + i + 'a', x.acceso, 'ucampo__acceso')}
+  </div>`;
+};
 const voce = (x, i) => {
-  const n = el('article', 'voce voce--' + x.tinta);
+  const n = el('article', 'u-voce');
   n.style.setProperty('--i', i);
-  const barre = Array.from({ length: x.barre }, (_, k) =>
-    `<i style="--b:${k};--h:${30 + Math.round(70 * (k + 1) / x.barre)}%"></i>`).join('');
   n.innerHTML = `
-    <p class="voce__su">${x.su}</p>
-    <p class="voce__num num">${fmt.format(x.v)}${x.u ? `<span class="t-unita">${x.u}</span>` : ''}</p>
-    <p class="voce__lab">${x.lab}</p>
-    <div class="voce__isto" aria-hidden="true">${barre}</div>
-    <p class="voce__fonte">${x.fonte}${x.x10 ? ' · una barra = 60' : ''}</p>`;
+    <div class="u-voce__dato">
+      <p class="u-voce__su">${x.su}</p>
+      <p class="u-voce__num num">${fmt.format(x.v)}</p>
+      <p class="u-voce__lab">${x.lab}</p>
+    </div>
+    <div class="u-voce__campo">
+      ${campo(x, i)}
+      <p class="u-voce__leg"><span class="q q--8" style="background:${x.acceso}" aria-hidden="true"></span> = ${x.uno} · ${x.fonte}</p>
+    </div>`;
   return n;
 };
+/* la griglia cambia colonne a 700px: i campi si ridisegnano, il resto no */
+const ridisegnaCampi = () => $$('#numeri-grid .u-voce').forEach((n, i) => {
+  const c = $('.ucampo', n); if (c) c.outerHTML = campo(NUMERI[i], i);
+});
 
 /* ── COSA FACCIAMO ────────────────────────────────────────────────────────
    I quattro reparti (le prime quattro voci del bento) prendono le quattro
@@ -260,34 +284,34 @@ const servizio = (b, i) => {
   return n;
 };
 
-/* ── SEZIONE METODO ───────────────────────────────────────────────────────
-   I mattoni portavano l'idea «il reparto è alto quanto il suo lavoro», ma
-   si leggevano come decorazione. Al loro posto l'icona del reparto e il
-   numero fantasma: danno struttura senza chiedere di essere interpretati.
-   I referenti escono da qui e restano sulla pagina Team, dove il nome ha
-   il contesto per significare qualcosa.                                   */
+/* ── LA STAFFETTA ─────────────────────────────────────────────────────────
+   Quattro reparti, e fra l'uno e l'altro il passaggio di consegna come
+   FOTOGRAFIA: lo stesso cubo arancione che nel contro-esempio cade, qui
+   passa di mano. Il reparto tiene icona e numero fantasma (decisione
+   cliente: niente quadratini); il passaggio dice cosa passa, in quanto
+   tempo, con quale strumento. Nessun nome di persona (decisione cliente). */
 const REP_ICO = { 1: 'target', 2: 'imbuto', 3: 'persone', 4: 'salita' };
-const reparto = (r) => {
-  const n = el('article', 'reparto');
-  n.dataset.rep = r.i;
+const FOTO_PASSAGGIO = [
+  ['passaggio-1', "Una mano passa il cubo arancione all'altra"],
+  ['passaggio-2', 'Il cubo arancione viene posato nel palmo aperto della mano che lo riceve'],
+  ['passaggio-3', 'Una mano stringe il cubo arancione appena ricevuto'],
+];
+const stazione = (r) => {
+  const n = el('article', 'stazione');
   n.dataset.n = '0' + r.i;
-  n.style.setProperty('--k', r.i - 1);
   n.innerHTML = `
-        <span class="icoq">${ICO[REP_ICO[r.i]]}</span>
-    <h3 class="t-t2">${r.nome}</h3>
-    <p class="t-piccolo reparto__claim">${r.claim}</p>
-    <p class="t-piccolo reparto__out">${r.out}</p>`;
+    <span class="icoq">${ICO[REP_ICO[r.i]]}</span>
+    <h3 class="stazione__nome">${r.nome}</h3>
+    <p class="stazione__claim">${r.claim}</p>
+    <p class="stazione__out">${r.out}</p>`;
   return n;
 };
-
-/* Il passaggio di consegna è un VARCO sul binario: la cosa che passa sopra,
-   tempo e strumento sotto. Il varco si accende quando il pacchetto lo
-   attraversa (motion.js / CSS).                                       */
-const handoff = (h, i) => {
-  const n = el('p', 'handoff');
-  n.dataset.ho = i + 1;
-  n.style.setProperty('--k', i);
-  n.innerHTML = `<span class="handoff__cosa">${h.cosa}</span><span class="handoff__det">${h.sla} · ${h.tool}</span>`;
+const passaggio = (h, i) => {
+  const [f, alt] = FOTO_PASSAGGIO[i];
+  const n = el('figure', 'passaggio');
+  n.innerHTML = `
+    <div class="passaggio__foto"><img src="/assets/foto/${f}-800.webp" srcset="/assets/foto/${f}-480.webp 480w, /assets/foto/${f}-800.webp 800w, /assets/foto/${f}-1200.webp 1200w" sizes="(max-width: 1023px) 78vw, 28vw" alt="${alt}" width="1200" height="1500" loading="lazy" decoding="async"></div>
+    <figcaption><span class="passaggio__n">Passaggio ${i + 1} di 3</span><b class="passaggio__cosa">${h.cosa}</b><span class="passaggio__det">${h.sla} · ${h.tool}</span></figcaption>`;
   return n;
 };
 
@@ -432,7 +456,11 @@ const monta = () => {
     lp.innerHTML = uno + uno.replaceAll('<img ', '<img aria-hidden="true" ');
   }
 
-  $('#numeri-grid')?.append(...NUMERI.map(voce));
+  const ng = $('#numeri-grid');
+  if (ng) {
+    ng.append(...NUMERI.map(voce));
+    matchMedia('(max-width: 700px)').addEventListener('change', ridisegnaCampi);
+  }
 
   const bento = $('#bento');
   if (bento) {
@@ -443,8 +471,14 @@ const monta = () => {
     otto.append(...BENTO.slice(4).map(servizio));
     bento.append(quattro, otto);
   }
-  $('#pista')?.append(...REPARTI.map(reparto));
-  $('#handoff-riga')?.append(...HANDOFF.map(handoff));
+  const sp = $('#staffetta-pista');
+  if (sp) {
+    const fine = $('.staffetta__fine', sp);
+    REPARTI.forEach((r, k) => {
+      sp.insertBefore(stazione(r), fine);
+      if (HANDOFF[k]) sp.insertBefore(passaggio(HANDOFF[k], k), fine);
+    });
+  }
   $('#volti-grid')?.append(...VOLTI.map(volto));
 
   /* Slider di home: le persone + i cloni per il loop + la porta finale.
@@ -506,7 +540,7 @@ const monta = () => {
     .map(([f, h]) => `<img src="/assets/clients-white/${f}.png" alt="" style="height:${h}px" loading="lazy">`).join('');
 
   const sg = $('#settori-grid');
-  if (sg) sg.innerHTML = SETTORI.map(s => `<span class="chip">${s}</span>`).join('');
+  if (sg) sg.innerHTML = SETTORI.map(s => `<li>${s}</li>`).join('');
 
   /* Tabella + filtri */
   const body = $('#tabella-body'), conta = $('#tab-conta');

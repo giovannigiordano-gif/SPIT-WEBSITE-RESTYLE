@@ -28,14 +28,22 @@
   font-weight: 700;
   font-size: clamp(40px, 8.2vw, 128px);
   line-height: .98;
-  letter-spacing: -.042em;
+  letter-spacing: -.03em;
+  word-spacing: .04em;
 }
 
+/* Il titolo di sezione è UNO, e dice di cosa parla la sezione: niente
+   occhiello sopra (giro 3: «non sono chiari i titoli delle sezioni»).
+   Quando il titolo è una frase in due tempi, il secondo tempo scende di
+   un gradino di luce (.segue): si legge d'un fiato e si scorre d'occhio. */
 .t-d2 {
-  font-size: clamp(30px, 4.4vw, 56px);
-  line-height: 1.10;
+  font-size: clamp(30px, 4vw + 6px, 64px);
+  line-height: 1.06;
   letter-spacing: var(--tr-display);
+  word-spacing: .03em;
+  max-inline-size: 22ch;
 }
+.segue { color: var(--c-t3); }
 
 .t-d3 {
   font-size: clamp(26px, 3.2vw, 44px);
@@ -43,52 +51,9 @@
   letter-spacing: var(--tr-display);
 }
 
-/* La seconda voce. Nel riferimento era il serif corsivo di «Relentlessly»;
-   dal giro 2 di verifica è DM Sans come tutto il resto e vive solo dentro
-   .duevoci (sections.css), che ne fissa corpo e tono.                    */
-.t-voce {
-  font-family: var(--f-voce);
-  font-style: normal;
-  font-weight: 400;
-  font-size: clamp(30px, 4.8vw, 62px);
-  line-height: 1.02;
-  letter-spacing: -.01em;
-  color: var(--c-t1);
-}
-.t-voce--sm {
-  font-size: clamp(20px, 2.2vw, 27px);
-  line-height: 1.34;
-  letter-spacing: 0;
-  color: var(--c-t2);
-  max-inline-size: 36ch;
-}
-
-/* Il muro: FATTURARE ×3. È l'unico punto in cui il peso sale a 700 e la
-   dimensione supera il display — perché è un titolo di coda, non un
-   messaggio da leggere.                                                  */
-.t-muro {
-  font-family: var(--f-display);
-  font-weight: 700;
-  /* Centrato (decisione cliente): ogni riga può occupare tutta la misura.
-     FATTURARE a 700 con -.04em è largo ~5,6em, quindi 15vw riempie il
-     telefono da bordo a bordo e 200px riempie il contenitore desktop. */
-  font-size: clamp(50px, 15.4vw, 200px);
-  line-height: .9;
-  letter-spacing: -.040em;
-  text-transform: uppercase;
-  color: var(--c-t1);
-}
-
-/* Titolo di sezione in caps, come «WHAT WE DO». */
-.t-caps {
-  font-family: var(--f-display);
-  font-weight: 700;
-  font-size: clamp(30px, 4.6vw, 60px);
-  line-height: 1.02;
-  letter-spacing: -.028em;
-  text-transform: uppercase;
-  color: var(--c-t1);
-}
+/* (Giro 3) .t-voce, .t-caps e .t-muro sono ritirati: un solo sistema di
+   titolo (.t-d2 con il secondo tempo .segue), e il muro è diventato il
+   finale fotografico della home (racconto.css).                        */
 
 .t-numero {
   font-weight: 500;

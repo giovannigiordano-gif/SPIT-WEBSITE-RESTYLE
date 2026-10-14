@@ -295,7 +295,7 @@ ${footer()}
    foglio di Google Fonts: su mobile in 4G lento valevano 1,6 s di render
    bloccato. Il parametro ?v= è l'impronta del contenuto: cambia solo se
    cambia il CSS.                                                        */
-const FOGLI = ['font', 'tokens', 'type', 'base', 'chrome', 'sfondi', 'sections', 'infografica', 'motion', 'interazioni']
+const FOGLI = ['font', 'tokens', 'type', 'base', 'chrome', 'sfondi', 'sections', 'infografica', 'racconto', 'pagine', 'motion', 'interazioni']
 const sorgenti = await Promise.all(FOGLI.map(n => readFile(join(OUT, 'css', n + '.css'), 'utf8')))
 const css = sorgenti.map(c => c
   .replace(/\/\*[\s\S]*?\*\//g, '')

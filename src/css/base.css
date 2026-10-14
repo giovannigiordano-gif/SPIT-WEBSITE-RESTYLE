@@ -85,29 +85,15 @@ input, select, textarea { caret-color: var(--c-ar); }
 }
 .sez > .wrap { position: relative; }
 
-/* ── TESTA DI SEZIONE · la didascalia di margine ──────────────────────────
-   Su desktop l'occhiello esce da SOPRA il titolo e va nella colonna di
-   margine: una didascalia allineata alla prima riga, con un filetto che
-   guida l'occhio dentro il titolo. È la testata delle riviste svizzere,
-   non il "kicker" maiuscolo sopra ogni titolo che rende ogni pagina
-   generata uguale all'altra.
-   Sotto i 1024px torna sopra il titolo, piccolo, in tondo.             */
-.testa { display: grid; gap: var(--s-5); margin-bottom: clamp(40px, 3vw + 28px, 64px); }
+/* ── TESTA DI SEZIONE ──────────────────────────────────────────────────────
+   Titolo + sommario, allineati a sinistra, nient'altro. Prima c'era un
+   occhiello in una colonna di margine: due titoli per sezione, uno minuto
+   e lontano dall'altro — il cliente non capiva quale fosse il titolo.
+   Il titolo dice di cosa parla la sezione; il sommario dice perché.    */
+.testa { display: grid; gap: var(--s-5); justify-items: start; margin-bottom: clamp(44px, 3.4vw + 28px, 76px); }
 .testa--c { justify-items: center; text-align: center; }
+.testa--c .t-d2 { margin-inline: auto; }
 .testa--c .t-deck { margin-inline: auto; }
-@media (min-width: 1024px) {
-  .testa:not(.testa--c):has(> .t-eyebrow) {
-    grid-template-columns: minmax(0, 3fr) minmax(0, 9fr);
-    column-gap: var(--s-7);
-  }
-  .testa:not(.testa--c):has(> .t-eyebrow) > * { grid-column: 2; }
-  .testa:not(.testa--c) > .t-eyebrow {
-    grid-column: 1; grid-row: 1; align-self: start;
-    padding-top: var(--s-3);
-    border-top: 1px solid var(--c-filo-forte);
-  }
-  .testa:not(.testa--c) > .t-eyebrow + * { grid-row: 1; }
-}
 
 /* ── LA PARTICELLA ────────────────────────────────────────────────────────
    Il quadrato del mark. REGOLA DI TAGLIO: se un quadrato non CONTA

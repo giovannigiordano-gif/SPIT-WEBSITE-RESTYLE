@@ -1,0 +1,166 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   SALESPROCESS · pagine.css — le pagine interne riscritte nel giro 3
+   ---------------------------------------------------------------------------
+   «Le pagine interne sono ancora come quelle vecchie»: lo stesso schema
+   ripetuto sette volte (titolo centrato, parola fantasma, card). Ognuna
+   ora ha la sua apertura fotografica (sections.css, .testa-pag) e almeno
+   un capitolo che esiste solo lì: la mappa delle trenta sedie (Eventi),
+   gli slot del trimestre (Candidatura), il marchio fatto di volti (Team),
+   i due libri come oggetti (Fatturare³), l'elenco dei settori (Risultati),
+   il manifesto a tutta misura (DNA).
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── LA DATA DELL'EVENTO ──────────────────────────────────────────────── */
+.testa-pag__data {
+  font: 500 clamp(22px, 2.2vw, 32px)/1.15 var(--f-display);
+  letter-spacing: -.015em; color: var(--c-ar-hot);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── LA CHIUSA ────────────────────────────────────────────────────────────
+   Il commiato di ogni pagina interna: una frase e l'azione, centrate,
+   sotto l'alone fioco. Una sola chiusa per pagina, sempre uguale.     */
+.chiusa__in { display: grid; justify-items: center; gap: var(--s-7); text-align: center; }
+.chiusa__in .t-d2 { max-inline-size: 20ch; margin-inline: auto; }
+
+/* ── I 33 SETTORI · un elenco tipografico ─────────────────────────────── */
+.settori {
+  list-style: none; margin: 0; padding: 0;
+  columns: 4 220px; column-gap: clamp(24px, 3vw, 48px);
+  border-top: 1px solid var(--c-filo-forte);
+}
+.settori li {
+  break-inside: avoid;
+  display: flex; align-items: center; gap: 12px;
+  padding: 14px 0; border-bottom: 1px solid var(--c-filo);
+  font: 500 clamp(16px, 1.25vw, 19px)/1.3 var(--f-display); letter-spacing: -.008em; color: var(--c-t2);
+  transition: color var(--t-micro) linear;
+}
+.settori li::before { content: ''; flex: none; width: 8px; height: 8px; border-radius: 2px; background: rgba(255,255,255,.22); transition: background-color var(--t-micro) linear; }
+.settori li:hover { color: var(--c-t1); }
+.settori li:hover::before { background: var(--c-ar); }
+
+/* ── DNA · il manifesto a tutta misura ────────────────────────────────── */
+.manifesto {
+  display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 6fr);
+  column-gap: clamp(28px, 5vw, 96px); row-gap: var(--s-6); align-items: start;
+}
+.manifesto__tit { max-inline-size: 15ch; }
+.manifesto__corpo { display: grid; gap: var(--s-5); padding-top: clamp(4px, .8vw, 12px); }
+.manifesto__testo { font: 400 clamp(17px, 1.3vw, 20px)/1.66 var(--f-display); color: var(--c-t2); max-inline-size: 52ch; }
+.manifesto__chiusa {
+  margin-top: clamp(48px, 6vw, 104px); padding-top: clamp(28px, 3vw, 48px);
+  border-top: 1px solid var(--c-filo-forte);
+  font: 500 clamp(30px, 4vw, 60px)/1.08 var(--f-display); letter-spacing: -.02em; word-spacing: .03em;
+  color: var(--c-t1); max-inline-size: 26ch;
+}
+@media (max-width: 860px) { .manifesto { grid-template-columns: 1fr; } }
+
+/* Missione e visione: due righe sole, a voce piena. */
+.qualita { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(24px, 4vw, 72px); }
+.dichiarazione { display: grid; gap: var(--s-5); align-content: start; padding-top: var(--s-5); border-top: 2px solid var(--c-ar); }
+.dichiarazione__et { font: 500 15px/1.3 var(--f-display); color: var(--c-ar-hot); }
+.dichiarazione__testo { font: 500 clamp(28px, 3.2vw, 48px)/1.1 var(--f-display); letter-spacing: -.02em; color: var(--c-t1); max-inline-size: 18ch; }
+@media (max-width: 820px) { .qualita { grid-template-columns: 1fr; } }
+
+/* I dieci principi: il numero È informazione (sono dieci), quindi grande. */
+.comand { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: clamp(32px, 5vw, 96px); border-top: 1px solid var(--c-filo-forte); }
+.com {
+  position: relative; display: grid; grid-template-columns: clamp(56px, 5.4vw, 84px) 1fr; column-gap: 20px; row-gap: 6px;
+  align-content: start; padding: clamp(24px, 2.4vw, 36px) 0; border-bottom: 1px solid var(--c-filo);
+}
+.com__n {
+  grid-row: 1 / span 2;
+  font: 700 clamp(36px, 3.4vw, 56px)/.9 var(--f-display); letter-spacing: -.05em;
+  color: var(--c-ar); font-variant-numeric: tabular-nums;
+  transition: translate var(--t-stato) var(--ease-salita);
+}
+.com__tit { font: 600 clamp(18px, 1.4vw, 21px)/1.3 var(--f-display); letter-spacing: -.012em; color: var(--c-t1); padding-top: 4px; }
+.com__testo { font: 400 15.5px/1.6 var(--f-display); color: var(--c-t3); max-inline-size: 48ch; }
+.com:hover .com__n { translate: 4px 0; }
+@media (max-width: 860px) { .comand { grid-template-columns: 1fr; } }
+
+/* ── TEAM ─────────────────────────────────────────────────────────────── */
+.volti__nota { margin-top: var(--s-6); max-inline-size: 64ch; color: var(--c-t2); }
+.volti__nota strong { color: var(--c-t1); font-weight: 600; }
+.fondatori { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(24px, 4vw, 72px); }
+.fondatore { display: grid; grid-template-columns: clamp(120px, 12vw, 180px) 1fr; gap: clamp(20px, 2.4vw, 36px); align-items: start; padding-top: var(--s-6); border-top: 1px solid var(--c-filo-forte); }
+.fondatore__foto { width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; border-radius: 22%; filter: grayscale(1) contrast(1.05); transition: filter var(--t-stato) linear; }
+.fondatore:hover .fondatore__foto { filter: grayscale(0); }
+.fondatore__txt { display: grid; gap: var(--s-3); }
+.fondatore__nome { font: 500 clamp(26px, 2.4vw, 36px)/1.05 var(--f-display); letter-spacing: -.02em; color: var(--c-t1); }
+.fondatore__ruolo { font: 500 14px/1.3 var(--f-display); color: var(--c-ar-hot); margin-bottom: var(--s-2); }
+.fondatore em { font-style: normal; color: var(--c-t1); }
+.fondatore__nota { color: var(--c-t3); margin-top: var(--s-2); }
+@media (max-width: 900px) { .fondatori { grid-template-columns: 1fr; } }
+@media (max-width: 480px) { .fondatore { grid-template-columns: 96px 1fr; } }
+
+/* ── EVENTI · la sala ─────────────────────────────────────────────────────
+   Trenta quadrati del marchio, uno per sedia, davanti a un palco. La
+   scarsità è una pianta, non un timer.                                */
+.sala { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(32px, 5vw, 96px); align-items: center; }
+.sala__pianta { margin: 0; display: grid; gap: clamp(18px, 2vw, 28px); justify-items: center; }
+.sala__palco {
+  width: 100%; padding: 12px; text-align: center;
+  border: 1px solid var(--c-bordo-ar); border-radius: var(--r-8);
+  background: rgba(255,130,0,.06);
+  font: 600 13px/1 var(--f-display); color: var(--c-ar-hot);
+}
+.sala__sedie { display: grid; grid-template-columns: repeat(10, 1fr); gap: clamp(8px, 1vw, 14px); width: 100%; }
+.sala__sedie i { aspect-ratio: 1; border-radius: 22%; background: var(--c-ar); box-shadow: 0 6px 14px -6px rgba(255,130,0,.6); }
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .sala__sedie i { animation: sedia linear both; animation-timeline: view(); animation-range: entry 20% cover 45%; }
+  }
+}
+@keyframes sedia { from { opacity: .12; scale: .6; } to { opacity: 1; scale: 1; } }
+.sala__fatti { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid var(--c-filo-forte); }
+.fatto { display: grid; align-content: start; gap: 6px; padding: clamp(20px, 2vw, 32px) clamp(14px, 2vw, 28px) 8px 0; }
+.fatto + .fatto { padding-left: clamp(14px, 2vw, 28px); border-left: 1px solid var(--c-filo); }
+.fatto__su { font: 500 14px/1.3 var(--f-display); color: var(--c-t3); }
+.fatto__num { font: 700 clamp(52px, 5.6vw, 88px)/.9 var(--f-display); letter-spacing: -.045em; color: var(--c-t1); margin-block: var(--s-2); font-variant-numeric: tabular-nums; }
+.fatto__num .t-unita { font-size: .32em; margin-left: .08em; }
+.fatto__lab { font: 600 16px/1.3 var(--f-display); color: var(--c-t1); }
+.fatto__nota { font: 400 14px/1.5 var(--f-display); color: var(--c-t3); }
+@media (max-width: 900px) {
+  .sala { grid-template-columns: 1fr; }
+  .sala__fatti { grid-template-columns: 1fr; }
+  .fatto, .fatto + .fatto { padding: 20px 0; border-left: 0; border-bottom: 1px solid var(--c-filo); }
+}
+
+/* ── FATTURARE³ · i due libri come oggetti ────────────────────────────────
+   Copertina nera, taglio arancione, il marchio in alto: due libri
+   disegnati, in attesa di titoli e copertine vere (segnaposto dichiarato). */
+.libri { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(28px, 4vw, 72px); }
+.libro { display: grid; grid-template-columns: clamp(120px, 12vw, 176px) 1fr; gap: clamp(20px, 2.4vw, 36px); align-items: end; }
+.libro__oggetto {
+  position: relative; aspect-ratio: 2 / 3; border-radius: 4px 10px 10px 4px;
+  background: linear-gradient(90deg, #0c0b0e 0 7%, #1f1d23 7% 8%, #17161a 8%);
+  box-shadow: inset -2px 0 0 rgba(255,255,255,.06), 14px 22px 36px -18px rgba(0,0,0,.9), 4px 0 0 -1px var(--c-ar);
+  display: grid; align-content: space-between; padding: 14% 12% 12% 18%;
+  rotate: -3deg; transition: rotate var(--t-stato) var(--ease-salita), translate var(--t-stato) var(--ease-salita);
+}
+.libro__oggetto--b { rotate: 2deg; background: linear-gradient(90deg, #a54c00 0 7%, #c25a00 7% 8%, var(--c-ar) 8%); box-shadow: inset -2px 0 0 rgba(0,0,0,.1), 14px 22px 36px -18px rgba(0,0,0,.9), 4px 0 0 -1px #17161a; }
+.libro:hover .libro__oggetto { rotate: 0deg; translate: 0 -4px; }
+.libro__marchio { width: 26%; aspect-ratio: 1; border-radius: 22%; background: var(--c-ar); }
+.libro__oggetto--b .libro__marchio { background: #100F12; }
+.libro__tit { font: 600 clamp(11px, .9vw, 13px)/1.25 var(--f-display); color: rgba(255,255,255,.5); }
+.libro__oggetto--b .libro__tit { color: rgba(16,15,18,.6); }
+.libro__txt { display: grid; gap: var(--s-2); padding-bottom: var(--s-3); }
+.libro__n { font: 500 14px/1.3 var(--f-display); color: var(--c-t3); }
+.libro__nome { font: 500 clamp(22px, 2vw, 30px)/1.15 var(--f-display); letter-spacing: -.015em; color: var(--c-t1); }
+.libro__nome em { font-style: normal; }
+.libro__nota { color: var(--c-t3); }
+@media (max-width: 860px) { .libri { grid-template-columns: 1fr; } }
+
+/* ── CANDIDATURA · gli slot del trimestre ─────────────────────────────── */
+.slot {
+  display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-4) var(--s-6);
+  margin-top: var(--s-7); padding-top: var(--s-5); border-top: 1px solid var(--c-filo);
+}
+.slot__quadri { display: grid; grid-template-columns: repeat(9, 22px); gap: 8px; }
+.slot__quadri i { aspect-ratio: 1; border-radius: 22%; border: 1.5px solid rgba(255,255,255,.32); }
+.slot__quadri i.is-preso { border-color: var(--c-ar); background: var(--c-ar); }
+.slot__testo { font: 500 13px/1.45 var(--f-display); color: var(--c-t3); font-variant-numeric: tabular-nums; }
+.slot__nota { margin-top: var(--s-4); color: var(--c-t3); }
+.cand__testo { display: grid; gap: var(--s-5); align-content: start; }

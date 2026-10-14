@@ -101,7 +101,7 @@ html[data-atmo="fuoco"]   .palco > [data-a="fuoco"] {
 /* ── FUOCO · la stanza più calda, sotto il contro-esempio ───────────────── */
 .palco > [data-a="fuoco"] {
   background:
-    radial-gradient(60% 50% at 16% 0%, rgba(204,51,102,.20) 0%, rgba(204,51,102,0) 64%),
+    radial-gradient(60% 50% at 16% 0%, rgba(240,75,58,.20) 0%, rgba(240,75,58,0) 64%),
     radial-gradient(70% 56% at 88% 18%, rgba(255,130,0,.18) 0%, rgba(255,130,0,0) 66%),
     linear-gradient(180deg, #2A1510 0%, #161519 80%);
 }

@@ -3,40 +3,45 @@ title: Risultati — Sales Process
 desc: I numeri dei clienti, con la loro data e la loro fonte. Fascicoli con fatturato di partenza, fatturato di arrivo, mesi, canale e liberatoria firmata.
 -->
 
-<section class="testa-pag" data-fantasma="Risultati">
+<!-- ══ APERTURA ══════════════════════════════════════════════════════════
+     Lo scontrino che si srotola: il fatturato, letteralmente, con i mesi
+     in mezzo. -->
+<section class="testa-pag">
   <div class="wrap wrap--piena testa-pag__in">
-    <p class="pill-eyebrow apri-1">Risultati</p>
-    <h1 class="t-hero" style="max-inline-size:18ch" data-split>Prima e dopo, con i <span class="ar">mesi</span> in mezzo.</h1>
-    <p class="t-deck apri-2">Ogni numero su questa pagina ha una fonte, una data e una liberatoria firmata. Quelli che non le hanno non li pubblichiamo — non perché siano peggiori, ma perché non sono nostri da mostrare.</p>
-    <div class="cta-riga cta-riga--c apri-3">
-      <a class="cta cta--bianco" href="/candidatura.html">Candida la tua azienda</a>
+    <div class="testa-pag__testo">
+      <h1 class="t-hero" data-split>Prima e dopo, con i <span class="ar">mesi</span> in mezzo.</h1>
+      <p class="t-deck apri-2">Ogni numero su questa pagina ha una fonte, una data e una liberatoria firmata. Quelli che non le hanno non li pubblichiamo — non perché siano peggiori, ma perché non sono nostri da mostrare.</p>
+      <div class="cta-riga apri-3">
+        <a class="cta cta--bianco" href="/candidatura.html">Candida la tua azienda</a>
+      </div>
     </div>
+    <figure class="testa-pag__foto apri-2">
+      <img src="/assets/foto/risultati-scontrino-800.webp" srcset="/assets/foto/risultati-scontrino-480.webp 480w, /assets/foto/risultati-scontrino-800.webp 800w, /assets/foto/risultati-scontrino-1200.webp 1200w" sizes="(max-width: 900px) 74vw, 38vw" alt="Una mano alza uno scontrino arancione che si srotola verso l'alto" width="1200" height="1500" fetchpriority="low" decoding="async">
+    </figure>
   </div>
 </section>
 
-<!-- ══ I NUMERI ══════════════════════════════════════════════════════════ -->
+<!-- ══ I NUMERI · a unità (lo stesso registro della home) ═══════════════ -->
 <section class="sez sf sf--notte" id="numeri">
-  <div class="wrap wrap--grid">
+  <div class="wrap wrap--piena">
     <div class="testa">
-      <p class="t-eyebrow">Dal 2020, senza arrotondare</p>
-      <h2 class="t-d2" data-split>I numeri, con la loro data e la loro fonte.</h2>
+      <h2 class="t-d2" data-split>I numeri, <span class="segue">con la loro data e la loro fonte.</span></h2>
+      <p class="t-deck">Dal 2020, senza arrotondare.</p>
     </div>
-    <div class="numeri" id="numeri-grid"><!-- /js/dati.js --></div>
+    <div class="unita" id="numeri-grid"><!-- /js/dati.js --></div>
   </div>
 </section>
 
 <!-- ══ IL NASTRO ═════════════════════════════════════════════════════════ -->
 <section class="nastro sf sf--pozzo" id="prove" aria-labelledby="prove-h">
-  <div class="wrap wrap--piena" style="display:flex;align-items:end;justify-content:space-between;gap:var(--s-4);margin-bottom:var(--s-5)">
-    <div>
-      <p class="t-eyebrow">Le schede</p>
-      <h2 class="t-d2" data-split id="prove-h" style="margin-top:var(--s-4)">Sei clienti, sei numeri.</h2>
-    </div>
+  <div class="wrap wrap--piena nastro__testa">
+    <h2 class="t-d2" data-split id="prove-h">Sei clienti, <span class="segue">sei numeri.</span></h2>
     <button class="pausa" id="nastro-pausa" aria-pressed="false" aria-label="Ferma il nastro">❚❚</button>
   </div>
   <div class="nastro__wrap" id="nastro-wrap"><div class="nastro__pista" id="nastro-pista"><!-- /js/dati.js --></div></div>
-  <div class="wrap wrap--piena" style="margin-top:var(--s-5)">
+  <div class="wrap wrap--piena nastro__piede">
     <p class="t-micro">6 schede su 150 clienti: le altre non hanno liberatoria, non un risultato peggiore.</p>
+    <p class="t-micro nastro__legenda"><span class="q q--8 q--ar" aria-hidden="true"></span> = 100.000 € di fatturato annuo</p>
   </div>
 </section>
 
@@ -45,10 +50,9 @@ desc: I numeri dei clienti, con la loro data e la loro fonte. Fascicoli con fatt
      numero di partenza, numero di arrivo, mesi, canale, fonte e
      liberatoria. Meglio uno vero che tre vuoti — e lo si dice. -->
 <section class="sez sf sf--brace" id="fascicoli">
-  <div class="wrap wrap--ed">
+  <div class="wrap wrap--piena">
     <div class="testa">
-      <p class="t-eyebrow">I fascicoli</p>
-      <h2 class="t-d2" data-split>Un caso per intero, reparto per <span class="ar">reparto</span>.</h2>
+      <h2 class="t-d2" data-split>Un caso per intero, <span class="segue">reparto per reparto.</span></h2>
     </div>
     <div id="fascicoli-lista"><!-- /js/dati.js --></div>
   </div>
@@ -56,24 +60,22 @@ desc: I numeri dei clienti, con la loro data e la loro fonte. Fascicoli con fatt
 
 <!-- ══ I SETTORI ═════════════════════════════════════════════════════════
      La granularità batte la grandezza: 33 nomi battono «2.300 clienti»
-     senza nomi. -->
+     senza nomi. Un elenco tipografico in colonne, non una nuvola di
+     pillole: si legge, si cerca il proprio. -->
 <section class="sez sf sf--radente" id="settori">
   <div class="wrap wrap--piena">
     <div class="testa">
-      <p class="t-eyebrow">I 33 settori</p>
-      <h2 class="t-d2" data-split>Trentatré settori, uno per uno.</h2>
+      <h2 class="t-d2" data-split>Trentatré settori, <span class="segue">uno per uno.</span></h2>
       <p class="t-deck">Non «tutti i settori». Questi. Se il tuo non c'è, la prima domanda che ti facciamo è se il processo di vendita del tuo mercato somiglia a uno di questi.</p>
     </div>
-    <div id="settori-grid" style="display:flex;flex-wrap:wrap;gap:8px"><!-- /js/dati.js --></div>
+    <ul class="settori" id="settori-grid"><!-- /js/dati.js --></ul>
   </div>
 </section>
 
-<!-- ══ FASCIA CHIARA ═════════════════════════════════════════════════════ -->
-
-<section class="sez sez--alone">
-  <div class="wrap wrap--stat" style="text-align:center">
-    <h2 class="t-d2" data-split style="margin-inline:auto;max-inline-size:22ch">Il prossimo fascicolo può essere il <span class="ar">tuo</span>.</h2>
-    <div class="cta-riga cta-riga--c" style="margin-top:var(--s-7)">
+<section class="sez sez--alone chiusa">
+  <div class="wrap wrap--stat chiusa__in">
+    <h2 class="t-d2" data-split>Il prossimo fascicolo <span class="segue">può essere il tuo.</span></h2>
+    <div class="cta-riga cta-riga--c">
       <a class="cta cta--ar cta--luce" href="/candidatura.html">Candida la tua azienda</a>
     </div>
   </div>

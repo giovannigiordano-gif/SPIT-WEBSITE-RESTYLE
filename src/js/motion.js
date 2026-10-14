@@ -34,7 +34,7 @@
     || (n.className.match(/\bsf--(\w+)/) || [])[1]
     || (n.matches('.hero, .testa-pag, .cartelli, .footer') ? 'nero'
       : n.matches('.sez--deep') ? 'pozzo'
-      : n.matches('.muro, .cand') ? 'alba' : 'base');
+      : n.matches('.finale, .cand') ? 'alba' : 'base');
   const sezioni = $$('main > section, main > div, .footer');
   if (sezioni.length && 'IntersectionObserver' in window) {
     const root = document.documentElement;
@@ -107,7 +107,7 @@
     const io = new IntersectionObserver((es) => {
       es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); } });
     }, { threshold: .18 });
-    const tgt = $$('.rise, .scalinata, .muro');
+    const tgt = $('.rise, .scalinata, .finale');
     tgt.forEach(n => io.observe(n));
     setTimeout(() => tgt.forEach(n => n.classList.add('is-in')), 3000);
   }
@@ -354,19 +354,6 @@
     }, { passive: true });
     $$('.pannello').forEach(n => n.addEventListener('pointerleave', () => { n.style.setProperty('--fx', '0px'); n.style.setProperty('--fy', '0px'); }));
 
-    /* 3 · la luce che passa sulle lettere del muro: le coordinate sono
-       locali a ogni riga, così la luce attraversa le tre parole insieme. */
-    const muro = $('#muro-righe');
-    if (muro) {
-      const righe = $$('.t-muro', muro);
-      let pm = null, rafM = 0;
-      const scriviM = () => { rafM = 0; if (!pm) return;
-        righe.forEach(r => { const b = r.getBoundingClientRect();
-          r.style.setProperty('--lx', (pm.x - b.left) + 'px'); r.style.setProperty('--ly', (pm.y - b.top) + 'px'); });
-        pm = null; };
-      muro.addEventListener('pointermove', (e) => { pm = { x: e.clientX, y: e.clientY }; if (!rafM) rafM = requestAnimationFrame(scriviM); }, { passive: true });
-      muro.addEventListener('pointerleave', () => righe.forEach(r => r.style.setProperty('--lx', '-600px')));
-    }
   }
 
   /* ── LA MAPPA A FACCIATA ────────────────────────────────────────────────
@@ -437,47 +424,42 @@
        Il movimento È il concetto: i tre passaggi che cadono e poi tengono.
        POLIZZA: la versione statica è già scritta in CSS, quindi degradare
        a costo zero è possibile in qualsiasi momento.                    */
-    /* ── LA MACCHINA · il binario ─────────────────────────────────────────
-       Il pacchetto (lo stesso quadrato che nel contro-esempio cade) corre
-       sul binario mentre la scena è pinnata: --p va da 0 a 1 con lo
-       scroll, e ogni stazione, varco e passaggio si accende quando il
-       pacchetto lo raggiunge. La stazione k è a p = k/3, il varco k a
-       (k + ½)/3. Senza questa scena (mobile, reduced-motion, niente JS) la
-       macchina resta nel suo stato statico, tutta accesa.
+    /* ── LA STAFFETTA ────────────────────────────────────────────────────
+       La sezione si ferma e lo scroll fa scorrere la pista in orizzontale.
+       Il contatto (il cubo) resta FERMO al 32% dello schermo: sono i
+       reparti e i passaggi a passargli sotto, e ognuno si accende quando
+       lo raggiunge. Sotto i 1024px, sotto i 680px di altezza e a motion
+       ridotto la staffetta resta una colonna, tutta accesa (CSS).
        MAI .set({display:'none'}) dentro una timeline pinnata: è una
        mutazione di layout che disallinea start/end in silenzio.        */
-    if ($('#macchina')) {
-      mm.add('(min-width: 1024px) and (min-height: 700px) and (prefers-reduced-motion: no-preference)', () => {
-        const sc = $('#macchina');
-        const reparti = $$('.reparto', sc), varchi = $$('.binario__varco', sc);
-        const hoff = $$('.handoff', sc), chiusa = $('#macchina-chiusa');
-        const stato = (p) => {
-          reparti.forEach((r, k) => r.classList.toggle('is-on', p >= k / 3 - .002));
-          varchi.forEach((v, k) => v.classList.toggle('is-on', p >= (k + .5) / 3));
-          hoff.forEach((h, k) => h.classList.toggle('is-on', p >= (k + .5) / 3));
-          chiusa?.classList.toggle('is-on', p >= .985);
-        };
-        const o = { p: 0 };
+    if ($('#staffetta')) {
+      mm.add('(min-width: 1024px) and (min-height: 680px) and (prefers-reduced-motion: no-preference)', () => {
+        const sc = $('#staffetta'), pista = $('#staffetta-pista');
+        const tappe = $$('.stazione, .passaggio', pista);
         sc.classList.add('is-scena');
-        sc.style.setProperty('--p', '0');
-        stato(0);
-
-        const tl = gsap.timeline({ scrollTrigger: {
-          trigger: '#metodo', start: 'top top', end: '+=190%',
-          pin: true, pinSpacing: true, anticipatePin: 1, scrub: .6,
-          invalidateOnRefresh: true, fastScrollEnd: true,
-        }});
-        /* Un respiro all'inizio e alla fine: il pacchetto parte quando la
-           scena è ferma e arriva prima che il pin si sciolga.           */
-        tl.to(o, { p: 1, ease: 'none', duration: 1,
-          onUpdate: () => { sc.style.setProperty('--p', o.p.toFixed(4)); stato(o.p); } }, .08);
-        tl.to({}, { duration: .1 });
-
+        /* quanto deve scorrere: finché la chiusa («La trattativa») non
+           arriva sotto il contatto */
+        const fine = $('.staffetta__fine', pista);
+        const dist = () => Math.max(0, fine.offsetLeft - innerWidth * .32 + 40);
+        const accendi = () => {
+          const x = innerWidth * .32;
+          tappe.forEach(t => t.classList.toggle('is-on', t.getBoundingClientRect().left < x));
+        };
+        const tw = gsap.to(pista, {
+          x: () => -dist(), ease: 'none',
+          scrollTrigger: {
+            trigger: '#metodo', start: 'top top', end: () => '+=' + dist(),
+            pin: true, pinSpacing: true, anticipatePin: 1, scrub: .6,
+            invalidateOnRefresh: true, fastScrollEnd: true,
+            onUpdate: accendi, onRefresh: accendi,
+          },
+        });
+        accendi();
         return () => {
-          tl.kill();
+          tw.scrollTrigger?.kill(); tw.kill();
           sc.classList.remove('is-scena');
-          sc.style.removeProperty('--p');
-          [...reparti, ...varchi, ...hoff, chiusa].forEach(n => n?.classList.remove('is-on'));
+          gsap.set(pista, { clearProps: 'transform' });
+          tappe.forEach(t => t.classList.remove('is-on'));
         };
       });
     }

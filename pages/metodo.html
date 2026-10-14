@@ -3,135 +3,94 @@ title: Il metodo 4 in 1 — Sales Process
 desc: Quattro reparti sotto lo stesso tetto e tre passaggi di consegna misurati. Cosa entra e cosa esce da ogni reparto, con SLA, strumento e nome di chi risponde.
 -->
 
-<section class="testa-pag" data-fantasma="Metodo">
+<!-- ══ APERTURA ══════════════════════════════════════════════════════════
+     La mano che posa l'ultimo cubo sulla scalinata: il metodo è un
+     processo che si costruisce, non un pacchetto che si compra. -->
+<section class="testa-pag">
   <div class="wrap wrap--piena testa-pag__in">
-    <p class="pill-eyebrow apri-1">Il metodo 4 in 1</p>
-    <h1 class="t-hero" style="max-inline-size:20ch" data-split>Il fatturato non si perde nei reparti. Si perde nei <span class="ar">passaggi</span>.</h1>
-    <p class="t-deck apri-2">Quattro fornitori diversi non sono un reparto. Sono tre passaggi di consegna che cadono per terra — e tu paghi quattro volte lo stesso contatto senza che nessuno risponda del numero finale.</p>
-    <div class="cta-riga cta-riga--c apri-3">
-      <a class="cta cta--bianco" href="/candidatura.html">Candida la tua azienda</a>
-      <a class="cta cta--out" href="#tabella">Vai alla tabella dei passaggi ↓</a>
+    <div class="testa-pag__testo">
+      <h1 class="t-hero" data-split>Il fatturato non si perde nei reparti. Si perde nei <span class="ar">passaggi</span>.</h1>
+      <p class="t-deck apri-2">Quattro fornitori diversi non sono un reparto. Sono tre passaggi di consegna che cadono per terra — e tu paghi quattro volte lo stesso contatto senza che nessuno risponda del numero finale.</p>
+      <div class="cta-riga apri-3">
+        <a class="cta cta--bianco" href="/candidatura.html">Candida la tua azienda</a>
+        <a class="cta cta--out" href="#tabella">Vai alla tabella dei passaggi ↓</a>
+      </div>
+      <p class="testa-pag__meta apri-3">Il metodo 4 in 1</p>
     </div>
+    <figure class="testa-pag__foto apri-2">
+      <img src="/assets/foto/metodo-scalinata-800.webp" srcset="/assets/foto/metodo-scalinata-480.webp 480w, /assets/foto/metodo-scalinata-800.webp 800w, /assets/foto/metodo-scalinata-1200.webp 1200w" sizes="(max-width: 900px) 74vw, 38vw" alt="Una mano posa l'ultimo cubo arancione in cima a una scalinata di cubi" width="1200" height="1500" fetchpriority="low" decoding="async">
+    </figure>
   </div>
 </section>
 
-<!-- ══ IL CONTRO-ESEMPIO ═════════════════════════════════════════════════
-     Costruire il problema PRIMA di vendere la soluzione, in una fascia
-     STATICA: i connettori sono disegnati, non animati, così la fascia
-     funziona anche come screenshot e a motion spento. -->
-<!-- ══ IL CONTRO-ESEMPIO · infografica ═══════════════════════════════════
-     Il contenuto più persuasivo del sito, e prima era quattro riquadri con
-     un tratteggio in mezzo: descriveva il problema invece di mostrarlo.
-     Ora è un DIAGRAMMA: quattro fornitori in fila, tre pacchetti che
-     provano a passare e CADONO sotto la linea, e un pavimento che dice
-     cosa finisce lì. La frase «cadono per terra» diventa una cosa che si
-     vede.
-     Ogni frame funziona come screenshot: la caduta è lo stato di riposo,
-     l'animazione la ripercorre. Se il JS non arriva, l'infografica è già
-     nella sua forma finale. -->
-<section class="sez sf sf--fuoco" id="contro">
+<!-- ══ IL CONTRO-ESEMPIO ═══════════════════════════════════════════════
+     Lo stesso capitolo della home: la fotografia dice il problema, la
+     catena dice dove si rompe, il conto dice quanto costa. -->
+<section class="sez contro sf sf--fuoco" id="contro">
   <div class="wrap wrap--piena">
     <div class="testa">
-      <p class="t-eyebrow">Prima di parlare del metodo</p>
-      <h2 class="t-d2" data-split>Quattro fornitori diversi non sono un reparto. Sono tre passaggi che <span class="ar">cadono per terra</span>.</h2>
+      <h2 class="t-d2" data-split>Quattro fornitori diversi non sono un reparto. <span class="segue">Sono tre passaggi che cadono per terra.</span></h2>
       <p class="t-deck">L'agenzia che compra la pubblicità non parla con chi scrive le mail. Chi scrive le mail non sa chi hai assunto. Chi hai assunto non l'ha formato nessuno.</p>
     </div>
+  </div>
 
-    <!-- Il diagramma. aria-hidden perché la stessa informazione è nella
-         tabella che segue, in forma leggibile da uno screen reader. -->
-    <div class="diag" id="diag" aria-hidden="true">
-      <div class="diag__fila">
-        <div class="diag__box"><span class="diag__n">01</span><span class="diag__nome">Agenzia ads</span><span class="diag__ruolo">compra il traffico</span></div>
-        <div class="diag__box"><span class="diag__n">02</span><span class="diag__nome">Freelance copy</span><span class="diag__ruolo">scrive le mail</span></div>
-        <div class="diag__box"><span class="diag__n">03</span><span class="diag__nome">Recruiter</span><span class="diag__ruolo">trova i venditori</span></div>
-        <div class="diag__box"><span class="diag__n">04</span><span class="diag__nome">Formatore</span><span class="diag__ruolo">viene a giornata</span></div>
-      </div>
+  <figure class="contro__foto">
+    <img src="/assets/foto/contro-caduta-1400.webp" srcset="/assets/foto/contro-caduta-800.webp 800w, /assets/foto/contro-caduta-1400.webp 1400w, /assets/foto/contro-caduta-2000.webp 2000w" sizes="(max-width: 700px) 150vw, 100vw" alt="Due mani si cercano senza toccarsi; fra loro un cubo arancione cade nel vuoto" width="2000" height="1131" loading="lazy" decoding="async">
+  </figure>
 
-      <!-- I tre varchi: il pacchetto parte, la traiettoria si interrompe. -->
-      <div class="diag__varchi">
-        <div class="varco" style="--v:0">
-          <svg class="varco__tra" viewBox="0 0 120 90" preserveAspectRatio="none">
-            <path d="M6 6 C 40 6, 52 34, 60 78" pathLength="1"/>
-          </svg>
-          <i class="varco__pkg"></i>
-          <span class="varco__et">Il contatto<br>non passa</span>
-        </div>
-        <div class="varco" style="--v:1">
-          <svg class="varco__tra" viewBox="0 0 120 90" preserveAspectRatio="none">
-            <path d="M6 6 C 40 6, 52 34, 60 78" pathLength="1"/>
-          </svg>
-          <i class="varco__pkg"></i>
-          <span class="varco__et">L'obiezione<br>non torna</span>
-        </div>
-        <div class="varco" style="--v:2">
-          <svg class="varco__tra" viewBox="0 0 120 90" preserveAspectRatio="none">
-            <path d="M6 6 C 40 6, 52 34, 60 78" pathLength="1"/>
-          </svg>
-          <i class="varco__pkg"></i>
-          <span class="varco__et">Il venditore<br>resta solo</span>
-        </div>
-      </div>
+  <div class="wrap wrap--piena">
+    <ol class="catena" aria-label="La catena dei quattro fornitori e dove si rompe">
+      <li class="catena__anello"><b>Agenzia ads</b><span>compra il traffico</span></li>
+      <li class="catena__rotto"><i aria-hidden="true"></i><span>Il contatto non passa</span></li>
+      <li class="catena__anello"><b>Freelance copy</b><span>scrive le mail</span></li>
+      <li class="catena__rotto"><i aria-hidden="true"></i><span>L'obiezione non torna</span></li>
+      <li class="catena__anello"><b>Recruiter</b><span>trova i venditori</span></li>
+      <li class="catena__rotto"><i aria-hidden="true"></i><span>Il venditore resta solo</span></li>
+      <li class="catena__anello"><b>Formatore</b><span>viene a giornata</span></li>
+    </ol>
+    <p class="catena__suolo"><span>Quello che finisce per terra</span></p>
 
-      <!-- Il pavimento: quello che ci finisce sopra. -->
-      <div class="diag__suolo">
-        <span class="diag__suolo-et">Quello che finisce per terra</span>
-        <div class="diag__detriti"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-      </div>
-    </div>
-
-    <!-- Il conto. Tre numeri, e il terzo è quello che fa male. -->
     <div class="conto">
       <div class="conto__c"><span class="conto__n">4</span><span class="conto__l">fornitori da coordinare</span><span class="conto__d">Quattro fatture, quattro referenti, quattro calendari.</span></div>
       <div class="conto__c"><span class="conto__n">3</span><span class="conto__l">passaggi senza padrone</span><span class="conto__d">Nessuno dei quattro risponde di cosa succede fra sé e il successivo.</span></div>
-      <div class="conto__c conto__c--rosso"><span class="conto__n">0</span><span class="conto__l">responsabili del fatturato</span><span class="conto__d">È il numero che nessuno dei quattro ha nel contratto. Rimane solo tuo.</span></div>
+      <div class="conto__c conto__c--zero"><span class="conto__n">0</span><span class="conto__l">responsabili del fatturato</span><span class="conto__d">È il numero che nessuno dei quattro ha nel contratto. Rimane solo tuo.</span></div>
     </div>
 
-    <p class="t-piccolo" style="margin-top:var(--s-6);max-inline-size:70ch;color:var(--c-t2)">
-      E paghi <strong style="color:var(--c-t1);font-weight:500">quattro volte lo stesso contatto</strong>:
+    <p class="t-piccolo contro__chiusa">
+      E paghi <strong>quattro volte lo stesso contatto</strong>:
       una per portarlo, una per scaldarlo, una per assumere chi lo chiama, una per insegnargli a chiudere.
     </p>
   </div>
 </section>
 
-
-<!-- ══ LA MACCHINA ═══════════════════════════════════════════════════════
-     Il movimento È il concetto. Ogni frame deve funzionare come
-     screenshot statico: la versione ferma è quella che si legge. -->
-<section class="sez sf sf--pozzo" id="metodo">
+<!-- ══ LA STAFFETTA ══════════════════════════════════════════════════════
+     Lo stesso cubo, qui, passa di mano. Su desktop la sezione si ferma e
+     la staffetta scorre in orizzontale sotto il contatto; la tabella che
+     segue è la stessa informazione in forma leggibile da tutti. -->
+<section class="sez staffetta-sez sf sf--pozzo" id="metodo">
   <a class="skip" href="#tabella">Salta la scena del metodo →</a>
-  <div class="wrap wrap--piena">
-    <div class="testa">
-      <p class="t-eyebrow">La macchina</p>
-      <div class="duevoci">
-        <h2 class="t-caps" data-split>Quattro reparti</h2>
-        <p class="t-voce" data-split>tre passaggi di consegna</p>
+  <div class="staffetta" id="staffetta">
+    <div class="staffetta__pista" id="staffetta-pista">
+      <div class="staffetta__testa">
+        <h2 class="t-d2" data-split>Quattro reparti, <span class="segue">tre passaggi di consegna.</span></h2>
       </div>
-    </div>
-    <div class="macchina" id="macchina">
-      <div class="macchina__pista" id="pista"><!-- /js/dati.js --></div>
-      <div class="binario" aria-hidden="true">
-        <div class="binario__filo"><i class="binario__luce"></i></div>
-        <i class="binario__varco" style="--k:0"></i><i class="binario__varco" style="--k:1"></i><i class="binario__varco" style="--k:2"></i>
-        <i class="binario__pkg"></i>
-      </div>
-      <div class="handoff__riga" id="handoff-riga"><!-- /js/dati.js --></div>
-      <p class="t-piccolo macchina__chiusa" id="macchina-chiusa">
+      <!-- /js/dati.js: quattro reparti e tre passaggi, alternati -->
+      <p class="staffetta__fine" id="macchina-chiusa">
         <strong>La trattativa.</strong>
         Il contatto educato incontra il venditore formato. È l'unico punto in cui nasce il fatturato.
       </p>
     </div>
+    <div class="staffetta__binario" aria-hidden="true"><i class="staffetta__luce"></i><i class="staffetta__contatto"></i></div>
   </div>
 </section>
 
 <!-- ══ COSA ENTRA, COSA ESCE ═════════════════════════════════════════════
      Un solo blocco, cinque lavori: prova ispezionabile, versione
-     reduced-motion, versione screen-reader, stampabile, indicizzabile.
-     È anche il fallback della scena pinnata. -->
+     reduced-motion, versione screen-reader, stampabile, indicizzabile. -->
 <section class="sez sf sf--radente" id="tabella">
   <div class="wrap wrap--piena">
     <div class="testa">
-      <p class="t-eyebrow">Cosa entra, cosa esce</p>
-      <h2 class="t-d2" data-split>Ogni reparto ha un input, un output, un tempo e un <span class="ar">nome</span>.</h2>
+      <h2 class="t-d2" data-split>Ogni reparto ha un input, un output, <span class="segue">un tempo e un nome.</span></h2>
     </div>
 
     <div class="tab__filtri" role="group" aria-label="Filtra per reparto" id="tab-filtri">
@@ -155,21 +114,20 @@ desc: Quattro reparti sotto lo stesso tetto e tre passaggi di consegna misurati.
   </div>
 </section>
 
-<!-- ══ COSA FACCIAMO · il bento ══════════════════════════════════════════ -->
+<!-- ══ DENTRO I QUATTRO REPARTI ══════════════════════════════════════════ -->
 <section class="sez sez--deep">
   <div class="wrap wrap--piena">
     <div class="testa">
-      <p class="t-eyebrow">In pratica</p>
       <h2 class="t-d2" data-split>Dentro i quattro reparti.</h2>
     </div>
     <div class="bento" id="bento"><!-- /js/dati.js --></div>
   </div>
 </section>
 
-<section class="sez sez--alone">
-  <div class="wrap wrap--stat" style="text-align:center">
-    <h2 class="t-d2" data-split style="margin-inline:auto;max-inline-size:24ch">Se i quattro reparti li tieni tu, i tre passaggi sono <span class="ar">tre righe</span> di un processo.</h2>
-    <div class="cta-riga cta-riga--c" style="margin-top:var(--s-7)">
+<section class="sez sez--alone chiusa">
+  <div class="wrap wrap--stat chiusa__in">
+    <h2 class="t-d2" data-split>Se i quattro reparti li tieni tu, <span class="segue">i tre passaggi sono tre righe di un processo.</span></h2>
+    <div class="cta-riga cta-riga--c">
       <a class="cta cta--ar cta--luce" href="/candidatura.html">Candida la tua azienda</a>
       <a class="cta cta--out" href="/risultati.html">Guarda i risultati →</a>
     </div>

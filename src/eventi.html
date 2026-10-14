@@ -18,7 +18,7 @@
 
 <link rel="preload" href="/assets/fonts/dm-sans-latin-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
-<link rel="stylesheet" href="/css/sito.css?v=68c737bd57">
+<link rel="stylesheet" href="/css/sito.css?v=bfb9f846a7">
 </head>
 <body data-pagina="eventi">
 <div class="palco" aria-hidden="true"><i data-a="nero"></i><i data-a="brace"></i><i data-a="alba"></i><i data-a="radente"></i><i data-a="notte"></i><i data-a="pozzo"></i><i data-a="fuoco"></i><b class="palco__torcia"></b></div>
@@ -76,42 +76,55 @@
 <div class="avanza" aria-hidden="true"></div>
 
 <main id="main">
-<section class="testa-pag" data-fantasma="Day">
+<!-- ══ APERTURA · il manifesto dell'evento ═══════════════════════════════
+     Il biglietto in mano; la data detta forte sotto il nome, perché per un
+     evento è l'informazione che si cerca per prima. -->
+<section class="testa-pag">
   <div class="wrap wrap--piena testa-pag__in">
-    <p class="pill-eyebrow apri-1">14 ottobre 2026 · Milano</p>
-    <h1 class="t-hero" style="max-inline-size:15ch" data-split><span class="w" style="--w:0"><span>Sales</span></span> <span class="w" style="--w:1"><span>Process</span></span> <span class="w" style="--w:2"><span><span class="ar">Day</span></span></span></h1>
-    <p class="t-deck apri-2">Una giornata sul processo di vendita per titolari di PMI. Non una convention motivazionale: si entra con la tua situazione e si esce con il disegno del tuo processo, scritto.</p>
-    <div class="cta-riga cta-riga--c apri-3">
-      <a class="cta cta--bianco" href="#posti">Prendi uno dei 30 posti</a>
-      <a class="cta cta--out" href="#programma">Vedi il programma<svg class="freccia freccia--giu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4.5V19M6.5 13.5 12 19l5.5-5.5"/></svg></a>
+    <div class="testa-pag__testo">
+      <h1 class="t-hero" data-split><span class="w" style="--w:0"><span>Sales</span></span> <span class="w" style="--w:1"><span>Process</span></span> <span class="w" style="--w:2"><span><span class="ar">Day</span></span></span></h1>
+      <p class="testa-pag__data apri-2">14 ottobre 2026 · Milano</p>
+      <p class="t-deck apri-2">Una giornata sul processo di vendita per titolari di PMI. Non una convention motivazionale: si entra con la tua situazione e si esce con il disegno del tuo processo, scritto.</p>
+      <div class="cta-riga apri-3">
+        <a class="cta cta--bianco" href="#posti">Prendi uno dei 30 posti</a>
+        <a class="cta cta--out" href="#programma">Vedi il programma<svg class="freccia freccia--giu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4.5V19M6.5 13.5 12 19l5.5-5.5"/></svg></a>
+      </div>
+      <p class="testa-pag__meta apri-3">30 posti in sala · rimborso immediato al desk, senza spiegazioni</p>
     </div>
-    <p class="t-micro apri-3" style="color:var(--c-t3)">30 posti in sala · rimborso immediato al desk, senza spiegazioni</p>
+    <figure class="testa-pag__foto apri-2">
+      <img src="/assets/foto/eventi-biglietto-800.webp" srcset="/assets/foto/eventi-biglietto-480.webp 480w, /assets/foto/eventi-biglietto-800.webp 800w, /assets/foto/eventi-biglietto-1200.webp 1200w" sizes="(max-width: 900px) 74vw, 38vw" alt="Una mano alza un biglietto d'ingresso arancione" width="1200" height="1500" fetchpriority="low" decoding="async">
+    </figure>
   </div>
 </section>
 
-<!-- ══ LA GARANZIA ═══════════════════════════════════════════════════════
-     Non un countdown: la scarsità si dichiara come fatto strutturale
-     (la sala ha trenta sedie), mai come pressione temporale. -->
-<section class="sez sez--fitta sf sf--notte">
-  <div class="wrap wrap--grid">
-    <div class="registro registro--tre">
-      <article class="voce">
-        <p class="voce__su">la sala ha trenta sedie</p>
-        <p class="voce__num num">30</p>
-        <p class="voce__lab">Posti disponibili</p>
-        <p class="voce__fonte">Non un numero di marketing: la capienza reale</p>
+<!-- ══ LA SALA · la garanzia ═════════════════════════════════════════════
+     Non un countdown: la scarsità si dichiara come fatto strutturale. La
+     sala ha trenta sedie, e le trenta sedie si vedono: trenta quadrati del
+     marchio, uno per posto. -->
+<section class="sez sez--fitta sf sf--notte" id="sala">
+  <div class="wrap wrap--piena sala">
+    <figure class="sala__pianta" aria-hidden="true">
+      <div class="sala__palco">Il palco</div>
+      <div class="sala__sedie"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    </figure>
+    <div class="sala__fatti">
+      <article class="fatto">
+        <p class="fatto__su">la sala ha trenta sedie</p>
+        <p class="fatto__num num">30</p>
+        <p class="fatto__lab">Posti disponibili</p>
+        <p class="fatto__nota">Non un numero di marketing: la capienza reale</p>
       </article>
-      <article class="voce">
-        <p class="voce__su">dalle 9 alle 18</p>
-        <p class="voce__num num">1<span class="t-unita">giorno</span></p>
-        <p class="voce__lab">Durata</p>
-        <p class="voce__fonte">Pranzo incluso, niente upsell dal palco</p>
+      <article class="fatto">
+        <p class="fatto__su">dalle 9 alle 18</p>
+        <p class="fatto__num num">1<span class="t-unita">giorno</span></p>
+        <p class="fatto__lab">Durata</p>
+        <p class="fatto__nota">Pranzo incluso, niente upsell dal palco</p>
       </article>
-      <article class="voce">
-        <p class="voce__su">al desk, subito</p>
-        <p class="voce__num num">100<span class="t-unita">%</span></p>
-        <p class="voce__lab">Rimborso se non ti è servito</p>
-        <p class="voce__fonte">Senza spiegazioni e senza moduli</p>
+      <article class="fatto">
+        <p class="fatto__su">al desk, subito</p>
+        <p class="fatto__num num">100<span class="t-unita">%</span></p>
+        <p class="fatto__lab">Rimborso se non ti è servito</p>
+        <p class="fatto__nota">Senza spiegazioni e senza moduli</p>
       </article>
     </div>
   </div>
@@ -121,11 +134,7 @@
 <section class="sez sf sf--pozzo" id="programma">
   <div class="wrap wrap--piena">
     <div class="testa">
-      <p class="t-eyebrow">Il programma</p>
-      <div class="duevoci">
-        <h2 class="t-caps" data-split><span class="w" style="--w:0"><span>Una</span></span> <span class="w" style="--w:1"><span>giornata</span></span></h2>
-        <p class="t-voce" data-split><span class="w" style="--w:0"><span>quattro</span></span> <span class="w" style="--w:1"><span>reparti</span></span></p>
-      </div>
+      <h2 class="t-d2" data-split><span class="w" style="--w:0"><span>Una</span></span> <span class="w" style="--w:1"><span>giornata,</span></span> <span class="w" style="--w:2"><span><span class="segue">quattro</span></span></span> <span class="w" style="--w:3"><span><span class="segue">reparti.</span></span></span></h2>
     </div>
     <ol class="tempi">
       <li class="tempo">
@@ -160,8 +169,7 @@
 <section class="sez sf sf--radente">
   <div class="wrap wrap--grid">
     <div class="testa">
-      <p class="t-eyebrow">Per chi è, per chi no</p>
-      <h2 class="t-d2" data-split><span class="w" style="--w:0"><span>Trenta</span></span> <span class="w" style="--w:1"><span>posti:</span></span> <span class="w" style="--w:2"><span>preferiamo</span></span> <span class="w" style="--w:3"><span>la</span></span> <span class="w" style="--w:4"><span>stanza</span></span> <span class="w" style="--w:5"><span>giusta</span></span> <span class="w" style="--w:6"><span>a</span></span> <span class="w" style="--w:7"><span>quella</span></span> <span class="w" style="--w:8"><span>piena.</span></span></h2>
+      <h2 class="t-d2" data-split><span class="w" style="--w:0"><span>Trenta</span></span> <span class="w" style="--w:1"><span>posti:</span></span> <span class="w" style="--w:2"><span><span class="segue">preferiamo</span></span></span> <span class="w" style="--w:3"><span><span class="segue">la</span></span></span> <span class="w" style="--w:4"><span><span class="segue">stanza</span></span></span> <span class="w" style="--w:5"><span><span class="segue">giusta</span></span></span> <span class="w" style="--w:6"><span><span class="segue">a</span></span></span> <span class="w" style="--w:7"><span><span class="segue">quella</span></span></span> <span class="w" style="--w:8"><span><span class="segue">piena.</span></span></span></h2>
     </div>
     <div class="filtro">
       <div class="filtro__col">
@@ -188,9 +196,8 @@
 <!-- ══ PRENOTA ═══════════════════════════════════════════════════════════ -->
 <section class="cand" id="posti">
   <div class="wrap wrap--piena cand__grid">
-    <div style="display:grid;gap:var(--s-5);align-content:start">
-      <p class="t-eyebrow">Il tuo posto</p>
-      <h2 class="t-d2" data-split><span class="w" style="--w:0"><span>Prendi</span></span> <span class="w" style="--w:1"><span>uno</span></span> <span class="w" style="--w:2"><span>dei</span></span> <span class="w" style="--w:3"><span><span class="ar">30</span></span></span> <span class="w" style="--w:4"><span>posti.</span></span></h2>
+    <div class="cand__testo">
+      <h2 class="t-d2" data-split><span class="w" style="--w:0"><span>Prendi</span></span> <span class="w" style="--w:1"><span>uno</span></span> <span class="w" style="--w:2"><span><span class="segue">dei</span></span></span> <span class="w" style="--w:3"><span><span class="segue">30</span></span></span> <span class="w" style="--w:4"><span><span class="segue">posti.</span></span></span></h2>
       <p class="t-deck">14 ottobre 2026, Milano. Ti mandiamo l'indirizzo esatto e gli orari appena confermi. Se a fine giornata non ti è servito, chiedi il rimborso al desk: te lo diamo subito, senza spiegazioni.</p>
       <ul class="lista t-corpo">
         <li><span>Pranzo e aperitivo inclusi</span></li>

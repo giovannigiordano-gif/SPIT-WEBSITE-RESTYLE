@@ -18,7 +18,7 @@
 
 <link rel="preload" href="/assets/fonts/dm-sans-latin-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
-<link rel="stylesheet" href="/css/sito.css?v=68c737bd57">
+<link rel="stylesheet" href="/css/sito.css?v=bfb9f846a7">
 </head>
 <body data-pagina="risultati">
 <div class="palco" aria-hidden="true"><i data-a="nero"></i><i data-a="brace"></i><i data-a="alba"></i><i data-a="radente"></i><i data-a="notte"></i><i data-a="pozzo"></i><i data-a="fuoco"></i><b class="palco__torcia"></b></div>
@@ -76,40 +76,45 @@
 <div class="avanza" aria-hidden="true"></div>
 
 <main id="main">
-<section class="testa-pag" data-fantasma="Risultati">
+<!-- ══ APERTURA ══════════════════════════════════════════════════════════
+     Lo scontrino che si srotola: il fatturato, letteralmente, con i mesi
+     in mezzo. -->
+<section class="testa-pag">
   <div class="wrap wrap--piena testa-pag__in">
-    <p class="pill-eyebrow apri-1">Risultati</p>
-    <h1 class="t-hero" style="max-inline-size:18ch" data-split><span class="w" style="--w:0"><span>Prima</span></span> <span class="w" style="--w:1"><span>e</span></span> <span class="w" style="--w:2"><span>dopo,</span></span> <span class="w" style="--w:3"><span>con</span></span> <span class="w" style="--w:4"><span>i</span></span> <span class="w" style="--w:5"><span><span class="ar">mesi</span></span></span> <span class="w" style="--w:6"><span>in</span></span> <span class="w" style="--w:7"><span>mezzo.</span></span></h1>
-    <p class="t-deck apri-2">Ogni numero su questa pagina ha una fonte, una data e una liberatoria firmata. Quelli che non le hanno non li pubblichiamo — non perché siano peggiori, ma perché non sono nostri da mostrare.</p>
-    <div class="cta-riga cta-riga--c apri-3">
-      <a class="cta cta--bianco" href="/candidatura.html">Candida la tua azienda</a>
+    <div class="testa-pag__testo">
+      <h1 class="t-hero" data-split><span class="w" style="--w:0"><span>Prima</span></span> <span class="w" style="--w:1"><span>e</span></span> <span class="w" style="--w:2"><span>dopo,</span></span> <span class="w" style="--w:3"><span>con</span></span> <span class="w" style="--w:4"><span>i</span></span> <span class="w" style="--w:5"><span><span class="ar">mesi</span></span></span> <span class="w" style="--w:6"><span>in</span></span> <span class="w" style="--w:7"><span>mezzo.</span></span></h1>
+      <p class="t-deck apri-2">Ogni numero su questa pagina ha una fonte, una data e una liberatoria firmata. Quelli che non le hanno non li pubblichiamo — non perché siano peggiori, ma perché non sono nostri da mostrare.</p>
+      <div class="cta-riga apri-3">
+        <a class="cta cta--bianco" href="/candidatura.html">Candida la tua azienda</a>
+      </div>
     </div>
+    <figure class="testa-pag__foto apri-2">
+      <img src="/assets/foto/risultati-scontrino-800.webp" srcset="/assets/foto/risultati-scontrino-480.webp 480w, /assets/foto/risultati-scontrino-800.webp 800w, /assets/foto/risultati-scontrino-1200.webp 1200w" sizes="(max-width: 900px) 74vw, 38vw" alt="Una mano alza uno scontrino arancione che si srotola verso l'alto" width="1200" height="1500" fetchpriority="low" decoding="async">
+    </figure>
   </div>
 </section>
 
-<!-- ══ I NUMERI ══════════════════════════════════════════════════════════ -->
+<!-- ══ I NUMERI · a unità (lo stesso registro della home) ═══════════════ -->
 <section class="sez sf sf--notte" id="numeri">
-  <div class="wrap wrap--grid">
+  <div class="wrap wrap--piena">
     <div class="testa">
-      <p class="t-eyebrow">Dal 2020, senza arrotondare</p>
-      <h2 class="t-d2" data-split><span class="w" style="--w:0"><span>I</span></span> <span class="w" style="--w:1"><span>numeri,</span></span> <span class="w" style="--w:2"><span>con</span></span> <span class="w" style="--w:3"><span>la</span></span> <span class="w" style="--w:4"><span>loro</span></span> <span class="w" style="--w:5"><span>data</span></span> <span class="w" style="--w:6"><span>e</span></span> <span class="w" style="--w:7"><span>la</span></span> <span class="w" style="--w:8"><span>loro</span></span> <span class="w" style="--w:9"><span>fonte.</span></span></h2>
+      <h2 class="t-d2" data-split><span class="w" style="--w:0"><span>I</span></span> <span class="w" style="--w:1"><span>numeri,</span></span> <span class="w" style="--w:2"><span><span class="segue">con</span></span></span> <span class="w" style="--w:3"><span><span class="segue">la</span></span></span> <span class="w" style="--w:4"><span><span class="segue">loro</span></span></span> <span class="w" style="--w:5"><span><span class="segue">data</span></span></span> <span class="w" style="--w:6"><span><span class="segue">e</span></span></span> <span class="w" style="--w:7"><span><span class="segue">la</span></span></span> <span class="w" style="--w:8"><span><span class="segue">loro</span></span></span> <span class="w" style="--w:9"><span><span class="segue">fonte.</span></span></span></h2>
+      <p class="t-deck">Dal 2020, senza arrotondare.</p>
     </div>
-    <div class="numeri" id="numeri-grid"><!-- /js/dati.js --></div>
+    <div class="unita" id="numeri-grid"><!-- /js/dati.js --></div>
   </div>
 </section>
 
 <!-- ══ IL NASTRO ═════════════════════════════════════════════════════════ -->
 <section class="nastro sf sf--pozzo" id="prove" aria-labelledby="prove-h">
-  <div class="wrap wrap--piena" style="display:flex;align-items:end;justify-content:space-between;gap:var(--s-4);margin-bottom:var(--s-5)">
-    <div>
-      <p class="t-eyebrow">Le schede</p>
-      <h2 class="t-d2" data-split id="prove-h" style="margin-top:var(--s-4)"><span class="w" style="--w:0"><span>Sei</span></span> <span class="w" style="--w:1"><span>clienti,</span></span> <span class="w" style="--w:2"><span>sei</span></span> <span class="w" style="--w:3"><span>numeri.</span></span></h2>
-    </div>
+  <div class="wrap wrap--piena nastro__testa">
+    <h2 class="t-d2" data-split id="prove-h"><span class="w" style="--w:0"><span>Sei</span></span> <span class="w" style="--w:1"><span>clienti,</span></span> <span class="w" style="--w:2"><span><span class="segue">sei</span></span></span> <span class="w" style="--w:3"><span><span class="segue">numeri.</span></span></span></h2>
     <button class="pausa" id="nastro-pausa" aria-pressed="false" aria-label="Ferma il nastro"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M8.5 5.5v13M15.5 5.5v13"/></svg></button>
   </div>
   <div class="nastro__wrap" id="nastro-wrap"><div class="nastro__pista" id="nastro-pista"><!-- /js/dati.js --></div></div>
-  <div class="wrap wrap--piena" style="margin-top:var(--s-5)">
+  <div class="wrap wrap--piena nastro__piede">
     <p class="t-micro">6 schede su 150 clienti: le altre non hanno liberatoria, non un risultato peggiore.</p>
+    <p class="t-micro nastro__legenda"><span class="q q--8 q--ar" aria-hidden="true"></span> = 100.000 € di fatturato annuo</p>
   </div>
 </section>
 
@@ -118,10 +123,9 @@
      numero di partenza, numero di arrivo, mesi, canale, fonte e
      liberatoria. Meglio uno vero che tre vuoti — e lo si dice. -->
 <section class="sez sf sf--brace" id="fascicoli">
-  <div class="wrap wrap--ed">
+  <div class="wrap wrap--piena">
     <div class="testa">
-      <p class="t-eyebrow">I fascicoli</p>
-      <h2 class="t-d2" data-split><span class="w" style="--w:0"><span>Un</span></span> <span class="w" style="--w:1"><span>caso</span></span> <span class="w" style="--w:2"><span>per</span></span> <span class="w" style="--w:3"><span>intero,</span></span> <span class="w" style="--w:4"><span>reparto</span></span> <span class="w" style="--w:5"><span>per</span></span> <span class="w" style="--w:6"><span><span class="ar">reparto</span>.</span></span></h2>
+      <h2 class="t-d2" data-split><span class="w" style="--w:0"><span>Un</span></span> <span class="w" style="--w:1"><span>caso</span></span> <span class="w" style="--w:2"><span>per</span></span> <span class="w" style="--w:3"><span>intero,</span></span> <span class="w" style="--w:4"><span><span class="segue">reparto</span></span></span> <span class="w" style="--w:5"><span><span class="segue">per</span></span></span> <span class="w" style="--w:6"><span><span class="segue">reparto.</span></span></span></h2>
     </div>
     <div id="fascicoli-lista"><!-- /js/dati.js --></div>
   </div>
@@ -129,24 +133,22 @@
 
 <!-- ══ I SETTORI ═════════════════════════════════════════════════════════
      La granularità batte la grandezza: 33 nomi battono «2.300 clienti»
-     senza nomi. -->
+     senza nomi. Un elenco tipografico in colonne, non una nuvola di
+     pillole: si legge, si cerca il proprio. -->
 <section class="sez sf sf--radente" id="settori">
   <div class="wrap wrap--piena">
     <div class="testa">
-      <p class="t-eyebrow">I 33 settori</p>
-      <h2 class="t-d2" data-split><span class="w" style="--w:0"><span>Trentatré</span></span> <span class="w" style="--w:1"><span>settori,</span></span> <span class="w" style="--w:2"><span>uno</span></span> <span class="w" style="--w:3"><span>per</span></span> <span class="w" style="--w:4"><span>uno.</span></span></h2>
+      <h2 class="t-d2" data-split><span class="w" style="--w:0"><span>Trentatré</span></span> <span class="w" style="--w:1"><span>settori,</span></span> <span class="w" style="--w:2"><span><span class="segue">uno</span></span></span> <span class="w" style="--w:3"><span><span class="segue">per</span></span></span> <span class="w" style="--w:4"><span><span class="segue">uno.</span></span></span></h2>
       <p class="t-deck">Non «tutti i settori». Questi. Se il tuo non c'è, la prima domanda che ti facciamo è se il processo di vendita del tuo mercato somiglia a uno di questi.</p>
     </div>
-    <div id="settori-grid" style="display:flex;flex-wrap:wrap;gap:8px"><!-- /js/dati.js --></div>
+    <ul class="settori" id="settori-grid"><!-- /js/dati.js --></ul>
   </div>
 </section>
 
-<!-- ══ FASCIA CHIARA ═════════════════════════════════════════════════════ -->
-
-<section class="sez sez--alone">
-  <div class="wrap wrap--stat" style="text-align:center">
-    <h2 class="t-d2" data-split style="margin-inline:auto;max-inline-size:22ch"><span class="w" style="--w:0"><span>Il</span></span> <span class="w" style="--w:1"><span>prossimo</span></span> <span class="w" style="--w:2"><span>fascicolo</span></span> <span class="w" style="--w:3"><span>può</span></span> <span class="w" style="--w:4"><span>essere</span></span> <span class="w" style="--w:5"><span>il</span></span> <span class="w" style="--w:6"><span><span class="ar">tuo</span>.</span></span></h2>
-    <div class="cta-riga cta-riga--c" style="margin-top:var(--s-7)">
+<section class="sez sez--alone chiusa">
+  <div class="wrap wrap--stat chiusa__in">
+    <h2 class="t-d2" data-split><span class="w" style="--w:0"><span>Il</span></span> <span class="w" style="--w:1"><span>prossimo</span></span> <span class="w" style="--w:2"><span>fascicolo</span></span> <span class="w" style="--w:3"><span><span class="segue">può</span></span></span> <span class="w" style="--w:4"><span><span class="segue">essere</span></span></span> <span class="w" style="--w:5"><span><span class="segue">il</span></span></span> <span class="w" style="--w:6"><span><span class="segue">tuo.</span></span></span></h2>
+    <div class="cta-riga cta-riga--c">
       <a class="cta cta--ar cta--luce" href="/candidatura.html">Candida la tua azienda</a>
     </div>
   </div>

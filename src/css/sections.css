@@ -221,36 +221,6 @@ html.vuole-3d .hero__mark { opacity: 0; }
   .nastro .pausa { display: none; }
 }
 
-/* ── FREGIO · lo scroll reso visibile ─────────────────────────────────────
-   Due righe in versi opposti che scorrono SOLO con lo scroll: nessun loop
-   infinito, nessun JS. Senza scroll-driven (o in reduced-motion) stanno
-   ferme, ed è una fascia tipografica composta.                        */
-.fregio {
-  position: relative; overflow: clip;
-  padding-block: clamp(20px, 3.5vw, 52px);
-  display: grid; gap: .06em;
-  -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
-          mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
-}
-.fregio__riga {
-  display: flex; align-items: center; gap: .3em; width: max-content;
-  font: 700 clamp(46px, 7.6vw, 116px)/.94 var(--f-display);
-  letter-spacing: -.045em; text-transform: uppercase; white-space: nowrap;
-  color: var(--c-t1);
-}
-.fregio__riga i { width: .15em; height: .15em; border-radius: .035em; background: var(--c-ar); flex: none; translate: 0 -.04em; }
-.fregio__riga .out { color: transparent; -webkit-text-stroke: 1.4px rgba(255,255,255,.32); }
-@supports not ((-webkit-text-stroke: 1px red)) { .fregio__riga .out { color: rgba(255,255,255,.2); } }
-.fregio__riga--b { translate: -32% 0; }
-@supports (animation-timeline: view()) {
-  @media (prefers-reduced-motion: no-preference) {
-    .fregio__riga--a { animation: fregio-a linear both; animation-timeline: view(); animation-range: cover; }
-    .fregio__riga--b { animation: fregio-b linear both; animation-timeline: view(); animation-range: cover; }
-  }
-}
-@keyframes fregio-a { from { translate: 2% 0; } to { translate: -30% 0; } }
-@keyframes fregio-b { from { translate: -40% 0; } to { translate: -6% 0; } }
-
 /* ── IL TETTO — lo statement come momento ─────────────────────────────────
    I quattro reparti CONVERGONO sotto una trave che si disegna e si
    risolvono in un numero solo. Gli stati di partenza li porta il JS:
@@ -327,78 +297,6 @@ html.vuole-3d .hero__mark { opacity: 0; }
 /* ── LOGHI CLIENTI ────────────────────────────────────────────────────────── */
 .loghi-sez .t-eyebrow { margin-bottom: clamp(28px, 3vw, 44px); }
 
-/* ── TITOLO A DUE VOCI ────────────────────────────────────────────────────
-   Era il dispositivo del riferimento («WHAT WE DO / Relentlessly»: caps
-   bold + serif italic). Accanto ai titoli in tondo faceva due sistemi di
-   titolo sulla stessa pagina, e il serif tornava più delle due volte che
-   si era dato. Ora è UN solo sistema: lo stesso corpo e lo stesso peso di
-   .t-d2, in due toni. La prima voce afferma, la seconda prosegue un
-   gradino di luce più in basso. Il markup non cambia, cambia il registro. */
-.duevoci { display: grid; gap: 0; }
-.duevoci > .t-caps, .duevoci > .t-voce {
-  font-family: var(--f-display); font-style: normal; font-weight: 500;
-  font-size: clamp(30px, 4.4vw, 56px); line-height: 1.08;
-  letter-spacing: var(--tr-display); text-transform: none;
-  margin: 0; padding: 0; max-inline-size: none;
-}
-.duevoci > .t-caps { color: var(--c-t1); }
-.duevoci > .t-voce { color: var(--c-t3); }
-
-/* ── I NUMERI · il registro ───────────────────────────────────────────────
-   Tre voci senza scatola: la prima a tutta altezza a sinistra, le altre
-   due in colonna, separate da filetti. Il primo numero è il protagonista
-   (è quello che il titolare legge per primo), gli altri lo confermano. */
-.registro {
-  display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
-  border-top: 1px solid var(--c-filo-forte);
-}
-.voce { position: relative; display: grid; align-content: start; gap: 10px; padding: clamp(28px, 3vw, 44px) 0 clamp(28px, 3vw, 40px); }
-.voce:nth-child(1) { grid-row: 1 / span 2; padding-right: clamp(24px, 4vw, 64px); border-right: 1px solid var(--c-filo); }
-.voce:nth-child(n+2) { padding-left: clamp(24px, 4vw, 64px); }
-.voce:nth-child(2) { border-bottom: 1px solid var(--c-filo); }
-.voce__su { display: flex; align-items: center; gap: 10px; font: 500 14px/1.3 var(--f-display); color: var(--c-t3); }
-.voce__su::before { content: ''; width: 18px; height: 2px; border-radius: 2px; background: currentColor; opacity: .55; }
-.voce__num {
-  font: 700 clamp(64px, 8vw, 124px)/.86 var(--f-display);
-  letter-spacing: -.052em; color: var(--c-t1);
-  font-variant-numeric: tabular-nums; min-inline-size: 3ch;
-}
-.voce:nth-child(1) .voce__num { font-size: clamp(110px, 17vw, 268px); margin-block: var(--s-3) var(--s-2); }
-.voce__lab { font: 500 clamp(17px, 1.4vw, 21px)/1.25 var(--f-display); letter-spacing: -.012em; color: var(--c-t1); max-inline-size: 22ch; }
-/* L'istogramma RAPPRESENTA la quantità: dodici barre per 150 e per 750,
-   otto per 33. L'ultima barra è il valore di oggi ed è ACCESA. Accesa in
-   arancio solo sul numero protagonista; sulle due voci di conferma la
-   luce è bianca. Il blu e il verde di prima erano due colori fuori
-   palette per dire una cosa che la luce dice già.                     */
-.voce__isto { display: flex; align-items: flex-end; gap: 4px; height: 52px; margin-top: var(--s-4); max-width: 380px; }
-.voce:nth-child(1) .voce__isto { height: 110px; max-width: 520px; gap: 6px; }
-.voce__isto i {
-  flex: 1; height: var(--h); border-radius: 2px;
-  background: linear-gradient(180deg, rgba(255,255,255,.30), rgba(255,255,255,.06));
-  transform-origin: bottom center;
-}
-.voce--calda  .voce__isto i:last-child { background: linear-gradient(180deg, #FF8200, rgba(255,130,0,.3)); }
-.voce--fredda .voce__isto i:last-child,
-.voce--verde  .voce__isto i:last-child { background: linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,255,255,.22)); }
-@supports (animation-timeline: view()) {
-  @media (prefers-reduced-motion: no-preference) {
-    .voce__isto i { animation: isto-sale linear both; animation-timeline: view(); animation-range: entry calc(10% + var(--b) * 2.4%) entry 100%; }
-  }
-}
-@keyframes isto-sale { from { scale: 1 0; opacity: 0; } }
-.voce__fonte { font: 400 13px/1.45 var(--f-display); color: var(--c-t3); margin-top: var(--s-3); }
-.registro__piede {
-  display: flex; flex-wrap: wrap; gap: var(--s-3) var(--s-6); align-items: center; justify-content: space-between;
-  margin-top: var(--s-6); padding-top: var(--s-5); border-top: 1px solid var(--c-filo);
-}
-.registro__piede .t-piccolo { color: var(--c-t3); }
-.registro__piede strong { color: var(--c-t1); font-weight: 500; }
-@media (max-width: 860px) {
-  .registro { grid-template-columns: 1fr; }
-  .voce:nth-child(1) { grid-row: auto; padding-right: 0; border-right: 0; border-bottom: 1px solid var(--c-filo); }
-  .voce:nth-child(n+2) { padding-left: 0; }
-}
-
 /* ── COSA FACCIAMO · quattro reparti + otto servizi ──────────────────────── */
 .bento.bento--reparti { display: block; }
 .reparti4 { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
@@ -464,6 +362,10 @@ html.vuole-3d .hero__mark { opacity: 0; }
   .servizi { grid-template-columns: 1fr; }
 }
 
+/* Nei cartelli il titolo sta in una colonna stretta fra i due pugni:
+   un gradino sotto il corpo dei titoli di sezione.                   */
+.cartelli__txt .t-d2 { font-size: clamp(28px, 3vw + 4px, 48px); max-inline-size: 16ch; margin-inline: auto; }
+
 /* ── I CARTELLI ───────────────────────────────────────────────────────────
    I due pugni salgono dal bordo a velocità diverse dal testo: parallasse
    vera, compositor, legata alla view timeline della sezione.          */
@@ -501,115 +403,6 @@ html.vuole-3d .hero__mark { opacity: 0; }
   .cartelli__in { grid-template-columns: 1fr 1fr; gap: var(--s-3); }
   .cartelli__f img { max-height: 300px; }
 }
-
-/* ── CONTRO-ESEMPIO: chiusa ───────────────────────────────────────────────── */
-.contro__chiusa { margin-top: var(--s-6); max-inline-size: 70ch; color: var(--c-t2); }
-.contro__chiusa strong, .macchina__chiusa strong { color: var(--c-t1); font-weight: 500; }
-
-/* ── LA MACCHINA · il binario ─────────────────────────────────────────────
-   Quattro stazioni, un binario, tre varchi. --p (0→1) è l'avanzamento del
-   pacchetto: lo scrive GSAP nella scena pinnata su desktop, una timeline
-   scroll-driven sotto i 1024px. A riposo --p = 1: tutto acceso, la
-   versione statica è quella che si legge.                             */
-@property --p { syntax: '<number>'; inherits: true; initial-value: 1; }
-.macchina { display: grid; --p: 1; }
-/* La scena si pinna a «top top» (motion.js): la sezione resta ferma sotto
-   la nav e la barra FISSE, quindi il suo respiro superiore deve superarle,
-   o il titolo ci finisce sotto. Con --sez-y a ~106px non bastava più. */
-@media (min-width: 1024px) and (min-height: 700px) {
-  .sez:has(.macchina) {
-    padding-top: max(var(--sez-y), calc(var(--barra-h) + var(--nav-h) + var(--s-6)));
-  }
-}
-.macchina__pista { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; align-items: stretch; }
-.reparto {
-  position: relative; overflow: hidden;
-  display: grid; gap: var(--s-4); align-content: start; padding: var(--s-5);
-  border: 1px solid var(--c-filo); border-radius: var(--r-card);
-  background: rgba(255,255,255,.03);
-  transition: border-color var(--t-stato) linear, background-color var(--t-stato) linear, box-shadow var(--t-stato) linear;
-}
-.reparto.is-on, .macchina:not(.is-scena) .reparto {
-  border-color: var(--c-bordo-ar); background: rgba(255,130,0,.07);
-}
-/* Il numero fantasma dà profondità senza aggiungere oggetti: è tipografia,
-   e decorativa — quindi contenuto GENERATO dal CSS (data-n), fuori
-   dall'albero dell'accessibilità e dal calcolo del contrasto del testo. */
-.reparto::after {
-  content: attr(data-n);
-  position: absolute; top: var(--s-4); right: var(--s-5);
-  font: 700 44px/1 var(--f-display); letter-spacing: -.04em;
-  color: rgba(255,255,255,.07);
-  transition: color var(--t-stato) linear;
-}
-.reparto.is-on::after, .macchina:not(.is-scena) .reparto::after { color: rgba(255,130,0,.24); }
-/* Spenta finché il contatto non arriva: l'icona si accende insieme al
-   bordo, è la luce che passa dentro il reparto.                       */
-.reparto .icoq { color: var(--c-t3); transition: color var(--t-stato) linear; }
-.reparto.is-on .icoq, .macchina:not(.is-scena) .icoq { color: var(--c-ar); }
-.reparto__claim { color: var(--c-t3); }
-.reparto__out { color: var(--c-t3); font-weight: 500; margin-top: auto; padding-top: var(--s-4); border-top: 1px solid var(--c-filo); transition: color var(--t-stato) linear; }
-.reparto.is-on .reparto__out, .macchina:not(.is-scena) .reparto__out { color: var(--c-ar); }
-
-.binario { position: relative; height: 64px; container-type: inline-size; }
-.binario__filo { position: absolute; left: 12.5%; right: 12.5%; top: 50%; height: 2px; translate: 0 -50%; border-radius: 2px; background: var(--c-filo-forte); }
-.binario__luce {
-  position: absolute; inset: 0; border-radius: inherit;
-  background: var(--c-ar);
-  transform-origin: left center; scale: var(--p) 1;
-}
-.binario__varco {
-  position: absolute; top: 50%; left: calc(25% + var(--k) * 25%);
-  width: 14px; height: 30px; translate: -50% -50%;
-  border: 2px solid var(--c-filo-forte); border-radius: 4px; background: var(--c-base);
-  transition: border-color var(--t-stato) linear, box-shadow var(--t-stato) linear;
-}
-.binario__varco.is-on, .macchina:not(.is-scena) .binario__varco { border-color: var(--c-ar); background: rgba(255,130,0,.18); }
-/* Il pacchetto: il quadrato del marchio, lo STESSO che nel contro-esempio
-   cade. Qui attraversa il binario: translate in unità del contenitore
-   (cqw), compositor.                                                  */
-.binario__pkg {
-  position: absolute; top: 50%; left: 0;
-  width: 18px; height: 18px; border-radius: 4px;
-  background: var(--c-ar);
-  box-shadow: 0 0 0 4px rgba(255,130,0,.16), 0 0 26px rgba(255,130,0,.85);
-  translate: calc(12.5cqw + var(--p) * 75cqw - 50%) -50%;
-}
-.handoff__riga { display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 0 16px; }
-.handoff {
-  grid-column: calc(var(--k) * 2 + 2) / span 2; justify-self: center;
-  display: grid; gap: 4px; justify-items: center; text-align: center;
-  padding: 12px 18px; border-radius: var(--r-card);
-  border: 1px solid rgba(255,130,0,.20); background: rgba(255,130,0,.06);
-  opacity: .35; transition: opacity var(--t-stato) linear, border-color var(--t-stato) linear;
-}
-.handoff.is-on, .macchina:not(.is-scena) .handoff { opacity: 1; border-color: rgba(255,130,0,.42); }
-.handoff__cosa { font: 700 14px/1.25 var(--f-display); color: #FFCF9E; }
-.handoff__det { font: 500 13px/1.3 var(--f-display); color: var(--c-t2); }
-.macchina__chiusa { margin-top: var(--s-6); max-inline-size: 76ch; color: var(--c-t2); opacity: .45; transition: opacity var(--t-stato) linear; }
-.macchina__chiusa.is-on, .macchina:not(.is-scena) .macchina__chiusa { opacity: 1; }
-
-/* Sotto i 1024px la macchina è una COLONNA: il binario corre a sinistra,
-   il pacchetto scende con lo scroll e ogni stazione si accende quando
-   passa la linea mediana. Niente pin.                                 */
-@media (max-width: 1023px) {
-  .macchina { position: relative; padding-left: 40px; }
-  .macchina__pista, .handoff__riga { grid-template-columns: 1fr; gap: 14px; }
-  .handoff__riga { margin-top: 14px; }
-  .handoff { grid-column: auto; justify-self: stretch; justify-items: start; text-align: left; opacity: 1; }
-  .binario { position: absolute; left: 0; top: 0; bottom: 0; width: 24px; height: auto; container-type: size; }
-  .binario__filo { left: 50%; right: auto; top: 0; bottom: 0; width: 2px; height: auto; translate: -50% 0; }
-  .binario__luce { transform-origin: center top; scale: 1 var(--p); }
-  .binario__varco { display: none; }
-  .binario__pkg { left: 50%; top: 0; translate: -50% calc(var(--p) * 100cqh - 50%); }
-  .macchina__chiusa { opacity: 1; }
-}
-@supports (animation-timeline: view()) {
-  @media (max-width: 1023px) and (prefers-reduced-motion: no-preference) {
-    .macchina { animation: macchina-p linear both; animation-timeline: view(); animation-range: cover 18% cover 82%; }
-  }
-}
-@keyframes macchina-p { from { --p: 0; } to { --p: 1; } }
 
 /* ── LA SQUADRA — slider che introduce la pagina Team ───────────────────── */
 .squadra__testa { position: relative; }
@@ -817,101 +610,74 @@ a.indice__cta::after { content: ''; position: absolute; inset: 0; }
   .mappa { min-height: 320px; }
 }
 
-/* ── IL MURO · FATTURARE ×3, CENTRATO ─────────────────────────────────────
-   Le tre righe identiche sull'asse centrale si leggono come un colpo
-   ripetuto (decisione cliente: centrato, non a scalinata). La riga
-   arancione si accende da DIETRO: il bagliore è uno pseudo-elemento fuori
-   dalla maschera, non un text-shadow che la maschera taglia a rettangolo
-   (era il difetto della versione precedente).                         */
-.muro { position: relative; padding-block: var(--sez-y) calc(var(--sez-y) * .9); overflow: clip; }
-.muro::before {
-  content: ''; position: absolute; inset: auto -10% -320px -10%; height: 860px;
-  background: radial-gradient(60% 60% at 50% 100%, rgba(184,91,0,.32) 0%, rgba(184,91,0,0) 70%);
-  pointer-events: none;
-}
-.muro__in { position: relative; text-align: center; }
-.muro__oc { justify-content: center; margin-bottom: clamp(32px, 4vw, 56px); }
-.muro__righe { position: relative; display: grid; justify-items: center; }
-.muro__righe::after {
-  content: ''; position: absolute; z-index: -1; left: 50%; bottom: 0;
-  width: min(92%, 1100px); height: 36%; translate: -50% 8%;
-  background: radial-gradient(50% 50% at 50% 50%, rgba(255,130,0,.42), rgba(255,130,0,0) 72%);
-  filter: blur(18px);
-}
-.muro__righe .mask { padding-inline: .04em; }
-.t-muro--ar { color: var(--c-ar); }
-/* La luce sulle lettere: con il mouse, il punto in cui passi si accende
-   d'arancio dentro le tre righe (background-clip: text). Le coordinate
-   sono proprietà registrate, quindi la luce SCIVOLA invece di saltare. */
-@property --lx { syntax: '<length>'; inherits: false; initial-value: -600px; }
-@property --ly { syntax: '<length>'; inherits: false; initial-value: 50px; }
-@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
-  .muro__righe .t-muro {
-    background: radial-gradient(300px 220px at var(--lx) var(--ly), #FFC27A 0%, #FF9A38 22%, #F8F8F8 58%);
-    -webkit-background-clip: text; background-clip: text; color: transparent;
-    transition: --lx .5s var(--ease-salita), --ly .5s var(--ease-salita);
-  }
-  /* background-IMAGE, non lo shorthand: `background` azzererebbe il
-     background-clip e la riga diventerebbe un rettangolo arancione pieno. */
-  .muro__righe .t-muro--ar {
-    background-image: radial-gradient(300px 220px at var(--lx) var(--ly), #FFE6C4 0%, #FFB45C 24%, #FF8200 58%);
-  }
-}
-.muro__piede { display: grid; gap: var(--s-5); justify-items: center; margin-top: clamp(40px, 5vw, 72px); position: relative; }
-.muro__piede .t-deck { margin-inline: auto; max-inline-size: 52ch; }
-
 /* ═══════════════════════════════════════════════════════════════════════════
    COMPONENTI DELLE PAGINE INTERNE
    ═══════════════════════════════════════════════════════════════════════════ */
 
-/* ── TESTA DI PAGINA INTERNA ──────────────────────────────────────────────── */
-.testa-pag { position: relative; isolation: isolate; padding-top: calc(var(--nav-h) + clamp(48px, 9vh, 112px)); padding-bottom: clamp(56px, 7vw, 96px); overflow: clip; text-align: center; }
+/* ── L'APERTURA DELLE PAGINE INTERNE ──────────────────────────────────────
+   Era lo stesso schema per tutte e sette: titolo centrato su nero, parola
+   fantasma in contorno dietro, due bottoni. Le pagine sembravano copie
+   della vecchia (giro 3). Ora ogni apertura ha la SUA fotografia della
+   serie (mano in bianco e nero, oggetto arancione che dice la pagina:
+   la scalinata per il metodo, lo scontrino per i risultati, la bussola
+   per il DNA…) e il titolo a filo sinistro accanto. La foto sale dal
+   fondo dell'apertura e vi sfuma.                                      */
+.testa-pag {
+  position: relative; isolation: isolate; overflow: clip;
+  padding-top: calc(var(--nav-h) + clamp(24px, 5vh, 72px));
+}
 .testa-pag::before {
   content: ''; position: absolute; z-index: -1; inset: -200px -20% auto -20%; height: 900px;
   background: var(--alone); pointer-events: none;
 }
-.testa-pag__in { display: grid; justify-items: center; gap: var(--s-5); position: relative; }
-.testa-pag .t-deck { margin-inline: auto; }
-/* La parola fantasma: il nome della pagina, enorme e solo in contorno,
-   tagliato dal bordo inferiore. È lo stesso registro del fregio (pieno e
-   contorno) portato nelle aperture interne, e allo scroll sale piano:
-   profondità con un solo strato tipografico, nessuna immagine.        */
-.testa-pag[data-fantasma]::after {
-  content: attr(data-fantasma);
-  position: absolute; z-index: -1; left: 50%; bottom: 0;
-  translate: -50% 38%;
-  font: 700 clamp(120px, 23vw, 350px)/.8 var(--f-display);
-  letter-spacing: -.06em; text-transform: uppercase; white-space: nowrap;
-  color: transparent; -webkit-text-stroke: 1.2px rgba(255,255,255,.085);
-  pointer-events: none;
+.testa-pag__in {
+  display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  column-gap: clamp(24px, 4vw, 80px); align-items: end;
+  min-height: min(calc(100svh - var(--barra-h) - var(--nav-h) - 24px), 880px);
 }
-@supports (animation-timeline: scroll()) {
-  @media (prefers-reduced-motion: no-preference) {
-    .testa-pag[data-fantasma]::after { animation: fantasma linear both; animation-timeline: scroll(root block); animation-range: 0 70vh; }
-  }
+.testa-pag__testo {
+  display: grid; gap: var(--s-5); justify-items: start; align-self: center;
+  padding-block: clamp(24px, 4vh, 48px) clamp(56px, 9vh, 120px);
 }
-@keyframes fantasma { to { translate: -50% 8%; opacity: .3; } }
+.testa-pag .t-hero { font-size: clamp(40px, 5vw, 82px); line-height: 1.02; max-inline-size: 16ch; }
+.testa-pag .t-deck { max-inline-size: 48ch; }
+.testa-pag__meta { display: inline-flex; align-items: center; gap: 10px; font: 500 15px/1.35 var(--f-display); color: var(--c-t3); }
+.testa-pag__meta::before { content: ''; flex: none; width: 8px; height: 8px; border-radius: var(--q-r); background: var(--c-ar); }
+.testa-pag__foto { margin: 0; align-self: end; justify-self: center; width: min(100%, 560px); }
+.testa-pag__foto img {
+  display: block; width: 100%; height: auto; max-height: min(78vh, 760px);
+  object-fit: contain; object-position: bottom;
+  -webkit-mask-image: linear-gradient(180deg, #000 74%, transparent 100%);
+          mask-image: linear-gradient(180deg, #000 74%, transparent 100%);
+}
+@media (max-width: 900px) {
+  .testa-pag__in { grid-template-columns: 1fr; min-height: 0; }
+  .testa-pag__testo { padding-bottom: var(--s-6); }
+  .testa-pag__foto { width: min(74%, 400px); }
+}
 
-/* ── REGISTRO A TRE VOCI (Eventi) ─────────────────────────────────────── */
-.registro--tre { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-.registro--tre .voce,
-.registro--tre .voce:nth-child(1),
-.registro--tre .voce:nth-child(n+2) { grid-row: auto; padding: clamp(24px, 2.6vw, 36px) clamp(18px, 2.6vw, 40px); border: 0; }
-.registro--tre .voce:nth-child(1) { padding-left: 0; }
-.registro--tre .voce + .voce { border-left: 1px solid var(--c-filo); }
-.registro--tre .voce:nth-child(1) .voce__num { font-size: clamp(64px, 8vw, 124px); margin: 0; }
-.registro--tre .t-unita { font-size: .3em; margin-left: .08em; }
-@media (max-width: 860px) {
-  .registro--tre { grid-template-columns: 1fr; }
-  .registro--tre .voce, .registro--tre .voce + .voce { padding: 24px 0; border-left: 0; border-bottom: 1px solid var(--c-filo); }
+/* Il Team non ha un oggetto: ha le FACCE. Cinque ritratti veri disposti
+   come i cinque quadrati del marchio (stesse posizioni e proporzioni,
+   griglia 60×100, raggio 22% del lato): il marchio fatto di persone.  */
+.scala-volti { position: relative; align-self: center; justify-self: center; width: min(100%, 420px); aspect-ratio: 60 / 100; margin-bottom: clamp(32px, 6vh, 72px); }
+.scala-volti img {
+  position: absolute; left: calc(var(--x) / 60 * 100%); top: calc(var(--y) / 100 * 100%);
+  width: calc(var(--l) / 60 * 100%); aspect-ratio: 1; height: auto;
+  object-fit: cover; border-radius: 22%;
+  /* i ritratti sono su fondo bianco: abbassati di un gradino, così il
+     marchio fatto di volti non accende un muro di luce sul nero */
+  filter: grayscale(1) contrast(1.05) brightness(.84);
+  box-shadow: 0 18px 40px -18px rgba(0,0,0,.8);
+  transition: filter var(--t-stato) linear;
 }
+.scala-volti img:hover { filter: grayscale(0); }
+@media (max-width: 900px) { .scala-volti { width: min(70%, 320px); margin-bottom: var(--s-7); } }
 
 /* ── LA LINEA DEL TEMPO (programma dell'evento, cosa succede dopo) ───────
    Una sequenza vera, quindi una linea: l'orario a sinistra, il contenuto a
    destra, e il filo che si riempie d'arancio mentre la scorri. Su desktop
    si allinea alla colonna dei titoli (la didascalia sta nella prima).  */
 .tempi { position: relative; display: grid; max-width: 940px; padding-top: 4px; }
-@media (min-width: 1100px) { .tempi { margin-left: calc((100% - var(--s-7)) * 3 / 12 + var(--s-7)); } }
 .tempi::before, .tempi::after {
   content: ''; position: absolute; left: 7px; top: 14px; bottom: 30px; width: 2px; border-radius: 2px;
   background: var(--c-filo-forte);
@@ -950,18 +716,6 @@ a.indice__cta::after { content: ''; position: absolute; inset: 0; }
 }
 .in-arrivo { font-style: normal; margin-left: 6px; color: var(--c-t3); }
 .nota-arrivo { margin-top: var(--s-5); }
-
-/* ── DNA · il manifesto, le dichiarazioni, i principi ───────────────────── */
-.manifesto { display: grid; gap: var(--s-5); max-width: 860px; }
-@media (min-width: 1100px) { .manifesto { margin-left: calc((100% - var(--s-7)) * 3 / 12 + var(--s-7)); } }
-.manifesto__testo { font: 400 clamp(17px, 1.25vw, 20px)/1.65 var(--f-display); color: var(--c-t2); max-inline-size: 62ch; }
-.manifesto__chiusa {
-  font: 500 clamp(26px, 2.8vw, 40px)/1.16 var(--f-display); letter-spacing: -.026em; color: var(--c-t1);
-  margin-top: var(--s-4); padding-top: var(--s-6); border-top: 1px solid var(--c-filo-forte); max-inline-size: 28ch;
-}
-.qualita .dichiarazione { padding: var(--s-5) 0 0; border-top: 2px solid var(--c-ar); display: grid; gap: var(--s-4); }
-.dichiarazione__et { font: 500 14px/1.3 var(--f-display); color: var(--c-ar-hot); }
-.dichiarazione__testo { font: 500 clamp(24px, 2.4vw, 34px)/1.2 var(--f-display); letter-spacing: -.024em; color: var(--c-t1); max-inline-size: 22ch; }
 
 /* ── BENTO STATICO (programma, ruoli, articoli, passi) ─────────────────── */
 .bento { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
@@ -1046,7 +800,7 @@ a.indice__cta::after { content: ''; position: absolute; inset: 0; }
 .form .cta { width: 100%; height: 54px; }
 /* Squalifica in tempo reale: il lead non idoneo viene PARCHEGGIATO invece
    che bruciato, e il quiz viene assorbito dal form.                   */
-.squalifica { display: none; padding: var(--s-4); border-radius: var(--r-8); background: rgba(204,51,102,.10); border: 1px solid rgba(204,51,102,.28); }
+.squalifica { display: none; padding: var(--s-4); border-radius: var(--r-8); background: rgba(240,75,58,.10); border: 1px solid rgba(240,75,58,.28); }
 .form.is-squalificato .squalifica { display: block; animation: sale-testa var(--t-reveal) var(--ease-salita) both; }
 @media (max-width: 900px) { .cand__grid { grid-template-columns: 1fr; } }
 
@@ -1081,33 +835,6 @@ a.indice__cta::after { content: ''; position: absolute; inset: 0; }
 .fascicolo__logo { height: 26px; width: auto; opacity: .8; }
 .fascicolo__dati { display: flex; flex-wrap: wrap; gap: 6px 18px; }
 @media (max-width: 900px) { .fascicolo { grid-template-columns: 1fr; } .fascicolo__panel { padding: var(--s-6); } }
-
-/* ── DNA · i dieci principi ───────────────────────────────────────────────
-   Un elenco numerato su due colonne, separato da filetti: il numero è
-   informazione (sono "i dieci principi"), quindi resta, in arancio.   */
-.comand { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: clamp(32px, 5vw, 80px); border-bottom: 1px solid var(--c-filo); }
-.com { position: relative; display: grid; grid-template-columns: 60px 1fr; column-gap: 18px; row-gap: 6px; align-content: start; padding: 26px 0 30px; border-top: 1px solid var(--c-filo); }
-.com__n { grid-row: 1 / span 2; font: 700 30px/1 var(--f-display); letter-spacing: -.04em; color: var(--c-ar); font-variant-numeric: tabular-nums; transition: translate var(--t-stato) var(--ease-salita); }
-.com__tit { font: 700 18px/1.3 var(--f-display); letter-spacing: -.012em; color: var(--c-t1); padding-top: 3px; }
-.com__testo { font: 400 15px/1.6 var(--f-display); color: var(--c-t3); max-inline-size: 50ch; }
-.com:hover .com__n { translate: 4px 0; }
-@media (max-width: 820px) { .comand { grid-template-columns: 1fr; } }
-
-/* ── I 33 SETTORI ─────────────────────────────────────────────────────────
-   Un muro di nomi, non una nuvola di chip maiuscoli: tondo a 16px, la
-   particella davanti, e ogni nome si accende al passaggio.            */
-#settori-grid { gap: 10px !important; }
-#settori-grid .chip {
-  height: auto; min-height: 40px; padding: 9px 16px 9px 13px; gap: 10px;
-  font: 500 16px/1.2 var(--f-display); letter-spacing: -.005em; text-transform: none;
-  color: var(--c-t2); border-color: var(--c-filo-forte); border-radius: var(--r-pill);
-}
-#settori-grid .chip::before { content: ''; width: 6px; height: 6px; flex: none; border-radius: 1.5px; background: var(--c-ar); }
-#settori-grid .chip:hover { color: var(--c-t1); border-color: var(--c-bordo-ar); background: rgba(255,130,0,.08); }
-/* Missione e visione: due sole righe, trattate come tali. */
-.qualita { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
-.qualita article { padding: var(--s-7); display: grid; gap: var(--s-4); align-content: start; }
-@media (max-width: 820px) { .qualita { grid-template-columns: 1fr; } }
 
 /* ── FOOTER · CONTATTI ────────────────────────────────────────────────────
    Il numero verde ha il trattamento di un pulsante: è il contatto che una

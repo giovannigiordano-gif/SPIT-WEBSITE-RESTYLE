@@ -3,11 +3,22 @@ title: Candida la tua azienda — Sales Process
 desc: Fatturato 1-5 M€, no start-up, risposta in 48 ore lavorative. Il filtro è scritto prima, non dopo. Oppure vieni a prendere un caffè in Via Marco D'Agrate 41 a Milano.
 -->
 
-<section class="testa-pag" data-fantasma="Caffè">
+<!-- ══ APERTURA ══════════════════════════════════════════════════════════
+     La tazzina offerta: «oppure vieni a prendere un caffè» detto con un
+     gesto. Lo stato delle candidature del trimestre è la riga sotto. -->
+<section class="testa-pag">
   <div class="wrap wrap--piena testa-pag__in">
-    <p class="pill-eyebrow apri-1">Candidature aperte · Q4 2026</p>
-    <h1 class="t-hero" style="max-inline-size:16ch" data-split>Candida la tua azienda. Oppure vieni a prendere un <span class="ar">caffè</span>.</h1>
-    <p class="t-deck apri-2">Non lavoriamo con tutti, e il filtro è scritto qui sotto prima che tu compili qualcosa. Se rientri, ti rispondiamo entro 48 ore lavorative — e la candidatura la legge una persona, non un software.</p>
+    <div class="testa-pag__testo">
+      <h1 class="t-hero" data-split>Candida la tua azienda. Oppure vieni a prendere un <span class="ar">caffè</span>.</h1>
+      <p class="t-deck apri-2">Non lavoriamo con tutti, e il filtro è scritto qui sotto prima che tu compili qualcosa. Se rientri, ti rispondiamo entro 48 ore lavorative — e la candidatura la legge una persona, non un software.</p>
+      <div class="cta-riga apri-3">
+        <a class="cta cta--bianco" href="#candidatura">Candida la tua azienda ↓</a>
+      </div>
+      <p class="testa-pag__meta apri-3">Candidature aperte · Q4 2026</p>
+    </div>
+    <figure class="testa-pag__foto apri-2">
+      <img src="/assets/foto/candidatura-caffe-800.webp" srcset="/assets/foto/candidatura-caffe-480.webp 480w, /assets/foto/candidatura-caffe-800.webp 800w, /assets/foto/candidatura-caffe-1200.webp 1200w" sizes="(max-width: 900px) 74vw, 38vw" alt="Una mano offre una tazzina di caffè arancione" width="1200" height="1500" fetchpriority="low" decoding="async">
+    </figure>
   </div>
 </section>
 
@@ -19,8 +30,7 @@ desc: Fatturato 1-5 M€, no start-up, risposta in 48 ore lavorative. Il filtro 
 <section class="sez sf sf--radente" id="filtro">
   <div class="wrap wrap--grid">
     <div class="testa">
-      <p class="t-eyebrow">Chi entra, chi no</p>
-      <h2 class="t-d2" data-split>Il filtro è scritto <span class="ar">prima</span>, non dopo.</h2>
+      <h2 class="t-d2" data-split>Il filtro è scritto prima, <span class="segue">non dopo.</span></h2>
     </div>
     <div class="filtro">
       <div class="filtro__col">
@@ -43,10 +53,14 @@ desc: Fatturato 1-5 M€, no start-up, risposta in 48 ore lavorative. Il filtro 
         </ul>
       </div>
     </div>
-    <p class="t-micro" style="margin-top:var(--s-7);padding-top:var(--s-5);border-top:1px solid var(--c-filo)">
-      Q4 2026 · 31 candidature ricevute · 9 slot · 4 assegnati · agg. 09.09.2026
-    </p>
-    <p class="t-piccolo" style="margin-top:var(--s-4);color:var(--c-t3)">Non è un no per sempre. È un no per adesso.</p>
+    <!-- Gli slot del trimestre si VEDONO: nove quadrati del marchio, quattro
+         accesi (assegnati), cinque vuoti. Scarsità come fatto, non come
+         conto alla rovescia. -->
+    <div class="slot">
+      <div class="slot__quadri" aria-hidden="true"><i class="is-preso"></i><i class="is-preso"></i><i class="is-preso"></i><i class="is-preso"></i><i></i><i></i><i></i><i></i><i></i></div>
+      <p class="slot__testo">Q4 2026 · 31 candidature ricevute · 9 slot · 4 assegnati · agg. 09.09.2026</p>
+    </div>
+    <p class="t-piccolo slot__nota">Non è un no per sempre. È un no per adesso.</p>
   </div>
 </section>
 
@@ -56,9 +70,8 @@ desc: Fatturato 1-5 M€, no start-up, risposta in 48 ore lavorative. Il filtro 
      invece che bruciato. Il vecchio /quiz/ va in 301 su questa pagina. -->
 <section class="cand" id="candidatura">
   <div class="wrap wrap--piena cand__grid">
-    <div style="display:grid;gap:var(--s-5);align-content:start">
-      <p class="t-eyebrow">La candidatura</p>
-      <h2 class="t-d2" data-split>Cinque campi, poi ne parliamo.</h2>
+    <div class="cand__testo">
+      <h2 class="t-d2" data-split>Cinque campi, <span class="segue">poi ne parliamo.</span></h2>
       <p class="t-deck">Via Marco D'Agrate 41, Milano, quarto piano. Il caffè lo facciamo noi. Se preferisci partire da una chiamata, va bene uguale.</p>
       <ul class="lista t-corpo">
         <li><span>La legge una persona, non un software</span></li>
@@ -124,8 +137,7 @@ desc: Fatturato 1-5 M€, no start-up, risposta in 48 ore lavorative. Il filtro 
 <section class="sez dove" id="dove">
   <div class="wrap wrap--piena">
     <div class="testa">
-      <p class="t-eyebrow">Dove siamo</p>
-      <h2 class="t-d2" data-split>Via Marco D'Agrate 41, Milano. <span class="ar">Quarto piano</span>.</h2>
+      <h2 class="t-d2" data-split>Via Marco D'Agrate 41, Milano. <span class="segue">Quarto piano.</span></h2>
       <p class="t-deck">Il caffè lo facciamo noi. A dieci minuti dalla tangenziale Est, parcheggio in strada.</p>
     </div>
 
@@ -176,8 +188,7 @@ desc: Fatturato 1-5 M€, no start-up, risposta in 48 ore lavorative. Il filtro 
 <section class="sez sf sf--pozzo">
   <div class="wrap wrap--grid">
     <div class="testa">
-      <p class="t-eyebrow">Cosa succede dopo</p>
-      <h2 class="t-d2" data-split>Tre passaggi, nessuna sorpresa.</h2>
+      <h2 class="t-d2" data-split>Tre passaggi, <span class="segue">nessuna sorpresa.</span></h2>
     </div>
     <ol class="tempi tempi--passi">
       <li class="tempo">

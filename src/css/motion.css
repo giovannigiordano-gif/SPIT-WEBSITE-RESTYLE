@@ -123,14 +123,14 @@
   @view-transition { navigation: none; }
 }
 
-/* ── IL MURO · FATTURARE ×3 ───────────────────────────────────────────────
-   Zero JS, compositor thread. Per la sensazione di «pressa» si anima
-   scaleY sul wrapper: composite, zero relayout.
+/* ── IL FINALE · FATTURARE ×3 ─────────────────────────────────────────────
+   Zero JS, compositor thread: le tre righe salgono una per una dentro la
+   loro maschera, con una leggera pressa verticale (scaleY, composite).
    MAI animare font-variation-settings o font-weight: non sono
    compositabili, e poiché la larghezza dei glifi cresce col peso una riga
    vicina al wrap può rifloware a metà animazione producendo CLS.         */
-.muro__righe .mask { transform-origin: bottom left; }
-.muro__righe .mask > .t-muro {
+.finale__payoff .mask { transform-origin: bottom left; }
+.finale__payoff .mask > .finale__riga {
   animation: sali-muro var(--t-maschera) var(--ease-salita) both;
   animation-timeline: view();
   animation-range-start: entry calc(var(--i) * 14%);
@@ -139,12 +139,12 @@
 @keyframes sali-muro { from { translate: 0 105%; scale: 1 1.05; } to { translate: 0 0; scale: 1 1; } }
 
 @supports not (animation-timeline: view()) {
-  .muro__righe .mask > .t-muro {
+  .finale__payoff .mask > .finale__riga {
     animation: none; translate: 0 105%;
     transition: translate var(--t-maschera) var(--ease-salita);
     transition-delay: calc(var(--i) * 140ms);
   }
-  .muro.is-in .mask > .t-muro { translate: 0 0; }
+  .finale.is-in .mask > .finale__riga { translate: 0 0; }
 }
 
 /* ── REDUCED MOTION ───────────────────────────────────────────────────────
@@ -153,7 +153,7 @@
    zero, la dissolvenza sopravvive, ogni stato resta raggiungibile.       */
 @media (prefers-reduced-motion: reduce) {
   .hero .mask > [data-riga],
-  .muro__righe .mask > .t-muro { translate: 0 0 !important; scale: 1 !important; }
+  .finale__payoff .mask > .finale__riga { translate: 0 0 !important; scale: 1 !important; }
 }
 
 /* ── REVEAL DELLE TESTE DI SEZIONE ────────────────────────────────────────
@@ -166,7 +166,6 @@
 /* I titoli [data-split] non entrano in blocco: si compongono parola per
    parola (sopra). Qui restano l'occhiello, il deck e i titoli interi.  */
 .testa > .t-eyebrow,
-.testa > .duevoci > :not([data-split]),
 .testa > .t-d2:not([data-split]),
 .testa > .t-deck {
   animation: sale-testa var(--t-reveal) var(--ease-salita) both;
@@ -180,7 +179,6 @@
 /* Lo stagger sulle timeline scroll-driven NON si fa con animation-delay
    (che viene ignorato): si sposta animation-range-start.               */
 .testa > .t-eyebrow      { animation-range-start: entry 0%; }
-.testa > .duevoci > :not([data-split]),
 .testa > .t-d2:not([data-split]) { animation-range-start: entry 10%; }
 .testa > .t-deck         { animation-range-start: entry 20%; }
 
@@ -190,6 +188,6 @@
 }
 
 @supports not (animation-timeline: view()) {
-  .testa > .t-eyebrow, .testa > .duevoci > *, .testa > .t-d2, .testa > .t-deck { animation: none; }
+  .testa > .t-eyebrow, .testa > .t-d2, .testa > .t-deck { animation: none; }
 }
 /* In reduced-motion il travel è già 0 dal token: resta una dissolvenza. */

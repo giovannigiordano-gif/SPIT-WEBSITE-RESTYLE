@@ -1,178 +1,134 @@
 /* ═══════════════════════════════════════════════════════════════════════════
-   SALESPROCESS · infografica.css — il contro-esempio come diagramma
+   SALESPROCESS · infografica.css — il contro-esempio
    ---------------------------------------------------------------------------
-   Prima erano quattro riquadri con un tratteggio in mezzo: DESCRIVEVANO il
-   problema. Ora è un diagramma che lo MOSTRA — quattro fornitori in fila,
-   tre pacchetti che provano a passare e cadono sotto la linea, un
-   pavimento che dice cosa ci finisce.
-   Lo stato di RIPOSO è quello finale (pacchetti già a terra): se il JS non
-   arriva, l'infografica è già leggibile. L'animazione ripercorre la caduta.
+   Riscritto nel giro 3. Prima: quattro scatole, archi tratteggiati rosa e
+   un pavimento con i detriti — un diagramma da leggere. Ora tre tempi:
+     1. la FOTOGRAFIA dice il problema in un colpo (due mani che non si
+        incontrano, il cubo che cade);
+     2. la CATENA dice dove si rompe: quattro anelli e tre punti spezzati,
+        con il cubo che cade sotto la linea allo scroll;
+     3. il CONTO dice quanto costa, e lo zero è vuoto.
+   Il cubo è lo stesso oggetto della staffetta del metodo, più in basso:
+   lì passa di mano, qui cade.
    ═══════════════════════════════════════════════════════════════════════════ */
 
-.diag { margin-top: var(--s-8); }
+.contro { overflow-x: clip; }
 
-/* ── I QUATTRO FORNITORI ─────────────────────────────────────────────────── */
-.diag__fila { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
-.diag__box {
-  display: grid; gap: 5px; padding: var(--s-5) var(--s-5) var(--s-4);
-  border: 1px solid var(--c-filo); border-radius: var(--r-card);
-  background: rgba(255,255,255,.035);
-  /* Bordo inferiore SPESSO: è il piano da cui i pacchetti cadono. */
-  border-bottom: 2px solid var(--c-filo-forte);
-  transition: border-color var(--t-micro) linear, background-color var(--t-micro) linear;
+/* ── LA FOTOGRAFIA ──────────────────────────────────────────────────────────
+   A tutta larghezza: le braccia entrano dai bordi dello schermo come da
+   fuori scena. Il fondo è trasparente (tools/foto.mjs), quindi la foto sta
+   sull'atmosfera «fuoco» senza scatola.                                */
+.contro__foto { margin: clamp(-48px, -3vw, -12px) 0 0; position: relative; pointer-events: none; }
+.contro__foto img {
+  display: block; width: 100%; height: auto;
+  max-height: 80vh; object-fit: contain;
 }
-.diag__box:hover { border-color: var(--c-bordo-ui); background: rgba(255,255,255,.06); }
-.diag__n {
-  font: 700 12px/1 var(--f-display); letter-spacing: 0; font-variant-numeric: tabular-nums;
-  color: var(--c-t3);   /* t4 (3,8:1) è riservato a testo ≥ 24px */
-}
-.diag__nome { font: 700 17px/1.25 var(--f-display); letter-spacing: -.012em; color: var(--c-t1); }
-.diag__ruolo { font: 400 13px/1.4 var(--f-display); color: var(--c-t3); }
-
-/* ── I TRE VARCHI ─────────────────────────────────────────────────────────
-   Stanno negli interstizi fra le colonne: 1fr di scarto a sinistra e a
-   destra, tre varchi al centro delle giunzioni.                        */
-.diag__varchi {
-  display: grid; grid-template-columns: repeat(3, 1fr);
-  /* mezza colonna di offset per centrare i varchi SULLE giunzioni */
-  padding-inline: calc(12.5% + 8px);
-  height: 104px;
-}
-.varco { position: relative; }
-
-/* La traiettoria interrotta: parte dal piano e si spezza. */
-.varco__tra { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
-.varco__tra path {
-  fill: none; stroke: var(--c-rottura); stroke-width: 2;
-  stroke-dasharray: .055 .045; stroke-linecap: round;
-  opacity: .85;
+@media (max-width: 700px) {
+  /* in colonna la foto larga sarebbe una striscia: si stringe sul centro,
+     dove le dita quasi si toccano e il cubo cade */
+  .contro__foto img { width: 150%; max-width: none; margin-left: -25%; }
 }
 
-/* Il pacchetto: il modulo del marchio che NON arriva a destinazione. */
-.varco__pkg {
-  position: absolute; left: 50%; top: 78px;
-  width: 14px; height: 14px; margin-left: -7px;
-  border-radius: var(--q-r); background: var(--c-ar);
-  rotate: 32deg;
+/* ── LA CATENA ──────────────────────────────────────────────────────────── */
+.catena {
+  list-style: none; margin: clamp(8px, 2vw, 32px) 0 0; padding: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: stretch;
+  min-height: 132px;
+}
+.catena__anello {
+  display: grid; align-content: start; gap: 4px;
+  padding-top: 20px;
+  border-top: 2px solid rgba(255,255,255,.58);
+}
+.catena__anello b { font: 700 clamp(16px, 1.25vw, 19px)/1.25 var(--f-display); letter-spacing: -.012em; color: var(--c-t1); }
+.catena__anello span { font: 400 14.5px/1.45 var(--f-display); color: var(--c-t3); }
+
+/* L'anello spezzato: i due monconi della linea pendono, e in mezzo non c'è
+   niente. Il cubo parte dalla linea e finisce sul pavimento.           */
+.catena__rotto { position: relative; width: clamp(128px, 11.5vw, 176px); padding: 26px 10px 0; text-align: center; }
+.catena__rotto::before, .catena__rotto::after {
+  content: ''; position: absolute; top: -1px; height: 2px; width: 24%;
+  background: rgba(255,255,255,.58); border-radius: 2px;
+}
+.catena__rotto::before { left: 0; rotate: 14deg; transform-origin: left center; }
+.catena__rotto::after  { right: 0; rotate: -14deg; transform-origin: right center; }
+.catena__rotto span { display: block; font: 600 13.5px/1.35 var(--f-display); color: var(--c-rottura); }
+.catena__rotto i {
+  position: absolute; left: 50%; bottom: 0;
+  width: 16px; height: 16px; margin-left: -8px; border-radius: 4px;
+  background: var(--c-ar);
+  box-shadow: 0 8px 18px -6px rgba(255,130,0,.6);
+  rotate: 24deg;
+}
+.catena__rotto:nth-of-type(4) i { rotate: -16deg; }
+.catena__rotto:nth-of-type(6) i { rotate: 38deg; }
+
+/* Il pavimento: il filo su cui i cubi si fermano, con la sua didascalia. */
+.catena__suolo {
+  margin: 0; padding-top: 12px;
+  border-top: 1px solid rgba(240,75,58,.45);
+  font: 600 13px/1.3 var(--f-display); color: var(--c-rottura);
 }
 
-.varco__et {
-  position: absolute; left: 50%; top: 100px; translate: -50% 0;
-  white-space: nowrap; text-align: center;
-  font: 600 13px/1.3 var(--f-display); letter-spacing: 0;
-  text-transform: none; color: var(--c-rottura);
+/* La caduta segue lo scroll: il cubo parte dalla linea della catena. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .catena__rotto i {
+      animation: cade linear both;
+      animation-timeline: view();
+      animation-range: entry 55% cover 52%;
+    }
+    .catena__rotto:nth-of-type(4) i { animation-range: entry 70% cover 56%; }
+    .catena__rotto:nth-of-type(6) i { animation-range: entry 85% cover 60%; }
+  }
+}
+@keyframes cade {
+  0%   { translate: 0 -104px; rotate: 0deg; opacity: 0; }
+  12%  { opacity: 1; }
+  78%  { translate: 0 0; }
+  88%  { translate: 0 -10px; }
+  100% { translate: 0 0; }
 }
 
-/* ── IL PAVIMENTO ─────────────────────────────────────────────────────────
-   Una linea e i detriti sopra. Non un'illustrazione: è il punto in cui la
-   frase del titolo diventa letterale.                                  */
-.diag__suolo {
-  position: relative; margin-top: var(--s-7);
-  padding-top: var(--s-5);
-  border-top: 1px solid rgba(204,51,102,.42);
-}
-.diag__suolo-et {
-  position: absolute; top: -9px; left: 0;
-  padding-right: 12px; background: transparent;
-  font: 600 13px/1 var(--f-display); letter-spacing: 0;
-  text-transform: none; color: var(--c-rottura);
-}
-/* la label ha bisogno di mangiarsi la linea sotto di sé */
-.diag__suolo-et::before {
-  content: ''; position: absolute; inset: -4px -12px -4px 0; z-index: -1;
-  background: linear-gradient(90deg, #2A1410 0%, #2A1410 82%, transparent 100%);
-}
-.diag__detriti { display: flex; gap: 7px; align-items: flex-end; height: 16px; }
-.diag__detriti i {
-  width: 11px; height: 11px; border-radius: var(--q-r);
-  background: var(--c-ar); opacity: .38;
-}
-.diag__detriti i:nth-child(3n) { opacity: .22; rotate: 18deg; }
-.diag__detriti i:nth-child(4n) { opacity: .5;  rotate: -14deg; }
-
-@media (max-width: 900px) {
-  /* Sotto 900px il diagramma orizzontale non ha spazio: diventa una
-     colonna, e i varchi si spostano fra i blocchi.                     */
-  .diag__fila { grid-template-columns: 1fr 1fr; }
-  .diag__varchi { display: none; }
-  .diag__suolo { margin-top: var(--s-6); }
+@media (max-width: 860px) {
+  /* in colonna la catena diventa verticale: gli anelli uno sotto l'altro,
+     e fra loro la rottura con il cubo caduto a sinistra */
+  .catena { grid-template-columns: 1fr; min-height: 0; margin-top: var(--s-5); }
+  .catena__anello { padding: 14px 0 12px 18px; border-top: 0; border-left: 2px solid rgba(255,255,255,.58); }
+  .catena__rotto { width: auto; display: flex; align-items: center; gap: 12px; padding: 14px 0 14px 4px; text-align: left; }
+  .catena__rotto::before, .catena__rotto::after { display: none; }
+  .catena__rotto i { position: static; margin: 0; flex: none; animation: none !important; }
+  .catena__suolo { margin-top: var(--s-3); }
 }
 
-/* ── IL CONTO · tre cifre, e la terza fa male ─────────────────────────────
-   Un registro, non tre card: le cifre stanno su una riga separata da
-   filetti, a dimensione di titolo. Si legge 4 → 3 → 0 come una conta.  */
+/* ── IL CONTO · tre cifre, e la terza è vuota ──────────────────────────── */
 .conto {
   display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
-  margin-top: var(--s-9); border-top: 1px solid var(--c-filo-forte);
+  margin-top: clamp(48px, 5vw, 88px);
+  border-top: 1px solid var(--c-filo-forte);
 }
-.conto__c {
-  display: grid; gap: 10px; align-content: start;
-  padding: clamp(26px, 2.6vw, 38px) clamp(18px, 2.6vw, 40px) 4px 0;
-}
+.conto__c { display: grid; align-content: start; padding: clamp(24px, 2.6vw, 36px) 0 clamp(20px, 2vw, 28px); }
 .conto__c + .conto__c { padding-left: clamp(18px, 2.6vw, 40px); border-left: 1px solid var(--c-filo); }
 .conto__n {
-  font: 700 clamp(76px, 9.4vw, 150px)/.84 var(--f-display);
+  font: 700 clamp(84px, 10vw, 156px)/.86 var(--f-display);
   letter-spacing: -.05em; color: var(--c-t1);
   font-variant-numeric: tabular-nums;
 }
-.conto__l { font: 600 16px/1.3 var(--f-display); letter-spacing: -.005em; color: var(--c-t1); margin-top: var(--s-2); }
-.conto__d { font: 400 14.5px/1.55 var(--f-display); color: var(--c-t3); max-inline-size: 34ch; }
-/* Lo zero è l'unico numero in rosso di tutto il sito: è la perdita. */
-.conto__c--rosso .conto__n { color: var(--c-rottura); }
+.conto__l { font: 600 17px/1.3 var(--f-display); letter-spacing: -.008em; color: var(--c-t1); margin-top: var(--s-4); }
+.conto__d { font: 400 15px/1.55 var(--f-display); color: var(--c-t3); max-inline-size: 34ch; margin-top: var(--s-2); }
+/* Lo zero è VUOTO: solo il contorno, nel colore della perdita. Nessuno dei
+   quattro lo riempie. È l'unico numero rosso del sito.                */
+.conto__c--zero .conto__n { color: transparent; -webkit-text-stroke: 2px var(--c-rottura); }
 @media (max-width: 760px) {
   .conto { grid-template-columns: 1fr; }
-  .conto__c, .conto__c + .conto__c { padding: 24px 0 20px; border-left: 0; border-bottom: 1px solid var(--c-filo); }
+  .conto__c, .conto__c + .conto__c { padding: 22px 0 18px; border-left: 0; border-bottom: 1px solid var(--c-filo); }
   .conto__c { grid-template-columns: auto 1fr; column-gap: 20px; align-items: center; }
-  .conto__n { grid-row: 1 / span 2; font-size: 72px; }
+  .conto__n { grid-row: 1 / span 2; font-size: 76px; }
   .conto__l { margin-top: 0; }
+  .conto__d { margin-top: 4px; }
 }
 
-/* ── CADUTA A SCROLL ──────────────────────────────────────────────────────
-   Il pacchetto parte dal piano e cade; la traiettoria si disegna dietro.
-   Stato di riposo = pacchetto a terra, quindi l'infografica è completa
-   anche senza animazione.                                              */
-@media (prefers-reduced-motion: no-preference) {
-  .varco__pkg {
-    animation: cade 1s var(--ease-scatto) both;
-    animation-timeline: view();
-    animation-range: entry 22% cover 44%;
-    animation-delay: 0s;
-  }
-  .varco:nth-child(1) .varco__pkg { animation-range-start: entry 22%; }
-  .varco:nth-child(2) .varco__pkg { animation-range-start: entry 27%; }
-  .varco:nth-child(3) .varco__pkg { animation-range-start: entry 32%; }
-  @keyframes cade {
-    from { top: 0px; rotate: 0deg; opacity: 0; }
-    35%  { opacity: 1; }
-    to   { top: 78px; rotate: 32deg; opacity: 1; }
-  }
-
-  .varco__tra path {
-    animation: traccia .8s linear both;
-    animation-timeline: view();
-    animation-range: entry 22% cover 42%;
-    stroke-dashoffset: 0;
-  }
-  @keyframes traccia {
-    from { opacity: 0; }
-    to   { opacity: .85; }
-  }
-
-  .diag__detriti i {
-    animation: detrito .5s var(--ease-salita) both;
-    animation-timeline: view();
-    animation-range-end: cover 48%;
-  }
-  .diag__detriti i:nth-child(1) { animation-range-start: entry 30%; }
-  .diag__detriti i:nth-child(2) { animation-range-start: entry 32%; }
-  .diag__detriti i:nth-child(3) { animation-range-start: entry 34%; }
-  .diag__detriti i:nth-child(4) { animation-range-start: entry 36%; }
-  .diag__detriti i:nth-child(5) { animation-range-start: entry 38%; }
-  .diag__detriti i:nth-child(6) { animation-range-start: entry 40%; }
-  .diag__detriti i:nth-child(7) { animation-range-start: entry 42%; }
-  .diag__detriti i:nth-child(8) { animation-range-start: entry 44%; }
-  @keyframes detrito { from { translate: 0 -14px; opacity: 0; } }
-}
-@supports not (animation-timeline: view()) {
-  .varco__pkg, .varco__tra path, .diag__detriti i { animation: none; }
-}
+.contro__chiusa { margin-top: clamp(28px, 3vw, 44px); max-inline-size: 64ch; color: var(--c-t2); }
+.contro__chiusa strong { color: var(--c-t1); }

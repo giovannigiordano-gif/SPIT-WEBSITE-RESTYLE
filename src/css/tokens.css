@@ -100,7 +100,7 @@
         posto del "warning" ─────────────────────────────────────────────── */
   --c-ok:      #4ADE80;
   --c-warn:    #FFD84D;      /* giallo PURO: l'ambra collide col marchio  */
-  --c-rottura: #CC3366;      /* il colore della PERDITA                   */
+  --c-rottura: #F04B3A;      /* il colore della PERDITA: rosso caldo, nella famiglia dell'arancio (era #CC3366, un lampone che stonava) */
   --c-info:    #7AA2FF;
 
   /* ── TIPOGRAFIA ────────────────────────────────────────────────────────
@@ -117,7 +117,7 @@
   /* Tracking: tre plateau, inversione di segno fra 15 e 17px.
      Il display è PIATTO a −.036em, il valore misurato sul riferimento
      (−4px su 112px), non una curva inseguita.                            */
-  --tr-display: -.036em;
+  --tr-display: -.02em;   /* era -.036em: a 30–64px in DM Sans 500 «rn» diventava «m» (fomitori) e gli spazi sparivano (Inumeri) — giro 3 */
   --tr-titolo:  -.020em;
   --tr-corpo:   -.008em;
   --tr-piccolo: +.010em;
