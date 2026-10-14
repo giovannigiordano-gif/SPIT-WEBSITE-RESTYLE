@@ -143,6 +143,9 @@
    sale a gradini dopo 120ms, attorno alla foto che vola. Il tipo
    dal-menu lo aggiunge il <head> della pagina che arriva.             */
 ::view-transition-old(menu-card) { animation: vt-card-via 180ms cubic-bezier(.4, 0, 1, 1) both; }
+/* la card copre nav e barra mentre se ne va: niente logo doppio, niente
+   «Chiudi» sopra «Menu» (secondo passaggio della regia) */
+::view-transition-group(menu-card) { z-index: 3; }
 @keyframes vt-card-via { to { opacity: 0; scale: .985; } }
 :active-view-transition-type(dal-menu)::view-transition-old(root) { animation: none; opacity: 0; }
 :active-view-transition-type(dal-menu)::view-transition-new(root) { animation: vt-entra 820ms cubic-bezier(.5, 0, .15, 1) 120ms both; }
@@ -159,25 +162,33 @@
    in 120ms (non si stira mai); il bianco della pagina compare solo sul
    buio, mai sull'arancio. Il nome: motion.js sul bottone, il <head> della
    candidatura sulla sua apertura (tipo dal-cta).                       */
-::view-transition-group(cta-pagina) { animation-duration: 680ms; animation-timing-function: cubic-bezier(.3, .7, .1, 1); }
+::view-transition-group(cta-pagina) { animation-duration: 620ms; animation-timing-function: cubic-bezier(.2, .8, .2, 1); }
 ::view-transition-image-pair(cta-pagina) {
   overflow: clip; border-radius: 999px; background-color: var(--c-ar);
-  animation-name: cta-si-apre; animation-timing-function: cubic-bezier(.3, .7, .1, 1);
+  animation-name: cta-si-apre; animation-timing-function: cubic-bezier(.2, .8, .2, 1);
 }
-:active-view-transition-type(cta-bianco)::view-transition-image-pair(cta-pagina) { background-color: var(--c-t1); }
+/* il bottone bianco dell'hero non passa per il grigio: il pannello parte
+   già buio, e il bianco del bottone si spegne su di lui in 60ms */
+:active-view-transition-type(cta-bianco)::view-transition-image-pair(cta-pagina) { background-color: var(--c-base); }
+/* dalla nav: il pannello non copre la nav da cui è partito */
+:active-view-transition-type(dal-cta)::view-transition-group(nav),
+:active-view-transition-type(dal-cta)::view-transition-group(barra) { z-index: 3; }
 /* il bottone si allarga e si spegne nel buio della pagina, resta buio
    finché la pagina nuova non è entrata, poi si toglie */
 @keyframes cta-si-apre {
-  35%  { background-color: var(--c-base); border-radius: 28px; }
-  72%  { background-color: var(--c-base); border-radius: 10px; }
+  18%  { background-color: var(--c-base); border-radius: 28px; }
+  45%  { background-color: var(--c-base); border-radius: 10px; }
   to   { background-color: rgba(22,21,25,0); border-radius: 0; }
 }
-::view-transition-old(cta-pagina) { animation: vt-dissolve 120ms linear both; }
-::view-transition-new(cta-pagina) { height: 100%; object-fit: cover; object-position: 50% 0; animation: vt-appare 300ms ease-out 330ms both; }
+::view-transition-old(cta-pagina) { animation: vt-dissolve 60ms linear both; }
+/* dal bottone arancio il pannello È già il bottone: la scritta sparisce
+   subito, non si stira mai */
+:active-view-transition-type(cta-ar)::view-transition-old(cta-pagina) { animation: none; opacity: 0; }
+::view-transition-new(cta-pagina) { height: 100%; object-fit: cover; object-position: 50% 0; animation: vt-appare 300ms ease-out 140ms both; }
 /* la pagina vecchia se ne va mentre il bottone la copre: nessun titolo
    vecchio sotto quello nuovo (prima riaffiorava quando il buio si toglieva) */
 :active-view-transition-type(dal-cta)::view-transition-old(root) { animation: vt-dissolve 300ms linear both; }
-:active-view-transition-type(dal-cta)::view-transition-new(root) { animation: vt-appare 300ms ease-out 340ms both; }
+:active-view-transition-type(dal-cta)::view-transition-new(root) { animation: vt-appare 300ms ease-out 160ms both; }
 @keyframes vt-dissolve { to { opacity: 0; } }
 @keyframes vt-appare { from { opacity: 0; } }
 .vt-arrivo .testa-pag__foto,
@@ -224,7 +235,7 @@
   }
 }
 /* resta pieno per il primo terzo: un bottone a metà luce sembra disattivato */
-@keyframes hero-arretra { 0%, 35% { opacity: 1; } to { opacity: 0; scale: .9; translate: 0 -2vh; } }
+@keyframes hero-arretra { 0%, 55% { opacity: 1; } to { opacity: 0; scale: .9; translate: 0 -2vh; } }
 
 /* ── IL NUMERO DEL CAPITOLO SI POSA (giro 3 effetti) ─────────────────────
    Il numero a contorno di ogni capitolo entra grande, più del doppio, e
@@ -241,6 +252,8 @@
     /* il nome del capitolo si scopre quando il numero si è posato: il
        numero grande non gli passa mai sopra (revisione della regia) */
     .capo__nome { animation: capo-nome linear both; animation-timeline: --capo; animation-range: cover 33% cover 41%; }
+    /* e il filo del capitolo si disegna dopo il nome: prima pendeva da solo */
+    .capo::after { animation-timeline: --capo; animation-range: cover 38% cover 50%; }
   }
 }
 @keyframes capo-posa { from { scale: 1.8; opacity: 0; } 45% { opacity: 1; } }

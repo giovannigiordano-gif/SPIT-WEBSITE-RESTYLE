@@ -32,7 +32,8 @@ async page => {
   await scatto(390, 800, '/', 'hero-390');
   await scatto(1440, 900, '/eventi.html', 'programma-1440', vai('#programma', 20));
   await scatto(1440, 900, '/', 'contro-1440', vai('#contro', 20));
-  await scatto(1440, 900, '/', 'finale-1440', vai('#muro', 40));
+  /* il finale è una scena ferma (giro 3): lo si fotografa composto, dentro la sosta */
+  await scatto(1440, 900, '/', 'finale-1440', vai('#muro', -680));
   /* giro 4: il capitolo del podcast e il menu a card */
   await scatto(1440, 900, '/', 'podcast-1440', vai('#podcast', 20));
   await scatto(1440, 900, '/', 'menu-1440', async (p) => { await p.click('#burger'); await p.waitForTimeout(1300); await p.mouse.move(1400, 880); await p.waitForTimeout(300); });

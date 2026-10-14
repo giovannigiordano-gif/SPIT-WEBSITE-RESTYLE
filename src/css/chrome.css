@@ -103,7 +103,7 @@ html.menu-aperto .nav { opacity: 0; }
 .nav__cap {
   display: flex; align-items: center; gap: 10px; margin: 0;
   font: 500 14px/1 var(--f-display); color: var(--c-t2); white-space: nowrap;
-  opacity: 0; translate: 0 6px; pointer-events: none;
+  opacity: 0; translate: 0 calc(var(--travel) * .3); pointer-events: none;   /* 6px; 0 a movimento ridotto */
   transition: opacity var(--t-stato) linear, translate var(--t-stato) var(--ease-salita);
 }
 .nav__cap::before { content: ''; width: 1px; height: 20px; margin-right: 8px; background: var(--c-filo-forte); }

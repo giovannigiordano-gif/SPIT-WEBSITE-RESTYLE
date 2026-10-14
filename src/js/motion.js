@@ -186,7 +186,9 @@
       const p = ant.find(n => n.dataset.foto === a.dataset.foto && n.classList.contains('is-on') && n.getClientRects().length);
       if (p?.tagName === 'IMG') { stringi(p); p.style.viewTransitionName = 'foto-pagina'; }
       else if (p) $$('img', p).forEach(i => { i.style.viewTransitionName = 'volto-' + (i.getAttribute('src') || '').split('/').pop().split('-')[0]; i.style.viewTransitionClass = 'volto'; });
-      if (p) try { sessionStorage.setItem('vt-foto', a.dataset.foto); } catch (x) { /* niente volo */ }
+      /* vt-menu sempre (anche su telefono, dove non ci sono anteprime: la
+         pagina vecchia non deve restare sotto alla nuova); vt-foto se vola */
+      try { sessionStorage.setItem('vt-menu', '1'); if (p) sessionStorage.setItem('vt-foto', a.dataset.foto); } catch (x) { /* niente volo */ }
       /* la card ha un nome suo: si dissolve in fretta (con il suo «Chiudi»)
          invece di restare sotto la pagina nuova mentre sale a gradini */
       card.style.viewTransitionName = 'menu-card';
@@ -531,29 +533,38 @@
      Dove la staffetta è una colonna (Metodo; home sotto i 1024px) il filo
      arancione scende alla linea di lettura (60% dello schermo): un cubo del
      marchio ne cavalca la punta dal primo reparto alla trattativa, dove si
-     posa. Solo dove il filo esiste (view() e movimento pieno); un listener
-     di scroll, attivo solo con la colonna in vista, un fotogramma alla volta. */
+     posa. Solo dove il filo esiste (view() e movimento pieno). Il cubo è
+     sticky dentro un binario (racconto.css): qui si misurano gli estremi
+     del binario al ridimensionamento, e allo scroll si cambiano solo due
+     stati (fermo prima del primo reparto, posato sulla trattativa).    */
   const pistaCol = $('#staffetta-pista');
   if (pistaCol && CSS.supports('animation-timeline: view()') && !RM()) {
     const sc = $('#staffetta'), fine = $('.staffetta__fine', pistaCol), primo = $('.stazione', pistaCol);
-    const cubo = document.createElement('i');
-    cubo.className = 'staffetta__cubo is-fermo'; cubo.setAttribute('aria-hidden', 'true');
-    pistaCol.append(cubo);
-    let rq = 0;
-    const muovi = () => {
-      rq = 0;
-      if (!primo || !fine || sc.classList.contains('is-scena')) return;
+    const binario = document.createElement('div'), cubo = document.createElement('i');
+    binario.className = 'staffetta__binario'; binario.setAttribute('aria-hidden', 'true');
+    cubo.className = 'staffetta__cubo is-fermo';
+    binario.append(cubo); pistaCol.append(binario);
+    const misura = () => {
+      if (!primo || !fine) return;
       const r = pistaCol.getBoundingClientRect(), f = fine.getBoundingClientRect();
       const y0 = primo.getBoundingClientRect().top - r.top, y1 = f.top + f.height / 2 - r.top;
-      const y = Math.min(y1, Math.max(y0, innerHeight * .6 - r.top));
-      cubo.style.translate = `0 ${y.toFixed(1)}px`;
-      cubo.classList.toggle('is-fermo', y <= y0 + 1);
-      cubo.classList.toggle('is-posato', y >= y1 - 1);
+      binario.style.setProperty('--b0', y0.toFixed(1) + 'px');
+      binario.style.setProperty('--bh', Math.max(0, y1 - y0).toFixed(1) + 'px');
     };
-    const chiedi = () => { if (!rq) rq = requestAnimationFrame(muovi); };
+    let rq = 0;
+    const stato = () => {
+      rq = 0;
+      if (!primo || !fine || sc.classList.contains('is-scena')) return;
+      const linea = innerHeight * .6, f = fine.getBoundingClientRect();
+      cubo.classList.toggle('is-fermo', primo.getBoundingClientRect().top > linea);
+      cubo.classList.toggle('is-posato', f.top + f.height / 2 <= linea + 1);
+    };
+    const chiedi = () => { if (!rq) rq = requestAnimationFrame(stato); };
+    new ResizeObserver(() => { misura(); chiedi(); }).observe(pistaCol);
+    document.fonts?.ready.then(misura);
     new IntersectionObserver(([e]) => {
-      if (e.isIntersecting) { addEventListener('scroll', chiedi, { passive: true }); addEventListener('resize', chiedi, { passive: true }); chiedi(); }
-      else { removeEventListener('scroll', chiedi); removeEventListener('resize', chiedi); }
+      if (e.isIntersecting) { addEventListener('scroll', chiedi, { passive: true }); chiedi(); }
+      else removeEventListener('scroll', chiedi);
     }).observe(pistaCol);
   }
 

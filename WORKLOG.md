@@ -515,6 +515,24 @@ la sua strada di ripiego è stata provata con Chrome senza view() né View Trans
 Restano: «Prefetch request denied: URL must be secure» in WebKit sul server di sviluppo (http); in
 produzione su https non compare.
 
+*Giro 3, secondo passaggio della regia* (con i passaggi fra le pagine finalmente veri, fotogramma
+per fotogramma): tutti gli otto effetti passano; «il volo dal menu va oltre qualunque cosa ci sia
+su apple.com, che non ha coreografie fra le pagine»; frase, rullo e finale fermo al livello Apple.
+Applicato:
+- **Menu su telefono** (senza anteprime): il tipo dal-menu arriva sempre; prima per 120ms si vedevano
+  menu, titolo vecchio e titolo nuovo insieme.
+- **Logo doppio** nel volo da desktop fra 60 e 150ms: la card copre nav e barra mentre se ne va.
+- **Il bottone diventa la pagina**, fotogrammi di mezzo: dal bottone arancio la scritta sparisce
+  subito (il pannello È il bottone), dal bianco il pannello parte già buio; la pagina entra prima (niente
+  200ms di vuoto); il pannello non copre la nav da cui parte.
+- **Il cubo sul filo** è sticky dentro un binario misurato al ridimensionamento: lo muove il
+  compositore con lo scroll (sui telefoni un listener lo lasciava un fotogramma indietro).
+- L'ultimo passaggio parte dal cubo già acceso e passa dietro alle parole; il filo del capitolo si
+  disegna dopo il nome; l'hero resta pieno fino a metà uscita; il nome del capitolo in nav non si
+  muove più a movimento ridotto.
+Verifica: 38/38 test, movimento ridotto senza movimento, audit senza rilievi, Lighthouse mobile
+Home 96, Metodo 97, Candidatura 99, accessibilità 100, CLS 0.
+
 ### Cosa è stato fatto, fase per fase (skill applicate)
 
 **Fase 1 — design system** (impeccable craft-floor, design-taste-frontend, ui-ux-pro-max checklist)
