@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-14T11:57:02.446Z",
+  "generatedAt": "2026-10-14T20:25:56.574Z",
   "title": "Design System: Sales Process Italia",
   "extensions": {
     "colorMeta": {
@@ -274,11 +274,15 @@
       },
       "capitolo": {
         "displayName": "Capitolo",
-        "purpose": "Numero del segnacapitolo: contorno arancio 1.5px con velo d'arancio al 16%. Vuoto (solo contorno) nei reparti della staffetta."
+        "purpose": "Numero del segnacapitolo: contorno arancio 1.5px con velo d'arancio al 16% su uno strato a parte; entra a 1.8x e si posa. Vuoto (solo contorno, 46-64px) nei numeri fantasma della staffetta, decisione del cliente."
       },
       "numero": {
         "displayName": "Numero",
-        "purpose": "Cifre dei numeri a unita; unita a .32-.36em in arancio."
+        "purpose": "Cifre dei numeri a unita, composte dal rullo (larghezze delle cifre misurate: il DM Sans servito non ha cifre tabellari); unita a .32-.36em in arancio."
+      },
+      "frase": {
+        "displayName": "Frase",
+        "purpose": "La frase del costo che chiude il contro-esempio (home e Metodo), max 30ch, Testo 2 con la parte che pesa a 700 Testo 1; si accende parola per parola."
       },
       "headline": {
         "displayName": "Headline",
@@ -350,20 +354,30 @@
       },
       {
         "name": "luce-cursore",
-        "value": "0 0 16px rgba(255,130,0,.6), 0 0 52px rgba(255,130,0,.32)",
-        "purpose": "La trave del tetto."
+        "value": "radial-gradient(340px 340px at var(--mx) var(--my), rgba(255,255,255,.075) 0%, rgba(255,130,0,.05) 38%, transparent 68%)",
+        "purpose": "La luce che segue il cursore su card e sedi (solo mouse, senza reduced-motion)."
       },
       {
         "name": "volto-posato",
         "value": "0 18px 40px -18px rgba(0,0,0,.8)",
         "purpose": "I ritratti del marchio fatto di volti."
+      },
+      {
+        "name": "cubo-acceso",
+        "value": "inset 0 1px 0 rgba(255,255,255,.35), 0 0 16px rgba(255,130,0,.55)",
+        "purpose": "Il cubo del marchio che cavalca il filo della staffetta (fill linear-gradient(145deg, #FFA24A, #E06F00))."
+      },
+      {
+        "name": "luce-cta",
+        "value": "radial-gradient(closest-side, rgba(255,130,0,.40), rgba(255,130,0,0))",
+        "purpose": "La luce che lascia il cubo e accende da dietro il CTA del finale (380x190px)."
       }
     ],
     "motion": [
       {
         "name": "ease-salita",
         "value": "cubic-bezier(.16,.84,.24,1)",
-        "purpose": "L'unica curva d'ingresso."
+        "purpose": "La curva d'ingresso di blocchi e testo."
       },
       {
         "name": "ease-scatto",
@@ -373,7 +387,7 @@
       {
         "name": "ease-uscita",
         "value": "cubic-bezier(.55,0,.80,.16)",
-        "purpose": "Uscite: chiusura del menu, View Transition."
+        "purpose": "Uscite: chiusura del menu, pagina vecchia nel passaggio a scalinata."
       },
       {
         "name": "t-micro",
@@ -433,7 +447,87 @@
       {
         "name": "scroll-scene",
         "value": "linear, animation-timeline: view()",
-        "purpose": "Caduta del contro-esempio, filo del segnacapitolo, campi a unita (steps), microfono, staffetta."
+        "purpose": "Caduta del contro-esempio, segnacapitolo, campi a unita (steps), microfono, staffetta, schermi delle testimonianze, finale."
+      },
+      {
+        "name": "view-transition-adesione",
+        "value": "@view-transition { navigation: auto } in linea nel <head>; none a movimento ridotto",
+        "purpose": "Nel foglio saltava: Chrome decide prima di riconvalidare sito.css."
+      },
+      {
+        "name": "vt-scalinata",
+        "value": "old 420ms ease-uscita / new 760ms ease-salita, clip-path a quattro gradini",
+        "purpose": "Il passaggio di base fra le pagine; barra e nav ferme con un nome proprio."
+      },
+      {
+        "name": "vt-foto-pagina",
+        "value": "900ms cubic-bezier(.2,.82,.22,1); image-pair vt-solleva (scale 1.06 al 40%)",
+        "purpose": "La foto del menu vola nell'apertura della pagina nuova (foto-pagina)."
+      },
+      {
+        "name": "vt-volti",
+        "value": "780ms, volto-<cognome> con view-transition-class volto, ritardi 0/90/180/270/360ms",
+        "purpose": "Verso il Team volano i cinque volti, uno dietro l'altro."
+      },
+      {
+        "name": "vt-dal-menu",
+        "value": "menu-card 180ms cubic-bezier(.4,0,1,1); old root opacity 0; new root vt-entra 820ms cubic-bezier(.5,0,.15,1) +120ms",
+        "purpose": "Tipo dal-menu: la card se ne va, la pagina nuova sale a gradini attorno alla foto."
+      },
+      {
+        "name": "vt-cta-pagina",
+        "value": "620ms cubic-bezier(.2,.8,.2,1); cta-si-apre: arancio o buio -> --c-base -> trasparente, raggio 999px -> 0",
+        "purpose": "Il bottone diventa la pagina della candidatura (tipi dal-cta, cta-ar, cta-bianco)."
+      },
+      {
+        "name": "speculation-rules",
+        "value": "prefetch /*.html e /, eagerness moderate",
+        "purpose": "La pagina sotto il cursore si scarica prima del clic; mai prerender."
+      },
+      {
+        "name": "accendi",
+        "value": "colore da --c-t4, linear, view-timeline --frase, finestra 7% per parola su 30% da cover 16%",
+        "purpose": "La frase che si accende ([data-accendi], split di build in .acc con --k/--n); solo testo >= 24px."
+      },
+      {
+        "name": "rullo",
+        "value": "translate 1.6s cubic-bezier(.3,.55,.1,1), +90ms per colonna; maschera 18-82% mentre gira",
+        "purpose": "Il numero a rullo: tamburi alti 1em, prima riga vuota, larghezze delle cifre misurate."
+      },
+      {
+        "name": "hero-arretra",
+        "value": "scroll(root block) 0-70vh (15-85vh sotto 900px); pieno fino al 55%, poi scale .9, -2vh, opacity 0",
+        "purpose": "La copertina lascia il posto al racconto; il fuoco della tastiera la riporta piena."
+      },
+      {
+        "name": "capo-posa",
+        "value": "scale 1.8 -> 1, cubic-bezier(.2,.7,.2,1), --capo entry 20% -> cover 40%; nome clip cover 33-41%; filo cover 38-50%",
+        "purpose": "Il numero del capitolo si posa, poi il nome si scopre, poi il filo si disegna."
+      },
+      {
+        "name": "schermo-alza",
+        "value": "perspective(1200px) translateY(56px) rotateX(20deg) scale(.96) -> none, linear, entry 0% -> cover 45%",
+        "purpose": "Le testimonianze si alzano in piano; ingresso a scroll, non tilt al cursore."
+      },
+      {
+        "name": "servizi-avanza",
+        "value": "scroll-timeline --servizi inline, @property --servizi-p 14% -> 100%",
+        "purpose": "Il filo che dice quanto resta della galleria dei servizi su telefono."
+      },
+      {
+        "name": "cubo-sul-filo",
+        "value": "position: sticky a 100vh - --lettura dentro .staffetta__binario",
+        "purpose": "Il cubo cavalca il filo della staffetta (colonna); lo muove il compositore, non un listener."
+      },
+      {
+        "name": "finale-fermo",
+        "value": ".finale 200svh, sticky; --finale entry/contain; luce-passa contain 44-64%",
+        "purpose": "Desktop >= 1024x680: payoff, trofeo, luce e CTA nello stesso schermo; la luce passa dal cubo al CTA."
+      },
+      {
+        "name": "animazioni-infinite",
+        "value": "marquee dei loghi 46s (pausa a hover e focus); galleggia dei contatti DOM dell'hero dove non c'e il 3D",
+        "purpose": "Il marquee e l'unica voluta; i contatti DOM su telefono sono in attesa di decisione del cliente (C2)."
       }
     ],
     "breakpoints": [
@@ -459,6 +553,16 @@
       {
         "name": "touch",
         "value": "(pointer: coarse)"
+      },
+      {
+        "name": "scena",
+        "value": "1024px e 680px di altezza",
+        "purpose": "Sopra: staffetta orizzontale pinnata e finale fermo; sotto: colonna con filo e cubo, luce del CTA in posto."
+      },
+      {
+        "name": "galleria",
+        "value": "640px",
+        "purpose": "Sotto: gli otto servizi in galleria orizzontale con il filo di avanzamento."
       }
     ]
   },
@@ -554,14 +658,15 @@
   ],
   "narrative": {
     "northStar": "Dal buio dei contatti alla luce del fatturato",
-    "overview": "Il sito è un palco scuro unico. Non c'è una pila di fasce con il loro fondo: c'è una stanza fissa (`.palco`, a z-index −1) dietro tutta la pagina, e le sezioni, trasparenti, dichiarano quale luce vogliono. Camminando nella pagina cambia l'illuminazione della stanza, non la stanza. Sopra quel buio si muove una sola luce, l'arancio del marchio, che non è mai vernice: è alone, bordo acceso, numero, cursore. Il quadrato del mark (la \"particella\", 12px, raggio 2px) è il modulo di tutto, e nella home diventa un oggetto: il cubo arancione, sparso nell'hero, che cade fra due mani nel problema, passa di mano nel metodo e viene alzato come un trofeo nel finale.\n\nLa pelle è vincolata dal cliente e allineata al riferimento sharpify.io: near-black freddo, gerarchia fatta con l'opacità del bianco e non con una palette, DM Sans al display a peso 500, raggi 2/8/12/999px. Il DNA che resta di Sales Process: l'arancio `#FF8200`, il mark a moduli, il payoff FATTURARE ×3, le fotografie con le mani in bianco e nero e l'oggetto arancione (anche quelle generate del giro 3, scontornate dalla luminanza: galleggiano sul palco senza scatola), la voce italiana diretta. Densità media-bassa, respiro di sezione fluido (60px a 360px, 112px di tetto), contenitori da 980 a 1400px.\n\nUna pagina lunga si legge **a capitoli** (giro 4). La home è una copertina (hero, loghi), sei capitoli in ordine di racconto (01 Il problema · 02 La soluzione · 03 Il metodo · 04 I risultati · 05 Le persone · 06 Il podcast) e una chiusura (dove siamo, finale); l'ordine è scritto nel commento in testa a `pages/index.html`. Ogni capitolo apre con un segnacapitolo e un h2, le sezioni che lo continuano hanno un h3 un gradino sotto, e il palco cambia luce una volta per capitolo, non per sezione. Il sistema rifiuta la pila di blocchi con la stessa dissolvenza su ogni sezione, le card tutte uguali, l'occhiello sopra il titolo di sezione (maiuscolo spaziato o no), il quadratino tinto d'accento sotto le icone, il magnetic hover e il tilt 3D da cartolina, il bianco su arancio.\n\nIl movimento è texture, non collezione di effetti: tre gesti, ciascuno con il suo asse, una sola curva d'ingresso (`cubic-bezier(.16,.84,.24,1)`, `--ease-salita`). **Il gradino** (materia): foto e pannelli vengono scoperti da quattro colonne sfalsate che salgono (`.scalinata`, anche nella View Transition fra pagine). **La riga** (testo): le parole salgono in verticale dentro una maschera, split fatto al build; il testo non entra mai in diagonale. **La luce** (interazione): una luce radiale segue il cursore su CTA, card e palco; la superficie resta ferma. Le scene fotografiche si muovono legate allo scroll (`animation-timeline: view()`), sempre lineari: le mani della caduta, la staffetta orizzontale, il braccio del finale. Le griglie entrano con una citazione della diagonale (`--dx` = −0,45 × `--travel`), solo movimento. Il 3D (three.js) vive solo nell'hero della home, desktop con puntatore fine, senza reduced-motion, scaricato dopo il load e fermo fuori viewport.",
+    "overview": "Il sito è un palco scuro unico. Non c'è una pila di fasce con il loro fondo: c'è una stanza fissa (`.palco`, a z-index −1) dietro tutta la pagina, e le sezioni, trasparenti, dichiarano quale luce vogliono. Camminando nella pagina cambia l'illuminazione della stanza, non la stanza. Sopra quel buio si muove una sola luce, l'arancio del marchio, che non è mai vernice: è alone, bordo acceso, numero, cursore. Il quadrato del mark (la \"particella\", 12px, raggio 2px) è il modulo di tutto, e nella home diventa un oggetto: il cubo arancione, sparso nell'hero, che cade fra due mani nel problema, passa di mano nel metodo e viene alzato come un trofeo nel finale.\n\nLa pelle è vincolata dal cliente e allineata al riferimento sharpify.io: near-black freddo, gerarchia fatta con l'opacità del bianco e non con una palette, DM Sans al display a peso 500, raggi 2/8/12/999px. Il DNA che resta di Sales Process: l'arancio `#FF8200`, il mark a moduli, il payoff FATTURARE ×3, le fotografie con le mani in bianco e nero e l'oggetto arancione (anche quelle generate del giro 3, scontornate dalla luminanza: galleggiano sul palco senza scatola), la voce italiana diretta. Densità media-bassa, respiro di sezione fluido (60px a 360px, 112px di tetto), contenitori da 980 a 1400px.\n\nUna pagina lunga si legge **a capitoli** (giro 4). La home è una copertina (hero, loghi), sei capitoli in ordine di racconto (01 Il problema · 02 La soluzione · 03 Il metodo · 04 I risultati · 05 Le persone · 06 Il podcast) e una chiusura (dove siamo, finale); l'ordine è scritto nel commento in testa a `pages/index.html`. Ogni capitolo apre con un segnacapitolo e un h2, le sezioni che lo continuano hanno un h3 un gradino sotto, e il palco cambia luce una volta per capitolo, non per sezione. Il sistema rifiuta la pila di blocchi con la stessa dissolvenza su ogni sezione, le card tutte uguali, l'occhiello sopra il titolo di sezione (maiuscolo spaziato o no), il quadratino tinto d'accento sotto le icone, il magnetic hover e il tilt 3D da cartolina, il bianco su arancio.\n\nIl movimento è texture, non collezione di effetti: tre gesti, ciascuno con il suo asse, e una curva d'ingresso per blocchi e testo (`cubic-bezier(.16,.84,.24,1)`, `--ease-salita`). **Il gradino** (materia): foto e pannelli vengono scoperti da quattro colonne sfalsate che salgono (`.scalinata`, anche nel passaggio fra le pagine). **La riga** (testo): le parole salgono in verticale dentro una maschera, oppure restano ferme e si accendono alla linea di lettura (`[data-accendi]`); lo split è fatto al build in entrambi i casi e il testo non entra mai in diagonale. **La luce** (interazione e racconto): una luce radiale segue il cursore su CTA, card e palco; la superficie resta ferma. Nel finale la stessa luce lascia il cubo e va ad accendere il CTA. Le scene fotografiche si muovono legate allo scroll (`animation-timeline: view()`), sempre lineari: le mani della caduta, la staffetta, il braccio del finale, gli schermi delle testimonianze. Le griglie entrano con una citazione della diagonale (`--dx` = −0,45 × `--travel`), solo movimento. Il 3D (three.js) vive solo nell'hero della home, desktop con puntatore fine, senza reduced-motion, scaricato dopo il load e fermo fuori viewport o sotto il menu.\n\nIl giro 3 degli effetti ha aggiunto le coreografie che legano le pagine fra loro, sempre dentro quei tre gesti: la fotografia del menu che **vola** nell'apertura della pagina scelta, il **bottone che diventa la pagina** della candidatura, l'hero che **arretra**, il numero del capitolo che **si posa**, il **numero a rullo**, il **cubo sul filo** della staffetta su telefono, il **finale fermo** su desktop. Le coreografie fra documenti hanno curve proprie (vedi Il passaggio fra le pagine); l'ingresso di blocchi e testo resta `--ease-salita`. A movimento ridotto il sito è fermo: restano solo le dissolvenze.",
     "keyCharacteristics": [
       "Un fondo continuo con sette atmosfere in dissolvenza incrociata (1100ms), una per capitolo, accese da un IntersectionObserver sulla fascia centrale del viewport.",
       "Un solo accento, `#FF8200`, usato come luce; testo scuro `#100F12` su ogni fill arancione.",
       "Una sola famiglia, DM Sans variabile ospitata in casa; nessun serif, nessun monospace.",
       "Due livelli di titolo e basta: h2 che apre un capitolo, h3 che lo continua.",
       "La particella del marchio come modulo di elenchi, campi a unità, sedie, chiuse; il cubo come filo fotografico della home.",
-      "Tre gesti di motion, una curva d'ingresso, reduced-motion gestito a token (il travel va a zero, la dissolvenza sopravvive).",
+      "Tre gesti di motion, una curva d'ingresso, reduced-motion gestito a token (il travel va a zero, la dissolvenza sopravvive); i passaggi fra le pagine sono View Transitions fra documenti con nomi dati al volo.",
+      "Un sito statico e leggero: Lighthouse mobile 96–99, accessibilità 100, CLS 0 su ogni pagina misurata.",
       "Bersagli touch ≥ 44px (`--tap`) su ogni puntatore grossolano; nessun testo sotto 12px."
     ],
     "rules": [
@@ -622,7 +727,12 @@
       },
       {
         "name": "The Flat Digits Rule",
-        "body": "Le cifre hanno letter-spacing 0 nelle etichette e cifre tabulari ovunque: tracciare i numeri fa oscillare le colonne.",
+        "body": "Le cifre hanno letter-spacing 0 nelle etichette e `font-variant-numeric: tabular-nums` dichiarato ovunque: tracciare i numeri fa oscillare le colonne. Il sottoinsieme di DM Sans servito però non ha cifre tabellari, quindi la dichiarazione non allinea niente: dove una colonna di cifre deve restare ferma (il rullo) le larghezze sono misurate cifra per cifra in `dati.js` (`LARGO`, in em a 700 e −0,045em).",
+        "section": "typography"
+      },
+      {
+        "name": "The Lit Word Rule",
+        "body": "Una frase che si accende (`[data-accendi]`) parte da Testo 4 (40%, 3,8:1 sul palco): è ammessa solo su testo ≥ 24px, dove 3,8:1 supera la soglia AA anche prima di accendersi. Le parole non si muovono, cambia solo il colore.",
         "section": "typography"
       },
       {
@@ -645,7 +755,9 @@
       "**Do** mettere le sequenze in fila tipografica con le colonne condivise (`subgrid`), non in card.",
       "**Do** usare la particella solo se conta, nomina, indica o scopre qualcosa; altrimenti esce.",
       "**Do** far entrare la materia con il gradino, il testo con la riga verticale in maschera, l'interazione con la luce al cursore; curva `--ease-salita`, scrub lineare, uscite più rapide degli ingressi, spostamento massimo 3px negli hover.",
-      "**Do** far nascere un livello sovrapposto dal controllo che lo apre, e trattarlo come dialogo (fuoco intrappolato, Esc, velo, fuoco restituito, scroll bloccato senza salto).",
+      "**Do** far nascere un livello sovrapposto dal controllo che lo apre, e trattarlo come dialogo (fuoco intrappolato, resto della pagina `inert`, Esc sul documento, velo, fuoco restituito, scroll bloccato senza salto).",
+      "**Do** legare le pagine con View Transitions fra documenti: adesione in linea nel `<head>`, nomi dati al volo dalla pagina che parte e da `pagereveal` in quella che arriva, e tolti a passaggio finito.",
+      "**Do** riportare pieno, al fuoco della tastiera, ogni blocco che un'animazione di scroll spegne o sposta (hero che arretra, CTA del finale).",
       "**Do** dare 44px a ogni bersaglio su touch, label visibili ai campi, focus `2px` arancione con offset 3px.",
       "**Do** dare a ogni numero fonte e data, in Meta 13px con cifre tabulari.",
       "**Do** usare le fotografie della serie (mani in bianco e nero con oggetto arancione) senza scatola, sfumate sul palco, e i ritratti reali in scala di grigi che si colorano al passaggio."
@@ -663,7 +775,10 @@
       "**Don't** ridisegnare il logo del sito o quello del podcast: si usano i file veri.",
       "**Don't** dipingere un fondo proprio su una sezione o separarne due con un filo di 1px: la pagina diventa una pila di blocchi.",
       "**Don't** applicare la stessa dissolvenza a ogni sezione o fare card tutte uguali.",
-      "**Don't** usare magnetic hover, tilt 3D o easing con overshoot; il testo non entra mai in diagonale.",
+      "**Don't** usare magnetic hover, tilt 3D al cursore o easing con overshoot; il testo non entra mai in diagonale. L'unica inclinazione è d'ingresso e legata allo scroll (gli schermi delle testimonianze), e finisce su `transform: none`.",
+      "**Don't** mettere l'adesione `@view-transition` nel foglio di stile: salta quando il foglio non è in cache.",
+      "**Don't** aggiungere animazioni infinite: oltre al marquee dei loghi (con pausa) non ce ne sono di volute.",
+      "**Don't** accendere parole (`[data-accendi]`) su testo sotto 24px: spente sono in Testo 4.",
       "**Don't** animare gradienti, blur su area grande, `font-weight` o `font-variation-settings`; si animano transform, opacity e clip-path su pochi elementi.",
       "**Don't** scrivere testo sotto 12px, né Testo 4 (40%) sotto 24px.",
       "**Don't** usare il duotone nero/arancio sui volti: disumanizza la prova che converte di più.",

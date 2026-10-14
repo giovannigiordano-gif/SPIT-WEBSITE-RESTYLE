@@ -65,6 +65,12 @@ typography:
     lineHeight: 0.86
     letterSpacing: "-0.045em"
     fontFeature: "tnum"
+  frase:
+    fontFamily: "DM Sans, Segoe UI, system-ui, sans-serif"
+    fontSize: "clamp(26px, 2.9vw, 46px)"
+    fontWeight: 600
+    lineHeight: 1.16
+    letterSpacing: "-0.022em"
   headline:
     fontFamily: "DM Sans, Segoe UI, system-ui, sans-serif"
     fontSize: "clamp(36px, 4vw + 6px, 64px)"
@@ -232,7 +238,9 @@ La pelle è vincolata dal cliente e allineata al riferimento sharpify.io: near-b
 
 Una pagina lunga si legge **a capitoli** (giro 4). La home è una copertina (hero, loghi), sei capitoli in ordine di racconto (01 Il problema · 02 La soluzione · 03 Il metodo · 04 I risultati · 05 Le persone · 06 Il podcast) e una chiusura (dove siamo, finale); l'ordine è scritto nel commento in testa a `pages/index.html`. Ogni capitolo apre con un segnacapitolo e un h2, le sezioni che lo continuano hanno un h3 un gradino sotto, e il palco cambia luce una volta per capitolo, non per sezione. Il sistema rifiuta la pila di blocchi con la stessa dissolvenza su ogni sezione, le card tutte uguali, l'occhiello sopra il titolo di sezione (maiuscolo spaziato o no), il quadratino tinto d'accento sotto le icone, il magnetic hover e il tilt 3D da cartolina, il bianco su arancio.
 
-Il movimento è texture, non collezione di effetti: tre gesti, ciascuno con il suo asse, una sola curva d'ingresso (`cubic-bezier(.16,.84,.24,1)`, `--ease-salita`). **Il gradino** (materia): foto e pannelli vengono scoperti da quattro colonne sfalsate che salgono (`.scalinata`, anche nella View Transition fra pagine). **La riga** (testo): le parole salgono in verticale dentro una maschera, split fatto al build; il testo non entra mai in diagonale. **La luce** (interazione): una luce radiale segue il cursore su CTA, card e palco; la superficie resta ferma. Le scene fotografiche si muovono legate allo scroll (`animation-timeline: view()`), sempre lineari: le mani della caduta, la staffetta orizzontale, il braccio del finale. Le griglie entrano con una citazione della diagonale (`--dx` = −0,45 × `--travel`), solo movimento. Il 3D (three.js) vive solo nell'hero della home, desktop con puntatore fine, senza reduced-motion, scaricato dopo il load e fermo fuori viewport.
+Il movimento è texture, non collezione di effetti: tre gesti, ciascuno con il suo asse, e una curva d'ingresso per blocchi e testo (`cubic-bezier(.16,.84,.24,1)`, `--ease-salita`). **Il gradino** (materia): foto e pannelli vengono scoperti da quattro colonne sfalsate che salgono (`.scalinata`, anche nel passaggio fra le pagine). **La riga** (testo): le parole salgono in verticale dentro una maschera, oppure restano ferme e si accendono alla linea di lettura (`[data-accendi]`); lo split è fatto al build in entrambi i casi e il testo non entra mai in diagonale. **La luce** (interazione e racconto): una luce radiale segue il cursore su CTA, card e palco; la superficie resta ferma. Nel finale la stessa luce lascia il cubo e va ad accendere il CTA. Le scene fotografiche si muovono legate allo scroll (`animation-timeline: view()`), sempre lineari: le mani della caduta, la staffetta, il braccio del finale, gli schermi delle testimonianze. Le griglie entrano con una citazione della diagonale (`--dx` = −0,45 × `--travel`), solo movimento. Il 3D (three.js) vive solo nell'hero della home, desktop con puntatore fine, senza reduced-motion, scaricato dopo il load e fermo fuori viewport o sotto il menu.
+
+Il giro 3 degli effetti ha aggiunto le coreografie che legano le pagine fra loro, sempre dentro quei tre gesti: la fotografia del menu che **vola** nell'apertura della pagina scelta, il **bottone che diventa la pagina** della candidatura, l'hero che **arretra**, il numero del capitolo che **si posa**, il **numero a rullo**, il **cubo sul filo** della staffetta su telefono, il **finale fermo** su desktop. Le coreografie fra documenti hanno curve proprie (vedi Il passaggio fra le pagine); l'ingresso di blocchi e testo resta `--ease-salita`. A movimento ridotto il sito è fermo: restano solo le dissolvenze.
 
 **Key Characteristics:**
 - Un fondo continuo con sette atmosfere in dissolvenza incrociata (1100ms), una per capitolo, accese da un IntersectionObserver sulla fascia centrale del viewport.
@@ -240,7 +248,8 @@ Il movimento è texture, non collezione di effetti: tre gesti, ciascuno con il s
 - Una sola famiglia, DM Sans variabile ospitata in casa; nessun serif, nessun monospace.
 - Due livelli di titolo e basta: h2 che apre un capitolo, h3 che lo continua.
 - La particella del marchio come modulo di elenchi, campi a unità, sedie, chiuse; il cubo come filo fotografico della home.
-- Tre gesti di motion, una curva d'ingresso, reduced-motion gestito a token (il travel va a zero, la dissolvenza sopravvive).
+- Tre gesti di motion, una curva d'ingresso, reduced-motion gestito a token (il travel va a zero, la dissolvenza sopravvive); i passaggi fra le pagine sono View Transitions fra documenti con nomi dati al volo.
+- Un sito statico e leggero: Lighthouse mobile 96–99, accessibilità 100, CLS 0 su ogni pagina misurata.
 - Bersagli touch ≥ 44px (`--tap`) su ogni puntatore grossolano; nessun testo sotto 12px.
 
 ## 2. Colors: La luce sul palco
@@ -293,8 +302,9 @@ Le sette atmosfere del palco (in `sfondi.css`, non token): **nero** `#020202`; *
 ### Hierarchy
 - **Display** (700, `clamp(40px, 8.2vw, 128px)`, 0,98, −0,03em, word-spacing .04em): l'H1 della home, centrato, `text-wrap: balance`, preceduto da un attacco a 500 `clamp(20px, 2.5vw, 38px)` in Testo 2. La parola d'accento è l'unico punto arancione. **Display-pagina** (700, `clamp(40px, 5vw, 82px)`, 1,02): l'H1 delle aperture interne, a filo sinistro accanto alla foto, max 16ch.
 - **Payoff** (700, `clamp(52px, 7.4vw, 118px)`, 0,9, −0,035em, maiuscolo): solo FATTURARE ×3 nel finale, a filo sinistro, terza riga arancione. È un titolo di coda, non un messaggio.
-- **Capitolo** (600, `clamp(52px, 5.2vw, 84px)`, 0,8, −0,045em, cifre tabulari, contorno `-webkit-text-stroke: 1.5px` arancio con un velo d'arancio al 16% dentro): il numero del segnacapitolo; il nome accanto a 500 `clamp(17px, 1.3vw, 20px)` in Testo 1. La stessa voce, a 700 `clamp(72px, 7vw, 128px)` (46px sotto 900px) e **vuota**, solo contorno, numera i reparti della staffetta: pieno = capitolo, vuoto = reparto, perché su telefono «03 Il metodo» e «01 Pubblicità» stanno nello stesso schermo.
-- **Numero** (700, `clamp(64px, 7.6vw, 124px)`, 0,86, −0,045em, cifre tabulari): le cifre dei numeri a unità; i fatti degli Eventi a `clamp(52px, 5.6vw, 88px)`; il conto 4 → 3 → 0 a 600 `clamp(76px, 8.4vw, 136px)`, 0,84. L'unità a 0,32–0,36em in arancio, subordinata.
+- **Capitolo** (600, `clamp(52px, 5.2vw, 84px)`, 0,8, −0,045em, cifre tabulari, contorno `-webkit-text-stroke: 1.5px` arancio con un velo d'arancio al 16% dentro): il numero del segnacapitolo; il nome accanto a 500 `clamp(17px, 1.3vw, 20px)` in Testo 1. La stessa voce, a 700 `clamp(46px, 4.4vw, 64px)`, −0,05em, e **vuota**, solo contorno 1,5px arancio, numera i reparti della staffetta (i «numeri fantasma», decisione del cliente): pieno = capitolo, vuoto = reparto, perché su telefono «03 Il metodo» e «01 Pubblicità» stanno nello stesso schermo. Il tetto di 64px tiene il numero del reparto sempre sotto quello del capitolo (84px).
+- **Numero** (700, `clamp(64px, 7.6vw, 124px)`, 0,86, −0,045em): le cifre dei numeri a unità, composte dal rullo (vedi I numeri a unità); i fatti degli Eventi a `clamp(52px, 5.6vw, 88px)`; il conto 4 → 3 → 0 a 600 `clamp(76px, 8.4vw, 136px)`, 0,84. L'unità a 0,32–0,36em in arancio, subordinata.
+- **Frase** (600, `clamp(26px, 2.9vw, 46px)`, 1,16, −0,022em, max 30ch, Testo 2 con la parte che pesa a 700 Testo 1): la frase del costo che chiude il contro-esempio, in home e nel Metodo; si accende parola per parola. Stessa funzione, a 500 `clamp(30px, 4vw, 60px)`, per la chiusa del manifesto del DNA.
 - **Headline** (500, `clamp(36px, 4vw + 6px, 64px)`, 1,06, −0,02em, word-spacing .03em, max 22ch): l'h2 che apre un capitolo o una sezione di pagina interna. **Headline-sm** (500, `clamp(22px, 3.2vw, 44px)`, 1,16, −0,02em): l'h3 delle sezioni che continuano un capitolo. I minimi (36 / 22px) tengono due livelli leggibili anche su telefono.
 - **Voce del menu** (500, `clamp(36px, min(7.2vh, 6.2vw), 92px)`, 1, −0,035em; `clamp(34px, 10.5vw, 54px)` sotto 900px): i nomi delle sette pagine nella card del menu.
 - **Title** (500, `clamp(21px, 2.1vw, 27px)`, 1,22, −0,02em) e **Title-card** (700, 17px, 1,32, −0,01em): titoli di blocco e di card/persona. I titoli di colonna del conto e d'indice stanno fra 21 e 36px a 500.
@@ -314,7 +324,9 @@ Le sette atmosfere del palco (in `sfondi.css`, non token): **nero** `#020202`; *
 
 **The 12px Floor Rule.** Nessun testo sotto 12px. Le etichette di servizio stanno a 12–13px, in tondo; il maiuscolo spaziato non esiste nel sito (il payoff maiuscolo è un titolo, non un'etichetta).
 
-**The Flat Digits Rule.** Le cifre hanno letter-spacing 0 nelle etichette e cifre tabulari ovunque: tracciare i numeri fa oscillare le colonne.
+**The Flat Digits Rule.** Le cifre hanno letter-spacing 0 nelle etichette e `font-variant-numeric: tabular-nums` dichiarato ovunque: tracciare i numeri fa oscillare le colonne. Il sottoinsieme di DM Sans servito però non ha cifre tabellari, quindi la dichiarazione non allinea niente: dove una colonna di cifre deve restare ferma (il rullo) le larghezze sono misurate cifra per cifra in `dati.js` (`LARGO`, in em a 700 e −0,045em).
+
+**The Lit Word Rule.** Una frase che si accende (`[data-accendi]`) parte da Testo 4 (40%, 3,8:1 sul palco): è ammessa solo su testo ≥ 24px, dove 3,8:1 supera la soglia AA anche prima di accendersi. Le parole non si muovono, cambia solo il colore.
 
 ## 4. Elevation
 
@@ -327,6 +339,8 @@ Il sistema non costruisce profondità con le ombre: la costruisce con la luce. L
 - **Volto posato** (`box-shadow: 0 18px 40px -18px rgba(0,0,0,.8)`): i ritratti del marchio fatto di volti.
 - **Anello di focus dei campi** (`box-shadow: 0 0 0 3px rgba(255,130,0,.18)` con bordo arancione).
 - **Bordo acceso** (`box-shadow: inset 0 0 0 1px rgba(255,130,0,.42)`): hover delle schede persona.
+- **Cubo acceso** (`box-shadow: inset 0 1px 0 rgba(255,255,255,.35), 0 0 16px rgba(255,130,0,.55)`, fill `linear-gradient(145deg, #FFA24A, #E06F00)`): il cubo del marchio che cavalca il filo della staffetta.
+- **Luce del CTA** (`radial-gradient(closest-side, rgba(255,130,0,.40), transparent)`, 380×190px, dietro il CTA del finale): la luce che lascia il cubo e accende l'ultimo invito.
 
 ### Named Rules
 **The Continuous Stage Rule.** Le sezioni non dipingono un fondo: il fondo è il palco, e cambia una volta per capitolo. Si anima solo l'opacità dei livelli del palco (compositor), mai un gradiente, mai un blur su area grande. Ad alto contrasto le atmosfere si spengono. I filetti esistono dentro le sezioni (in testa a un indice, a un conto, a un registro), mai come confine fra due sezioni.
@@ -342,6 +356,7 @@ Tutti pill, fermi e luminosi: il bottone non va verso il cursore, si illumina do
 - **Bianco:** fill `#F8F8F8`, testo `#100F12`; hover bianco pieno e lift di 2px. È l'invito primario di tutto ciò che non è la candidatura (hero, canale YouTube del podcast con il suo segno SVG a 22px).
 - **Outline:** bordo UI 1px, testo Testo 1; al passaggio un velo arancione (16%→8%) si riempie da sinistra con `scaleX` e il bordo si accende d'arancio.
 - **Testo:** senza contenitore, peso 500, min-height 24px (44px su touch).
+- **Il bottone diventa la pagina:** ogni `a.cta` verso `/candidatura.html` fuori dal menu (nav, hero, piastra, finale) riceve al clic il nome `cta-pagina`; la candidatura dà lo stesso nome alla sua apertura (`.testa-pag`). Il pannello si allarga in 620ms dal bottone all'apertura, passa per il buio della pagina (`--c-base`) e i raggi da 999px a 0. Dal bottone arancio (tipo `cta-ar`) la scritta sparisce subito, il pannello È il bottone; dal bottone bianco dell'hero (tipo `cta-bianco`) il pannello parte già buio. La pagina nuova compare solo sul buio, mai sull'arancio: nessun testo bianco su arancio, nemmeno per un fotogramma.
 - **Active:** `scale: .985`, nessun lift. La particella dentro un CTA fa un gradino lungo la diagonale (3px, −2px); la freccia SVG (mai il glifo unicode) fa un passo di 3px nella sua direzione.
 
 ### Chips
@@ -350,7 +365,9 @@ Tutti pill, fermi e luminosi: il bottone non va verso il cursore, si illumina do
 
 ### Cards / Containers
 Le card sono poche e servono dove c'è un oggetto da maneggiare (schede persona, video, form); i contenuti in sequenza si mettono in fila tipografica, non in scatola (indici, conto, numeri, servizi, principi).
-- **Pannelli dei reparti:** una fotografia per reparto, a tutta altezza sotto un velo nero, con numero, nome e una riga di descrizione in basso; il soggetto della foto può cambiare, la forma no.
+- **Pannelli dei reparti:** una fotografia per reparto, a tutta altezza sotto un velo nero, con numero, nome e una riga di descrizione in basso; il soggetto della foto può cambiare, la forma no. Il taglio è per reparto (`--pos` in `dati.js`, sulle mani al lavoro: il reclutamento a `94% 35%`, sulla cartellina arancione); su telefono un taglio «stretto» già centrato (`<picture>`).
+- **Gli otto servizi su telefono** (≤ 640px): una galleria orizzontale nativa (scroll-snap, carte da 12px con Filo), senza ingresso a scroll; sotto, un filo di 2px su Filo che si riempie d'arancio con lo scorrimento (`scroll-timeline: --servizi inline`, `timeline-scope` sul contenitore): dice quanto resta.
+- **Le testimonianze** (`.video > .vidbox`): entrano come schermi posati sul tavolo e si alzano in piano mentre salgono (`schermo-alza`: `perspective(1200px) translateY(56px) rotateX(20deg) scale(.96)` → `none`, lineare, entry 0% → cover 45%). Prospettiva per elemento, nessuno strato 3D permanente; a movimento ridotto fermi. È un ingresso legato allo scroll, non un tilt al cursore.
 - **Corner Style:** 12px per card, schede e pannelli dei reparti; 20px per pannelli grandi (form, filtro, mappa); 22% del lato per ritratti e sedie (il raggio del marchio).
 - **Background:** Superficie 1, Superficie 2 al passaggio; i pannelli fotografici su `#0B0A0C` con un velo nero dal 32% in giù.
 - **Shadow Strategy:** piatte; luce al cursore (vedi Elevation).
@@ -378,24 +395,27 @@ Un dialogo vero, uguale su tutti gli schermi, che nasce dal bottone.
 - **Voci:** le sette pagine a corpo da titolo (Voce del menu, Testo 2), e nella stessa riga una descrizione (500 15px, Testo 3) in una colonna allineata per tutte le righe (`grid-template-columns: subgrid`). Salgono di 26px a gradini (170ms + 45ms per voce). Sopra l'elenco le altre voci si spengono a `rgba(255,255,255,.48)` (~5:1 sul fondo della card); la voce scelta torna Testo 1, fa un passo di .36em a destra e una particella arancione si accende nel margine davanti. La pagina corrente è Testo 1 con un sottolineato arancione da .05em. Fuoco: anello arancio 3px stretto sulla parola, raggio 6px.
 - **Anteprime:** a destra (5/12) la fotografia della pagina sotto il cursore o il fuoco, maschera in basso, dissolvenza e scala da .96; uscendo dall'elenco torna quella della pagina corrente. Il Team mostra i cinque volti disposti come i quadrati del marchio. Le immagini si scaricano alla prima apertura, non al caricamento.
 - **Piede:** filo in testa, CTA arancione della candidatura, mail, indirizzo, social 44px; entra per ultimo (420ms con 480ms di ritardo).
-- **Comportamento:** fuoco su «Chiudi» all'apertura, Tab che gira dentro la card, Esc, clic sul velo o su un link chiudono; il fuoco torna al bottone. `html.menu-aperto` blocca lo scroll con `scrollbar-gutter: stable` (nessun salto della barra). Tornando dalla cache del browser il menu è chiuso.
+- **Comportamento:** fuoco su «Chiudi» all'apertura, Tab che gira dentro la card, Esc, clic sul velo o su un link chiudono; il fuoco torna al bottone. Con il menu aperto ogni altro figlio del `<body>` è `inert` (Safari col Tab usciva verso i bottoni dietro la card) ed Esc è ascoltato sul documento, quindi chiude anche se il fuoco è caduto sul `<body>`. `html.menu-aperto` blocca lo scroll con `scrollbar-gutter: stable` (nessun salto della barra). Tornando dalla cache del browser il menu è chiuso e una partenza interrotta viene azzerata.
+- **La partenza:** al clic su una voce verso un'altra pagina il menu non si chiude: la voce scelta resta accesa (passo e particella), le altre scendono a .18 in 220ms, l'anteprima accesa riceve il nome della foto d'apertura della pagina nuova e vola (vedi Il passaggio fra le pagine). La card ha un nome suo (`menu-card`), sta sopra nav e barra e si dissolve in 180ms (opacità e scala .985), così il logo non si sdoppia e «Chiudi» non resta sopra «Menu».
 - **Sotto 900px:** una colonna, niente anteprime né descrizioni, l'elenco scende verso il pollice sopra il CTA a tutta larghezza.
 - **Reduced motion:** niente `clip-path` né salita; voci e piede in sola dissolvenza da 180ms, nessun passo laterale.
 
 ### Il segnacapitolo
 Il numero, il nome e un filo. Apre il primo blocco di ogni capitolo (`.sez--capo`, respiro sopra × 1,2); i blocchi che continuano il capitolo (`.sez--segue`, respiro sopra × 0,4, testa più stretta) portano un h3 e niente segnacapitolo.
-- **Forma:** numero a due cifre in Capitolo (contorno arancio 1,5px con velo d'arancio al 16%; i numeri dei reparti della staffetta restano vuoti e, su telefono a 46px, più piccoli del numero di capitolo che li contiene), nome accanto in Testo 1, poi un filo di 1px che sfuma da Filo Forte a trasparente fino al margine e si disegna entrando (`scale: 0 1 → 1`, scroll-driven, solo senza reduced-motion).
+- **Forma:** numero a due cifre in Capitolo (contorno arancio 1,5px con velo d'arancio al 16%; i numeri dei reparti della staffetta restano vuoti e, su telefono a 46px, più piccoli del numero di capitolo che li contiene), nome accanto in Testo 1, poi un filo di 1px che sfuma da Filo Forte a trasparente fino al margine. Il velo d'arancio sta su uno strato a parte (`::before` con `attr(data-n)`), così i controlli di contrasto misurano il contorno e non il riempimento.
+- **Il numero si posa** (giro 3 effetti, sulla timeline `--capo` del segnacapitolo, solo con `view()` e senza reduced-motion): il numero entra a 1,8× e trasparente e si posa accanto al nome (entry 20% → cover 40%, `cubic-bezier(.2,.7,.2,1)`, origine in basso a sinistra, al centro in `.capo--c`); il nome si scopre da sinistra (`clip-path`, cover 33–41%) solo quando il numero si è posato, e il filo si disegna dopo il nome (cover 38–50%). Il cambio di capitolo si annuncia come un titolo di sala, poi diventa segnaletica.
 - **Centrato** (`.capo--c`): sopra le composizioni centrate (il tetto, i cartelli dei risultati) numero e nome si impilano sopra il titolo, senza filo.
-- È un indice, non un occhiello: compare una volta per argomento, solo dove la pagina si legge a capitoli e il numero conta davvero (la nav lo ripete).
+- È un indice, non un occhiello: compare una volta per argomento, solo dove la pagina si legge a capitoli e il numero conta davvero (la nav lo ripete). Oltre alla home, il Metodo ha due capitoli numerati: 01 Il problema, 02 Il metodo.
 
 ### Il contro-esempio
 Una scena sola, sull'atmosfera "fuoco": titolo → caduta → conto → frase. Usata identica in home (capitolo 01) e nella pagina Metodo.
 - **La caduta:** la fotografia delle due mani e del cubo, a tutta larghezza, separata in tre strati PNG trasparenti (`tools/strati.mjs`) posati in percentuale, così fermi ricompongono la foto esatta (proporzioni 2688×1520, margini negativi in alto e in basso). Allo scroll (`view-timeline`, lineare, cover 18–62%) le mani si allontanano del 7% verso l'esterno, solo verso l'esterno, e il cubo parte fra le dita, ruota da −8° a 15° e cade. Senza `view()` o a motion ridotto: la foto ferma. Sotto 700px il fotogramma si allarga al 150% e si stringe sul centro.
 - **Il conto 4 → 3 → 0:** tre colonne uguali sotto un filo Filo Forte; ogni colonna apre con il suo numero dentro il titolo della colonna (letto come «4 fornitori da coordinare»). Numeri bianchi; lo zero è vuoto, solo contorno 2px in Rosso Perdita. Il «3» contiene i tre passaggi rotti (fra chi e chi in Meta con una freccia rossa, poi cosa cade a 500 19–22px); la riga dello zero ha il corpo dei passaggi, non quello di una nota. Sotto 900px una colonna, ogni numero con il suo filo.
-- **La chiusa** (`.contro__chiusa`): una frase, 500 `clamp(20px, 1.7vw, 26px)`, Testo 2 con la parte che pesa in 600 Testo 1, max 46ch.
+- **La chiusa** (`.contro__chiusa`): una frase in Frase (600 `clamp(26px, 2.9vw, 46px)`, max 30ch), Testo 2 con la parte che pesa in 700 Testo 1, a `clamp(56px, 6vw, 104px)` dal conto. È il punto del capitolo e **si accende**: le parole sono ferme e passano da Testo 4 al loro colore una dopo l'altra mentre la frase sale verso la linea di lettura (`view-timeline: --frase`, finestra di 7% per parola distribuita su un tratto di 30%, da cover 16%). Stesso trattamento per la chiusa del manifesto del DNA. Senza `view()` o a movimento ridotto: accesa da subito.
 
 ### I numeri a unità
 Tre voci di registro (un quadrato = un imprenditore / un settore / un processo), ognuna con il suo campo di quadrati sulla stessa griglia a 50 colonne (25 su mobile): l'altezza del campo è la quantità. SVG con `<pattern>`, acceso riga per riga allo scroll con `steps()`. Solo il primo campo è arancio. Cifra in Numero, etichetta 500 17–20px Testo 1 con il «quando» in Testo 3 nella stessa riga, legenda in Meta. In home i numeri continuano le schede dei clienti con una riga d'attacco, non con un titolo.
+- **Il rullo** (home e Risultati: 150 · 33 · 750): un contatore meccanico. Ogni cifra è un tamburo alto 1em che ritaglia una colonna «spazio, 0–9, 0–9»; la prima riga è vuota, così il tamburo fermo non mostra zeri tagliati. Ogni colonna è larga quanto la sua cifra d'arrivo misurata (`--wd`) più .08em d'aria restituita dai margini, così il numero fermo ha la spaziatura del numero scritto. Le colonne a destra fanno un giro in più e partono 90ms dopo; 1,6s `cubic-bezier(.3,.55,.1,1)`, avviato da un IntersectionObserver (60% visibile). Mentre gira il tamburo sfuma ai bordi (maschera 18–82%), come un tamburo vero. Il numero vero è nel testo per i lettori di schermo (`.sr`), le colonne sono `aria-hidden`; a movimento ridotto le cifre sono già ferme.
 
 ### L'indice
 Righe tipografiche per podcast, articoli, libri, ruoli: tipo (500 14px, Arancio Caldo), titolo (500 `clamp(24px, 2.4vw, 36px)`), descrizione (Testo 3, max 46ch), azione. Le colonne sono dell'indice, non della riga (`subgrid`): un'azione più lunga non sposta le altre. Tutta la riga è il bersaglio; al passaggio una luce arancione al 10% attraversa la riga e il titolo fa un passo di 8px. Stessa logica nei principi del DNA: il numero (600 30–42px) sta in Testo 4, un gradino sotto il titolo, e si accende d'arancio con un passo di 4px al passaggio.
@@ -403,22 +423,44 @@ Righe tipografiche per podcast, articoli, libri, ruoli: tipo (500 14px, Arancio 
 ### Il podcast
 Un capitolo (06), sull'atmosfera "notte": a sinistra (7/12) logo, titolo, sommario, il CTA bianco verso il canale YouTube (nuova scheda) e una nota in Meta; a destra (5/12) il microfono, che sale con la sezione un filo più lento del testo e sfuma in basso (max 76vh; su telefono al massimo 300px). Il logo lo inserisce il build (`<!--LOGO-PODCAST-->` in `tools/build.mjs`) da `src/assets/podcast/fatturare-logo.(svg|webp|png)`, alto `clamp(72px, 6.4vw, 104px)`; finché il file manca, al suo posto resta il nome scritto. Non va ridisegnato.
 
+### Dove siamo
+Non è un capitolo: è la chiusura, prima del finale. Dopo il podcast respira la metà (`.podcast-sez + .dove`, `padding-top: calc(var(--sez-y) * .45)`), senza segnacapitolo. Mappa a facciata (raggio 20px, l'embed di Google si carica solo al clic) e le sedi in card con la luce al cursore.
+
 ### Le aperture
-- **Home:** hero centrato sul nero, campo di contatti (3D su desktop, DOM altrove), attacco a 500 e colpo in Display.
+- **Home:** hero centrato sul nero, campo di contatti (3D su desktop, DOM altrove), attacco a 500 e colpo in Display. **L'hero arretra** (`hero-arretra`, `scroll(root block)`, 0–70vh; 15–85vh sotto 900px): pieno per il primo 55%, poi scala a .9, sale di 2vh e si spegne, mentre i contatti convergono nel marchio. A scroll zero è identico (l'H1 resta l'elemento LCP); il fuoco della tastiera dentro l'hero lo riporta pieno.
 - **Pagine interne:** titolo a filo sinistro (7/12) in Display-pagina con deck, accanto (5/12) la fotografia che dice la pagina (la scalinata, lo scontrino, la bussola, il biglietto, il microfono, la tazzina; per il Team cinque ritratti veri disposti come i cinque quadrati del marchio), che sale dal fondo e vi sfuma. L'alone di pagina dietro. Sotto 900px una colonna.
 - **La pill d'apertura** (`.pill-eyebrow`): esiste sopra l'H1 della home e delle aperture interne per richiesta esplicita del cliente nel giro 4 («la hero vorrei fosse a pillola»). È un'eccezione concordata per quelle otto aperture, non un componente del sistema: non si replica sopra altri titoli, non si copia in pagine nuove senza una nuova richiesta.
+
+### La staffetta
+Il capitolo 03: i quattro reparti come tipografia sul fondo (icona, numero fantasma in contorno, nome grande), fra l'uno e l'altro la fotografia del cubo che passa di mano, e l'atterraggio sul cubo posato sul contratto firmato. Nessuna scatola, nessun binario disegnato.
+- **La scena** (home, desktop ≥ 1024px e ≥ 680px d'altezza, senza reduced-motion): l'unico pin del sito (GSAP). La sezione è alta uno schermo, il titolo parte **in alto**, sotto barra e nav, alla distanza di ogni altro capitolo (`align-content: start`); i fotogrammi scorrono in orizzontale e si accendono quando passano il 62% della larghezza. Quelli da venire aspettano a mezza luce (.5, contorni al 16%).
+- **La colonna** (Metodo sempre, home sotto 1024px, movimento ridotto): un filo arancione da 2px scende nel margine sinistro alla linea di lettura (`--lettura`: 40vh sopra il bordo basso, 60% dello schermo); ogni reparto si accende quando il filo lo raggiunge (solo i glifi, mai il testo) e il filo atterra con un quadrato da 10px sulla trattativa. Sotto 900px la colonna rientra di 22px e il filo corre sul suo bordo, dove inizia il testo di ogni altra sezione, non a 8px dal bordo dello schermo.
+- **Il cubo sul filo:** un cubo del marchio da 14px (Cubo acceso) cavalca la punta del filo dal primo reparto alla trattativa, dove si posa a 1,3×. È `position: sticky` alla linea di lettura dentro un binario (`.staffetta__binario`) di cui `motion.js` misura gli estremi solo al ridimensionamento: lo muove il compositore con lo scroll, non un listener; lo script cambia solo due stati (fermo prima del primo reparto, posato sulla trattativa).
+- Nel Metodo, da 900px, reparto e passaggio stanno su tre colonne (3/4/5) e la didascalia sta accanto alla sua foto.
 
 ### La particella
 Il quadrato del mark, 12px con raggio 2px (8px nelle liste e nelle etichette). Elenca (`.lista`: particella arancione, verde per ciò che rientra, triangolo rosso per ciò che non rientra), conta (campi a unità, grafici delle schede: un quadrato = 100.000 €, le trenta sedie della sala), scopre (la maschera a quattro gradini, la View Transition fra pagine), indica (davanti alla voce del menu sotto il cursore), chiude (la scalinata del footer). Nel racconto della home diventa il cubo fotografato.
 
 ### Il finale
 Il payoff FATTURARE ×3 a filo sinistro (7/12), tre righe uguali che salgono una per una dentro la maschera, la terza in Arancio; accanto (5/12) il braccio che alza il cubo, che sale dal fondo della sezione e sfuma. La luce viene dal pavimento (brace radiale al 34%, atmosfera "alba"). Un solo CTA.
+- **Il finale fermo** (desktop ≥ 1024px e ≥ 680px d'altezza, con `view()`, senza reduced-motion): la sezione è alta `200svh` e il contenuto resta sticky per il secondo schermo, sulla timeline `--finale` (entry = il riquadro sale, contain = il riquadro è fermo). Le tre righe atterrano (entry 42% + 10% per riga), il braccio alza il cubo dal pavimento (`trofeo-fermo`, entry 35% → contain 40%), la luce del pavimento sale, poi frase e CTA (contain 26–46%). Payoff e trofeo stanno finalmente nello stesso schermo.
+- **L'ultimo passaggio è tuo:** alzato il trofeo, la luce arancione parte dal cubo già accesa, scivola fino al CTA e lo accende da dietro (contain 44–64%), passando dietro alle parole. Su telefono e schermi bassi la luce si accende una volta, in posto. Il fuoco della tastiera mostra il CTA pieno a qualunque punto.
+
+### Il passaggio fra le pagine
+View Transitions fra documenti (Chrome; gli altri browser navigano e basta).
+- **L'adesione** `@view-transition { navigation: auto }` (e `none` a movimento ridotto) è **in linea nel `<head>` di ogni pagina** (`tools/build.mjs`), non nel foglio: Chrome decide se fare il passaggio prima di aver riconvalidato `sito.css`, e con il foglio non in cache il passaggio saltava a ogni navigazione in avanti. `motion.css` porta solo nomi e animazioni.
+- **Di base, la scalinata:** la pagina vecchia si ritira (420ms `--ease-uscita`, a .2 e −3vh), la nuova sale con il bordo a quattro gradini (`clip-path`, 760ms `--ease-salita`). Barra e nav hanno un nome proprio e restano ferme.
+- **La foto che passa di mano** (`foto-pagina`): dal menu, l'anteprima accesa vola al suo posto nell'apertura della pagina nuova (900ms `cubic-bezier(.2,.82,.22,1)`; in volo si solleva del 6%, come presa in mano). Verso il Team volano i cinque volti, ciascuno con il suo nome `volto-<cognome>` e la classe `volto` (780ms, a 90ms l'uno dall'altro). Con il tipo `dal-menu` la pagina vecchia non resta sotto (opacità 0) e la nuova sale a gradini dopo 120ms (820ms), attorno alla foto; il tipo arriva anche da telefono, dove non ci sono anteprime. Nella pagina d'arrivo la foto non rifà la sua apertura (`.vt-arrivo`).
+- **Il bottone diventa la pagina** (`cta-pagina`, tipi `dal-cta` + `cta-ar` o `cta-bianco`): vedi Buttons. La pagina vecchia si dissolve in 300ms mentre il bottone la copre, la nuova compare dopo 160ms; nav e barra restano sopra il pannello.
+- **Nomi dati al volo:** la pagina che parte li scrive in `motion.js` e li annota in `sessionStorage` (`vt-menu`, `vt-foto`, `vt-cta`); la pagina che arriva li legge nello script `pagereveal` del `<head>`, aggiunge i tipi e li toglie a passaggio finito. Le pagine con una foto d'apertura aspettano il primo fotogramma con `<link rel="expect" blocking="render">`. In una scheda nascosta o sotto automazione il passaggio si salta subito.
+- **Nessuna attesa di rete:** Speculation Rules, solo `prefetch` dell'HTML (`/*.html` e `/`), `eagerness: moderate` (200ms sopra un link o al tocco); mai il prerender, nessuno script eseguito in anticipo.
 
 ### Comportamenti trasversali
-- **Reduced motion:** a token, mai `*{animation:none}`. Le durate si accorciano (reveal 180ms), `--travel`, `--dx`, `--dy` vanno a 0, la dissolvenza resta; parole, maschere, scalinate, marquee, View Transition, torcia, luce al cursore, caduta, staffetta orizzontale, clip-path del menu e 3D si fermano o non partono. Ogni stato resta raggiungibile.
+- **Reduced motion = statico:** a token, mai `*{animation:none}`. Le durate si accorciano (reveal 180ms), `--travel`, `--dx`, `--dy` vanno a 0, restano solo le dissolvenze; parole, maschere, scalinate, marquee, passaggi fra le pagine (`@view-transition` a `none`), foto in volo, bottone che diventa la pagina, torcia, luce al cursore, caduta, staffetta orizzontale, filo e cubo, rullo, frase che si accende (già accesa), hero che arretra, numero che si posa, schermi, finale fermo, clip-path del menu e 3D si fermano o non partono. Ogni stato resta raggiungibile, verificato su otto pagine.
 - **Scroll-driven:** dove esiste `animation-timeline` le scene sono legate allo scroll e lineari; dove non esiste un solo IntersectionObserver aggiunge `.is-in`, con uno stato finale forzato dopo 3s.
 - **Touch:** su `pointer: coarse` ogni bersaglio autonomo arriva a 44px (`--tap`): CTA di testo, chip, bottone Menu, voci e link legali del footer, barra annuncio, social, azioni d'indice.
-- **Movimento automatico:** il marquee dei loghi si ferma a hover e focus.
+- **Movimento automatico:** il marquee dei loghi (46s, lineare) è l'unica animazione infinita voluta e si ferma a hover e focus. Fa eccezione il campo di contatti DOM dell'hero (`galleggia`, infinito, alternato) dove la scena 3D non c'è, cioè su telefono: è la versione approvata, in attesa di una decisione del cliente (WORKLOG §6, C2); sotto la scena 3D e a movimento ridotto è fermo.
+- **Misure verificate (giro 3):** Lighthouse mobile 96–99 (Home 96, Metodo 97, Candidatura 99), accessibilità 100, CLS 0; lo split delle parole al build e i margini negativi delle maschere e del rullo esistono perché nessuna animazione cambi l'altezza di una riga.
 
 ## 6. Do's and Don'ts
 
@@ -431,7 +473,9 @@ Il payoff FATTURARE ×3 a filo sinistro (7/12), tre righe uguali che salgono una
 - **Do** mettere le sequenze in fila tipografica con le colonne condivise (`subgrid`), non in card.
 - **Do** usare la particella solo se conta, nomina, indica o scopre qualcosa; altrimenti esce.
 - **Do** far entrare la materia con il gradino, il testo con la riga verticale in maschera, l'interazione con la luce al cursore; curva `--ease-salita`, scrub lineare, uscite più rapide degli ingressi, spostamento massimo 3px negli hover.
-- **Do** far nascere un livello sovrapposto dal controllo che lo apre, e trattarlo come dialogo (fuoco intrappolato, Esc, velo, fuoco restituito, scroll bloccato senza salto).
+- **Do** far nascere un livello sovrapposto dal controllo che lo apre, e trattarlo come dialogo (fuoco intrappolato, resto della pagina `inert`, Esc sul documento, velo, fuoco restituito, scroll bloccato senza salto).
+- **Do** legare le pagine con View Transitions fra documenti: adesione in linea nel `<head>`, nomi dati al volo dalla pagina che parte e da `pagereveal` in quella che arriva, e tolti a passaggio finito.
+- **Do** riportare pieno, al fuoco della tastiera, ogni blocco che un'animazione di scroll spegne o sposta (hero che arretra, CTA del finale).
 - **Do** dare 44px a ogni bersaglio su touch, label visibili ai campi, focus `2px` arancione con offset 3px.
 - **Do** dare a ogni numero fonte e data, in Meta 13px con cifre tabulari.
 - **Do** usare le fotografie della serie (mani in bianco e nero con oggetto arancione) senza scatola, sfumate sul palco, e i ritratti reali in scala di grigi che si colorano al passaggio.
@@ -449,7 +493,10 @@ Il payoff FATTURARE ×3 a filo sinistro (7/12), tre righe uguali che salgono una
 - **Don't** ridisegnare il logo del sito o quello del podcast: si usano i file veri.
 - **Don't** dipingere un fondo proprio su una sezione o separarne due con un filo di 1px: la pagina diventa una pila di blocchi.
 - **Don't** applicare la stessa dissolvenza a ogni sezione o fare card tutte uguali.
-- **Don't** usare magnetic hover, tilt 3D o easing con overshoot; il testo non entra mai in diagonale.
+- **Don't** usare magnetic hover, tilt 3D al cursore o easing con overshoot; il testo non entra mai in diagonale. L'unica inclinazione è d'ingresso e legata allo scroll (gli schermi delle testimonianze), e finisce su `transform: none`.
+- **Don't** mettere l'adesione `@view-transition` nel foglio di stile: salta quando il foglio non è in cache.
+- **Don't** aggiungere animazioni infinite: oltre al marquee dei loghi (con pausa) non ce ne sono di volute.
+- **Don't** accendere parole (`[data-accendi]`) su testo sotto 24px: spente sono in Testo 4.
 - **Don't** animare gradienti, blur su area grande, `font-weight` o `font-variation-settings`; si animano transform, opacity e clip-path su pochi elementi.
 - **Don't** scrivere testo sotto 12px, né Testo 4 (40%) sotto 24px.
 - **Don't** usare il duotone nero/arancio sui volti: disumanizza la prova che converte di più.
