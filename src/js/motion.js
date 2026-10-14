@@ -359,45 +359,47 @@
        Il movimento È il concetto: i tre passaggi che cadono e poi tengono.
        POLIZZA: la versione statica è già scritta in CSS, quindi degradare
        a costo zero è possibile in qualsiasi momento.                    */
+    /* ── LA MACCHINA · il binario ─────────────────────────────────────────
+       Il pacchetto (lo stesso quadrato che nel contro-esempio cade) corre
+       sul binario mentre la scena è pinnata: --p va da 0 a 1 con lo
+       scroll, e ogni stazione, varco e passaggio si accende quando il
+       pacchetto lo raggiunge. La stazione k è a p = k/3, il varco k a
+       (k + ½)/3. Senza questa scena (mobile, reduced-motion, niente JS) la
+       macchina resta nel suo stato statico, tutta accesa.
+       MAI .set({display:'none'}) dentro una timeline pinnata: è una
+       mutazione di layout che disallinea start/end in silenzio.        */
     if ($('#macchina')) {
-      mm.add('(min-width: 1024px) and (prefers-reduced-motion: no-preference)', () => {
+      mm.add('(min-width: 1024px) and (min-height: 700px) and (prefers-reduced-motion: no-preference)', () => {
         const sc = $('#macchina');
-        const reparti = $$('.reparto', sc), hoff = $$('.handoff', sc), chiusa = $('#macchina-chiusa');
-        gsap.set(chiusa, { opacity: .25 });
+        const reparti = $$('.reparto', sc), varchi = $$('.binario__varco', sc);
+        const hoff = $$('.handoff', sc), chiusa = $('#macchina-chiusa');
+        const stato = (p) => {
+          reparti.forEach((r, k) => r.classList.toggle('is-on', p >= k / 3 - .002));
+          varchi.forEach((v, k) => v.classList.toggle('is-on', p >= (k + .5) / 3));
+          hoff.forEach((h, k) => h.classList.toggle('is-on', p >= (k + .5) / 3));
+          chiusa?.classList.toggle('is-on', p >= .985);
+        };
+        const o = { p: 0 };
+        sc.classList.add('is-scena');
+        sc.style.setProperty('--p', '0');
+        stato(0);
 
         const tl = gsap.timeline({ scrollTrigger: {
-          trigger: '#metodo', start: 'top top', end: '+=220%',
+          trigger: '#metodo', start: 'top top', end: '+=190%',
           pin: true, pinSpacing: true, anticipatePin: 1, scrub: .6,
           invalidateOnRefresh: true, fastScrollEnd: true,
         }});
-
-        /* BEAT 0 · il contro-esempio DENTRO la scena: i tre passaggi
-           provano a passare e CADONO, perché è esattamente quello che
-           succede quando i quattro reparti sono quattro fornitori.     */
-        gsap.set(hoff, { opacity: 1, y: 0, rotate: 0 });
-        tl.to(hoff, { y: 120, rotate: -6, opacity: 0, stagger: .04, ease: 'power1.in', duration: .12 }, 0);
-
-        /* BEAT 1 · le colonne si agganciano con uno scatto secco.
-           MAI .set({display:'none'}) dentro una timeline pinnata: è una
-           mutazione di layout che disallinea start/end senza produrre un
-           solo errore in console.                                      */
-        tl.fromTo(reparti, { xPercent: (i) => (i - 1.5) * 5 }, { xPercent: 0, ease: 'none', duration: .08 }, .12);
-
-        /* BEAT 2–5 · ogni reparto si accende quando il pacchetto arriva. */
-        reparti.forEach((r, i) => {
-          const p = .22 + i * .16;
-          tl.call(() => r.classList.add('is-on'), null, p);
-          tl.call(() => { if (tl.scrollTrigger?.direction < 0) r.classList.remove('is-on'); }, null, p);
-          if (hoff[i]) tl.to(hoff[i], { opacity: 1, y: 0, rotate: 0, ease: 'none', duration: .06 }, p + .07);
-        });
-
-        tl.to(chiusa, { opacity: 1, ease: 'none', duration: .08 }, .9);
+        /* Un respiro all'inizio e alla fine: il pacchetto parte quando la
+           scena è ferma e arriva prima che il pin si sciolga.           */
+        tl.to(o, { p: 1, ease: 'none', duration: 1,
+          onUpdate: () => { sc.style.setProperty('--p', o.p.toFixed(4)); stato(o.p); } }, .08);
+        tl.to({}, { duration: .1 });
 
         return () => {
           tl.kill();
-          reparti.forEach(r => r.classList.add('is-on'));   /* stato statico leggibile */
-          hoff.forEach(h => { h.classList.add('is-on'); gsap.set(h, { clearProps: 'all' }); });
-          gsap.set(chiusa, { clearProps: 'all' });
+          sc.classList.remove('is-scena');
+          sc.style.removeProperty('--p');
+          [...reparti, ...varchi, ...hoff, chiusa].forEach(n => n?.classList.remove('is-on'));
         };
       });
     }

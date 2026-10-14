@@ -15,11 +15,46 @@
 .apri-4 { translate: var(--dx) var(--dy); opacity: 0; animation: apri-rise var(--t-reveal) var(--ease-salita) 720ms both; }
 @keyframes apri-rise { to { translate: 0 0; opacity: 1; } }
 
-/* Le righe dell'H1 salgono dentro una maschera. */
-.hero .mask > [data-riga] { animation: apri-mask var(--t-maschera) var(--ease-salita) both; }
-.hero .mask > [data-riga="0"] { animation-delay: 180ms; }
-.hero .mask > [data-riga="1"] { animation-delay: 290ms; }
+/* L'attacco dell'H1 sale dentro una maschera, subito: è la prima cosa da
+   leggere e non deve aspettare niente.                                 */
+.hero .mask > [data-riga] { animation: apri-mask var(--t-maschera) var(--ease-salita) both; animation-delay: 60ms; }
 @keyframes apri-mask { to { translate: 0 0; } }
+
+/* ── IL TESTO CHE SI COMPONE ──────────────────────────────────────────────
+   Gli elementi [data-split] arrivano dal build con ogni parola in una
+   maschera (.w > span). La parola sale in VERTICALE — il testo si legge in
+   orizzontale e non entra mai in diagonale.
+   Il margine negativo compensa il padding che fa respirare discendenti e
+   corsivi: la riga non cambia altezza, nessun CLS.                    */
+.w { display: inline-block; overflow: clip; vertical-align: top; padding: .04em .08em .18em; margin: -.04em -.08em -.18em; }
+.w > span { display: inline-block; }
+@keyframes parola-sale { from { translate: 0 112%; } }
+
+/* Nell'hero a TEMPO: è sopra la piega, una timeline di scroll lì non
+   partirebbe. Sei parole, 70ms l'una: la frase è composta in 1,2s.    */
+.hero__colpo .w > span { animation: parola-sale var(--t-maschera) var(--ease-salita) both; animation-delay: calc(240ms + var(--w) * 70ms); }
+
+/* Altrove a SCROLL, sulla view timeline del titolo (non della parola:
+   la parola è traslata, il titolo no). Lo stagger sposta l'inizio del
+   range, perché animation-delay sulle timeline di scroll è ignorato. */
+@supports (animation-timeline: view()) {
+  [data-split]:not(.hero__colpo) { view-timeline: --titolo block; }
+  [data-split]:not(.hero__colpo) .w > span {
+    animation: parola-sale var(--ease-salita) both;
+    animation-timeline: --titolo;
+    /* cover, non entry: entry si esaurisce nei primi 130px, mentre il
+       titolo è ancora sul bordo basso dove nessuno guarda.             */
+    animation-range: cover calc(4% + var(--w) * 1.3%) cover calc(26% + var(--w) * 1.3%);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-split] .w > span { animation: none; }
+}
+
+/* ── IL MARCHIO CHE SI MONTA (hero, versione DOM): sections.css ───────── */
+@media (prefers-reduced-motion: reduce) {
+  .hero__mark rect, .hero__campo i, .hero__campo { animation: none; }
+}
 
 /* I moduli del mark si accendono uno per uno: è l'unica animazione di logo
    che vale la pena fare, e dura meno dell'apertura.                       */
@@ -93,9 +128,11 @@
    volta sola e allo stesso modo in tutte le sezioni.
    UN SOLO gesto ripetuto, non un effetto diverso per fascia: è quello che
    distingue un sistema di motion da una collezione di animazioni.      */
+/* I titoli [data-split] non entrano in blocco: si compongono parola per
+   parola (sopra). Qui restano l'occhiello, il deck e i titoli interi.  */
 .testa > .t-eyebrow,
-.testa > .duevoci > *,
-.testa > .t-d2,
+.testa > .duevoci > :not([data-split]),
+.testa > .t-d2:not([data-split]),
 .testa > .t-deck {
   animation: sale-testa var(--t-reveal) var(--ease-salita) both;
   animation-timeline: view();
@@ -104,9 +141,8 @@
 /* Lo stagger sulle timeline scroll-driven NON si fa con animation-delay
    (che viene ignorato): si sposta animation-range-start.               */
 .testa > .t-eyebrow      { animation-range-start: entry 8%; }
-.testa > .duevoci > *,
-.testa > .t-d2           { animation-range-start: entry 13%; }
-.testa > .duevoci > :last-child { animation-range-start: entry 17%; }
+.testa > .duevoci > :not([data-split]),
+.testa > .t-d2:not([data-split]) { animation-range-start: entry 13%; }
 .testa > .t-deck         { animation-range-start: entry 21%; }
 
 @keyframes sale-testa {

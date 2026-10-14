@@ -71,6 +71,55 @@ const frecce = (html) => html
   .replace(/\s?→(?=\s*<\/(?:a|span|button)>)/g, ICO_FRECCIA)
   .replace(/\s?↓(?=\s*<\/(?:a|span|button)>)/g, ICO_GIU)
 
+/* ── IL TESTO CHE SI COMPONE ───────────────────────────────────────────────
+   Gli elementi con `data-split` escono dal build con ogni parola dentro una
+   maschera: <span class="w" style="--w:N"><span>parola</span></span>.
+   Lo split avviene QUI e non a runtime: niente SplitText che distrugge e
+   ricrea i nodi quando arriva il webfont (il bug che affligge il
+   riferimento), niente CLS, e il testo è già nel markup servito.
+   I tag inline che attraversano più parole (<span class="ar">cadono per
+   terra</span>) vengono chiusi e riaperti a ogni spazio, così l'annidamento
+   resta valido e ogni parola tiene il suo colore.                        */
+const VUOTO = /^(?:<[^>]+>)*$/
+function parole(inner) {
+  const tok = inner.match(/<[^>]+>|\s+|[^<\s]+/g) || []
+  let out = '', parola = '', pila = [], k = 0
+  const emetti = () => {
+    if (!parola) return
+    out += VUOTO.test(parola) ? parola : `<span class="w" style="--w:${k++}"><span>${parola}</span></span>`
+    parola = ''
+  }
+  for (const t of tok) {
+    if (/^\s+$/.test(t)) {
+      parola += pila.slice().reverse().map(p => `</${p.nome}>`).join('')
+      emetti(); out += ' '
+      parola = pila.map(p => p.apre).join('')
+    } else if (/^<br\b/i.test(t)) {
+      parola += pila.slice().reverse().map(p => `</${p.nome}>`).join('')
+      emetti(); out += t
+      parola = pila.map(p => p.apre).join('')
+    } else if (t.startsWith('</')) { pila.pop(); parola += t }
+    else if (t.startsWith('<')) { pila.push({ nome: t.match(/^<(\w+)/)[1], apre: t }); parola += t }
+    else parola += t
+  }
+  emetti()
+  return out
+}
+function spezza(html) {
+  const apre = /<(\w+)\b[^>]*\sdata-split\b[^>]*>/g
+  let out = '', da = 0, m
+  while ((m = apre.exec(html))) {
+    const nome = m[1], dentro = apre.lastIndex
+    const tag = new RegExp(`<(/?)${nome}\\b[^>]*>`, 'g'); tag.lastIndex = dentro
+    let livello = 1, t
+    while ((t = tag.exec(html))) { livello += t[1] ? -1 : 1; if (!livello) break }
+    if (!t) break
+    out += html.slice(da, dentro) + parole(html.slice(dentro, t.index))
+    da = t.index; apre.lastIndex = t.index
+  }
+  return out + html.slice(da)
+}
+
 /* ── IL PALCO ─────────────────────────────────────────────────────────────
    Il fondo fisso di tutto il sito, con le sette atmosfere in dissolvenza
    incrociata (sfondi.css). motion.js accende quella della sezione al
@@ -168,7 +217,7 @@ const footer = () => `
           <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.6 3.5c.8 0 1.5.5 1.8 1.2l1 2.5c.3.7.1 1.5-.5 2l-1.1.9a11 11 0 0 0 4.9 4.9l.9-1.1c.5-.6 1.3-.8 2-.5l2.5 1a1.9 1.9 0 0 1 1.2 1.8v2.2c0 1.1-.9 2-2 2A16.6 16.6 0 0 1 4.4 5.5c0-1.1.9-2 2-2z"/></svg>
           <span><em>Numero Verde</em><b class="verde__n">${TEL.num || TEL.label}</b></span>
         </${telHref ? 'a' : 'div'}>
-        <a class="footer__mail link-wipe" href="mailto:amministrazione@salesprocess.it">amministrazione@salesprocess.it</a>
+        <a class="footer__mail link-wipe" href="mailto:amministrazione@salesprocess.it">amministrazione@<wbr>salesprocess.it</a>
         <p class="t-piccolo footer__sedi"><b>Uffici di rappresentanza</b><br>Via Marco D’Agrate 41, Milano (MI) 20139</p>
         <p class="t-piccolo footer__sedi"><b>Sede legale</b><br>Piazza IV Novembre, Capiago Intimiano (CO) 22070</p>
       </div>
@@ -249,7 +298,7 @@ for (const f of files) {
     title: meta.title || 'Sales Process',
     desc: meta.desc || '',
     slug: slug === 'index' ? 'home' : slug,
-    body: raw.slice(m ? m[0].length : 0),
+    body: spezza(raw.slice(m ? m[0].length : 0)),
   }))
   await writeFile(join(OUT, f), out)
   console.log('→ src/' + f + '  (' + out.length + ' byte)')

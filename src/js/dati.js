@@ -57,7 +57,21 @@ const PROVE = [
   { n:6, settore:'Automazione',   geo:'Modena',  da:2.6, a:4.7, mesi:12, foto:'hand-contract',   logo:'c-24', extra:'LinkedIn + telefono · 7 venditori reclutati · chiusura media 27 gg', prov:true },
 ];
 
-const LOGHI = ['c-8','c-9','c-10','c-11','c-12','c-13','c-14','c-15','c-16','c-18','c-20','c-23','c-24','c-25','c-27','c-28','c-31','c-32','c-33','c-34','c-35','c-36','c-37','c-38','c-39'];
+/* Larghezza naturale dei PNG (sono tutti alti 120px): serve per dare a ogni
+   logo dimensioni INTRINSECHE — prima erano box 0×34px finché non
+   caricavano, e la pista del marquee cambiava lunghezza (e velocità)
+   mentre arrivavano — e per il bilanciamento ottico qui sotto.         */
+const LOGHI = [['c-8',467],['c-9',116],['c-10',187],['c-11',163],['c-12',984],['c-13',820],['c-14',141],['c-15',259],['c-16',114],['c-18',379],['c-20',447],['c-23',87],['c-24',120],['c-25',310],['c-27',155],['c-28',820],['c-31',283],['c-32',164],['c-33',202],['c-34',209],['c-35',287],['c-36',249],['c-37',351],['c-38',711],['c-39',85]];
+/* Peso ottico uguale, non altezza uguale: l'altezza scala con
+   (larghezza/altezza)^-0.4 — un marchio quadrato sta a 44px, un wordmark
+   lungo scende a ~19px. Con l'altezza fissa i marchi quadrati sparivano
+   e i wordmark lunghi urlavano.                                        */
+const misuraLogo = (wNat) => {
+  const r = wNat / 120;
+  let h = 44 * Math.pow(r, -0.4), w = h * r;
+  if (w > 168) { w = 168; h = w / r; }
+  return [Math.round(w), Math.round(h)];
+};
 
 /* ── I NUMERI ─────────────────────────────────────────────────────────────
    ⚠ RICONCILIAZIONE BLOCCANTE. Oggi sul sito e sui canali convivono
@@ -164,36 +178,82 @@ const $  = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 
 
+/* La scheda è un GRAFICO A UNITÀ: un quadrato del marchio = 100.000 € di
+   fatturato annuo. Due torri, prima e dopo, che crescono dal basso come la
+   scalinata. Rappresenta i due soli dati dichiarati: nessun valore
+   intermedio inventato fra la partenza e l'arrivo.
+   La fotografia di sfondo è uscita: le quattro mani ora sono i quattro
+   reparti di "Cosa facciamo", dove significano qualcosa.             */
+const torre = (v, cls) => {
+  const n = Math.round(v * 10);
+  return `<span class="torre ${cls}" style="--n:${n}">${'<i></i>'.repeat(n)}</span>`;
+};
+const logoCliente = (id, cls) => {
+  const L = LOGHI.find(x => x[0] === id);
+  const [w, h] = L ? misuraLogo(L[1]) : [120, 30];
+  return `<img class="${cls}" src="/assets/clients-white/${id}.png" alt="" width="${w}" height="${h}" loading="lazy" decoding="async">`;
+};
 const scheda = (p) => el('article', 'scheda', `
-  <div class="scheda__bg"><img src="/assets/webp/${p.foto}.webp" alt="" width="533" height="800" loading="lazy"></div>
-  <img class="scheda__logo" src="/assets/clients-white/${p.logo}.png" alt="" loading="lazy">
-  <p class="t-micro scheda__cart"><span>${p.settore} · ${p.geo}</span></p>
+  <div class="scheda__testa">
+    ${logoCliente(p.logo, 'scheda__logo')}
+    <p class="scheda__cart">${p.settore} · ${p.geo}</p>
+  </div>
+  <div class="scheda__grafico" aria-hidden="true">
+    <span class="scheda__col">${torre(p.da, 'torre--prima')}<span class="scheda__v">${fmt1.format(p.da)}</span></span>
+    <span class="scheda__col">${torre(p.a, 'torre--dopo')}<span class="scheda__v">${fmt1.format(p.a)}</span></span>
+  </div>
   <p class="scheda__num">da ${fmt1.format(p.da)} a ${fmt1.format(p.a)} <span class="t-unita">M€</span></p>
-  <p class="t-micro" style="color:var(--c-t2)">Fatturato in ${p.mesi} mesi</p>
-  <span class="scheda__extra"><span class="t-micro" style="display:block;padding-top:6px">${p.extra}</span></span>
-  <p class="t-micro scheda__fonte">Fonte: CRM cliente · agg. 08.2026 · con liberatoria</p>`);
+  <p class="scheda__mesi">Fatturato in ${p.mesi} mesi</p>
+  <span class="scheda__extra"><span>${p.extra}</span></span>
+  <p class="scheda__fonte">Fonte: CRM cliente · agg. 08.2026 · con liberatoria</p>`);
 
-const lente = (x, i) => {
-  const n = el('article', 'lente lente--' + x.tinta);
+/* ── IL REGISTRO DEI NUMERI ───────────────────────────────────────────────
+   Una VOCE di registro, non una card: numero, etichetta, istogramma che
+   rappresenta la quantità, fonte. Il CSS (.registro) le dispone in modo
+   asimmetrico — la prima a tutta altezza, le altre due in colonna.   */
+const voce = (x, i) => {
+  const n = el('article', 'voce voce--' + x.tinta);
   n.style.setProperty('--i', i);
   const barre = Array.from({ length: x.barre }, (_, k) =>
-    `<i style="--b:${k};--h:${38 + Math.round(62 * (k + 1) / x.barre)}%"></i>`).join('');
+    `<i style="--b:${k};--h:${30 + Math.round(70 * (k + 1) / x.barre)}%"></i>`).join('');
   n.innerHTML = `
-    <div class="lente__alone" aria-hidden="true"></div>
-    <div class="lente__in">
-      <p class="lente__su">${x.su}</p>
-      <p class="lente__num num">${fmt.format(x.v)}${x.u ? `<span class="t-unita">${x.u}</span>` : ''}</p>
-      <p class="lente__lab">${x.lab}</p>
-      <div class="lente__isto" aria-hidden="true">${barre}</div>
-      <p class="lente__fonte">${x.fonte}${x.x10 ? ' · una barra = 60' : ''}</p>
-    </div>`;
+    <p class="voce__su">${x.su}</p>
+    <p class="voce__num num">${fmt.format(x.v)}${x.u ? `<span class="t-unita">${x.u}</span>` : ''}</p>
+    <p class="voce__lab">${x.lab}</p>
+    <div class="voce__isto" aria-hidden="true">${barre}</div>
+    <p class="voce__fonte">${x.fonte}${x.x10 ? ' · una barra = 60' : ''}</p>`;
   return n;
 };
 
-const tile = (b, i) => {
-  const n = el('article', 'card tile rise');
+/* ── COSA FACCIAMO ────────────────────────────────────────────────────────
+   I quattro reparti (le prime quattro voci del bento) prendono le quattro
+   fotografie del brand, una per reparto: il megafono è la pubblicità, la
+   penna è il copy a risposta diretta, il contratto è l'assunzione, il
+   tocco è la formazione. Gli altri otto servizi diventano un indice
+   tipografico: due livelli di gerarchia invece di dodici card uguali.  */
+const FOTO_REP = {
+  target:  ['hand-bw', 533],
+  imbuto:  ['hand-pen', 533],
+  persone: ['hand-contract', 603],
+  salita:  ['hand-graduation', 603],
+};
+const pannello = (b, i) => {
+  const [f, w] = FOTO_REP[b.i];
+  const n = el('article', 'pannello');
+  n.style.setProperty('--i', i);
+  n.innerHTML = `
+    <div class="pannello__foto"><img src="/assets/webp/${f}.webp" alt="" width="${w}" height="800" loading="lazy" decoding="async"></div>
+    <div class="pannello__txt">
+      <span class="pannello__n" aria-hidden="true">0${i + 1}</span>
+      <h3 class="pannello__tit">${b.t}</h3>
+      <p class="pannello__desc">${b.d}</p>
+    </div>`;
+  return n;
+};
+const servizio = (b, i) => {
+  const n = el('li', 'servizio');
   n.style.setProperty('--i', i % 4);
-  n.innerHTML = `<span class="icoq">${ICO[b.i]}</span><h3 class="t-t2">${b.t}</h3><p class="t-piccolo">${b.d}</p>`;
+  n.innerHTML = `<span class="servizio__ico">${ICO[b.i]}</span><h3 class="servizio__tit">${b.t}</h3><p class="servizio__desc">${b.d}</p>`;
   return n;
 };
 
@@ -207,19 +267,24 @@ const REP_ICO = { 1: 'target', 2: 'imbuto', 3: 'persone', 4: 'salita' };
 const reparto = (r) => {
   const n = el('article', 'reparto');
   n.dataset.rep = r.i;
+  n.style.setProperty('--k', r.i - 1);
   n.innerHTML = `
     <span class="reparto__n" aria-hidden="true">0${r.i}</span>
     <span class="icoq">${ICO[REP_ICO[r.i]]}</span>
     <h3 class="t-t2">${r.nome}</h3>
-    <p class="t-piccolo" style="color:var(--c-t3)">${r.claim}</p>
+    <p class="t-piccolo reparto__claim">${r.claim}</p>
     <p class="t-piccolo reparto__out">${r.out}</p>`;
   return n;
 };
 
+/* Il passaggio di consegna è un VARCO sul binario: la cosa che passa sopra,
+   tempo e strumento sotto. Il varco si accende quando il pacchetto lo
+   attraversa (motion.js / CSS).                                       */
 const handoff = (h, i) => {
   const n = el('p', 'handoff');
   n.dataset.ho = i + 1;
-  n.innerHTML = `<span class="q q--8 q--ar" aria-hidden="true"></span> ${h.cosa} → ${h.sla} · ${h.tool}`;
+  n.style.setProperty('--k', i);
+  n.innerHTML = `<span class="handoff__cosa">${h.cosa}</span><span class="handoff__det">${h.sla} · ${h.tool}</span>`;
   return n;
 };
 
@@ -350,15 +415,26 @@ document.addEventListener('DOMContentLoaded', () => {
     PROVE.forEach(p => { const c = scheda(p); c.setAttribute('aria-hidden', 'true'); pista.append(c); });
   }
 
-  /* Marquee loghi: contenuto duplicato, il keyframe trasla del 50%. */
+  /* Marquee loghi: contenuto duplicato, il keyframe trasla del 50%. Ogni
+     logo nasce con le sue dimensioni: la pista ha la lunghezza finale
+     prima che arrivi un solo byte d'immagine.                         */
   const lp = $('#loghi-clienti .loghi__pista');
   if (lp) {
-    const uno = LOGHI.map(f => `<img src="/assets/clients-white/${f}.png" alt="" loading="lazy">`).join('');
-    lp.innerHTML = uno + uno;
+    const uno = LOGHI.map(([f]) => logoCliente(f, 'logo')).join('');
+    lp.innerHTML = uno + uno.replaceAll('<img ', '<img aria-hidden="true" ');
   }
 
-  $('#numeri-grid')?.append(...NUMERI.map(lente));
-  $('#bento')?.append(...BENTO.map(tile));
+  $('#numeri-grid')?.append(...NUMERI.map(voce));
+
+  const bento = $('#bento');
+  if (bento) {
+    bento.classList.add('bento--reparti');
+    const quattro = el('div', 'reparti4');
+    quattro.append(...BENTO.slice(0, 4).map(pannello));
+    const otto = el('ul', 'servizi');
+    otto.append(...BENTO.slice(4).map(servizio));
+    bento.append(quattro, otto);
+  }
   $('#pista')?.append(...REPARTI.map(reparto));
   $('#handoff-riga')?.append(...HANDOFF.map(handoff));
   $('#volti-grid')?.append(...VOLTI.map(volto));

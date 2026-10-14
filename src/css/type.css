@@ -66,10 +66,11 @@
 .t-muro {
   font-family: var(--f-display);
   font-weight: 700;
-  /* La misura è vincolata: tre righe indentate di 0/3/6ch devono entrare
-     nel contenitore da 1280px senza tagli. 9.1vw è il massimo che regge. */
-  font-size: clamp(38px, 9.1vw, 128px);
-  line-height: .96;
+  /* Centrato (decisione cliente): ogni riga può occupare tutta la misura.
+     FATTURARE a 700 con -.04em è largo ~5,6em, quindi 15vw riempie il
+     telefono da bordo a bordo e 200px riempie il contenitore desktop. */
+  font-size: clamp(50px, 15.4vw, 200px);
+  line-height: .9;
   letter-spacing: -.040em;
   text-transform: uppercase;
   color: var(--c-t1);

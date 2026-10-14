@@ -12,8 +12,8 @@
    Bento, video, risorse, comandamenti, sedi, filtro, contro-esempio.
    Lo stagger si fa spostando animation-range-start, perché sulle timeline
    scroll-driven animation-delay viene IGNORATO.                        */
-.bento > *, .video > *, .risorse > *, .comand > *,
-.dove__info > *, .filtro > *, .qualita > *, .rottura > * {
+.bento:not(.bento--reparti) > *, .reparti4 > *, .servizi > *, .video > *, .risorse > *,
+.indice > *, .comand > *, .dove__info > *, .filtro > *, .qualita > *, .conto > * {
   animation: sale-griglia var(--t-reveal) var(--ease-salita) both;
   animation-timeline: view();
   animation-range-end: cover 40%;
@@ -25,21 +25,26 @@
 
 /* Quattro gradini ciclici: una griglia da dodici non deve avere dodici
    ritardi diversi, o l'ultimo tile entra troppo tardi.                */
-.bento > :nth-child(4n+1), .video > :nth-child(4n+1), .risorse > :nth-child(4n+1),
-.comand > :nth-child(4n+1), .rottura > :nth-child(4n+1) { animation-range-start: entry 10%; }
-.bento > :nth-child(4n+2), .video > :nth-child(4n+2), .risorse > :nth-child(4n+2),
-.comand > :nth-child(4n+2), .rottura > :nth-child(4n+2) { animation-range-start: entry 14%; }
-.bento > :nth-child(4n+3), .video > :nth-child(4n+3), .risorse > :nth-child(4n+3),
-.comand > :nth-child(4n+3), .rottura > :nth-child(4n+3) { animation-range-start: entry 18%; }
-.bento > :nth-child(4n+4), .video > :nth-child(4n+4), .risorse > :nth-child(4n+4),
-.comand > :nth-child(4n+4), .rottura > :nth-child(4n+4) { animation-range-start: entry 22%; }
+:is(.bento, .reparti4, .servizi, .video, .risorse, .comand, .conto, .indice) > :nth-child(4n+1) { animation-range-start: entry 10%; }
+:is(.bento, .reparti4, .servizi, .video, .risorse, .comand, .conto, .indice) > :nth-child(4n+2) { animation-range-start: entry 14%; }
+:is(.bento, .reparti4, .servizi, .video, .risorse, .comand, .conto, .indice) > :nth-child(4n+3) { animation-range-start: entry 18%; }
+:is(.bento, .reparti4, .servizi, .video, .risorse, .comand, .conto, .indice) > :nth-child(4n+4) { animation-range-start: entry 22%; }
 .dove__info > :nth-child(1), .filtro > :nth-child(1), .qualita > :nth-child(1) { animation-range-start: entry 10%; }
 .dove__info > :nth-child(2), .filtro > :nth-child(2), .qualita > :nth-child(2) { animation-range-start: entry 15%; }
 .dove__info > :nth-child(3) { animation-range-start: entry 20%; }
 
+/* I pannelli dei reparti non scivolano: SALGONO a gradini, scoperti da una
+   maschera che si apre dal basso — il gesto della scalinata applicato
+   alla fotografia. clip-path su quattro elementi, non su una pagina. */
+.reparti4 > * { animation-name: sale-pannello; }
+@keyframes sale-pannello {
+  from { opacity: 0; translate: 0 48px; clip-path: inset(18% 0 0 0 round var(--r-card)); }
+  to   { opacity: 1; translate: 0 0;    clip-path: inset(0 0 0 0 round var(--r-card)); }
+}
+
 @supports not (animation-timeline: view()) {
-  .bento > *, .video > *, .risorse > *, .comand > *,
-  .dove__info > *, .filtro > *, .qualita > *, .rottura > * { animation: none; }
+  .bento > *, .reparti4 > *, .servizi > *, .video > *, .risorse > *, .indice > *, .comand > *,
+  .dove__info > *, .filtro > *, .qualita > *, .conto > * { animation: none; }
 }
 
 /* ── LA LUCE CHE SEGUE IL CURSORE SULLE SUPERFICI ─────────────────────────

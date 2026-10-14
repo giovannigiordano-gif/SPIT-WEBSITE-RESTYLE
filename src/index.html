@@ -78,18 +78,46 @@
 <div class="avanza" aria-hidden="true"></div>
 
 <main id="main">
-<!-- ══ HERO ══════════════════════════════════════════════════════════════
-     Centrato, con l'alone radiale che scende dall'alto: la firma visiva del
-     riferimento. Una sola promessa che NEGA l'alternativa che il prospect
-     ha già in testa — comprare contatti, o mettere insieme quattro
-     fornitori. L'H1 è l'elemento LCP: opaco al primo frame, mai gated da JS. -->
-<section class="hero" id="hero">
+<!-- ══ HERO · da contatti a reparto ══════════════════════════════════════
+     I quadrati sparsi sono i CONTATTI che la frase rifiuta di vendere; allo
+     scroll convergono e si montano nella scalinata del marchio, il reparto
+     che fattura. Su desktop con WebGL la scena è 3D (motion.js carica
+     scena3d.js); qui sotto c'è la versione DOM, che è anche il fallback
+     per mobile, low-power e reduced-motion.
+     L'H1 è l'elemento LCP: opaco al primo frame, mai gated da JS. -->
+<section class="hero" id="hero" data-atmo="nero">
+  <div class="hero__scena" id="hero-scena" aria-hidden="true">
+    <div class="hero__campo">
+      <i style="--x:7%;--y:20%;--s:14px;--t:9s"></i>
+      <i style="--x:13%;--y:47%;--s:9px;--t:11s"></i>
+      <i class="ar" style="--x:5%;--y:71%;--s:18px;--t:13s"></i>
+      <i style="--x:18%;--y:84%;--s:7px;--t:10s"></i>
+      <i style="--x:23%;--y:29%;--s:6px;--t:12s"></i>
+      <i style="--x:91%;--y:17%;--s:12px;--t:10s"></i>
+      <i class="ar" style="--x:85%;--y:41%;--s:8px;--t:9s"></i>
+      <i style="--x:95%;--y:63%;--s:16px;--t:14s"></i>
+      <i style="--x:80%;--y:79%;--s:10px;--t:11s"></i>
+      <i style="--x:75%;--y:25%;--s:6px;--t:13s"></i>
+      <i style="--x:35%;--y:8%;--s:6px;--t:12s"></i>
+      <i style="--x:64%;--y:11%;--s:9px;--t:10s"></i>
+      <i style="--x:29%;--y:93%;--s:8px;--t:9s"></i>
+      <i class="ar" style="--x:71%;--y:91%;--s:12px;--t:12s"></i>
+    </div>
+    <svg class="hero__mark" viewBox="0 0 60 100" fill="none">
+      <rect style="--i:4" x="29.4" y="85.8" width="14.2" height="14.2" rx="3.1"/>
+      <rect style="--i:3" x="40.6" y="72.6" width="17.4" height="17.4" rx="3.8"/>
+      <rect style="--i:2" x="21.4" y="53.8" width="21.0" height="21.0" rx="4.6"/>
+      <rect style="--i:1" x="0"    y="30.4" width="25.2" height="25.2" rx="5.5"/>
+      <rect style="--i:0" x="23.6" y="0"    width="30.4" height="30.4" rx="6.7"/>
+    </svg>
+  </div>
+
   <div class="wrap wrap--piena hero__in">
     <p class="pill-eyebrow apri-1">Agenzia 4 in 1 · dal 2020 · Milano</p>
 
     <h1 class="t-hero">
-      <span class="mask"><span data-riga="0">Non ti vendiamo contatti.</span></span>
-      <span class="mask"><span data-riga="1">Ti consegniamo il reparto che <span class="ar">fattura</span>.</span></span>
+      <span class="mask hero__attacco"><span data-riga="0">Non ti vendiamo contatti.</span></span>
+      <span class="hero__colpo" data-riga="1" data-split><span class="w" style="--w:0"><span>Ti</span></span> <span class="w" style="--w:1"><span>consegniamo</span></span> <span class="w" style="--w:2"><span>il</span></span> <span class="w" style="--w:3"><span>reparto</span></span> <span class="w" style="--w:4"><span>che</span></span> <span class="w" style="--w:5"><span><span class="ar">fattura</span>.</span></span></span>
     </h1>
 
     <p class="t-deck apri-2">
@@ -101,34 +129,18 @@
       <a class="cta cta--out" href="/metodo.html">Guarda come funziona il 4 in 1<svg class="freccia" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12h14.5M13.5 6.5 19 12l-5.5 5.5"/></svg></a>
     </div>
 
-    <!-- Sotto-label: è la sola cosa che trasforma «Candida la tua azienda»
-         da posa in serietà. Il criterio arriva PRIMA del CTA, non dopo. -->
+    <!-- Il criterio arriva PRIMA del CTA, non dopo: è la sola cosa che
+         trasforma «Candida la tua azienda» da posa in serietà. -->
     <p class="t-micro hero__sotto apri-3">Fatturato 1–5 M€ · No start-up · Risposta in 48 ore lavorative</p>
   </div>
-
-  <!-- La fotografia migliore del brand, e finora non era in home: un pugno
-       che stringe le banconote. Non è un ornamento — è la headline resa
-       letterale, e nessun competitor ha questo scatto.
-       Sale dal bordo inferiore della sezione, scoperta dalla maschera a
-       scalinata: il motivo del marchio applicato all'asset del marchio.
-       Tagliata dal bordo, così il braccio sembra reggere la pagina. -->
-  <figure class="hero__pugno">
-    <div class="scalinata scalinata--pugno">
-      <span style="--i:0"><img src="/assets/webp/extra-2.webp" alt="Un pugno stringe una mazzetta di banconote" width="478" height="800" fetchpriority="low"></span>
-      <span style="--i:1"><img src="/assets/webp/extra-2.webp" alt="" aria-hidden="true" width="478" height="800"></span>
-      <span style="--i:2"><img src="/assets/webp/extra-2.webp" alt="" aria-hidden="true" width="478" height="800"></span>
-      <span style="--i:3"><img src="/assets/webp/extra-2.webp" alt="" aria-hidden="true" width="478" height="800"></span>
-    </div>
-  </figure>
 </section>
 
 <!-- ══ NASTRO DELLE PROVE ════════════════════════════════════════════════
-     Sfonda il fondo dell'hero, come nel riferimento: a schermo pieno i
-     primi 200px delle card sono sopra la piega, quindi lo scroll parte per
-     curiosità e non per dovere. Ogni card porta settore, provincia,
-     finestra temporale, fonte e liberatoria. -->
+     Ogni scheda è un GRAFICO A UNITÀ: un quadrato del marchio = 100.000 €
+     di fatturato annuo, prima e dopo. Rappresenta solo i due dati
+     dichiarati, senza inventare valori intermedi. -->
 <section class="nastro sf sf--brace" id="prove" aria-labelledby="prove-h">
-  <div class="wrap wrap--piena" style="display:flex;align-items:end;justify-content:space-between;gap:var(--s-4);margin-bottom:var(--s-5)">
+  <div class="wrap wrap--piena nastro__testa">
     <div>
       <p class="t-eyebrow">I numeri dei clienti, non le promesse</p>
       <h2 class="sr" id="prove-h">Risultati dei clienti</h2>
@@ -140,56 +152,41 @@
     <div class="nastro__pista" id="nastro-pista"><!-- /js/dati.js --></div>
   </div>
 
-  <div class="wrap wrap--piena" style="margin-top:var(--s-5)">
+  <div class="wrap wrap--piena nastro__piede">
     <!-- Una riga che disinnesca «avete scelto i migliori» meglio di tre
-         testimonianze.                                                    -->
+         testimonianze. -->
     <p class="t-micro">6 schede su 150 clienti: le altre non hanno liberatoria, non un risultato peggiore.</p>
+    <p class="t-micro nastro__legenda"><span class="q q--8 q--ar" aria-hidden="true"></span> = 100.000 € di fatturato annuo</p>
   </div>
 </section>
 
-<!-- ══ STATEMENT ═════════════════════════════════════════════════════════
-     L'identità in una frase, e l'UNICO elemento scrubbato della pagina.
-     Un evento speciale resta speciale perché non ha concorrenti. -->
-<!-- ══ FASCIA PAYOFF IN MOVIMENTO ════════════════════════════════════════
-     Le parole del brand usate come TEXTURE, a piena larghezza. Una in
-     pieno, una in contorno, alternate: il contorno è ciò che impedisce
-     alla fascia di diventare un muro arancione.
-     Costa una animazione CSS e zero JS. Si ferma su hover e in
-     reduced-motion, e il testo è aria-hidden perché è decorativo — il
-     payoff vero è il titolo in fondo alla pagina. -->
-<section class="fregio" aria-hidden="true">
-  <div class="fregio__pista">
-    <span class="fregio__g">Fatturare</span><span class="fregio__p">·</span>
-    <span class="fregio__g fregio__g--out">Fatturare</span><span class="fregio__p">·</span>
-    <span class="fregio__g">Fatturare</span><span class="fregio__p">·</span>
-    <span class="fregio__g fregio__g--out">Fatturare</span><span class="fregio__p">·</span>
-    <span class="fregio__g">Fatturare</span><span class="fregio__p">·</span>
-    <span class="fregio__g fregio__g--out">Fatturare</span><span class="fregio__p">·</span>
+<!-- ══ FREGIO · il payoff come materia ═══════════════════════════════════
+     Due righe che scorrono in versi opposti SOLO quando scorri tu: non è un
+     marquee infinito, è lo scroll reso visibile. Decorativo (aria-hidden):
+     il payoff vero è il muro in fondo alla pagina. -->
+<section class="fregio" data-atmo="brace" aria-hidden="true">
+  <div class="fregio__riga fregio__riga--a">
+    <span>Fatturare</span><i></i><span class="out">Fatturare</span><i></i><span>Fatturare</span><i></i><span class="out">Fatturare</span><i></i><span>Fatturare</span><i></i><span class="out">Fatturare</span><i></i>
+  </div>
+  <div class="fregio__riga fregio__riga--b">
+    <span class="out">Fatturare</span><i></i><span>Fatturare</span><i></i><span class="out">Fatturare</span><i></i><span>Fatturare</span><i></i><span class="out">Fatturare</span><i></i><span>Fatturare</span><i></i>
   </div>
 </section>
 
 <!-- ══ IL TETTO ══════════════════════════════════════════════════════════
-     La frase non viene raccontata: viene MOSTRATA. I quattro reparti
-     entrano sparsi, convergono sotto una linea che si disegna — «sotto lo
-     stesso tetto» reso letterale — e si risolvono in un numero solo.
-     Legge anche fermo: a motion spento resta una riga di quattro reparti,
-     un tetto e il payoff. È la sesta legge del sistema. -->
+     «Sotto lo stesso tetto» reso letterale: i quattro reparti entrano
+     sparsi, la trave si disegna, i tiranti li agganciano, e il risultato è
+     un numero solo. Legge anche fermo: a motion spento è già composta. -->
 <section class="tetto sf sf--alba" id="statement">
   <div class="wrap wrap--ed tetto__in">
-    <!-- Non un occhiello: un TITOLO. E il nome non è scritto, è il logo —
-         l'alt dell'immagine restituisce «Sales Process», quindi il titolo
-         si legge per intero anche a schermo letto. -->
+    <!-- Non un occhiello: un TITOLO, e il nome è il logo. L'alt restituisce
+         «Sales Process», quindi il titolo si legge per intero. -->
     <h2 class="tetto__titolo">
       <span>Siamo</span>
       <img src="/assets/brand/logo.webp" alt="Sales Process" width="4118" height="846">
     </h2>
 
     <div class="tetto__scena" id="tetto-scena">
-
-      <!-- IL TETTO sta SOPRA i reparti, altrimenti la frase non torna.
-           La linea si disegna da sinistra, i quattro tiranti scendono a
-           collegare ogni reparto: «sotto lo stesso tetto» diventa una
-           cosa che si vede, non che si legge. -->
       <div class="tetto__trave" aria-hidden="true">
         <div class="tetto__linea" id="tetto-linea"></div>
         <i class="tetto__tir" style="--k:0"></i>
@@ -199,10 +196,10 @@
       </div>
 
       <ul class="tetto__reparti" id="tetto-reparti">
-        <li><span>Pubblicità</span></li>
-        <li><span>Marketing</span></li>
-        <li><span>Reclutamento</span></li>
-        <li><span>Formazione</span></li>
+        <li><span class="tetto__ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r=".4" stroke-width="2.4"/></svg></span><span>Pubblicità</span></li>
+        <li><span class="tetto__ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 5h17l-6.6 7.9V19l-3.8-1.9v-4.2z"/></svg></span><span>Marketing</span></li>
+        <li><span class="tetto__ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M15 20v-1.6a3.6 3.6 0 0 0-3.6-3.6H7.1A3.6 3.6 0 0 0 3.5 18.4V20"/><circle cx="9.25" cy="8" r="3.5"/><path d="M17.5 8.5h4M19.5 6.5v4"/></svg></span><span>Reclutamento</span></li>
+        <li><span class="tetto__ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20v-4M9.3 20v-7.5M14.7 20v-11M20 20v-14.5"/></svg></span><span>Formazione</span></li>
       </ul>
 
       <p class="tetto__payoff" id="tetto-payoff">
@@ -212,51 +209,52 @@
   </div>
 </section>
 
-<!-- ══ LOGHI CLIENTI ═════════════════════════════════════════════════════ -->
-<section class="sez sez--fitta sf sf--radente" aria-labelledby="cli-h">
+<!-- ══ LOGHI CLIENTI · l'unico marquee della pagina ══════════════════════ -->
+<section class="sez sez--fitta sf sf--radente loghi-sez" aria-labelledby="cli-h">
   <div class="wrap wrap--piena">
-    <p class="t-eyebrow centro" style="margin-bottom:var(--s-6)">Alcune delle aziende che abbiamo fatto crescere</p>
+    <p class="t-eyebrow centro">Alcune delle aziende che abbiamo fatto crescere</p>
     <h2 class="sr" id="cli-h">Clienti</h2>
   </div>
   <div class="loghi" id="loghi-clienti"><div class="loghi__pista"><!-- /js/dati.js --></div></div>
 </section>
 
-<!-- ══ I NUMERI ══════════════════════════════════════════════════════════
-     Prova di scala, ma sempre con la data e la fonte, e con un nome
-     proprio nella stessa schermata: davanti a un numero grande e anonimo
-     l'imprenditore italiano pensa «gonfiato».
+<!-- ══ I NUMERI · il registro ════════════════════════════════════════════
+     Non tre card uguali con il numero gigante: un registro asimmetrico, il
+     primo numero a tutta altezza e gli altri due in colonna, separati da
+     filetti. L'istogramma resta perché RAPPRESENTA la quantità.
      ZERO count-up: il numero appare già finito, CLS 0 per costruzione. -->
 <section class="sez sf sf--notte" id="numeri">
-  <div class="wrap wrap--grid">
-    <div class="testa testa--c">
+  <div class="wrap wrap--piena">
+    <div class="testa">
       <p class="t-eyebrow">Dal 2020, senza arrotondare</p>
-      <h2 class="t-d2">I numeri, con la loro <span class="ar">data</span> e la loro fonte.</h2>
+      <h2 class="t-d2" data-split><span class="w" style="--w:0"><span>I</span></span> <span class="w" style="--w:1"><span>numeri,</span></span> <span class="w" style="--w:2"><span>con</span></span> <span class="w" style="--w:3"><span>la</span></span> <span class="w" style="--w:4"><span>loro</span></span> <span class="w" style="--w:5"><span><span class="ar">data</span></span></span> <span class="w" style="--w:6"><span>e</span></span> <span class="w" style="--w:7"><span>la</span></span> <span class="w" style="--w:8"><span>loro</span></span> <span class="w" style="--w:9"><span>fonte.</span></span></h2>
     </div>
-    <div class="numeri" id="numeri-grid"><!-- /js/dati.js --></div>
-    <div style="margin-top:var(--s-7);display:flex;flex-wrap:wrap;gap:var(--s-4) var(--s-6);align-items:center;justify-content:center">
-      <p class="t-piccolo" style="color:var(--c-t3)">L'ultimo entrato: <strong style="color:var(--c-t1);font-weight:500">Evergreen Life</strong>, impiantistica, ingresso a 1,4 M€.</p>
+    <div class="registro" id="numeri-grid"><!-- /js/dati.js --></div>
+    <div class="registro__piede">
+      <p class="t-piccolo">L'ultimo entrato: <strong>Evergreen Life</strong>, impiantistica, ingresso a 1,4 M€.</p>
       <!-- La granularità batte la grandezza: 33 nomi battono 2.300 clienti
-           senza nomi.                                                      -->
+           senza nomi. -->
       <a class="cta cta--testo link-wipe t-piccolo" href="/risultati.html#settori">Vedi i 33 settori, uno per uno<svg class="freccia" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12h14.5M13.5 6.5 19 12l-5.5 5.5"/></svg></a>
     </div>
   </div>
 </section>
 
-<!-- ══ COSA FACCIAMO · il bento ══════════════════════════════════════════
-     Il dispositivo di «WHAT WE DO / Relentlessly»: caps bold + serif
-     italic. Griglia uniforme, zero varianza di span. -->
+<!-- ══ COSA FACCIAMO ═════════════════════════════════════════════════════
+     I quattro reparti con le quattro fotografie del brand (megafono, penna,
+     contratto, tocco), poi gli otto servizi trasversali in un indice
+     tipografico: due livelli di gerarchia invece di dodici card uguali. -->
 <section class="sez sf sf--pozzo" id="cosa">
   <div class="wrap wrap--piena">
     <div class="testa">
       <p class="t-eyebrow">Cosa facciamo</p>
       <div class="duevoci">
-        <h2 class="t-caps">Quattro reparti</h2>
-        <p class="t-voce">sotto lo stesso tetto</p>
+        <h2 class="t-caps" data-split><span class="w" style="--w:0"><span>Quattro</span></span> <span class="w" style="--w:1"><span>reparti</span></span></h2>
+        <p class="t-voce" data-split><span class="w" style="--w:0"><span>sotto</span></span> <span class="w" style="--w:1"><span>lo</span></span> <span class="w" style="--w:2"><span>stesso</span></span> <span class="w" style="--w:3"><span>tetto</span></span></p>
       </div>
       <p class="t-deck">Non ti mandiamo contatti da gestire. Costruiamo, assumiamo e formiamo il reparto vendita dentro la tua azienda — e restiamo attaccati al numero finale.</p>
     </div>
     <div class="bento" id="bento"><!-- /js/dati.js --></div>
-    <div class="cta-riga" style="margin-top:var(--s-7)">
+    <div class="cta-riga cosa__cta">
       <a class="cta cta--ar cta--luce" href="/candidatura.html">Candida la tua azienda</a>
       <a class="cta cta--out" href="/metodo.html">Il metodo, passaggio per passaggio<svg class="freccia" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12h14.5M13.5 6.5 19 12l-5.5 5.5"/></svg></a>
     </div>
@@ -264,12 +262,10 @@
 </section>
 
 <!-- ══ I CARTELLI ════════════════════════════════════════════════════════
-     Due asset del brand che in home non c'erano: i pugni che alzano i
-     cartelli PIÙ CLIENTI e PIÙ FATTURATO. Non sono illustrazioni: sono
-     le due sole cose che il cliente compra, dette dal brand stesso.
-     Fascia a piena larghezza su nero, l'unica rottura di ritmo fra il
-     bento e la scena del metodo. -->
-<section class="cartelli" id="cartelli">
+     I due pugni che alzano PIÙ CLIENTI e le banconote: le due sole cose che
+     il cliente compra, dette dal brand stesso. Salgono dal bordo a velocità
+     diverse dal testo: la profondità è parallasse vera, non un'ombra. -->
+<section class="cartelli" id="cartelli" data-atmo="nero">
   <div class="wrap wrap--piena cartelli__in">
     <figure class="cartelli__f cartelli__f--sx">
       <img src="/assets/webp/extra-1.webp" alt="Un pugno alza un cartello con la scritta Più clienti" width="478" height="800" loading="lazy">
@@ -277,9 +273,9 @@
 
     <div class="cartelli__txt">
       <p class="t-eyebrow">Quello che compri</p>
-      <h2 class="t-d2">Due numeri, non un <span class="ar">report</span>.</h2>
+      <h2 class="t-d2" data-split><span class="w" style="--w:0"><span>Due</span></span> <span class="w" style="--w:1"><span>numeri,</span></span> <span class="w" style="--w:2"><span>non</span></span> <span class="w" style="--w:3"><span>un</span></span> <span class="w" style="--w:4"><span><span class="ar">report</span>.</span></span></h2>
       <p class="t-deck">Tutto il resto — le impression, i clic, i lead, le attività svolte — è mezzo. Questi due sono il fine, e sono gli unici che ti diciamo ogni settimana.</p>
-      <div class="cta-riga">
+      <div class="cta-riga cta-riga--c">
         <a class="cta cta--out" href="/risultati.html">Guarda i numeri dei clienti<svg class="freccia" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12h14.5M13.5 6.5 19 12l-5.5 5.5"/></svg></a>
       </div>
     </div>
@@ -290,31 +286,21 @@
   </div>
 </section>
 
-<!-- ══ IL CONTRO-ESEMPIO ═════════════════════════════════════════════════
-     Il contenuto più persuasivo che abbiamo, e in home mancava: costruire
-     il problema PRIMA di vendere la soluzione. I connettori sono
-     DISEGNATI, non animati, così la fascia funziona come screenshot e a
-     motion spento. -->
 <!-- ══ IL CONTRO-ESEMPIO · infografica ═══════════════════════════════════
-     Il contenuto più persuasivo del sito, e prima era quattro riquadri con
-     un tratteggio in mezzo: descriveva il problema invece di mostrarlo.
-     Ora è un DIAGRAMMA: quattro fornitori in fila, tre pacchetti che
-     provano a passare e CADONO sotto la linea, e un pavimento che dice
-     cosa finisce lì. La frase «cadono per terra» diventa una cosa che si
-     vede.
-     Ogni frame funziona come screenshot: la caduta è lo stato di riposo,
-     l'animazione la ripercorre. Se il JS non arriva, l'infografica è già
-     nella sua forma finale. -->
+     Il problema costruito PRIMA della soluzione. Quattro fornitori in fila,
+     tre pacchetti che provano a passare e CADONO sotto la linea, un
+     pavimento che dice cosa finisce lì. La caduta è lo stato di riposo:
+     senza JS e a motion spento l'infografica è già nella forma finale. -->
 <section class="sez sf sf--fuoco" id="contro">
   <div class="wrap wrap--piena">
     <div class="testa">
       <p class="t-eyebrow">Prima di parlare del metodo</p>
-      <h2 class="t-d2">Quattro fornitori diversi non sono un reparto. Sono tre passaggi che <span class="ar">cadono per terra</span>.</h2>
+      <h2 class="t-d2" data-split><span class="w" style="--w:0"><span>Quattro</span></span> <span class="w" style="--w:1"><span>fornitori</span></span> <span class="w" style="--w:2"><span>diversi</span></span> <span class="w" style="--w:3"><span>non</span></span> <span class="w" style="--w:4"><span>sono</span></span> <span class="w" style="--w:5"><span>un</span></span> <span class="w" style="--w:6"><span>reparto.</span></span> <span class="w" style="--w:7"><span>Sono</span></span> <span class="w" style="--w:8"><span>tre</span></span> <span class="w" style="--w:9"><span>passaggi</span></span> <span class="w" style="--w:10"><span>che</span></span> <span class="w" style="--w:11"><span><span class="ar">cadono</span></span></span> <span class="w" style="--w:12"><span><span class="ar">per</span></span></span> <span class="w" style="--w:13"><span><span class="ar">terra</span>.</span></span></h2>
       <p class="t-deck">L'agenzia che compra la pubblicità non parla con chi scrive le mail. Chi scrive le mail non sa chi hai assunto. Chi hai assunto non l'ha formato nessuno.</p>
     </div>
 
-    <!-- Il diagramma. aria-hidden perché la stessa informazione è nella
-         tabella che segue, in forma leggibile da uno screen reader. -->
+    <!-- aria-hidden: la stessa informazione è nel conto qui sotto e nella
+         tabella della pagina Metodo, in forma leggibile. -->
     <div class="diag" id="diag" aria-hidden="true">
       <div class="diag__fila">
         <div class="diag__box"><span class="diag__n">01</span><span class="diag__nome">Agenzia ads</span><span class="diag__ruolo">compra il traffico</span></div>
@@ -323,32 +309,24 @@
         <div class="diag__box"><span class="diag__n">04</span><span class="diag__nome">Formatore</span><span class="diag__ruolo">viene a giornata</span></div>
       </div>
 
-      <!-- I tre varchi: il pacchetto parte, la traiettoria si interrompe. -->
       <div class="diag__varchi">
         <div class="varco" style="--v:0">
-          <svg class="varco__tra" viewBox="0 0 120 90" preserveAspectRatio="none">
-            <path d="M6 6 C 40 6, 52 34, 60 78" pathLength="1"/>
-          </svg>
+          <svg class="varco__tra" viewBox="0 0 120 90" preserveAspectRatio="none"><path d="M6 6 C 40 6, 52 34, 60 78" pathLength="1"/></svg>
           <i class="varco__pkg"></i>
           <span class="varco__et">Il contatto<br>non passa</span>
         </div>
         <div class="varco" style="--v:1">
-          <svg class="varco__tra" viewBox="0 0 120 90" preserveAspectRatio="none">
-            <path d="M6 6 C 40 6, 52 34, 60 78" pathLength="1"/>
-          </svg>
+          <svg class="varco__tra" viewBox="0 0 120 90" preserveAspectRatio="none"><path d="M6 6 C 40 6, 52 34, 60 78" pathLength="1"/></svg>
           <i class="varco__pkg"></i>
           <span class="varco__et">L'obiezione<br>non torna</span>
         </div>
         <div class="varco" style="--v:2">
-          <svg class="varco__tra" viewBox="0 0 120 90" preserveAspectRatio="none">
-            <path d="M6 6 C 40 6, 52 34, 60 78" pathLength="1"/>
-          </svg>
+          <svg class="varco__tra" viewBox="0 0 120 90" preserveAspectRatio="none"><path d="M6 6 C 40 6, 52 34, 60 78" pathLength="1"/></svg>
           <i class="varco__pkg"></i>
           <span class="varco__et">Il venditore<br>resta solo</span>
         </div>
       </div>
 
-      <!-- Il pavimento: quello che ci finisce sopra. -->
       <div class="diag__suolo">
         <span class="diag__suolo-et">Quello che finisce per terra</span>
         <div class="diag__detriti"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
@@ -362,30 +340,35 @@
       <div class="conto__c conto__c--rosso"><span class="conto__n">0</span><span class="conto__l">responsabili del fatturato</span><span class="conto__d">È il numero che nessuno dei quattro ha nel contratto. Rimane solo tuo.</span></div>
     </div>
 
-    <p class="t-piccolo" style="margin-top:var(--s-6);max-inline-size:70ch;color:var(--c-t2)">
-      E paghi <strong style="color:var(--c-t1);font-weight:500">quattro volte lo stesso contatto</strong>:
+    <p class="t-piccolo contro__chiusa">
+      E paghi <strong>quattro volte lo stesso contatto</strong>:
       una per portarlo, una per scaldarlo, una per assumere chi lo chiama, una per insegnargli a chiudere.
     </p>
   </div>
 </section>
 
-
-<!-- ══ LA MACCHINA ═══════════════════════════════════════════════════════
-     Il movimento È il concetto: sposta l'argomento dai quattro reparti ai
-     TRE PASSAGGI DI CONSEGNA, che è la cosa che nessun competitor italiano
-     sta dicendo. Ogni frame deve funzionare come screenshot statico. -->
+<!-- ══ LA MACCHINA · il rovescio del contro-esempio ══════════════════════
+     Lo stesso pacchetto che sopra cadeva, qui attraversa i quattro reparti
+     e i tre passaggi di consegna senza toccare terra, fino alla trattativa.
+     Su desktop la scena è pinnata e lo scroll muove il pacchetto; sotto i
+     1024px è una colonna e il pacchetto scende con lo scroll. -->
 <section class="sez sf sf--radente" id="metodo">
   <div class="wrap wrap--piena">
     <div class="testa">
       <p class="t-eyebrow">Il metodo 4 in 1</p>
-      <h2 class="t-d2">Il fatturato non si perde nei reparti. Si perde nei <span class="ar">passaggi</span> fra i reparti.</h2>
+      <h2 class="t-d2" data-split><span class="w" style="--w:0"><span>Il</span></span> <span class="w" style="--w:1"><span>fatturato</span></span> <span class="w" style="--w:2"><span>non</span></span> <span class="w" style="--w:3"><span>si</span></span> <span class="w" style="--w:4"><span>perde</span></span> <span class="w" style="--w:5"><span>nei</span></span> <span class="w" style="--w:6"><span>reparti.</span></span> <span class="w" style="--w:7"><span>Si</span></span> <span class="w" style="--w:8"><span>perde</span></span> <span class="w" style="--w:9"><span>nei</span></span> <span class="w" style="--w:10"><span><span class="ar">passaggi</span></span></span> <span class="w" style="--w:11"><span>fra</span></span> <span class="w" style="--w:12"><span>i</span></span> <span class="w" style="--w:13"><span>reparti.</span></span></h2>
     </div>
 
     <div class="macchina" id="macchina">
       <div class="macchina__pista" id="pista"><!-- /js/dati.js --></div>
+      <div class="binario" aria-hidden="true">
+        <div class="binario__filo"><i class="binario__luce"></i></div>
+        <i class="binario__varco" style="--k:0"></i><i class="binario__varco" style="--k:1"></i><i class="binario__varco" style="--k:2"></i>
+        <i class="binario__pkg"></i>
+      </div>
       <div class="handoff__riga" id="handoff-riga"><!-- /js/dati.js --></div>
-      <p class="t-piccolo" id="macchina-chiusa" style="max-inline-size:76ch">
-        <strong style="color:var(--c-t1);font-weight:500">La trattativa.</strong>
+      <p class="t-piccolo macchina__chiusa" id="macchina-chiusa">
+        <strong>La trattativa.</strong>
         Il contatto educato incontra il venditore formato. È l'unico punto in cui nasce il fatturato.
       </p>
     </div>
@@ -393,16 +376,15 @@
 </section>
 
 <!-- ══ IL TEAM, in anticipo ══════════════════════════════════════════════
-     Qui facciamo l'OPPOSTO del riferimento, che può essere un'entità senza
-     facce perché vende software-like. Noi vendiamo persone che entrano in
-     azienda, e il compratore italiano di PMI compra dalla faccia. -->
+     Noi vendiamo persone che entrano in azienda, e il compratore italiano
+     di PMI compra dalla faccia. -->
 <section class="sez squadra sf sf--pozzo" id="team">
   <div class="wrap wrap--piena">
-    <div class="testa squadra__testa">
-      <div>
+    <div class="squadra__testa">
+      <div class="testa">
         <p class="t-eyebrow">Il metodo ha una faccia</p>
-        <h2 class="t-d2" style="margin-top:var(--s-4)">Il reparto che ti consegniamo ha nomi e <span class="ar">cognomi</span>.</h2>
-        <p class="t-deck" style="margin-top:var(--s-4)">Dodici persone, quattro reparti, un ufficio in Via Marco D'Agrate 41 a Milano. Sul tuo processo lavorano queste.</p>
+        <h2 class="t-d2" data-split><span class="w" style="--w:0"><span>Il</span></span> <span class="w" style="--w:1"><span>reparto</span></span> <span class="w" style="--w:2"><span>che</span></span> <span class="w" style="--w:3"><span>ti</span></span> <span class="w" style="--w:4"><span>consegniamo</span></span> <span class="w" style="--w:5"><span>ha</span></span> <span class="w" style="--w:6"><span>nomi</span></span> <span class="w" style="--w:7"><span>e</span></span> <span class="w" style="--w:8"><span><span class="ar">cognomi</span>.</span></span></h2>
+        <p class="t-deck">Dodici persone, quattro reparti, un ufficio in Via Marco D'Agrate 41 a Milano. Sul tuo processo lavorano queste.</p>
       </div>
       <!-- I comandi sono reali: frecce, drag, e la pausa che SC 2.2.2
            richiede a livello A per il movimento automatico. -->
@@ -424,19 +406,16 @@
 </section>
 
 <!-- ══ TESTIMONIANZE VIDEO ═══════════════════════════════════════════════
-     Cinque video reali del cliente, con il nome giusto accanto a ciascuno.
-     A FACCIATA: il player entra solo al click, prima c'è una locandina da
-     30KB. Cinque iframe al caricamento costerebbero oltre un megabyte.
-     NOTA: sul sito attuale sotto ognuno di questi cinque nomi c'era lo
-     STESSO paragrafo segnaposto. Non l'abbiamo riportato: il video è la
-     testimonianza, una didascalia falsa la indebolisce. -->
+     Cinque video reali, a FACCIATA: il player entra solo al click. Il primo
+     è grande, gli altri lo seguono: una gerarchia, non una griglia 3×2.
+     Sotto ai nomi NON c'è il paragrafo segnaposto del sito attuale. -->
 <section class="sez sf sf--brace" id="testimonianze">
   <div class="wrap wrap--piena">
     <div class="testa">
       <p class="t-eyebrow">Le testimonianze</p>
       <div class="duevoci">
-        <h2 class="t-caps">Lo dicono loro</h2>
-        <p class="t-voce">non noi</p>
+        <h2 class="t-caps" data-split><span class="w" style="--w:0"><span>Lo</span></span> <span class="w" style="--w:1"><span>dicono</span></span> <span class="w" style="--w:2"><span>loro</span></span></h2>
+        <p class="t-voce" data-split><span class="w" style="--w:0"><span>non</span></span> <span class="w" style="--w:1"><span>noi</span></span></p>
       </div>
       <p class="t-deck">Cinque clienti che raccontano cosa è cambiato in azienda. Nessuno di questi video l'abbiamo scritto noi.</p>
     </div>
@@ -444,57 +423,51 @@
   </div>
 </section>
 
-<!-- ══ RISORSE ═══════════════════════════════════════════════════════════ -->
-<section class="sez sf sf--notte" id="risorse">
+<!-- ══ RISORSE · l'indice ════════════════════════════════════════════════
+     Tre righe d'indice, non tre card uguali: tipo a sinistra, titolo
+     grande, azione a destra. Tutta la riga è il bersaglio. -->
+<section class="sez sf sf--radente" id="risorse">
   <div class="wrap wrap--piena">
     <div class="testa">
       <p class="t-eyebrow">Risorse</p>
       <div class="duevoci">
-        <h2 class="t-caps">Quello che pubblichiamo</h2>
-        <p class="t-voce">ogni settimana</p>
+        <h2 class="t-caps" data-split><span class="w" style="--w:0"><span>Quello</span></span> <span class="w" style="--w:1"><span>che</span></span> <span class="w" style="--w:2"><span>pubblichiamo</span></span></h2>
+        <p class="t-voce" data-split><span class="w" style="--w:0"><span>ogni</span></span> <span class="w" style="--w:1"><span>settimana</span></span></p>
       </div>
     </div>
-    <div class="risorse">
-      <article class="card risorsa">
-        <p class="t-micro risorsa__data">Podcast · dal 2023</p>
-        <h3 class="t-t1">Fatturare Fatturare Fatturare</h3>
-        <p class="t-piccolo" style="color:var(--c-t3)">Come si costruisce un reparto vendita, raccontato con i numeri veri delle aziende che ci passano dentro.</p>
-        <a class="cta cta--testo link-wipe t-piccolo" style="margin-top:auto" href="/fatturare.html">Ascolta l'ultimo episodio<svg class="freccia" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12h14.5M13.5 6.5 19 12l-5.5 5.5"/></svg></a>
+    <div class="indice">
+      <article class="indice__riga">
+        <p class="indice__tipo">Podcast · dal 2023</p>
+        <h3 class="indice__tit">Fatturare Fatturare Fatturare</h3>
+        <p class="indice__desc">Come si costruisce un reparto vendita, raccontato con i numeri veri delle aziende che ci passano dentro.</p>
+        <a class="indice__cta" href="/fatturare.html">Ascolta l'ultimo episodio<svg class="freccia" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12h14.5M13.5 6.5 19 12l-5.5 5.5"/></svg></a>
       </article>
-      <article class="card risorsa">
-        <p class="t-micro risorsa__data">Evento · 14.10.2026 · Milano</p>
-        <h3 class="t-t1">Sales Process Day</h3>
-        <p class="t-piccolo" style="color:var(--c-t3)">Una giornata sui processi di vendita per titolari di PMI. Trenta posti in sala, rimborso immediato al desk se non ti è servito.</p>
-        <a class="cta cta--testo link-wipe t-piccolo" style="margin-top:auto" href="/eventi.html">Prendi uno dei 30 posti<svg class="freccia" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12h14.5M13.5 6.5 19 12l-5.5 5.5"/></svg></a>
+      <article class="indice__riga">
+        <p class="indice__tipo">Evento · 14.10.2026 · Milano</p>
+        <h3 class="indice__tit">Sales Process Day</h3>
+        <p class="indice__desc">Una giornata sui processi di vendita per titolari di PMI. Trenta posti in sala, rimborso immediato al desk se non ti è servito.</p>
+        <a class="indice__cta" href="/eventi.html">Prendi uno dei 30 posti<svg class="freccia" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12h14.5M13.5 6.5 19 12l-5.5 5.5"/></svg></a>
       </article>
-      <article class="card risorsa">
-        <p class="t-micro risorsa__data">Libri · due titoli</p>
-        <h3 class="t-t1">Il processo, per iscritto</h3>
-        <p class="t-piccolo" style="color:var(--c-t3)">Il metodo 4 in 1 spiegato per chi vuole capirlo prima di comprarlo. Si legge in una sera.</p>
-        <a class="cta cta--testo link-wipe t-piccolo" style="margin-top:auto" href="/fatturare.html#libri">Vai ai libri<svg class="freccia" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12h14.5M13.5 6.5 19 12l-5.5 5.5"/></svg></a>
+      <article class="indice__riga">
+        <p class="indice__tipo">Libri · due titoli</p>
+        <h3 class="indice__tit">Il processo, per iscritto</h3>
+        <p class="indice__desc">Il metodo 4 in 1 spiegato per chi vuole capirlo prima di comprarlo. Si legge in una sera.</p>
+        <a class="indice__cta" href="/fatturare.html#libri">Vai ai libri<svg class="freccia" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12h14.5M13.5 6.5 19 12l-5.5 5.5"/></svg></a>
       </article>
     </div>
   </div>
 </section>
 
-<!-- ══ FASCIA CHIARA · quello che puoi verificare ════════════════════════
-     La prova istituzionale, che in Italia pesa più di dieci testimonianze
-     auto-pubblicate — ed è il proof point che il riferimento non ha.
-     Arriva dopo migliaia di px di scuro: colpisce come un flash. -->
-
 <!-- ══ DOVE SIAMO ════════════════════════════════════════════════════════
-     La mappa è a FACCIATA: l'embed di Google scarica oltre un megabyte e
-     scrive cookie di profilazione al primo byte — prima del consenso, con
-     una cookie policy iubenda attiva, è un problema legale, non solo di
-     performance. Si carica al click, e chi non clicca ha comunque
-     l'indirizzo, gli orari e il link diretto.
-     Sul sito attuale l'embed è `q=salesprocess` a zoom 13: il pin è vago.
-     Qui la query è l'indirizzo esatto. -->
-<section class="sez dove sf sf--radente" id="dove">
+     La mappa è a FACCIATA: l'embed di Google scrive cookie di profilazione
+     al primo byte, e con una cookie policy iubenda attiva caricarlo senza
+     consenso è un problema legale. Si carica al click; chi non clicca ha
+     comunque indirizzo e link diretto. Query = indirizzo esatto. -->
+<section class="sez dove sf sf--brace" id="dove">
   <div class="wrap wrap--piena">
     <div class="testa">
       <p class="t-eyebrow">Dove siamo</p>
-      <h2 class="t-d2">Via Marco D'Agrate 41, Milano. <span class="ar">Quarto piano</span>.</h2>
+      <h2 class="t-d2" data-split><span class="w" style="--w:0"><span>Via</span></span> <span class="w" style="--w:1"><span>Marco</span></span> <span class="w" style="--w:2"><span>D'Agrate</span></span> <span class="w" style="--w:3"><span>41,</span></span> <span class="w" style="--w:4"><span>Milano.</span></span> <span class="w" style="--w:5"><span><span class="ar">Quarto</span></span></span> <span class="w" style="--w:6"><span><span class="ar">piano</span>.</span></span></h2>
       <p class="t-deck">Il caffè lo facciamo noi. A dieci minuti dalla tangenziale Est, parcheggio in strada.</p>
     </div>
 
@@ -542,20 +515,17 @@
 </section>
 
 <!-- ══ IL MURO · FATTURARE ×3 ════════════════════════════════════════════
-     Il payoff arriva alla FINE come titolo di coda, non al 5% della pagina
-     come decorazione — così i primi schermi restano alla prova. -->
-<!-- ══ IL MURO · FATTURARE ×3 ════════════════════════════════════════════
-     Rifatto CENTRATO. Le tre righe identiche impilate sull'asse centrale
-     si leggono come un colpo ripetuto; a scalinata si leggevano come un
-     elenco. Il payoff chiude il sito come un titolo di coda. -->
-<section class="muro" id="muro">
+     CENTRATO (decisione cliente): tre righe identiche sull'asse centrale si
+     leggono come un colpo ripetuto. Il payoff chiude il sito come un
+     titolo di coda, sotto la luce che sale dal pavimento. -->
+<section class="muro" id="muro" data-atmo="alba">
   <div class="wrap wrap--piena muro__in">
     <p class="t-eyebrow muro__oc">Il payoff, e anche il nome del podcast</p>
 
     <h2 class="muro__righe" id="muro-righe">
       <span class="mask"><span class="t-muro" style="--i:0">Fatturare</span></span>
       <span class="mask"><span class="t-muro" style="--i:1">Fatturare</span></span>
-      <span class="mask"><span class="t-muro ar-glow" style="--i:2">Fatturare</span></span>
+      <span class="mask"><span class="t-muro t-muro--ar" style="--i:2">Fatturare</span></span>
     </h2>
 
     <div class="muro__piede">
@@ -610,7 +580,7 @@
           <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.6 3.5c.8 0 1.5.5 1.8 1.2l1 2.5c.3.7.1 1.5-.5 2l-1.1.9a11 11 0 0 0 4.9 4.9l.9-1.1c.5-.6 1.3-.8 2-.5l2.5 1a1.9 1.9 0 0 1 1.2 1.8v2.2c0 1.1-.9 2-2 2A16.6 16.6 0 0 1 4.4 5.5c0-1.1.9-2 2-2z"/></svg>
           <span><em>Numero Verde</em><b class="verde__n">Numero verde da fornire</b></span>
         </div>
-        <a class="footer__mail link-wipe" href="mailto:amministrazione@salesprocess.it">amministrazione@salesprocess.it</a>
+        <a class="footer__mail link-wipe" href="mailto:amministrazione@salesprocess.it">amministrazione@<wbr>salesprocess.it</a>
         <p class="t-piccolo footer__sedi"><b>Uffici di rappresentanza</b><br>Via Marco D’Agrate 41, Milano (MI) 20139</p>
         <p class="t-piccolo footer__sedi"><b>Sede legale</b><br>Piazza IV Novembre, Capiago Intimiano (CO) 22070</p>
       </div>
