@@ -292,7 +292,7 @@ font: 500 clamp(17px, 1.3vw, 20px)/1.2 var(--f-display); letter-spacing: -.01em;
 .capo__n {
 font: 600 clamp(52px, 5.2vw, 84px)/.8 var(--f-display); letter-spacing: -.045em;
 font-variant-numeric: tabular-nums;
-color: transparent; -webkit-text-stroke: 1.5px var(--c-ar);
+color: rgba(255,130,0,.16); -webkit-text-stroke: 1.5px var(--c-ar);
 }
 .capo::after {
 content: ''; flex: 1; height: 1px; margin-left: 6px;
@@ -1682,6 +1682,7 @@ mask-image: radial-gradient(ellipse 80% 78% at 50% 50%, #000 62%, transparent 10
 }
 .staffetta__fine figcaption { max-inline-size: 36ch; font: 400 17px/1.55 var(--f-display); color: var(--c-t2); }
 .staffetta__fine strong { display: block; margin-bottom: var(--s-2); font: 500 clamp(32px, 3vw, 48px)/1.04 var(--f-display); letter-spacing: -.02em; color: var(--c-t1); }
+@media (max-width: 899px) { .stazione::before { font-size: 46px; } }
 @media (min-width: 900px) {
 .staffetta--colonna .staffetta__pista { gap: 0; }
 .staffetta--colonna .staffetta__testa { margin-bottom: clamp(40px, 4vw, 72px); }

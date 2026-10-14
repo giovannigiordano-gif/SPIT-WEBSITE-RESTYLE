@@ -125,6 +125,10 @@
 .staffetta__fine figcaption { max-inline-size: 36ch; font: 400 17px/1.55 var(--f-display); color: var(--c-t2); }
 .staffetta__fine strong { display: block; margin-bottom: var(--s-2); font: 500 clamp(32px, 3vw, 48px)/1.04 var(--f-display); letter-spacing: -.02em; color: var(--c-t1); }
 
+/* Su telefono il numero del reparto resta sotto quello del capitolo che lo
+   contiene («03 Il metodo» sta nello stesso schermo di «01 Pubblicità»). */
+@media (max-width: 899px) { .stazione::before { font-size: 46px; } }
+
 /* ── LA COLONNA (Metodo e schermi stretti): reparto e passaggio affiancati */
 @media (min-width: 900px) {
   .staffetta--colonna .staffetta__pista { gap: 0; }

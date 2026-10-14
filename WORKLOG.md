@@ -263,8 +263,9 @@ Metodo, Eventi, Candidatura, Fatturare³; test funzionali 15/15; Lighthouse mobi
 93 finché la foto d'apertura aveva `fetchpriority="high"`: rubava banda all'H1, che è l'elemento LCP),
 DNA 98, Team 94, Eventi 96 — accessibilità 100 ovunque.
 
-- [ ] 8 · Giro 4, sulle richieste del cliente (14/10, pomeriggio) — parte 1: menu, home a capitoli,
-  contro-esempio, podcast
+- [x] 8 · Giro 4, sulle richieste del cliente (14/10, pomeriggio) — `a69dc55` (menu, home a capitoli,
+  contro-esempio, podcast), `b86555a` (revisione indipendente, pagine interne), chiusura con DESIGN.md
+  e prima/dopo 01–16 (`docs/prima-dopo/15-podcast.jpg`, `16-menu.jpg` nuovi)
 
 **Fase 8 — giro 4: «la home ha tante sezioni disordinate»**
 
@@ -332,6 +333,18 @@ soprattutto da desktop, magari a card gigante»*.
    numeri (come la home); Eventi senza l'occhiello sopra i tre numeri (il «quando» passa nella nota);
    i numeri dei dieci principi del DNA un gradino sotto i titoli (grigi, arancio al passaggio); gli
    indici (podcast, articoli, ruoli) in subgrid, colonne allineate fra le righe.
+
+10. **Le foto dei quattro reparti** (riscontro arrivato durante la chiusura: *«queste foto qua non mi
+    fanno impazzire, vorrei immagini più realistiche, meno simboliche»*). Il megafono, la matita, il
+    contratto arrotolato e il tocco erano le foto della serie del cliente usate come simboli. Al loro
+    posto quattro **scene di lavoro** generate con Higgsfield (`gpt_image_2_5`, 4:5, 2k), luce scura e
+    calda, un accento arancione dentro la scena: il media buyer davanti alle campagne (Pubblicità), le
+    bozze di pagina annotate in arancio (Marketing), il colloquio con il CV in mano (Reclutamento), la
+    lavagna con l'imbuto (Formazione). Dieci immagini generate, quattro scelte (~27 crediti); scartate
+    quelle con un volto riconoscibile e quelle con la cupola di Roma alla finestra — lo studio è a Milano.
+    Varianti web opache (`node tools/foto.mjs reparto-`), provenienza in `assets-src/higgsfield/`.
+    Cambiano in home e nella pagina Metodo (stesso componente). Le foto della serie del cliente restano
+    dove servono come oggetti (fascicoli di Risultati).
 
 *Verifica.* Audit 8 pagine × 1440/1024/768/390/360 senza rilievi (`qa/audit-r4`, `qa/audit-r4b` dopo il
 cambio dei titoli su mobile); passeggiate a scroll della home a 1440 e 390 (`qa/r4-home-*`); test
@@ -449,15 +462,17 @@ Candidatura), indice (Fatturare³, Team), manifesto ed elenco numerato (DNA), mu
 - **Installare Python 3.12** (serve agli script di img2threejs e ui-ux-pro-max): richiede di accettare
   una licenza sulla macchina. La ricostruzione 3D è stata fatta seguendo il metodo a mano (WORKLOG §3).
 - `src/assets/fonts/instrument-serif-italic-latin.woff2` non è più usato: non l'ho cancellato.
-- **Gli originali 2k delle foto generate (43 MB di PNG in `assets-src/higgsfield/`) sono nel commit
-  `269e670`.** Tenerli in git dà la provenienza completa ma appesantisce il repository; toglierli dalla
+- **Gli originali 2k delle foto generate (64 MB di PNG in `assets-src/higgsfield/`, 16 immagini) sono nei commit
+  `269e670` e del giro 4.** Tenerli in git dà la provenienza completa ma appesantisce il repository; toglierli dalla
   storia vorrebbe dire riscriverla, e non l'ho fatto. Alternative da decidere: lasciarli, spostarli su
   git LFS, o archiviarli fuori dal repository (le varianti web in `src/assets/foto/` bastano al sito).
 
-**Le fotografie generate (giro 3)**
-- Undici immagini sono **generate** con Higgsfield, non scattate: mani anonime e oggetti, nessuna persona
-  riconoscibile, stessa grammatica della serie del cliente. Se il cliente vuole dichiararlo (o
-  sostituirle con scatti veri della stessa serie), l'elenco con uso e prompt è in
+**Le fotografie generate (giri 3 e 4)**
+- Sedici immagini sono **generate** con Higgsfield, non scattate: dodici con mani anonime e oggetti
+  (stessa grammatica della serie del cliente) e, dal giro 4, quattro scene di lavoro per i reparti con
+  persone di spalle, sfocate o fuori campo — nessun volto riconoscibile. Non sono il team né clienti
+  veri, e non vanno presentate come tali. Se il cliente vuole dichiararlo (o sostituirle con scatti veri
+  del suo ufficio, la scelta migliore per le quattro scene), l'elenco con uso e prompt è in
   `assets-src/higgsfield/provenienza.json`.
 - Il **muro FATTURARE centrato** era una decisione del cliente (HANDOFF §6). Su richiesta esplicita
   dell'agenzia («questa parte non mi piace») è diventato il finale con la foto, payoff a filo sinistro:

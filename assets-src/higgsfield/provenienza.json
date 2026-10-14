@@ -1,5 +1,5 @@
 {
-  "nota": "Fotografie GENERATE con Higgsfield (modello gpt_image_2_5, qualità high, 2k) il 2026-10-14, su richiesta esplicita del committente («puoi usare higgsfield per generare immagini dove servono»). Riferimenti di stile: le foto del cliente hand-contract e hand-graduation (assets-src → src/assets/webp). Non sono foto del cliente: vanno dichiarate come immagini generate se il cliente lo richiede. Nessuna persona riconoscibile: solo mani. Varianti web con alfa ricavata dalla luminanza: tools/foto.mjs.",
+  "nota": "Fotografie GENERATE con Higgsfield (modello gpt_image_2_5, qualità high, 2k) il 2026-10-14, su richiesta esplicita del committente («puoi usare higgsfield per generare immagini dove servono»). Riferimenti di stile: le foto del cliente hand-contract e hand-graduation (assets-src → src/assets/webp). Non sono foto del cliente: vanno dichiarate come immagini generate se il cliente lo richiede. Nessuna persona riconoscibile: solo mani, e nelle quattro scene dei reparti (giro 4) persone di spalle, sfocate o fuori campo. Varianti web con alfa ricavata dalla luminanza: tools/foto.mjs.",
   "stile_comune": "Editorial advertising studio photograph in the exact visual style of the reference images: human hands in black-and-white (monochrome charcoal tone, high contrast, finely textured skin), one object in vivid saturated orange (#FF7A00), selective color. Background: flat seamless very dark charcoal near-black (#121115), no gradient, no props. Soft key light from the upper left, subtle rim light. No text, no logos, no watermark.",
   "immagini": {
     "contro-caduta": {
@@ -73,6 +73,34 @@
       "formato": "4:5",
       "uso": "staffetta · la trattativa (atterraggio)",
       "scena": "a hand sets the orange cube down on top of a signed contract, a single off-white sheet with an ink signature, no legible text; a black fountain pen beside it. Scelta fra due varianti (l'altra: job a84495ca-81e3-44d6-afbd-2214e57baa3d, scartata)."
+    },
+    "reparto-pubblicita": {
+      "job": "fc854604-97a8-4b47-bd9a-5021c133e673",
+      "formato": "4:5",
+      "uso": "home e metodo · reparto Pubblicità a performance",
+      "scena": "over-the-shoulder view of a media buyer working late at two monitors with advertising dashboards (orange and grey charts, unreadable), hand on mouse, notebook, desk lamp. Scartata la variante b2319cd1-69a3-4256-ba72-f30488d86fc0 (cupola di Roma alla finestra: lo studio è a Milano).",
+      "stile": "Stile diverso dalla serie delle mani (giro 4, «più realistiche, meno simboliche»): fotografia documentaria a colori naturali smorzati, ufficio di una PMI la sera, luce calda di lampada, ombre profonde, un accento arancione nella scena; volti fuori campo, di spalle o sfocati; nessun testo leggibile, nessun logo. Formato 4:5, gpt_image_2_5, qualità high, 2k. Varianti web OPACHE (tools/foto.mjs, prefisso reparto-)."
+    },
+    "reparto-marketing": {
+      "job": "bacf3037-3823-4c44-be8f-ef75c566589c",
+      "formato": "4:5",
+      "uso": "home e metodo · reparto Marketing a risposta diretta",
+      "scena": "copywriter's desk at dusk: printed drafts of a sales page and email sequence annotated with an orange marker, laptop with a landing-page layout and a video thumbnail, only hands in frame. Scartata la variante c3e79a86-1755-435f-8b70-8af3064a607b (registrazione di un video, volto riconoscibile).",
+      "stile": "Stile diverso dalla serie delle mani (giro 4, «più realistiche, meno simboliche»): fotografia documentaria a colori naturali smorzati, ufficio di una PMI la sera, luce calda di lampada, ombre profonde, un accento arancione nella scena; volti fuori campo, di spalle o sfocati; nessun testo leggibile, nessun logo. Formato 4:5, gpt_image_2_5, qualità high, 2k. Varianti web OPACHE (tools/foto.mjs, prefisso reparto-)."
+    },
+    "reparto-reclutamento": {
+      "job": "5090f43f-fcb4-4573-965e-2ec0d66d2157",
+      "formato": "4:5",
+      "uso": "home e metodo · reparto Reclutamento venditori",
+      "scena": "job interview across a dark wooden table: the interviewer's hands hold a CV (unreadable), the candidate's hands folded, orange folder, glass of water, blinds closed, faces out of frame. Scartate a6a13a74-3dae-4497-a843-cb2f06f06683 (volto del candidato a fuoco, cupola alla finestra), 9ab543f0-e1da-4aea-a4a3-7a040364b7df (stretta di mano, cupola alla finestra), 2cb06071-eba4-4881-8982-d8eb9ac2b8ea (silhouette, più da stock).",
+      "stile": "Stile diverso dalla serie delle mani (giro 4, «più realistiche, meno simboliche»): fotografia documentaria a colori naturali smorzati, ufficio di una PMI la sera, luce calda di lampada, ombre profonde, un accento arancione nella scena; volti fuori campo, di spalle o sfocati; nessun testo leggibile, nessun logo. Formato 4:5, gpt_image_2_5, qualità high, 2k. Varianti web OPACHE (tools/foto.mjs, prefisso reparto-)."
+    },
+    "reparto-formazione": {
+      "job": "172a4d4d-b45e-418c-9dd7-e451f703d806",
+      "formato": "4:5",
+      "uso": "home e metodo · reparto Formazione rete vendita",
+      "scena": "sales coaching session: a coach seen from behind draws a funnel in orange marker on a whiteboard, three salespeople at the table seen from behind or the side. Scartata la variante 91c5030c-22af-40f9-afab-79d1bc7562dd (role-play al telefono: valida, meno leggibile in piccolo).",
+      "stile": "Stile diverso dalla serie delle mani (giro 4, «più realistiche, meno simboliche»): fotografia documentaria a colori naturali smorzati, ufficio di una PMI la sera, luce calda di lampada, ombre profonde, un accento arancione nella scena; volti fuori campo, di spalle o sfocati; nessun testo leggibile, nessun logo. Formato 4:5, gpt_image_2_5, qualità high, 2k. Varianti web OPACHE (tools/foto.mjs, prefisso reparto-)."
     }
   }
 }

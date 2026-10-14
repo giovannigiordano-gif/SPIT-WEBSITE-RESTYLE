@@ -116,7 +116,10 @@ input, select, textarea { caret-color: var(--c-ar); }
 .capo__n {
   font: 600 clamp(52px, 5.2vw, 84px)/.8 var(--f-display); letter-spacing: -.045em;
   font-variant-numeric: tabular-nums;
-  color: transparent; -webkit-text-stroke: 1.5px var(--c-ar);
+  /* un velo d'arancio dentro il contorno: i numeri della staffetta sono vuoti,
+     quelli dei capitoli no — su telefono «03 Il metodo» e «01 Pubblicità»
+     stanno nello stesso schermo */
+  color: rgba(255,130,0,.16); -webkit-text-stroke: 1.5px var(--c-ar);
 }
 .capo::after {
   content: ''; flex: 1; height: 1px; margin-left: 6px;

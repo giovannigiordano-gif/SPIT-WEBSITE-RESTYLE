@@ -21,7 +21,7 @@ async page => {
   };
   await scatto(1440, 900, '/', 'hero-1440', async (p) => { await p.mouse.move(980, 420, { steps: 6 }); await p.waitForTimeout(700); });
   await scatto(1440, 900, '/', 'hero-1440-scroll', async (p) => { for (let y = 60; y <= 420; y += 60) { await p.mouse.wheel(0, 60); await p.waitForTimeout(90); } await p.waitForTimeout(1600); });
-  await scatto(1440, 900, '/', 'cosa-1440', vai('#cosa', 40));
+  await scatto(1440, 900, '/', 'cosa-1440', vai('#cosa', 110));   // giro 4: meno respiro sopra (.sez--segue), il titolo finiva sotto la nav
   await scatto(1440, 900, '/', 'numeri-1440', vai('#numeri', 20));
   await scatto(1440, 900, '/', 'giuntura-1440', async (p) => { await vai('#cosa', 450)(p); });
   await scatto(1440, 900, '/', 'macchina-1440', async (p) => {

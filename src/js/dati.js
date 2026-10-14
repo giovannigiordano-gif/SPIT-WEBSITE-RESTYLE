@@ -252,23 +252,25 @@ const ridisegnaCampi = () => $$('#numeri-grid .u-voce').forEach((n, i) => {
 });
 
 /* ── COSA FACCIAMO ────────────────────────────────────────────────────────
-   I quattro reparti (le prime quattro voci del bento) prendono le quattro
-   fotografie del brand, una per reparto: il megafono è la pubblicità, la
-   penna è il copy a risposta diretta, il contratto è l'assunzione, il
-   tocco è la formazione. Gli altri otto servizi diventano un indice
+   I quattro reparti (le prime quattro voci del bento), ognuno con una
+   scena di lavoro vera: le campagne sui monitor, le bozze annotate, il
+   colloquio, la lavagna della formazione. Giro 4: il megafono, la penna,
+   il contratto arrotolato e il tocco erano «troppo simbolici» per il
+   cliente. Fotografie generate (assets-src/higgsfield/provenienza.json),
+   volti mai riconoscibili. Gli altri otto servizi restano un indice
    tipografico: due livelli di gerarchia invece di dodici card uguali.  */
 const FOTO_REP = {
-  target:  ['hand-bw', 533],
-  imbuto:  ['hand-pen', 533],
-  persone: ['hand-contract', 603],
-  salita:  ['hand-graduation', 603],
+  target:  'reparto-pubblicita',
+  imbuto:  'reparto-marketing',
+  persone: 'reparto-reclutamento',
+  salita:  'reparto-formazione',
 };
 const pannello = (b, i) => {
-  const [f, w] = FOTO_REP[b.i];
+  const f = FOTO_REP[b.i];
   const n = el('article', 'pannello');
   n.style.setProperty('--i', i);
   n.innerHTML = `
-    <div class="pannello__foto"><img src="/assets/webp/${f}.webp" srcset="/assets/webp/${f}-320.webp 320w, /assets/webp/${f}.webp ${w}w" sizes="(max-width: 640px) 40vw, (max-width: 1100px) 48vw, 25vw" alt="" width="${w}" height="800" loading="lazy" decoding="async"></div>
+    <div class="pannello__foto"><img src="/assets/foto/${f}-800.webp" srcset="/assets/foto/${f}-480.webp 480w, /assets/foto/${f}-800.webp 800w, /assets/foto/${f}-1200.webp 1200w" sizes="(max-width: 640px) 40vw, (max-width: 1100px) 48vw, 25vw" alt="" width="1200" height="1500" loading="lazy" decoding="async"></div>
     <div class="pannello__txt">
       <span class="pannello__n" aria-hidden="true">0${i + 1}</span>
       <h3 class="pannello__tit">${b.t}</h3>
