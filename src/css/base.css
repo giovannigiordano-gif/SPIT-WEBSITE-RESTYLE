@@ -157,7 +157,8 @@ input, select, textarea { caret-color: var(--c-ar); }
 .cta--out:hover::before { transform: scaleX(1); }
 /* min-height 24px: sono target autonomi, non link dentro una frase, quindi
    SC 2.5.8 non li esenta. Su touch salgono a 44px (richiesta committente). */
-.cta--testo { min-height: 24px; height: auto; padding: 0; border-radius: 0; color: var(--c-t1); font-weight: 500; }
+.cta--testo { min-height: 24px; height: auto; padding: 0; border-radius: 0; color: var(--c-t1); font-weight: 500;
+  justify-content: flex-start; justify-self: start; }
 .cta:active { translate: 0 0; scale: .985; }
 .cta--sm { height: 44px; padding-inline: 18px; font-size: 14px; }
 @media (pointer: coarse) { .cta--testo { min-height: var(--tap); } }
@@ -231,12 +232,14 @@ input, select, textarea { caret-color: var(--c-ar); }
 .card:hover { background: var(--c-sup-2); border-color: var(--c-filo-forte); }
 .card--panel { border-radius: var(--r-panel); }
 
+/* Il filtro parla come il resto del sito: tondo, 14px, pill. Prima era
+   maiuscolo tracciato a 12px, l'unico punto in cui la UI urlava.      */
 .chip {
   display: inline-flex; align-items: center; gap: 8px;
-  height: 34px; padding-inline: 14px;
-  font: 500 12px/1 var(--f-display); letter-spacing: .10em; text-transform: uppercase;
-  color: var(--c-t3);
-  border: 1px solid var(--c-bordo-ui); border-radius: var(--r-hard);
+  height: 38px; padding-inline: 16px;
+  font: 500 14px/1 var(--f-display); letter-spacing: -.005em; text-transform: none;
+  color: var(--c-t2);
+  border: 1px solid var(--c-bordo-ui); border-radius: var(--r-pill);
   transition: color var(--t-micro) linear, background-color var(--t-micro) linear, border-color var(--t-micro) linear;
 }
 .chip:hover { color: var(--c-t1); background: var(--c-sup-2); }

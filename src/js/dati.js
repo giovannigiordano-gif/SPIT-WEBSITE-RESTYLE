@@ -395,13 +395,16 @@ const COMAND = [
   { t: 'La trasparenza', d: 'Con noi stessi, con i membri del team e con i nostri clienti. La trasparenza viene prima.' },
 ];
 
+/* Un principio è una voce d'elenco numerata, non una card: il numero qui
+   È informazione (sono "i dieci principi"), quindi resta, in arancio, a
+   sinistra; il titolo e il testo a destra.                            */
 const comandamento = (c, i) => {
-  const n = el('article', 'card com rise');
+  const n = el('article', 'com');
   n.style.setProperty('--i', i % 2);
   n.innerHTML = `
     <span class="com__n" aria-hidden="true">${String(i + 1).padStart(2, '0')}</span>
-    <h3 class="t-t2">${c.t}</h3>
-    <p class="t-piccolo" style="color:var(--c-t3);max-inline-size:46ch">${c.d}</p>`;
+    <h3 class="com__tit">${c.t}</h3>
+    <p class="com__testo">${c.d}</p>`;
   return n;
 };
 

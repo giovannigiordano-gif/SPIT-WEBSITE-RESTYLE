@@ -78,10 +78,10 @@
 <div class="avanza" aria-hidden="true"></div>
 
 <main id="main">
-<section class="testa-pag">
+<section class="testa-pag" data-fantasma="Team">
   <div class="wrap wrap--piena testa-pag__in">
     <p class="pill-eyebrow apri-1">Il team</p>
-    <h1 class="t-hero" style="max-inline-size:19ch">Il reparto che ti consegniamo ha nomi e <span class="ar">cognomi</span>.</h1>
+    <h1 class="t-hero" style="max-inline-size:19ch" data-split><span class="w" style="--w:0"><span>Il</span></span> <span class="w" style="--w:1"><span>reparto</span></span> <span class="w" style="--w:2"><span>che</span></span> <span class="w" style="--w:3"><span>ti</span></span> <span class="w" style="--w:4"><span>consegniamo</span></span> <span class="w" style="--w:5"><span>ha</span></span> <span class="w" style="--w:6"><span>nomi</span></span> <span class="w" style="--w:7"><span>e</span></span> <span class="w" style="--w:8"><span><span class="ar">cognomi</span>.</span></span></h1>
     <p class="t-deck apri-2">Dodici persone, quattro reparti, un ufficio in Via Marco D'Agrate 41 a Milano. Non un'agenzia senza volto: le persone che entrano nella tua azienda le puoi guardare in faccia prima di firmare.</p>
     <div class="cta-riga cta-riga--c apri-3">
       <a class="cta cta--bianco" href="/candidatura.html">Candida la tua azienda</a>
@@ -98,7 +98,7 @@
   <div class="wrap wrap--grid">
     <div class="testa">
       <p class="t-eyebrow">Chi lavora sulla tua azienda</p>
-      <h2 class="t-d2">Dodici persone, quattro reparti.</h2>
+      <h2 class="t-d2" data-split><span class="w" style="--w:0"><span>Dodici</span></span> <span class="w" style="--w:1"><span>persone,</span></span> <span class="w" style="--w:2"><span>quattro</span></span> <span class="w" style="--w:3"><span>reparti.</span></span></h2>
       <p class="t-deck">Ogni reparto ha un responsabile che risponde del suo numero. Non di quante attività ha svolto: del numero.</p>
     </div>
     <div class="volti" id="volti-grid"><!-- /js/dati.js --></div>
@@ -116,8 +116,8 @@
     <div class="testa">
       <p class="t-eyebrow">Chi ha costruito il metodo</p>
       <div class="duevoci">
-        <h2 class="t-caps">Due fondatori</h2>
-        <p class="t-voce">un solo processo</p>
+        <h2 class="t-caps" data-split><span class="w" style="--w:0"><span>Due</span></span> <span class="w" style="--w:1"><span>fondatori</span></span></h2>
+        <p class="t-voce" data-split><span class="w" style="--w:0"><span>un</span></span> <span class="w" style="--w:1"><span>solo</span></span> <span class="w" style="--w:2"><span>processo</span></span></p>
       </div>
     </div>
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px">
@@ -150,7 +150,7 @@
   <div class="wrap wrap--piena">
     <div class="testa">
       <p class="t-eyebrow">Dove siamo</p>
-      <h2 class="t-d2">Via Marco D'Agrate 41, Milano. Quarto piano.</h2>
+      <h2 class="t-d2" data-split><span class="w" style="--w:0"><span>Via</span></span> <span class="w" style="--w:1"><span>Marco</span></span> <span class="w" style="--w:2"><span>D'Agrate</span></span> <span class="w" style="--w:3"><span>41,</span></span> <span class="w" style="--w:4"><span>Milano.</span></span> <span class="w" style="--w:5"><span>Quarto</span></span> <span class="w" style="--w:6"><span>piano.</span></span></h2>
       <p class="t-deck">Il caffè lo facciamo noi. Se preferisci partire da una chiamata va bene uguale, ma se vuoi vedere dove lavorano le persone che entreranno nella tua azienda, l'indirizzo è questo.</p>
     </div>
     <div class="cta-riga">
@@ -164,14 +164,26 @@
   <div class="wrap wrap--grid">
     <div class="testa">
       <p class="t-eyebrow">Lavora con noi</p>
-      <h2 class="t-d2">Cerchiamo persone che guardano i <span class="ar">numeri</span>.</h2>
+      <h2 class="t-d2" data-split><span class="w" style="--w:0"><span>Cerchiamo</span></span> <span class="w" style="--w:1"><span>persone</span></span> <span class="w" style="--w:2"><span>che</span></span> <span class="w" style="--w:3"><span>guardano</span></span> <span class="w" style="--w:4"><span>i</span></span> <span class="w" style="--w:5"><span><span class="ar">numeri</span>.</span></span></h2>
       <p class="t-deck">Non cerchiamo creativi. Cerchiamo persone che a fine settimana sanno dire se il numero è cresciuto e perché.</p>
     </div>
-    <div class="bento">
-      <article class="card tile"><h3 class="t-t2">Media buyer</h3><p class="t-piccolo">Meta e Google su budget continuativi, con il fatturato del cliente come metrica.</p></article>
-      <article class="card tile"><h3 class="t-t2">Copy a risposta diretta</h3><p class="t-piccolo">Scrivere per far alzare il telefono, non per far dire «bello».</p></article>
-      <article class="card tile"><h3 class="t-t2">Recruiter commerciale</h3><p class="t-piccolo">Selezionare venditori che restano. La prova è a 90 giorni.</p></article>
-      <article class="card tile"><h3 class="t-t2">Sales coach</h3><p class="t-piccolo">Affiancare in campo, ascoltare le registrazioni, correggere.</p></article>
+    <div class="indice indice--ruoli">
+      <article class="indice__riga">
+        <h3 class="indice__tit">Media buyer</h3>
+        <p class="indice__desc">Meta e Google su budget continuativi, con il fatturato del cliente come metrica.</p>
+      </article>
+      <article class="indice__riga">
+        <h3 class="indice__tit">Copy a risposta diretta</h3>
+        <p class="indice__desc">Scrivere per far alzare il telefono, non per far dire «bello».</p>
+      </article>
+      <article class="indice__riga">
+        <h3 class="indice__tit">Recruiter commerciale</h3>
+        <p class="indice__desc">Selezionare venditori che restano. La prova è a 90 giorni.</p>
+      </article>
+      <article class="indice__riga">
+        <h3 class="indice__tit">Sales coach</h3>
+        <p class="indice__desc">Affiancare in campo, ascoltare le registrazioni, correggere.</p>
+      </article>
     </div>
     <div class="cta-riga" style="margin-top:var(--s-7)">
       <a class="cta cta--ar cta--luce" href="mailto:amministrazione@salesprocess.it?subject=Candidatura%20spontanea">Mandaci la tua candidatura</a>

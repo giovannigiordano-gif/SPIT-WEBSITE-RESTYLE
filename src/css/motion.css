@@ -47,8 +47,16 @@
     animation-range: cover calc(4% + var(--w) * 1.3%) cover calc(26% + var(--w) * 1.3%);
   }
 }
+/* Gli H1 delle pagine interne sono sopra la piega: a tempo, come l'hero. */
+.testa-pag [data-split] .w > span {
+  animation: parola-sale var(--t-maschera) var(--ease-salita) both;
+  animation-timeline: auto; animation-range: normal;
+  animation-delay: calc(120ms + var(--w) * 55ms);
+}
+/* :root alza la specificità sopra le due regole precedenti: in
+   reduced-motion nessuna parola si muove, ovunque.                    */
 @media (prefers-reduced-motion: reduce) {
-  [data-split] .w > span { animation: none; }
+  :root [data-split] .w > span { animation: none; }
 }
 
 /* ── IL MARCHIO CHE SI MONTA (hero, versione DOM): sections.css ───────── */
