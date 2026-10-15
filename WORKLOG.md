@@ -677,7 +677,15 @@ Candidatura), indice (Fatturare³, Team), manifesto ed elenco numerato (DNA), mu
 ## 6 · Da decidere insieme
 
 **Azioni che non ho fatto perché irreversibili o fuori dal mio perimetro**
-- **Merge di `restyling-wow` su `main` e qualunque deploy**: non fatti. Il branch è pronto da rivedere.
+- **Merge di `restyling-wow` su `main` (locale) e qualunque deploy**: non fatti.
+- **Pubblicazione su GitHub** (15.10, su richiesta: «pusha il sito su questa repo, sempre»): il progetto è su
+  https://github.com/giovannigiordano-gif/SPIT-WEBSITE-RESTYLE (repository **pubblico**): il ramo `restyling-wow`
+  e, con lo stesso contenuto, il `main` del repository; il `main` locale resta il sito originale. Da qui in poi
+  ogni modifica viene spinta lì. Nel repository ci sono anche HANDOFF, WORKLOG, documenti di lavoro e gli
+  originali delle foto: se non devono essere pubblici, il repository va reso privato.
+- **Online**: GitHub Pages servirebbe il sito sotto /SPIT-WEBSITE-RESTYLE/, mentre i percorsi del sito sono
+  assoluti dalla radice (/css, /assets…): serve una build con il percorso di base, oppure un dominio
+  proprio. Netlify o Vercel collegati al repository, con cartella di pubblicazione `src`, funzionano così com'è.
 - **Installare Python 3.12** (serve agli script di img2threejs e ui-ux-pro-max): richiede di accettare
   una licenza sulla macchina. La ricostruzione 3D è stata fatta seguendo il metodo a mano (WORKLOG §3).
 - `src/assets/fonts/instrument-serif-italic-latin.woff2` non è più usato: non l'ho cancellato.
