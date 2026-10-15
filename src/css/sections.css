@@ -365,8 +365,10 @@ html.vuole-3d .hero__mark { opacity: 0; }
   column-gap: clamp(20px, 2.6vw, 40px);
   margin-top: clamp(40px, 4vw, 64px); border-top: 1px solid var(--c-filo-forte);
 }
-/* Gli otto servizi sono il terzo livello del capitolo: un indice, senza
-   icone (giro 4) — le icone le hanno già i quattro reparti del tetto. */
+/* Gli otto servizi sono il terzo livello del capitolo: un indice. Dal 15.10
+   («qui vorrei delle icone animate») ognuno apre con una piccola
+   infografica animata che racconta il servizio (infografica.css, .si):
+   non un'icona da catalogo, e nessun riquadro tinto sotto. */
 .servizio {
   display: grid; grid-template-columns: minmax(0, 1fr); row-gap: 6px;
   align-content: start;

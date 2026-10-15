@@ -313,10 +313,106 @@ const pannello = (b, i) => {
     </div>`;
   return n;
 };
+/* ── LE OTTO INFOGRAFICHE DEI SERVIZI (15.10) ─────────────────────────────
+   «Qui vorrei delle icone animate, o almeno delle piccole infografiche».
+   Non un'icona da catalogo per servizio: una scena di due secondi che
+   racconta cosa fa, su una tela 96×48 con il tratto delle icone (1,6,
+   terminali arrotondati). Il soggetto è arancione — la particella del
+   marchio, cioè il contatto, la trattativa, il titolare —, il resto è
+   grigio. Il disegno qui è lo stato FINALE: le animazioni
+   (infografica.css) partono dallo stato iniziale quando la scena entra
+   nello schermo e si ripetono al passaggio del mouse; a movimento ridotto
+   resta lo stato finale. --d è il ritardo dentro la scena, --du la durata.
+   Le forme da tracciare sono <path> con pathLength="1" (sui <rect> e sui
+   <circle> pathLength non è supportato ovunque).                        */
+const SI = (k, p) => `<svg class="si si--${k}" viewBox="0 0 96 48" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">${p}</svg>`;
+const PL = ' pathLength="1"';
+const st = (d, du) => ` style="--d:${d}ms${du ? `;--du:${du}ms` : ''}"`;
+const rr = (x, y, w, h, r) => `M${x + r} ${y}h${w - 2 * r}a${r} ${r} 0 0 1 ${r} ${r}v${h - 2 * r}a${r} ${r} 0 0 1 -${r} ${r}h-${w - 2 * r}a${r} ${r} 0 0 1 -${r} -${r}v-${h - 2 * r}a${r} ${r} 0 0 1 ${r} -${r}z`;
+const cerchio = (cx, cy, r) => `M${cx} ${cy - r}a${r} ${r} 0 1 1 0 ${2 * r}a${r} ${r} 0 1 1 0 -${2 * r}`;
+const SCUDO = 'M74 6l14 5v11c0 9.5-6 16-14 20-8-4-14-10.5-14-20V11z';
+const INFO = {
+  /* il processo si costruisce — tre passaggi e i loro collegamenti —, poi
+     un contatto lo attraversa e l'ultimo passaggio si chiude: la firma */
+  processo: SI('processo',
+    `<path class="t"${PL} d="${rr(3, 17, 20, 14, 3.5)}"${st(0, 380)}/>` +
+    `<path class="t fi"${PL} d="M8.5 24h9"${st(260, 240)}/>` +
+    `<path class="t"${PL} d="M23 24h15"${st(280, 260)}/>` +
+    `<path class="t"${PL} d="${rr(38, 17, 20, 14, 3.5)}"${st(460, 380)}/>` +
+    `<path class="t fi"${PL} d="M43.5 24h9"${st(720, 240)}/>` +
+    `<path class="t"${PL} d="M58 24h15"${st(740, 260)}/>` +
+    `<path class="t"${PL} d="${rr(73, 17, 20, 14, 3.5)}"${st(920, 380)}/>` +
+    `<path class="a ap" d="${rr(73, 17, 20, 14, 3.5)}"${st(1960, 260)}/>` +
+    `<path class="a t"${PL} d="M78.5 24.5l3 3 6-6.5"${st(2000, 320)}/>` +
+    `<rect class="p viaggio" x="80" y="21" width="6" height="6" rx="1.2"/>`),
+  /* le colonne della pipeline si riempiono, una trattativa passa
+     all'ultima e si accende: un solo posto, un solo numero */
+  pipeline: SI('pipeline',
+    [4, 29, 54, 79].map((x, c) => `<path class="t fi"${PL} d="M${x} 5h16"${st(c * 60, 300)}/>`).join('') +
+    [[4, 4], [29, 3], [54, 2]].map(([x, n], c) => Array.from({ length: n }, (_, r) =>
+      `<rect class="g ca" x="${x}" y="${11 + r * 9}" width="16" height="7" rx="2"${st(220 + c * 110 + r * 55, 380)}/>`).join('')).join('') +
+    `<rect class="p trattativa" x="79" y="11" width="16" height="7" rx="2"/>` +
+    `<rect class="a on" x="79" y="11" width="16" height="7" rx="2" style="--d:1700ms;--du:720ms;--sc:1.6"/>`),
+  /* l'obiezione, poi la risposta che si scrive; l'obiezione si fa da parte */
+  voce: SI('voce',
+    `<g class="dim"${st(1650, 500)}><g class="po vb" style="transform-origin:10px 27px;--d:0ms;--du:440ms">` +
+      `<path d="M8 4h28a4 4 0 0 1 4 4v10a4 4 0 0 1-4 4H16l-6 5v-5H8a4 4 0 0 1-4-4V8a4 4 0 0 1 4-4z"/>` +
+      `<path class="t"${PL} d="M19.6 10.4a2.6 2.6 0 1 1 3.6 2.4c-.75.35-1.2.95-1.2 1.75v.45"${st(260, 340)}/>` +
+      `<path class="ap punto" d="M22 18.3h.01"${st(560, 160)}/>` +
+    `</g></g>` +
+    `<g class="po vb" style="transform-origin:84px 45px;--d:720ms;--du:440ms">` +
+      `<path class="a" d="M48 20h40a4 4 0 0 1 4 4v12a4 4 0 0 1-4 4h-4v5l-6-5H48a4 4 0 0 1-4-4V24a4 4 0 0 1 4-4z"/>` +
+      `<path class="t ch"${PL} d="M51 27h30"${st(1020, 380)}/>` +
+      `<path class="t ch"${PL} d="M51 33h19"${st(1260, 300)}/>` +
+    `</g>`),
+  /* il cartellino si posa, lo scudo lo difende prima della richiesta di sconto */
+  prezzo: SI('prezzo',
+    `<g class="dondola vb" style="transform-origin:15.2px 15.2px">` +
+      `<path class="t"${PL} d="M24.8 6H7.2A1.2 1.2 0 0 0 6 7.2v17.6a4 4 0 0 0 1.2 2.8l14 14a4 4 0 0 0 5.6 0l13.2-13.2a4 4 0 0 0 0-5.6l-14-14A4 4 0 0 0 24.8 6z"${st(0, 640)}/>` +
+      `<path class="ap" d="${cerchio(15.2, 15.2, 3)}"${st(300, 240)}/>` +
+    `</g>` +
+    `<path class="riemp ap" d="${SCUDO}"${st(1180, 420)}/>` +
+    `<path class="a t"${PL} d="${SCUDO}"${st(640, 620)}/>` +
+    `<path class="a t"${PL} d="M67.5 23.5l4.5 4.5 8.5-8.5"${st(1180, 320)}/>`),
+  /* l'ago cerca la direzione e si ferma sul numero finale */
+  bussola: SI('bussola',
+    `<path class="t"${PL} d="${cerchio(24, 24, 19)}"${st(0, 560)}/>` +
+    `<path class="ap fi" d="M24 8.5v3M39.5 24h-3M24 39.5v-3M8.5 24h3"${st(280, 300)}/>` +
+    `<g class="ago vb" style="transform-origin:24px 24px"><path class="coda" d="M24 21 12 24l12 3z"/><path class="p" d="M24 21l12 3-12 3z"/></g>` +
+    `<circle class="perno" cx="24" cy="24" r="1.8"/>` +
+    `<path class="t ch"${PL} d="M50 38l10-7 8 3 13-14"${st(1080, 520)}/>` +
+    `<rect class="p po" x="84" y="11" width="8" height="8" rx="1.6"${st(1520, 380)}/>` +
+    `<rect class="a on" x="84" y="11" width="8" height="8" rx="1.6" style="--d:1700ms;--du:720ms;--sc:2.6"/>`),
+  /* quattro settimane che si sommano, la linea del mese: chiude o no */
+  referto: SI('referto',
+    `<path class="t"${PL} d="M4 44h62"${st(0, 320)}/>` +
+    `<path class="tr fi" d="M4 14h62" stroke-dasharray="2 3.2"${st(160, 560)}/>` +
+    [[8, 35, 9], [22, 27, 17], [36, 19, 25]].map(([x, y, h], k) =>
+      `<rect class="g cy" x="${x}" y="${y}" width="9" height="${h}" rx="1.5"${st(300 + k * 120, 520)}/>`).join('') +
+    `<rect class="p cy" x="50" y="9" width="9" height="35" rx="1.5"${st(660, 640)}/>` +
+    `<path class="t"${PL} d="${cerchio(82, 26, 11)}"${st(1120, 440)}/>` +
+    `<path class="a t"${PL} d="M77 26.5l3.5 3.5 6.5-7"${st(1420, 300)}/>`),
+  /* i contatti che hai già, spenti; alcuni si risvegliano, uno dopo l'altro */
+  ciclo: SI('ciclo', (() => {
+    let s = '';
+    for (let r = 0; r < 4; r++) for (let c = 0; c < 9; c++)
+      s += `<rect class="g ap" x="${4 + c * 10}" y="${6 + r * 10}" width="6" height="6" rx="1.2"${st(c * 34 + r * 22, 260)}/>`;
+    for (const [c, r, d] of [[1, 1, 620], [4, 0, 860], [3, 3, 1100], [6, 2, 1340], [8, 1, 1580]])
+      s += `<rect class="p po" x="${4 + c * 10}" y="${6 + r * 10}" width="6" height="6" rx="1.2"${st(d, 380)}/>` +
+           `<rect class="a on" x="${4 + c * 10}" y="${6 + r * 10}" width="6" height="6" rx="1.2" style="--d:${d + 60}ms;--du:760ms;--sc:2.8"/>`;
+    return s;
+  })()),
+  /* la guida sale due gradini con il titolare, poi lui va su da solo */
+  libro: SI('libro',
+    `<path class="t"${PL} d="M4 44h20V34h20V24h20V14h24"${st(0, 720)}/>` +
+    `<rect class="guida" x="46" y="16" width="8" height="8" rx="1.6"/>` +
+    `<rect class="p tito" x="76" y="6" width="8" height="8" rx="1.6"/>` +
+    `<rect class="a on" x="76" y="6" width="8" height="8" rx="1.6" style="--d:2360ms;--du:760ms;--sc:2.6"/>`),
+};
 const servizio = (b, i) => {
   const n = el('li', 'servizio');
   n.style.setProperty('--i', i % 4);
-  n.innerHTML = `<h3 class="servizio__tit">${b.t}</h3><p class="servizio__desc">${b.d}</p>`;
+  n.innerHTML = `${INFO[b.i] || ''}<h3 class="servizio__tit">${b.t}</h3><p class="servizio__desc">${b.d}</p>`;
   return n;
 };
 
@@ -540,6 +636,27 @@ const monta = () => {
     tab(); galleria.addEventListener('change', tab);
     otto.append(...BENTO.slice(4).map(servizio));
     bento.append(quattro, otto);
+    /* Le infografiche partono quando sono a schermo (nella galleria del
+       telefono, quando la card entra di lato) e si ripetono al passaggio
+       del mouse, solo a scena finita. */
+    const voci = $$('.servizio', otto);
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) {
+      voci.forEach(n => n.classList.add('is-in'));
+    } else {
+      const ioS = new IntersectionObserver(es => es.forEach(e => {
+        if (!e.isIntersecting) return;
+        e.target.closest('.servizio').classList.add('is-in'); ioS.unobserve(e.target);
+      }), { threshold: .6 });
+      voci.forEach(n => { const s = $('.si', n); if (s) ioS.observe(s); else n.classList.add('is-in'); });
+      voci.forEach(n => n.addEventListener('pointerenter', (e) => {
+        const s = $('.si', n);
+        if (e.pointerType !== 'mouse' || !s || !n.classList.contains('is-in')) return;
+        /* solo le animazioni della scena: la transizione del colore all'hover non conta */
+        if (s.getAnimations({ subtree: true }).some(a => a.animationName && a.playState === 'running')) return;
+        n.style.setProperty('--si-t0', '0ms');
+        n.classList.remove('is-in'); void n.offsetWidth; n.classList.add('is-in');
+      }));
+    }
   }
   const sp = $('#staffetta-pista');
   if (sp) {

@@ -634,6 +634,28 @@ movimento ridotto senza movimento né testo invisibile; audit 8 pagine × 5 larg
 finale misurate a 360/390/768/900/1023px, nessuna esce dalla colonna; Lighthouse mobile Home 95, Risultati 96,
 Team 96, accessibilità 100, CLS 0.
 
+*Gli otto servizi (15.10)* — «qui vorrei delle icone animate, o almeno delle piccole infografiche». Ogni
+servizio (Home e Metodo) apre con una piccola infografica animata, non un'icona da catalogo: una scena di
+circa due secondi su una tela 96×48, con il tratto delle icone del sito e il soggetto in arancio (la
+particella del marchio: il contatto, la trattativa, il titolare).
+- Costruzione del processo: tre passaggi si collegano, un contatto li attraversa, l'ultimo si chiude con la spunta.
+- CRM e pipeline: le colonne si riempiono, una trattativa passa all'ultima colonna e si accende.
+- Script e gestione obiezioni: la domanda del cliente, poi la risposta che si scrive; la domanda si fa da parte.
+- Offerta e prezzo: il cartellino si posa ruotando sul suo foro, lo scudo lo difende.
+- Direzione commerciale: l'ago della bussola gira e si ferma sul numero finale, in cima a una linea che sale.
+- Rendiconto settimanale: quattro settimane che si sommano superano la linea del mese, poi la spunta.
+- Riattivazione dormienti: una griglia di contatti spenti, cinque si risvegliano uno dopo l'altro con un'onda.
+- Formazione del titolare: la guida sale due gradini insieme al titolare, poi si ferma e lui fa l'ultimo da solo.
+La scena parte quando è a schermo (le quattro voci di una riga a 140ms l'una dall'altra; nella galleria del
+telefono quando la card entra di lato) e si ripete al passaggio del mouse, solo a scena finita. Nessun ciclo
+infinito, nessun riquadro tinto sotto; a movimento ridotto la scena è già finita. Era una regola mia del giro 4
+(«gli otto servizi non hanno icone»): la richiesta la supera, e DESIGN.md ora la descrive così.
+Problema trovato: la classe `avanza` della trattativa era già quella della barra di avanzamento della pagina
+(il rettangolo diventava una linea fissa di 2px): rinominata `trattativa`.
+Verifica: catture della sequenza a 0,2–3,6s (desktop, telefono, passaggio del mouse, movimento ridotto); 38/38
+test; movimento ridotto senza movimento né invisibili; audit 8 pagine × 5 larghezze senza rilievi; Lighthouse
+mobile Home 95, Metodo 97, accessibilità 100, CLS 0.
+
 ### Cosa è stato fatto, fase per fase (skill applicate)
 
 **Fase 1 — design system** (impeccable craft-floor, design-taste-frontend, ui-ux-pro-max checklist)

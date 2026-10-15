@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-15T09:28:27.045Z",
+  "generatedAt": "2026-10-15T09:54:40.858Z",
   "title": "Design System: Sales Process Italia",
   "extensions": {
     "colorMeta": {
@@ -590,6 +590,11 @@
         "purpose": "Il palco delle testimonianze cambia video quando si sceglie una voce della scaletta."
       },
       {
+        "name": "infografiche-servizi",
+        "value": "otto scene SVG 96x48, ~2s a tempo: si-traccia (stroke-dashoffset con pathLength 1), si-pop, si-cade, si-cresce, si-onda (forwards); IO al 60%, 140ms fra le voci di una riga; replay al passaggio del mouse a scena finita",
+        "purpose": "Ogni servizio apre con una piccola infografica animata che lo racconta; a movimento ridotto la scena e gia finita."
+      },
+      {
         "name": "animazioni-infinite",
         "value": "marquee dei loghi 46s (pausa a hover e focus); galleggia dei contatti DOM dell'hero dove non c'e il 3D",
         "purpose": "Il marquee e l'unica voluta; i contatti DOM su telefono sono in attesa di decisione del cliente (C2)."
@@ -853,7 +858,7 @@
       "**Don't** numerare sezioni che non sono capitoli di un racconto: i numeri 01–06 esistono perché l'ordine conta e la nav lo usa.",
       "**Don't** far superare a un h3 o a una frase di risoluzione il titolo del suo capitolo.",
       "**Don't** rimettere voci di navigazione in linea nella nav: le pagine stanno nella card.",
-      "**Don't** mettere quadratini arancioni sulle card del team o dei reparti, né un rounded square tinto sotto le icone, né icone sugli otto servizi.",
+      "**Don't** mettere quadratini arancioni sulle card del team o dei reparti, né un rounded square tinto sotto le icone, né icone da catalogo sugli otto servizi (lì c'è la scena che racconta il servizio).",
       "**Don't** ridisegnare, tagliare o schiacciare il logo del sito o quello del podcast: si usano i file veri, interi.",
       "**Don't** dipingere un fondo proprio su una sezione o separarne due con un filo grigio di 1px: la pagina diventa una pila di blocchi. L'unica luce sul confine è la lama, arancione, accesa dallo scroll e solo dove cambia la stanza.",
       "**Don't** applicare la stessa dissolvenza a ogni sezione o fare card tutte uguali.",

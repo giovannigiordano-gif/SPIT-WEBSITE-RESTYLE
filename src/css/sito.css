@@ -1779,6 +1779,103 @@ margin-top: clamp(56px, 6vw, 104px); max-inline-size: 30ch;
 font: 600 clamp(26px, 2.9vw, 46px)/1.16 var(--f-display); letter-spacing: -.022em; color: var(--c-t2);
 }
 .contro__chiusa strong { font-weight: 700; color: var(--c-t1); }
+.si {
+display: block; width: 96px; height: 48px; overflow: visible; margin-bottom: 14px;
+color: rgba(255,255,255,.44); transition: color var(--t-stato) linear;
+}
+.servizio:hover .si { color: rgba(255,255,255,.66); }
+.si .a { stroke: var(--c-ar); }
+.si .p { fill: var(--c-ar); stroke: none; }
+.si .g { fill: rgba(255,255,255,.16); stroke: none; }
+.si .fi { stroke-opacity: .55; }
+.si .ch { stroke: rgba(255,255,255,.74); }
+.si .t { stroke-dasharray: 1 2; }
+.si .on { opacity: 0; }
+.si :is(.po, .on, .ca, .cy, .tr) { transform-box: fill-box; transform-origin: center; }
+.si .cy { transform-origin: 50% 100%; }
+.si .tr { transform-origin: 0 50%; }
+.si .vb { transform-box: view-box; }
+@media (max-width: 640px) { .si { width: 88px; height: 44px; margin-bottom: 12px; } }
+.servizio { --si-t0: calc(var(--i, 0) * 140ms); }
+@media (max-width: 640px) { .servizio { --si-t0: 0ms; } }
+.servizio:not(.is-in) .si { visibility: hidden; }
+@media (prefers-reduced-motion: no-preference) {
+.servizio.is-in .si .t   { animation: si-traccia  var(--du, 400ms) var(--ease-salita) calc(var(--si-t0) + var(--d, 0ms)) both; }
+.servizio.is-in .si .ap  { animation: si-appare   var(--du, 300ms) linear calc(var(--si-t0) + var(--d, 0ms)) both; }
+.servizio.is-in .si .po  { animation: si-pop      var(--du, 420ms) var(--ease-salita) calc(var(--si-t0) + var(--d, 0ms)) both; }
+.servizio.is-in .si .ca  { animation: si-cade     var(--du, 380ms) var(--ease-salita) calc(var(--si-t0) + var(--d, 0ms)) both; }
+.servizio.is-in .si .cy  { animation: si-cresce-y var(--du, 520ms) var(--ease-salita) calc(var(--si-t0) + var(--d, 0ms)) both; }
+.servizio.is-in .si .tr  { animation: si-cresce-x var(--du, 520ms) var(--ease-salita) calc(var(--si-t0) + var(--d, 0ms)) both; }
+.servizio.is-in .si .on  { animation: si-onda     var(--du, 700ms) cubic-bezier(.2,.6,.3,1) calc(var(--si-t0) + var(--d, 0ms)) forwards; }
+.servizio.is-in .si .dim { animation: si-attenua  var(--du, 500ms) linear calc(var(--si-t0) + var(--d, 0ms)) both; }
+.servizio.is-in .si--processo .viaggio { animation: si-processo 1000ms linear calc(var(--si-t0) + 1080ms) both; }
+.servizio.is-in .si--pipeline .trattativa { animation: si-pipeline 1300ms linear calc(var(--si-t0) + 560ms) both; }
+.servizio.is-in .si--prezzo .dondola   { animation: si-dondola 900ms var(--ease-salita) var(--si-t0) both; }
+.servizio.is-in .si--bussola .ago      { animation: si-ago 1300ms cubic-bezier(.2,.75,.25,1) calc(var(--si-t0) + 160ms) both; }
+.servizio.is-in .si--libro .tito       { animation: si-tito 2200ms linear calc(var(--si-t0) + 450ms) both; }
+.servizio.is-in .si--libro .guida      { animation: si-guida 2200ms linear calc(var(--si-t0) + 450ms) both; }
+}
+@media (prefers-reduced-motion: reduce) {
+.servizio:not(.is-in) .si { visibility: visible; }
+.si .on { display: none; }
+}
+@keyframes si-traccia  { from { stroke-dashoffset: 1.02; } }
+@keyframes si-appare   { from { opacity: 0; } }
+@keyframes si-pop      { from { opacity: 0; scale: .3; } }
+@keyframes si-cade     { from { opacity: 0; translate: 0 -6px; } }
+@keyframes si-cresce-y { from { scale: 1 0; } }
+@keyframes si-cresce-x { from { scale: 0 1; } }
+@keyframes si-onda     { from { opacity: .9; scale: 1; } to { opacity: 0; scale: var(--sc, 2.4); } }
+@keyframes si-attenua  { from { opacity: 1; } }
+.si--processo .viaggio { opacity: 0; }
+@keyframes si-processo {
+0%   { translate: -70px 0; opacity: 0; }
+8%   { translate: -70px 0; opacity: 1; animation-timing-function: cubic-bezier(.65,0,.35,1); }
+42%  { translate: -35px 0; }
+54%  { translate: -35px 0; animation-timing-function: cubic-bezier(.65,0,.35,1); }
+90%  { translate: 0 0; opacity: 1; }
+100% { translate: 0 0; opacity: 0; }
+}
+@keyframes si-pipeline {
+0%   { translate: -25px 18px; opacity: 0; }
+18%  { translate: -25px 18px; opacity: 1; animation-timing-function: cubic-bezier(.65,0,.35,1); }
+55%  { translate: 0 18px; animation-timing-function: cubic-bezier(.16,.84,.24,1); }
+85%  { translate: 0 0; }
+100% { translate: 0 0; opacity: 1; }
+}
+.si--voce .dim { opacity: .5; }
+.si--voce .punto { stroke-width: 2.2; }
+.si--prezzo .riemp { fill: var(--c-ar); fill-opacity: .14; stroke: none; }
+@keyframes si-dondola { 0% { rotate: -24deg; opacity: 0; } 30% { opacity: 1; } 100% { rotate: 0deg; opacity: 1; } }
+.si--bussola .ago { rotate: -8deg; }
+.si--bussola .coda { fill: rgba(255,255,255,.5); stroke: none; }
+.si--bussola .perno { fill: var(--c-base); stroke-width: 1.2; }
+@keyframes si-ago { 0% { rotate: 150deg; opacity: 0; } 12% { opacity: 1; } 100% { rotate: -8deg; opacity: 1; } }
+.si--libro .guida { opacity: .5; stroke: rgba(255,255,255,.8); }
+@keyframes si-tito {
+0%   { translate: -61px 30px; opacity: 0; }
+6%   { translate: -61px 30px; opacity: 1; animation-timing-function: cubic-bezier(.3,.7,.4,1); }
+14%  { translate: -51px 14px; animation-timing-function: cubic-bezier(.6,0,.8,.45); }
+22%  { translate: -41px 20px; }
+32%  { translate: -41px 20px; animation-timing-function: cubic-bezier(.3,.7,.4,1); }
+40%  { translate: -31px 4px; animation-timing-function: cubic-bezier(.6,0,.8,.45); }
+48%  { translate: -21px 10px; }
+66%  { translate: -21px 10px; animation-timing-function: cubic-bezier(.3,.7,.4,1); }
+76%  { translate: -10.5px -6px; animation-timing-function: cubic-bezier(.6,0,.8,.45); }
+86%  { translate: 0 0; }
+100% { translate: 0 0; opacity: 1; }
+}
+@keyframes si-guida {
+0%   { translate: -40px 20px; opacity: 0; }
+6%   { translate: -40px 20px; opacity: 1; animation-timing-function: cubic-bezier(.3,.7,.4,1); }
+14%  { translate: -30px 4px; animation-timing-function: cubic-bezier(.6,0,.8,.45); }
+22%  { translate: -20px 10px; }
+32%  { translate: -20px 10px; animation-timing-function: cubic-bezier(.3,.7,.4,1); }
+40%  { translate: -10px -6px; animation-timing-function: cubic-bezier(.6,0,.8,.45); }
+48%  { translate: 0 0; }
+70%  { translate: 0 0; opacity: 1; }
+100% { translate: 0 0; opacity: .5; }
+}
 .nastro__testa { margin-bottom: clamp(28px, 2.6vw + 12px, 52px); }
 .nastro__testa .t-d2 { max-inline-size: 18ch; }
 .numeri__attacco { margin-bottom: clamp(24px, 2vw, 36px); color: var(--c-t2); }
