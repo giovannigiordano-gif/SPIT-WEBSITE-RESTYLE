@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-15T14:34:22.810Z",
+  "generatedAt": "2026-10-15T15:19:47.169Z",
   "title": "Design System: Sales Process Italia",
   "extensions": {
     "colorMeta": {
@@ -611,8 +611,8 @@
       },
       {
         "name": "elica-dna",
-        "value": "@property --giro (angle, ereditata) 0 -> 540deg su view(); coppie rotateX/rotateY(k*26deg + giro), quadrati controruotati, opacita da sin(angolo)",
-        "purpose": "La doppia elica dei quadrati del marchio nella pagina DNA: sotto l'apertura e come spina dei dieci principi, che si chiudono a coppie (com-zip)."
+        "value": "@property --giro (angle, ereditata) 0 -> 540deg su view(); coppie rotateX/rotateY(k*26deg + giro), cubi rivolti a chi guarda (faccia, cima e fianco in prospettiva cavaliera), opacita e scala dal seno dell angolo",
+        "purpose": "La doppia elica CSS del DNA: fuori dal WebGL (telefono, tocco, movimento ridotto) e finche il WebGL non arriva."
       },
       {
         "name": "tre-d-css",
@@ -623,6 +623,16 @@
         "name": "filtro-reparti",
         "value": "chip Tutti + 5 reparti; uscita rotateY 0 -> 90deg 280ms, posto FLIP 560ms, ingresso rotateY -90deg -> 0 560ms",
         "purpose": "Il Team si filtra per reparto con le facce che si girano."
+      },
+      {
+        "name": "elica-webgl",
+        "value": "three r170, blocchi del marchio istanziati, pioli bicolori, filamenti TubeGeometry con drawRange; camera a finestra (setViewOffset, occhi al centro dello schermo); fascia: scrittura 2,4s da sinistra + 1,1 giri sullo scroll + 0,12 rad/s; spina: fronte alla linea di lettura (56%), monotono, pioli accesi al centro",
+        "purpose": "L'elica del DNA in volume, sotto l'apertura e come spina dei dieci principi."
+      },
+      {
+        "name": "scala-chiocciola",
+        "value": "com-gira su view-timeline --com, entry 50% -> exit 50%: rotateY 74deg -> 0 (36%) ... 0 (57%) -> -74deg, perspective 1500px, origine sull'asse della spina; telefono 40deg sul proprio asse; fianchi 12px backface hidden",
+        "purpose": "Le righe dei principi girano attorno alla spina come i pioli di una scala a chiocciola, piatte dove si legge."
       }
     ],
     "breakpoints": [

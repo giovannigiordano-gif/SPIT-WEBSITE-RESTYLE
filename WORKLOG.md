@@ -788,6 +788,28 @@ Verifica: scena catturata ferma in quattro punti, in corsa (card inclinate di ~2
 cubo) e all'arrivo (scoppio, onda); colonna sul telefono e nel Metodo con i numeri che contano; 42/42 test;
 movimento ridotto senza movimento né invisibili.
 
+*Il DNA, secondo giro (15.10)* — «L'elica del DNA molto più di impatto; vorrei magari un effetto 3D dei punti del
+DNA, un effetto 3D delle card che girano scorrendo.»
+- **L'elica diventa WebGL** su desktop (`src/js/elica3d.js`, three.js come l'hero, caricato dopo il load solo con
+  puntatore fine e senza movimento ridotto): i punti sono i blocchi del marchio in volume, un filamento arancione e
+  uno perla, pioli in due colori; luce e nebbia dell'hero. Sotto l'apertura la fascia è alta 56vh e l'elica, inclinata
+  verso chi guarda, si scrive da sinistra a destra la prima volta che entra a schermo, poi gira con lo scroll. La
+  camera sta all'altezza degli occhi: l'elica si vede da sopra quando è in basso e da sotto quando sale.
+- **La spina dei principi** è la stessa elica in piedi: si scrive mentre leggi e accende i pioli alla linea di lettura.
+- **Le card girano scorrendo**: ogni riga di principi è un piolo di una scala a chiocciola attorno alla spina; arriva
+  girata, si posa piatta dove leggi, riparte girando. Le card hanno lo spessore; si accende una riga alla volta. Sul
+  telefono ogni card gira sul suo asse, meno.
+- **Fuori dal WebGL** l'elica CSS è più grande e i suoi punti sono cubi.
+Problemi trovati: una tela con `height: auto` non si allunga fra `top` e `bottom` (è un elemento sostituito) e la
+spina restava alta 146px; i pioli non ancora scritti lasciavano un dischetto sull'asse; la luce di lettura accendeva
+tre righe insieme; le card girate creavano 4px di scorrimento orizzontale a 1024. Tutto corretto. Trovato anche che
+l'ingresso a cascata delle griglie (`.comand > *`) vinceva sulle animazioni della spina CSS: ora i selettori sono più
+specifici.
+Verifica: catture della fascia mentre si scrive e a scrittura finita, da sopra e da sotto; dei principi in tre punti
+a 1440 e 1024; telefono e movimento ridotto; video di 21s (`qa/dna-elica-3d.mp4`); 42/42 test; movimento ridotto senza
+movimento né invisibili; audit Home e DNA × 5 larghezze senza rilievi; Lighthouse mobile DNA 97, Home 95,
+accessibilità 100, CLS 0.
+
 ### Cosa è stato fatto, fase per fase (skill applicate)
 
 **Fase 1 — design system** (impeccable craft-floor, design-taste-frontend, ui-ux-pro-max checklist)

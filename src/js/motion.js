@@ -105,6 +105,20 @@
     setTimeout(torna, 6000);
   }
 
+  /* ── L'ELICA 3D DEL DNA (15.10) ─────────────────────────────────────────
+     Stesso cancello dell'hero (html.vuole-3d), stesso momento (dopo il
+     load, in idle). La fascia sotto l'apertura sempre; la spina dei
+     principi solo dove le colonne sono due. Se qualcosa va storto resta
+     la versione CSS, che è già in pagina.                              */
+  const fasciaDna = $('.elica-fascia'), spinaDna = $('#comand');
+  if (fasciaDna && radice.classList.contains('vuole-3d')) {
+    const parti = () => import('/js/elica3d.js')
+      .then(m => m.avvia({ fascia: fasciaDna, spina: spinaDna && matchMedia('(min-width: 861px)').matches ? spinaDna : null }))
+      .catch(() => { fasciaDna.classList.remove('is-3d'); spinaDna?.classList.remove('is-3d'); });
+    const quandoLibero = () => ('requestIdleCallback' in window ? requestIdleCallback(parti, { timeout: 1200 }) : setTimeout(parti, 250));
+    if (document.readyState === 'complete') quandoLibero(); else addEventListener('load', quandoLibero, { once: true });
+  }
+
   /* ── IL MENU A CARD GIGANTE ─────────────────────────────────────────────
      Un dialogo vero. Apre togliendo [hidden] e accendendo .is-on al
      fotogramma dopo, così la transizione parte; chiude al contrario e
