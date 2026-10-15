@@ -494,27 +494,26 @@
 
   }
 
-  /* ── IL CURSORE-PARTICELLA (ritocchi del 15.10: «effetti mouse») ─────────
-     Il punto del cursore è la particella del marchio, un quadrato arancione,
-     esatto (nessun ritardo: si clicca dove si vede). Un anello a quadrato
-     arrotondato lo segue con un filo di ritardo: sui bottoni ne prende la
-     forma e li abbraccia (il bottone resta fermo: niente magnetic), sui
-     link si accende, sulle fotografie si allarga; nei campi di testo
-     sparisce e torna il cursore del sistema. Solo mouse, solo senza
-     reduced-motion; scrive transform e misure in rAF, e il ciclo si ferma
-     quando l'anello è arrivato.                                          */
-  if (matchMedia('(hover: hover) and (pointer: fine)').matches && !RM()) {
-    const punto = document.createElement('div'), anello = document.createElement('div');
-    punto.className = 'cursore'; anello.className = 'cursore-anello';
-    punto.setAttribute('aria-hidden', 'true'); anello.setAttribute('aria-hidden', 'true');
-    document.body.append(anello, punto);
-    radice.classList.add('cursore-on');
-    const BOTTONI = '.cta, .menu-btn, .frecc, .pausa, .barra__pill, .barra__x, .chip, .vid__play, .menu__social a, .footer__social a';
+  /* ── L'ANELLO DEL CURSORE (ritocchi del 15.10: «effetti mouse») ─────────
+     Il cursore del sistema resta sempre visibile (terzo passaggio della
+     regia: nasconderlo toglieva il cursore di testo e, nei momenti lenti,
+     lasciava lo schermo senza cursore). Un anello a quadrato arrotondato lo
+     segue con un filo di ritardo: sui bottoni ne prende la forma e li
+     abbraccia (il bottone resta fermo: niente magnetic), sui link si
+     accende, sulle fotografie si allarga; sparisce nei campi di testo e
+     sopra i video incorporati. Solo mouse, senza reduced-motion e senza
+     contrasto elevato; scrive transform e misure in rAF, e il ciclo si
+     ferma quando l'anello è arrivato.                                    */
+  if (matchMedia('(hover: hover) and (pointer: fine)').matches && !RM() && !matchMedia('(prefers-contrast: more), (forced-colors: active)').matches) {
+    const anello = document.createElement('div');
+    anello.className = 'cursore-anello'; anello.setAttribute('aria-hidden', 'true');
+    document.body.append(anello);
+    const BOTTONI = '.cta, .menu-btn, .frecc, .pausa, .barra__x, .chip, .vid__play, .menu__social a, .footer__social a';
     const LINK = 'a, button, [role="button"], label, summary, select';
     const FOTO = 'figure img, .pannello, .vid, .scala-volti img, .volto, .caduta, .pers';
     const CAMPI = 'input, textarea';
     let mx = -200, my = -200, ax = -200, ay = -200, aw = 34, ah = 34, ar = 10, tw = 34, th = 34, tr = 10;
-    let abbr = null, rafC = 0, rafP = 0;
+    let abbr = null, rafC = 0;
     const ciclo = () => {
       let gx = mx, gy = my;
       if (abbr) {
@@ -530,18 +529,19 @@
       rafC = resto > .3 ? requestAnimationFrame(ciclo) : 0;
     };
     const via = () => { if (!rafC) rafC = requestAnimationFrame(ciclo); };
-    const punta = () => { rafP = 0; punto.style.transform = `translate3d(${mx}px, ${my}px, 0)`; };
     const stato = (cls) => ['cursore-link', 'cursore-abbraccia', 'cursore-foto', 'cursore-campo'].forEach(k => radice.classList.toggle(k, k === cls));
     addEventListener('pointermove', (e) => {
       if (e.pointerType !== 'mouse') { radice.classList.remove('cursore-dentro'); return; }
       mx = e.clientX; my = e.clientY;
       radice.classList.add('cursore-dentro');
-      if (!rafP) rafP = requestAnimationFrame(punta);
       via();
     }, { passive: true });
     document.addEventListener('pointerover', (e) => {
       const t = e.target;
       if (!(t instanceof Element)) return;
+      /* sopra un video incorporato i movimenti li riceve l'iframe: l'anello
+         resterebbe fermo sul bordo */
+      if (t.tagName === 'IFRAME') { radice.classList.remove('cursore-dentro'); return; }
       if (t.closest(CAMPI)) { abbr = null; tw = th = 34; tr = 10; stato('cursore-campo'); return; }
       const b = t.closest(BOTTONI);
       if (b) {
@@ -602,7 +602,7 @@
     e.preventDefault();
     try { sessionStorage.setItem('sipario', '1'); } catch (x) { /* senza sessione si naviga e basta */ }
     radice.classList.add('sipario-su', 'sipario-giu');
-    setTimeout(() => { location.href = u.href; }, 470);
+    setTimeout(() => { location.href = u.href; }, 220);
   });
 
   /* ── LA MAPPA A FACCIATA ────────────────────────────────────────────────

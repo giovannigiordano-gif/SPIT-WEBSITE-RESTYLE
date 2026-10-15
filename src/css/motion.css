@@ -113,8 +113,10 @@
 ::view-transition { background: var(--c-base) url(/assets/brand/logo-full-h112.webp) center / min(46vw, 230px) auto no-repeat; }
 :active-view-transition-type(dal-menu)::view-transition,
 :active-view-transition-type(dal-cta)::view-transition { background: var(--c-base); }
-::view-transition-old(root) { animation: vt-esce 300ms var(--ease-uscita) both; }
-::view-transition-new(root) { animation: vt-entra 720ms var(--ease-salita) 240ms both; }
+/* la vecchia se ne va in fretta (a 200ms il logo compariva ancora sopra il
+   titolo vecchio) e il logo resta solo sul buio per ~140ms */
+::view-transition-old(root) { animation: vt-esce 160ms cubic-bezier(.4, 0, 1, 1) both; }
+::view-transition-new(root) { animation: vt-entra 640ms var(--ease-salita) 300ms both; }
 @keyframes vt-esce { to { opacity: 0; scale: .985; } }
 @keyframes vt-entra {
   from { clip-path: polygon(0 100%, 25% 100%, 25% 112%, 50% 112%, 50% 124%, 75% 124%, 75% 136%, 100% 136%, 100% 136%, 0 136%); }

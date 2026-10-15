@@ -145,7 +145,8 @@ html.ha-cursore .palco__torcia { opacity: 1; }
    arancione corre sul confine: si allarga dal centro e si accende quando
    il confine passa a metà schermo, poi si abbassa. Sta sotto al
    contenuto, nel respiro sopra il titolo.                              */
-main > .sf:not(.sez--segue):not(:first-child)::after {
+main > .sf:not(.sez--segue):not(:first-child)::after,
+.pin-spacer > #metodo::after {
   content: ''; position: absolute; left: 0; right: 0; top: 0; height: 1px; z-index: -1; pointer-events: none;
   background: linear-gradient(90deg, rgba(255,150,60,0) 0%, rgba(255,150,60,.55) 50%, rgba(255,150,60,0) 100%);
   box-shadow: 0 0 28px 3px rgba(255,130,0,.16);
@@ -153,7 +154,8 @@ main > .sf:not(.sez--segue):not(:first-child)::after {
 }
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
-    main > .sf:not(.sez--segue):not(:first-child)::after { animation: lama linear both; animation-timeline: view(); animation-range: cover 0% cover 100%; }
+    main > .sf:not(.sez--segue):not(:first-child)::after,
+    .pin-spacer > #metodo::after { animation: lama linear both; animation-timeline: view(); animation-range: cover 0% cover 100%; }
   }
 }
 @keyframes lama { 0% { opacity: 0; scale: .15 1; } 50% { opacity: 1; scale: 1 1; } 100% { opacity: .15; scale: 1 1; } }

@@ -570,6 +570,25 @@ Verifica: catture del preloader (desktop e telefono), del passaggio con il logo,
 chiave della barra nel test); movimento ridotto pulito; audit 8 pagine × 5 larghezze senza rilievi;
 Lighthouse mobile Home 95, Metodo 96, accessibilità 100, CLS 0 (il preloader costa ~0,2s di Speed Index).
 
+*Ritocchi del 15.10, revisione della regia* («così come sono, preloader e cursore peggiorano
+l'usabilità»). Applicato:
+- **Preloader**: si alza a 0,45s (era 1,1s) e sparisce entro ~1,1s; un clic, un tasto o la rotella lo
+  fanno salire subito; finché copre intercetta i clic (prima passavano ai bottoni nascosti sotto: un clic
+  sul sipario portava alla candidatura); mai sulla pagina Candidatura; l'apertura della pagina non
+  aspetta più sotto il sipario (la foto del Metodo, in pausa, spostava l'LCP a 1,1s). Tolto lo stacco a
+  tre quarti dello schermo (il calore del pavimento è un bagliore unico).
+- **Cursore**: il cursore del sistema resta sempre visibile (nascosto, toglieva il cursore di testo, si
+  bloccava nei momenti lenti e restava incastrato sui video); resta l'anello come accento, che abbraccia
+  i bottoni e sparisce sui video e nei campi; spento anche con contrasto elevato o colori forzati.
+- **Passaggio fra le pagine**: la pagina vecchia esce in 160ms e il logo resta solo sul buio per ~140ms
+  prima dei gradini; il sipario di ripiego parte dopo 220ms (era 470).
+- **Barra**: l'invito «Candida la tua azienda» è una frase sottolineata con la freccia, non una pill: con
+  la pill la prima schermata aveva tre bottoni identici (barra, nav, hero).
+- **Polvere**: 12 quadrati più grandi (a 1x i più piccoli sembravano pixel morti); la lama di luce anche
+  sulla staffetta fissata (#metodo dentro il pin-spacer). **Logo del footer** non più schiacciato del 5%.
+Verifica: 38/38 test; movimento ridotto pulito; audit 8 pagine × 5 larghezze senza rilievi; Lighthouse
+mobile Home 95 (Speed Index 2,1s, era 3,0s), Metodo 97, Candidatura 98, accessibilità 100, CLS 0.
+
 ### Cosa è stato fatto, fase per fase (skill applicate)
 
 **Fase 1 — design system** (impeccable craft-floor, design-taste-frontend, ui-ux-pro-max checklist)

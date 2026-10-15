@@ -191,30 +191,24 @@
   .mappa { min-height: 320px; }
 }
 
-/* ── IL CURSORE-PARTICELLA (15.10: «effetti mouse») ───────────────────────
-   motion.js crea il punto (la particella del marchio, esatta) e l'anello
-   che lo segue. Il cursore del sistema si nasconde solo dove c'è il loro;
-   nei campi di testo torna.                                            */
-html.cursore-on, html.cursore-on :is(a, button, [role="button"], label, summary, select) { cursor: none; }
-html.cursore-on :is(input, textarea) { cursor: text; }
-.cursore, .cursore-anello {
+/* ── L'ANELLO DEL CURSORE (15.10: «effetti mouse») ─────────────────────────
+   Il cursore del sistema resta sempre (terzo passaggio della regia: nascosto
+   toglieva il cursore di testo, si bloccava nei momenti lenti e restava
+   incastrato sui video). motion.js aggiunge solo un anello a quadrato
+   arrotondato che lo segue: abbraccia i bottoni, si accende sui link, si
+   allarga sulle fotografie; sparisce nei campi di testo e sui video.     */
+.cursore-anello {
   position: fixed; left: 0; top: 0; z-index: 2147483000; pointer-events: none;
   opacity: 0; transition: opacity .25s linear;
 }
-html.cursore-dentro :is(.cursore, .cursore-anello) { opacity: 1; }
-html.cursore-campo :is(.cursore, .cursore-anello) { opacity: 0; }
-.cursore {
-  width: 8px; height: 8px; margin: -4px 0 0 -4px; border-radius: 2px;
-  background: var(--c-ar); box-shadow: 0 0 12px rgba(255,130,0,.55);
-  transition: opacity .25s linear, scale .3s var(--ease-salita);
-}
+html.cursore-dentro .cursore-anello { opacity: 1; }
+html.cursore-campo .cursore-anello { opacity: 0; }
 .cursore-anello {
-  width: 34px; height: 34px; border: 1.5px solid rgba(255,255,255,.36); border-radius: 10px;
+  width: 34px; height: 34px; border: 1.5px solid rgba(255,255,255,.28); border-radius: 10px;
   transition: opacity .25s linear, border-color .25s linear, background-color .25s linear, scale .25s var(--ease-salita);
 }
 html.cursore-link .cursore-anello { border-color: rgba(255,154,56,.9); background-color: rgba(255,130,0,.08); }
-html.cursore-abbraccia .cursore { scale: 0; }
 html.cursore-abbraccia .cursore-anello { border-color: rgba(255,154,56,.95); }
 html.cursore-foto .cursore-anello { border-color: rgba(255,255,255,.7); }
 html.cursore-premuto .cursore-anello { scale: .9; }
-@media (prefers-reduced-motion: reduce), (hover: none) { :is(.cursore, .cursore-anello) { display: none; } }
+@media (prefers-reduced-motion: reduce), (hover: none), (prefers-contrast: more), (forced-colors: active) { .cursore-anello { display: none; } }

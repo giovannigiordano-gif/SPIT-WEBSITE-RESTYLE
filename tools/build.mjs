@@ -148,8 +148,8 @@ const polvere = (() => {
     const o = (o0 + r() * (o1 - o0)).toFixed(2), d = Math.round(d0 + r() * (d1 - d0))
     return `<i${arancio.includes(i) ? ' class="ar"' : ''} style="--x:${x}vw;--y:${y}vh;--s:${z}px;--o:${o};--d:${d}vh"></i>`
   }).join('')}</div>`
-  return strato(11, 'palco__polvere--lontana', [1.6, 3.2], [.10, .20], [16, 40], [4]) +
-         strato(8, 'palco__polvere--vicina', [3.4, 6.4], [.12, .24], [45, 95], [1, 6])
+  return strato(6, 'palco__polvere--lontana', [3.5, 5], [.08, .14], [16, 40], [2]) +
+         strato(6, 'palco__polvere--vicina', [5, 7.5], [.10, .18], [45, 95], [1, 4])
 })()
 const palco = () => `<div class="palco" aria-hidden="true">${ATMO.map(a => `<i data-a="${a}"></i>`).join('')}${polvere}<b class="palco__torcia"></b></div>`
 
@@ -169,7 +169,7 @@ const barra = () => `
   <a class="barra__link" href="/candidatura.html">
     <span class="barra__dot" aria-hidden="true"></span>
     <span>Vuoi collaborare con noi?</span>
-    <span class="barra__pill"><span>Candida la tua azienda</span>${ICO_FRECCIA}</span>
+    <span class="barra__invito"><span>Candida la tua azienda</span>${ICO_FRECCIA}</span>
   </a>
   <button class="barra__x" id="barra-x" aria-label="Chiudi l'annuncio">
     <svg width="12" height="12" viewBox="0 0 11 11" aria-hidden="true"><path d="M1 1l9 9M10 1l-9 9" stroke="currentColor" stroke-width="1.6"/></svg>
@@ -338,7 +338,7 @@ ${slug === 'home' ? `<!-- Il 3D dell'hero è solo per desktop con puntatore fine
 <script>try{if(matchMedia('(min-width:1024px) and (pointer:fine) and (prefers-reduced-motion:no-preference)').matches&&!(navigator.connection&&navigator.connection.saveData))document.documentElement.classList.add('vuole-3d')}catch(e){}</script>` : ''}
 <!-- Il sipario: preloader alla prima pagina della sessione, passaggio fra
      le pagine dove non ci sono le View Transitions (vedi sipario() sopra). -->
-<script>(function(){var d=document.documentElement,v,p;try{if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;v=sessionStorage.getItem('visto');p=sessionStorage.getItem('sipario');sessionStorage.setItem('visto','1');sessionStorage.removeItem('sipario')}catch(e){return}if(v&&!p)return;var primo=!v,c=d.classList;c.add('sipario-su');if(primo)c.add('sipario-primo');var t1=setTimeout(function(){c.add('sipario-via')},primo?1100:160),t2=setTimeout(function(){c.remove('sipario-su','sipario-primo','sipario-via')},primo?2000:1050);addEventListener('pagereveal',function(e){if(e.viewTransition){clearTimeout(t1);clearTimeout(t2);c.remove('sipario-su','sipario-primo','sipario-via')}});addEventListener('pageshow',function(e){if(e.persisted)c.remove('sipario-su','sipario-primo','sipario-via','sipario-giu')})})()</script>
+<script>(function(){var d=document.documentElement,v,p;try{if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;v=sessionStorage.getItem('visto');p=sessionStorage.getItem('sipario');sessionStorage.setItem('visto','1');sessionStorage.removeItem('sipario')}catch(e){return}if((v&&!p)||location.pathname==='/candidatura.html')return;var primo=!v,c=d.classList,t1,t2,fine=function(){c.remove('sipario-su','sipario-primo','sipario-via')},via=function(dopo){clearTimeout(t1);clearTimeout(t2);c.add('sipario-via');t2=setTimeout(fine,dopo)},salta=function(){if(!c.contains('sipario-via')&&c.contains('sipario-su'))via(620)};c.add('sipario-su');if(primo)c.add('sipario-primo');t1=setTimeout(function(){via(650)},primo?450:120);['pointerdown','keydown','wheel','touchstart'].forEach(function(t){addEventListener(t,salta,{passive:true,once:true})});addEventListener('pagereveal',function(e){if(e.viewTransition){clearTimeout(t1);clearTimeout(t2);fine()}});addEventListener('pageshow',function(e){if(e.persisted)c.remove('sipario-su','sipario-primo','sipario-via','sipario-giu')})})()</script>
 
 <link rel="preload" href="/assets/fonts/dm-sans-latin-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
