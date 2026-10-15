@@ -533,6 +533,43 @@ Applicato:
 Verifica: 38/38 test, movimento ridotto senza movimento, audit senza rilievi, Lighthouse mobile
 Home 96, Metodo 97, Candidatura 99, accessibilità 100, CLS 0.
 
+*Ritocchi del 15.10* — «metti il logo corretto; dati fiscali corretti nel footer, cercali sul web;
+preloader e transizioni fra le pagine; nella barra in alto per ora "vuoi collaborare con noi? Candida
+la tua azienda"; effetti mouse ed effetti di sfondo leggeri fra le sezioni».
+- **Il logo.** La variante della nav era stata ricavata TAGLIANDO il file del cliente in altezza (per
+  togliere il payoff), e il taglio mozzava l'ultimo quadrato del marchio. Ora ovunque il lockup intero
+  (marchio completo, nome, payoff), come nell'intestazione del sito ufficiale: 40px nella nav su
+  desktop, 34 sotto i 1100px, 30 sui telefoni. Una differenza resta (§6): il logo pubblicato su
+  salesprocess.it ha il payoff con i punti, il file HD ricevuto con le virgole.
+- **I dati fiscali** (cercati sul web e incrociati, non inventati): Sales Process S.r.l. · P.IVA e C.F.
+  03924340130 (footer ufficiale di go.salesprocess.it; reportaziende.it; companyreports.it) · REA
+  CO-407061 (companyreports.it, visurissima.it) · capitale sociale € 30.000,00 (footer ufficiale di
+  go.salesprocess.it) · sede legale Piazza IV Novembre 1, 22070 Capiago Intimiano (CO) (visurissima.it).
+  Tolti i segnaposto «[Ragione sociale]», «P.IVA [da cliente]» e «ISO 9001:2015 n. [da cliente]»: il
+  numero del certificato non è pubblicato da nessuna parte (resta «Certificazione · in arrivo»).
+- **La barra in alto**: «Vuoi collaborare con noi? · Candida la tua azienda →», verso la candidatura (al
+  posto del Sales Process Day del 14.10, ormai passato). Chiave di chiusura nuova: chi aveva chiuso
+  l'annuncio dell'evento vede l'invito.
+- **Il sipario** (preloader e passaggio fra le pagine): alla prima pagina della sessione il logo vero sale,
+  un filo arancione si carica, poi quattro gradini scuri salgono uno dopo l'altro (il gesto del marchio)
+  e la pagina si compone mentre si scopre, in circa 2 secondi. Nei browser senza View Transitions fra
+  documenti (Firefox) lo stesso sipario fa da passaggio: i gradini salgono a coprire, la pagina nuova
+  nasce coperta e si scopre. Dove le View Transitions ci sono, la pagina vecchia si spegne, per un
+  attimo sul buio resta il logo, poi la nuova sale a gradini. Non blocca i clic; nessun sipario a
+  movimento ridotto.
+- **Il mouse**: il cursore-particella (il punto è la particella arancione del marchio, esatto; un anello
+  lo segue, abbraccia i bottoni senza spostarli, si accende sui link, si allarga sulle foto; nei campi di
+  testo torna il cursore del sistema) e la profondità (fotografie e polvere scivolano di pochi pixel in
+  senso opposto al cursore, ognuna alla sua distanza: nel contro-esempio il cubo si sposta più delle
+  mani). Solo mouse e senza movimento ridotto.
+- **Lo sfondo**: la polvere (diciannove quadrati del marchio quasi spenti su due piani, salgono piano con
+  lo scroll e col mouse; nessun ciclo infinito) e la lama di luce sui confini fra le stanze (dove cambia
+  la luce del palco: si allarga dal centro e si accende quando il confine passa a metà schermo).
+Verifica: catture del preloader (desktop e telefono), del passaggio con il logo, del sipario di ripiego
+(simulato in Chrome togliendo le View Transitions), del cursore e degli sfondi; 38/38 test (aggiornata la
+chiave della barra nel test); movimento ridotto pulito; audit 8 pagine × 5 larghezze senza rilievi;
+Lighthouse mobile Home 95, Metodo 96, accessibilità 100, CLS 0 (il preloader costa ~0,2s di Speed Index).
+
 ### Cosa è stato fatto, fase per fase (skill applicate)
 
 **Fase 1 — design system** (impeccable craft-floor, design-taste-frontend, ui-ux-pro-max checklist)
@@ -670,8 +707,9 @@ Candidatura), indice (Fatturare³, Team), manifesto ed elenco numerato (DNA), mu
   liberatoria» quando `prov:true`).
 - I tre **passaggi di consegna** (chi, cosa, SLA, strumento): sono il contenuto della scena pinnata.
 - **Fascicoli clienti**, **candidature per trimestre**, **elenco reale dei 33 settori**, **durata media del
-  rapporto**, **ragione sociale e P.IVA** (footer), **certificato ISO** (il link «Certificazione» è un
-  segnaposto dichiarato).
+  rapporto**, **certificato ISO** (il link «Certificazione» è un segnaposto dichiarato). Ragione sociale, P.IVA,
+  REA e capitale sono nel footer dal 15.10, presi da fonti pubbliche (§3): vanno confermati sulla
+  visura camerale, il REA viene da due aggregatori e non dal sito del cliente.
 - **URL di articoli e libri** (titoli e copertine), oggi marcati `.todo` in `fatturare.html`. Il podcast
   ora porta al canale YouTube indicato dall'agenzia (giro 4).
 - **Logo del podcast** (giro 4): il file allegato in chat non è leggibile dal disco. Salvarlo come
@@ -679,9 +717,15 @@ Candidatura), indice (Fatturare³, Team), manifesto ed elenco numerato (DNA), mu
   solo nel capitolo «Il podcast» della home e nella sezione podcast di Fatturare³. Non va ridisegnato.
 
 **Dalla correzione di bozze (ciclo 1) — scelte del cliente, non errori: da confermare**
-- **La data dell'evento.** Sales Process Day è il **14 ottobre 2026**, cioè oggi: da domani la barra in
-  cima, il menu e la pagina Eventi vendono un evento passato. Serve la data della prossima edizione (o
-  la decisione di togliere la barra).
+- **La data dell'evento.** Sales Process Day era il **14 ottobre 2026**: dal 15.10 la barra in cima
+  invita a collaborare, ma il menu («Sales Process Day · 14 ottobre 2026 · Milano») e la pagina Eventi
+  vendono ancora un evento passato. Serve la data della prossima edizione (o la decisione di
+  trasformare la pagina in un «com'è andata»).
+- **Il logo con i punti.** Sul sito ufficiale il payoff è «FATTURARE. FATTURARE. FATTURARE.» (file
+  `logo-2048x498-1.avif`, 8,4 KB, caricato a ottobre 2025 in salesprocess.it/wp-content/uploads/2025/10/);
+  il file HD consegnato con l'handoff ha «FATTURARE, FATTURARE, FATTURARE.». Non l'ho scaricato senza
+  un ok: con l'ok (o con il file vettoriale dal cliente) si sostituisce in `src/assets/brand/` e il resto
+  segue da solo.
 - Finale della home: «il numero che trovi in fondo al tuo bilancio» — in fondo al conto economico c'è
   l'utile, il fatturato sta in cima. Proposta: «il numero che trovi in cima al tuo conto economico».
 - DNA: il principio «Do more with less» è l'unico titolo in inglese (proposta: «Fare di più con meno»).

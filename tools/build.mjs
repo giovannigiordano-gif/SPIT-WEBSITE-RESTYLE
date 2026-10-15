@@ -13,14 +13,14 @@ const PAGES = join(ROOT, 'pages')
 const OUT = join(ROOT, 'src')
 
 /* Il logo è l'ASSET ORIGINALE del cliente (4118×1001). Un logo non si
-   ridisegna: si usa. Due varianti tagliate dallo stesso file:
-     logo.webp       mark + wordmark, per la nav
-     logo-full.webp  lockup completo con il payoff, per il footer        */
-/* Varianti a misura (tools/immagini.mjs): il PNG da 4118px mostrato alto
-   30px pesava come una fotografia.                                      */
-const LOGO = (h, full = false) => full
-  ? `<img class="marchio__img" src="/assets/brand/logo-full-h112.webp" alt="Sales Process" style="height:${h}px" width="461" height="112" loading="lazy" decoding="async">`
-  : `<img class="marchio__img" src="/assets/brand/logo-h64.webp" srcset="/assets/brand/logo-h64.webp 312w, /assets/brand/logo-h160.webp 779w" sizes="${Math.round(h * 4.87)}px" alt="Sales Process" style="height:${h}px" width="312" height="64">`
+   ridisegna: si usa. Ritocchi del 15.10 («metti il logo corretto»): la
+   variante senza payoff era stata ottenuta TAGLIANDO il file in altezza, e
+   il taglio mozzava l'ultimo quadrato del marchio. Ora ovunque il lockup
+   intero — marchio completo, nome e payoff — come nell'intestazione del
+   sito ufficiale. Variante a misura (tools/immagini.mjs): il PNG da 4118px
+   mostrato alto 40px pesava come una fotografia.
+   presto: nella nav è sopra la piega, non si rimanda.                  */
+const LOGO = (h, presto = false) => `<img class="marchio__img" src="/assets/brand/logo-full-h112.webp" alt="Sales Process" style="height:${h}px" width="461" height="112"${presto ? '' : ' loading="lazy"'} decoding="async">`
 
 /* Icone social disegnate, stessa convenzione del resto del sito: nessun
    glifo, nessuna webfont di icone.                                      */
@@ -138,20 +138,38 @@ const ATMO = ['nero', 'brace', 'alba', 'radente', 'notte', 'pozzo', 'fuoco']
    fotogramma, quindi il primo fotogramma aspetta che l'elemento sia stato
    letto: <link rel="expect" blocking="render">.                         */
 const ATTESA = { metodo: 'foto-pagina', risultati: 'foto-pagina', dna: 'foto-pagina', eventi: 'foto-pagina', fatturare: 'foto-pagina', candidatura: 'foto-pagina', team: 'scala-volti' }
-const palco = () => `<div class="palco" aria-hidden="true">${ATMO.map(a => `<i data-a="${a}"></i>`).join('')}<b class="palco__torcia"></b></div>`
+/* LA POLVERE (ritocchi del 15.10, «effetti di sfondo leggeri»): pochi
+   quadrati del marchio, minuscoli e quasi spenti, sospesi nel palco su due
+   piani. Posizioni deterministiche (stesso risultato a ogni build). */
+const polvere = (() => {
+  let s = 11; const r = () => (s = (s * 9301 + 49297) % 233280) / 233280
+  const strato = (n, cls, [s0, s1], [o0, o1], [d0, d1], arancio) => `<div class="palco__polvere ${cls}">${Array.from({ length: n }, (_, i) => {
+    const x = (r() * 94 + 3).toFixed(1), y = (r() * 160 - 30).toFixed(1), z = (s0 + r() * (s1 - s0)).toFixed(1)
+    const o = (o0 + r() * (o1 - o0)).toFixed(2), d = Math.round(d0 + r() * (d1 - d0))
+    return `<i${arancio.includes(i) ? ' class="ar"' : ''} style="--x:${x}vw;--y:${y}vh;--s:${z}px;--o:${o};--d:${d}vh"></i>`
+  }).join('')}</div>`
+  return strato(11, 'palco__polvere--lontana', [1.6, 3.2], [.10, .20], [16, 40], [4]) +
+         strato(8, 'palco__polvere--vicina', [3.4, 6.4], [.12, .24], [45, 95], [1, 6])
+})()
+const palco = () => `<div class="palco" aria-hidden="true">${ATMO.map(a => `<i data-a="${a}"></i>`).join('')}${polvere}<b class="palco__torcia"></b></div>`
+
+/* IL SIPARIO (ritocchi del 15.10, «preloader e transizioni fra le
+   pagine»): quattro gradini scuri e il logo. Alla prima pagina della
+   sessione fa da preloader (il logo, il filo che si carica, poi i gradini
+   salgono uno per uno); nei browser senza View Transitions fra documenti
+   fa da passaggio fra le pagine (motion.js lo chiude, la pagina nuova lo
+   riapre). Lo governa uno script nel <head>, prima del primo fotogramma.
+   Non blocca i clic e non esiste a movimento ridotto.                  */
+const sipario = () => `<div class="sipario" aria-hidden="true"><i style="--k:0"></i><i style="--k:1"></i><i style="--k:2"></i><i style="--k:3"></i><span class="sipario__marchio"><img src="/assets/brand/logo-full-h112.webp" alt="" width="461" height="112" decoding="async"></span><span class="sipario__filo"></span></div>`
 
 /* La fascia è UN link: prima il bersaglio era la sola pill, che sotto i
    560px si riduceva a un ovale nero di 20×26px.                        */
 const barra = () => `
 <div class="barra" id="barra">
-  <a class="barra__link" href="/eventi.html">
+  <a class="barra__link" href="/candidatura.html">
     <span class="barra__dot" aria-hidden="true"></span>
-    <span>Sales Process Day 2026</span>
-    <span class="barra__sep barra__data" aria-hidden="true">·</span>
-    <span class="barra__data">14 ottobre · Milano</span>
-    <span class="barra__slot barra__sep" aria-hidden="true">·</span>
-    <span class="barra__slot">30 posti in sala</span>
-    <span class="barra__pill"><span>Prendi il tuo posto</span>${ICO_FRECCIA}</span>
+    <span>Vuoi collaborare con noi?</span>
+    <span class="barra__pill"><span>Candida la tua azienda</span>${ICO_FRECCIA}</span>
   </a>
   <button class="barra__x" id="barra-x" aria-label="Chiudi l'annuncio">
     <svg width="12" height="12" viewBox="0 0 11 11" aria-hidden="true"><path d="M1 1l9 9M10 1l-9 9" stroke="currentColor" stroke-width="1.6"/></svg>
@@ -187,7 +205,7 @@ const nav = (slug) => `
 <header class="nav" id="nav">
   <div class="wrap wrap--nav nav__in">
     <a class="marchio" href="/" aria-label="Sales Process, home">
-      ${LOGO(30)}
+      ${LOGO(40, true)}
     </a>
     <!-- Il capitolo in cui sei (motion.js, dalle sezioni con data-cap):
          solo orientamento, i lettori di schermo hanno già i titoli. -->
@@ -205,7 +223,7 @@ const nav = (slug) => `
 <div class="menu" id="menu" role="dialog" aria-modal="true" aria-label="Menu" hidden>
   <div class="menu__card">
     <div class="menu__testa">
-      <a class="marchio" href="/" aria-label="Sales Process, home">${LOGO(30)}</a>
+      <a class="marchio" href="/" aria-label="Sales Process, home">${LOGO(40)}</a>
       <button class="menu-btn menu-btn--chiudi" id="menu-chiudi" type="button" aria-label="Chiudi il menu">
         <span class="menu-btn__txt">Chiudi</span><span class="menu-btn__ico is-x" aria-hidden="true"><span></span></span>
       </button>
@@ -231,7 +249,7 @@ const footer = () => `
   <div class="wrap wrap--piena">
     <div class="footer__grid">
       <div>
-        <a class="marchio" href="/" aria-label="Sales Process, home">${LOGO(54, true)}</a>
+        <a class="marchio" href="/" aria-label="Sales Process, home">${LOGO(54)}</a>
         <p class="t-piccolo" style="margin-top:var(--s-4);max-inline-size:30ch;color:var(--c-t3)">Quattro reparti sotto lo stesso tetto. Un numero solo da guardare: il tuo fatturato.</p>
         <div class="footer__social">${socialHtml()}</div>
       </div>
@@ -269,13 +287,14 @@ const footer = () => `
         </${telHref ? 'a' : 'div'}>
         <a class="footer__mail link-wipe" href="mailto:amministrazione@salesprocess.it">amministrazione@<wbr>salesprocess.it</a>
         <p class="t-piccolo footer__sedi"><b>Uffici di rappresentanza</b><br>Via Marco D'Agrate 41, 20139 Milano (MI)</p>
-        <p class="t-piccolo footer__sedi"><b>Sede legale</b><br>Piazza IV Novembre, 22070 Capiago Intimiano (CO)</p>
+        <p class="t-piccolo footer__sedi"><b>Sede legale</b><br>Piazza IV Novembre 1, 22070 Capiago Intimiano (CO)</p>
       </div>
     </div>
     <div class="footer__legale">
-      <span><em>[Ragione sociale]</em></span>
-      <span>P.IVA <em>[da cliente]</em></span>
-      <span>ISO 9001:2015 n. <em>[da cliente]</em></span>
+      <span>© 2026 Sales Process S.r.l.</span>
+      <span>P.IVA e C.F. 03924340130</span>
+      <span>REA CO-407061</span>
+      <span>Capitale sociale € 30.000,00</span>
       <a href="https://www.iubenda.com/privacy-policy/61378305" target="_blank" rel="noopener" class="link-wipe">Privacy Policy</a>
       <a href="https://www.iubenda.com/privacy-policy/61378305/cookie-policy" target="_blank" rel="noopener" class="link-wipe">Cookie Policy</a>
       <span>Dati aggiornati al 09.09.2026</span>
@@ -316,6 +335,9 @@ ${slug === 'home' ? `<!-- Il 3D dell'hero è solo per desktop con puntatore fine
      reduced-motion. Il segnale va messo PRIMA del primo paint: altrimenti il
      marchio DOM si monterebbe e poi sparirebbe nei cubi della scena 3D. -->
 <script>try{if(matchMedia('(min-width:1024px) and (pointer:fine) and (prefers-reduced-motion:no-preference)').matches&&!(navigator.connection&&navigator.connection.saveData))document.documentElement.classList.add('vuole-3d')}catch(e){}</script>` : ''}
+<!-- Il sipario: preloader alla prima pagina della sessione, passaggio fra
+     le pagine dove non ci sono le View Transitions (vedi sipario() sopra). -->
+<script>(function(){var d=document.documentElement,v,p;try{if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;v=sessionStorage.getItem('visto');p=sessionStorage.getItem('sipario');sessionStorage.setItem('visto','1');sessionStorage.removeItem('sipario')}catch(e){return}if(v&&!p)return;var primo=!v,c=d.classList;c.add('sipario-su');if(primo)c.add('sipario-primo');var t1=setTimeout(function(){c.add('sipario-via')},primo?1100:160),t2=setTimeout(function(){c.remove('sipario-su','sipario-primo','sipario-via')},primo?2000:1050);addEventListener('pagereveal',function(e){if(e.viewTransition){clearTimeout(t1);clearTimeout(t2);c.remove('sipario-su','sipario-primo','sipario-via')}});addEventListener('pageshow',function(e){if(e.persisted)c.remove('sipario-su','sipario-primo','sipario-via','sipario-giu')})})()</script>
 
 <link rel="preload" href="/assets/fonts/dm-sans-latin-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
@@ -328,6 +350,7 @@ ${slug === 'home' ? `<!-- Il 3D dell'hero è solo per desktop con puntatore fine
 <link rel="stylesheet" href="/css/sito.css?v=${VERSIONE}">
 </head>
 <body data-pagina="${slug}">
+${sipario()}
 ${palco()}
 <a class="skip" href="#main">Salta al contenuto</a>
 ${barra()}

@@ -19,10 +19,12 @@
   const ICO_PLAY  = '<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M8 5.6v12.8a.6.6 0 0 0 .9.5l10-6.4a.6.6 0 0 0 0-1L8.9 5.1a.6.6 0 0 0-.9.5z"/></svg>';
 
   /* ── BARRA ANNUNCIO ───────────────────────────────────────────────────── */
-  try { if (localStorage.getItem('barra') === 'off') document.documentElement.classList.add('barra-off'); } catch {}
+  /* la chiave è nuova (15.10): chi aveva chiuso l'annuncio dell'evento
+     vede l'invito a collaborare, che è un altro messaggio */
+  try { if (localStorage.getItem('barra-collabora') === 'off') document.documentElement.classList.add('barra-off'); } catch {}
   $('#barra-x')?.addEventListener('click', () => {
     document.documentElement.classList.add('barra-off');
-    try { localStorage.setItem('barra', 'off'); } catch {}
+    try { localStorage.setItem('barra-collabora', 'off'); } catch {}
   });
 
   /* ── IL PALCO · quale luce è accesa ─────────────────────────────────────
@@ -491,6 +493,117 @@
     $$('.pannello').forEach(n => n.addEventListener('pointerleave', () => { n.style.setProperty('--fx', '0px'); n.style.setProperty('--fy', '0px'); }));
 
   }
+
+  /* ── IL CURSORE-PARTICELLA (ritocchi del 15.10: «effetti mouse») ─────────
+     Il punto del cursore è la particella del marchio, un quadrato arancione,
+     esatto (nessun ritardo: si clicca dove si vede). Un anello a quadrato
+     arrotondato lo segue con un filo di ritardo: sui bottoni ne prende la
+     forma e li abbraccia (il bottone resta fermo: niente magnetic), sui
+     link si accende, sulle fotografie si allarga; nei campi di testo
+     sparisce e torna il cursore del sistema. Solo mouse, solo senza
+     reduced-motion; scrive transform e misure in rAF, e il ciclo si ferma
+     quando l'anello è arrivato.                                          */
+  if (matchMedia('(hover: hover) and (pointer: fine)').matches && !RM()) {
+    const punto = document.createElement('div'), anello = document.createElement('div');
+    punto.className = 'cursore'; anello.className = 'cursore-anello';
+    punto.setAttribute('aria-hidden', 'true'); anello.setAttribute('aria-hidden', 'true');
+    document.body.append(anello, punto);
+    radice.classList.add('cursore-on');
+    const BOTTONI = '.cta, .menu-btn, .frecc, .pausa, .barra__pill, .barra__x, .chip, .vid__play, .menu__social a, .footer__social a';
+    const LINK = 'a, button, [role="button"], label, summary, select';
+    const FOTO = 'figure img, .pannello, .vid, .scala-volti img, .volto, .caduta, .pers';
+    const CAMPI = 'input, textarea';
+    let mx = -200, my = -200, ax = -200, ay = -200, aw = 34, ah = 34, ar = 10, tw = 34, th = 34, tr = 10;
+    let abbr = null, rafC = 0, rafP = 0;
+    const ciclo = () => {
+      let gx = mx, gy = my;
+      if (abbr) {
+        const b = abbr.n.getBoundingClientRect();
+        gx = b.left + b.width / 2; gy = b.top + b.height / 2; tw = b.width + 12; th = b.height + 12; tr = abbr.r;
+      }
+      ax += (gx - ax) * .24; ay += (gy - ay) * .24;
+      aw += (tw - aw) * .24; ah += (th - ah) * .24; ar += (tr - ar) * .24;
+      anello.style.transform = `translate3d(${(ax - aw / 2).toFixed(1)}px, ${(ay - ah / 2).toFixed(1)}px, 0)`;
+      anello.style.width = aw.toFixed(1) + 'px'; anello.style.height = ah.toFixed(1) + 'px';
+      anello.style.borderRadius = ar.toFixed(1) + 'px';
+      const resto = Math.abs(gx - ax) + Math.abs(gy - ay) + Math.abs(tw - aw) + Math.abs(th - ah);
+      rafC = resto > .3 ? requestAnimationFrame(ciclo) : 0;
+    };
+    const via = () => { if (!rafC) rafC = requestAnimationFrame(ciclo); };
+    const punta = () => { rafP = 0; punto.style.transform = `translate3d(${mx}px, ${my}px, 0)`; };
+    const stato = (cls) => ['cursore-link', 'cursore-abbraccia', 'cursore-foto', 'cursore-campo'].forEach(k => radice.classList.toggle(k, k === cls));
+    addEventListener('pointermove', (e) => {
+      if (e.pointerType !== 'mouse') { radice.classList.remove('cursore-dentro'); return; }
+      mx = e.clientX; my = e.clientY;
+      radice.classList.add('cursore-dentro');
+      if (!rafP) rafP = requestAnimationFrame(punta);
+      via();
+    }, { passive: true });
+    document.addEventListener('pointerover', (e) => {
+      const t = e.target;
+      if (!(t instanceof Element)) return;
+      if (t.closest(CAMPI)) { abbr = null; tw = th = 34; tr = 10; stato('cursore-campo'); return; }
+      const b = t.closest(BOTTONI);
+      if (b) {
+        const r = parseFloat(getComputedStyle(b).borderTopLeftRadius) || 8;
+        abbr = { n: b, r: Math.min((b.offsetHeight + 12) / 2, r + 6) }; stato('cursore-abbraccia'); via(); return;
+      }
+      abbr = null;
+      if (t.closest(LINK)) { tw = th = 54; tr = 16; stato('cursore-link'); }
+      else if (t.closest(FOTO)) { tw = th = 86; tr = 24; stato('cursore-foto'); }
+      else { tw = th = 34; tr = 10; stato(null); }
+      via();
+    }, { passive: true });
+    addEventListener('pointerdown', () => radice.classList.add('cursore-premuto'), { passive: true });
+    addEventListener('pointerup', () => radice.classList.remove('cursore-premuto'), { passive: true });
+    document.documentElement.addEventListener('mouseleave', () => radice.classList.remove('cursore-dentro'));
+    addEventListener('scroll', () => { if (abbr) via(); }, { passive: true });
+    addEventListener('blur', () => radice.classList.remove('cursore-dentro'));
+
+    /* LA PROFONDITÀ: le fotografie (e la polvere del palco) scivolano di
+       pochi pixel in senso opposto al cursore, ognuna alla sua distanza;
+       il testo resta fermo. transform, non translate: le animazioni di
+       scroll di quelle stesse figure lavorano su translate, e i due si
+       sommano invece di pestarsi. Si aggiornano solo quelle in vista.    */
+    const PROF = [['.testa-pag__foto', 12], ['.finale__foto', 16], ['.podcast__foto', 14], ['.cartelli__f', 10],
+      ['.caduta__s--sx', 6], ['.caduta__s--dx', 6], ['.caduta__s--cubo', 22], ['.passaggio__foto', 8],
+      ['.staffetta__fine img', 8], ['.scala-volti', 10], ['.libri__foto', 10], ['.palco__polvere--lontana', 8], ['.palco__polvere--vicina', 24]];
+    const prof = [];
+    PROF.forEach(([s, k]) => $$(s).forEach(n => prof.push({ n, k, vis: s.startsWith('.palco') })));
+    if (prof.length) {
+      const ioP = new IntersectionObserver(es => es.forEach(e => { const p = prof.find(q => q.n === e.target); if (p) p.vis = e.isIntersecting; }));
+      prof.forEach(p => { if (!p.n.closest('.palco')) ioP.observe(p.n); });
+      let px = 0, py = 0, qx = 0, qy = 0, rafD = 0;
+      const muovi = () => {
+        qx += (px - qx) * .08; qy += (py - qy) * .08;
+        for (const p of prof) if (p.vis) p.n.style.transform = `translate3d(${(-qx * p.k).toFixed(2)}px, ${(-qy * p.k * .7).toFixed(2)}px, 0)`;
+        rafD = Math.abs(px - qx) + Math.abs(py - qy) > .002 ? requestAnimationFrame(muovi) : 0;
+      };
+      addEventListener('pointermove', (e) => {
+        if (e.pointerType !== 'mouse') return;
+        px = e.clientX / innerWidth * 2 - 1; py = e.clientY / innerHeight * 2 - 1;
+        if (!rafD) rafD = requestAnimationFrame(muovi);
+      }, { passive: true });
+    }
+  }
+
+  /* ── IL SIPARIO FRA LE PAGINE, DOVE NON CI SONO LE VIEW TRANSITIONS ──────
+     Firefox (e i Safari senza passaggi fra documenti): al clic su un link
+     interno i quattro gradini salgono a coprire la pagina, poi si naviga;
+     la pagina nuova nasce coperta (script nel <head>) e si scopre. Dove le
+     View Transitions ci sono, il passaggio lo fanno loro (motion.css).  */
+  if (!('onpagereveal' in window) && !RM()) document.addEventListener('click', (e) => {
+    const a = e.target.closest('a[href]');
+    if (!a || e.defaultPrevented || e.button || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    if ((a.target && a.target !== '_self') || a.hasAttribute('download')) return;
+    const u = new URL(a.href, location.href);
+    if (u.origin !== location.origin || u.pathname === location.pathname) return;
+    if (!/(\.html|\/)$/.test(u.pathname)) return;
+    e.preventDefault();
+    try { sessionStorage.setItem('sipario', '1'); } catch (x) { /* senza sessione si naviga e basta */ }
+    radice.classList.add('sipario-su', 'sipario-giu');
+    setTimeout(() => { location.href = u.href; }, 470);
+  });
 
   /* ── LA MAPPA A FACCIATA ────────────────────────────────────────────────
      L'embed di Google scarica oltre un megabyte e scrive cookie di

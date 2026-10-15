@@ -120,6 +120,44 @@ html[data-atmo="fuoco"]   .palco > [data-a="fuoco"] {
 }
 html.ha-cursore .palco__torcia { opacity: 1; }
 
+/* ── LA POLVERE (15.10: «effetti di sfondo leggeri») ──────────────────────
+   I contatti sparsi dell'hero restano nell'aria per tutta la pagina: pochi
+   quadrati del marchio, minuscoli e quasi spenti, su due piani. Salgono
+   piano con lo scroll (il piano vicino più in fretta) e col mouse si
+   spostano di pochi pixel (motion.js, transform). Nessun ciclo infinito:
+   si muovono solo se si muove la pagina o il cursore.                  */
+.palco__polvere { position: absolute; inset: 0; }
+.palco__polvere i {
+  position: absolute; left: var(--x); top: var(--y); width: var(--s); height: var(--s);
+  border-radius: 26%; background: rgba(255,255,255,var(--o));
+}
+.palco__polvere i.ar { background: rgba(255,130,0,calc(var(--o) * 1.8)); box-shadow: 0 0 10px rgba(255,130,0,calc(var(--o) * 1.4)); }
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .palco__polvere i { animation: polvere linear both; animation-timeline: scroll(root block); }
+  }
+}
+@keyframes polvere { to { translate: 0 calc(var(--d) * -1); } }
+
+/* ── LA LAMA DI LUCE FRA LE STANZE (15.10) ────────────────────────────────
+   Dove cambia la luce del palco (una sezione che apre una stanza nuova,
+   non quelle che continuano un capitolo) una lama sottile di luce
+   arancione corre sul confine: si allarga dal centro e si accende quando
+   il confine passa a metà schermo, poi si abbassa. Sta sotto al
+   contenuto, nel respiro sopra il titolo.                              */
+main > .sf:not(.sez--segue):not(:first-child)::after {
+  content: ''; position: absolute; left: 0; right: 0; top: 0; height: 1px; z-index: -1; pointer-events: none;
+  background: linear-gradient(90deg, rgba(255,150,60,0) 0%, rgba(255,150,60,.55) 50%, rgba(255,150,60,0) 100%);
+  box-shadow: 0 0 28px 3px rgba(255,130,0,.16);
+  opacity: .3;
+}
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    main > .sf:not(.sez--segue):not(:first-child)::after { animation: lama linear both; animation-timeline: view(); animation-range: cover 0% cover 100%; }
+  }
+}
+@keyframes lama { 0% { opacity: 0; scale: .15 1; } 50% { opacity: 1; scale: 1 1; } 100% { opacity: .15; scale: 1 1; } }
+
 /* Sul freddo l'arancio vibra di più: lì l'accento scende di un gradino.
    Non nei titoli: lì l'arancio non c'è più (type.css).                 */
 html[data-atmo="notte"] .sf--notte .ar:not(h2 .ar) { color: var(--c-ar-hot); }
@@ -131,7 +169,7 @@ html[data-atmo="notte"] .sf--notte .ar:not(h2 .ar) { color: var(--c-ar-hot); }
 @media (prefers-contrast: more) {
   /* Ad alto contrasto le atmosfere si spengono: sono un lusso, non
      informazione, e qui rubano leggibilità.                            */
-  .palco > i, .palco::after { display: none; }
+  .palco > i, .palco::after, .palco__polvere { display: none; }
 }
 @media (prefers-reduced-transparency: reduce) {
   .palco > i { transition: none; }

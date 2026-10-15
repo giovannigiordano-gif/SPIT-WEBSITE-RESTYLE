@@ -106,9 +106,16 @@
    tools/build.mjs, shell — qui solo i nomi e le animazioni */
 .barra { view-transition-name: barra; }
 .nav   { view-transition-name: nav; }
-::view-transition-old(root) { animation: vt-esce 420ms var(--ease-uscita) both; }
-::view-transition-new(root) { animation: vt-entra 760ms var(--ease-salita) both; }
-@keyframes vt-esce { to { opacity: .2; translate: 0 -3vh; } }
+/* Ritocchi del 15.10 («transizioni fra le pagine» che si vedano): la
+   pagina vecchia si spegne del tutto, per un attimo sul buio resta il logo
+   vero, e la pagina nuova sale a gradini sopra di lui. Il volo dal menu e
+   il bottone che diventa la pagina hanno la loro coreografia, senza logo. */
+::view-transition { background: var(--c-base) url(/assets/brand/logo-full-h112.webp) center / min(46vw, 230px) auto no-repeat; }
+:active-view-transition-type(dal-menu)::view-transition,
+:active-view-transition-type(dal-cta)::view-transition { background: var(--c-base); }
+::view-transition-old(root) { animation: vt-esce 300ms var(--ease-uscita) both; }
+::view-transition-new(root) { animation: vt-entra 720ms var(--ease-salita) 240ms both; }
+@keyframes vt-esce { to { opacity: 0; scale: .985; } }
 @keyframes vt-entra {
   from { clip-path: polygon(0 100%, 25% 100%, 25% 112%, 50% 112%, 50% 124%, 75% 124%, 75% 136%, 100% 136%, 100% 136%, 0 136%); }
   to   { clip-path: polygon(0 -36%, 25% -36%, 25% -24%, 50% -24%, 50% -12%, 75% -12%, 75% 0, 100% 0, 100% 100%, 0 100%); }

@@ -22,6 +22,9 @@
 <link rel="expect" href="#scala-volti" blocking="render">
 <script>(function(){function n(){}function p(v){['ready','finished','updateCallbackDone'].forEach(function(k){if(v[k]&&v[k].catch)v[k].catch(n)})}addEventListener('pageswap',function(e){var v=e.viewTransition;if(!v)return;p(v);if(document.visibilityState!=='visible'||navigator.webdriver)v.skipTransition()});addEventListener('pagereveal',function(e){var v=e.viewTransition,k=null,c=null,m=null,d=document,nn=[];try{k=sessionStorage.getItem('vt-foto');c=sessionStorage.getItem('vt-cta');m=sessionStorage.getItem('vt-menu');sessionStorage.removeItem('vt-foto');sessionStorage.removeItem('vt-cta');sessionStorage.removeItem('vt-menu')}catch(x){}if(!v)return;p(v);if(c){var s=d.querySelector('.testa-pag');if(s){s.style.viewTransitionName='cta-pagina';if(v.types){v.types.add('dal-cta');v.types.add(c==='bianco'?'cta-bianco':'cta-ar')}v.finished.then(function(){s.style.viewTransitionName=''},n)}return}if(m&&v.types)v.types.add('dal-menu');if(!k)return;if(k==='team'){d.querySelectorAll('#scala-volti img').forEach(function(i){var m=(i.getAttribute('src')||'').split('/').pop().split('-')[0];if(m){i.style.viewTransitionName='volto-'+m;i.style.viewTransitionClass='volto';nn.push(i)}})}else{var f=d.getElementById('foto-pagina');if(f&&(f.getAttribute('src')||'').indexOf('/'+k+'-')>0){f.style.viewTransitionName='foto-pagina';nn.push(f)}}if(!nn.length)return;d.documentElement.classList.add('vt-arrivo');v.finished.then(function(){nn.forEach(function(i){i.style.viewTransitionName='';i.style.viewTransitionClass=''})},n)});addEventListener('unhandledrejection',function(e){var r=e.reason;if(r&&r.name==='InvalidStateError'&&/Transition was aborted|ViewTransition/.test(r.message))e.preventDefault()})})()</script>
 
+<!-- Il sipario: preloader alla prima pagina della sessione, passaggio fra
+     le pagine dove non ci sono le View Transitions (vedi sipario() sopra). -->
+<script>(function(){var d=document.documentElement,v,p;try{if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;v=sessionStorage.getItem('visto');p=sessionStorage.getItem('sipario');sessionStorage.setItem('visto','1');sessionStorage.removeItem('sipario')}catch(e){return}if(v&&!p)return;var primo=!v,c=d.classList;c.add('sipario-su');if(primo)c.add('sipario-primo');var t1=setTimeout(function(){c.add('sipario-via')},primo?1100:160),t2=setTimeout(function(){c.remove('sipario-su','sipario-primo','sipario-via')},primo?2000:1050);addEventListener('pagereveal',function(e){if(e.viewTransition){clearTimeout(t1);clearTimeout(t2);c.remove('sipario-su','sipario-primo','sipario-via')}});addEventListener('pageshow',function(e){if(e.persisted)c.remove('sipario-su','sipario-primo','sipario-via','sipario-giu')})})()</script>
 
 <link rel="preload" href="/assets/fonts/dm-sans-latin-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
@@ -31,21 +34,18 @@
      Con il passaggio a gradini e la foto che vola, il cambio di pagina
      parte senza attesa di rete. -->
 <script type="speculationrules">{"prefetch":[{"where":{"or":[{"href_matches":"/*.html"},{"href_matches":"/"}]},"eagerness":"moderate"}]}</script>
-<link rel="stylesheet" href="/css/sito.css?v=881d2629d9">
+<link rel="stylesheet" href="/css/sito.css?v=247c58f1fa">
 </head>
 <body data-pagina="team">
-<div class="palco" aria-hidden="true"><i data-a="nero"></i><i data-a="brace"></i><i data-a="alba"></i><i data-a="radente"></i><i data-a="notte"></i><i data-a="pozzo"></i><i data-a="fuoco"></i><b class="palco__torcia"></b></div>
+<div class="sipario" aria-hidden="true"><i style="--k:0"></i><i style="--k:1"></i><i style="--k:2"></i><i style="--k:3"></i><span class="sipario__marchio"><img src="/assets/brand/logo-full-h112.webp" alt="" width="461" height="112" decoding="async"></span><span class="sipario__filo"></span></div>
+<div class="palco" aria-hidden="true"><i data-a="nero"></i><i data-a="brace"></i><i data-a="alba"></i><i data-a="radente"></i><i data-a="notte"></i><i data-a="pozzo"></i><i data-a="fuoco"></i><div class="palco__polvere palco__polvere--lontana"><i style="--x:64.1vw;--y:114.7vh;--s:2.1px;--o:0.11;--d:21vh"></i><i style="--x:74.4vw;--y:1.2vh;--s:2.1px;--o:0.18;--d:24vh"></i><i style="--x:61.2vw;--y:104.9vh;--s:3.1px;--o:0.15;--d:23vh"></i><i style="--x:45.6vw;--y:41.1vh;--s:2.5px;--o:0.13;--d:35vh"></i><i class="ar" style="--x:14.1vw;--y:94.9vh;--s:1.7px;--o:0.13;--d:27vh"></i><i style="--x:53.8vw;--y:65.1vh;--s:2.6px;--o:0.17;--d:25vh"></i><i style="--x:81.7vw;--y:-23.9vh;--s:1.7px;--o:0.14;--d:37vh"></i><i style="--x:10.9vw;--y:94.9vh;--s:2.6px;--o:0.19;--d:25vh"></i><i style="--x:75.0vw;--y:96.1vh;--s:2.6px;--o:0.17;--d:23vh"></i><i style="--x:86.3vw;--y:92.9vh;--s:2.9px;--o:0.16;--d:27vh"></i><i style="--x:72.9vw;--y:14.5vh;--s:1.9px;--o:0.15;--d:21vh"></i></div><div class="palco__polvere palco__polvere--vicina"><i style="--x:38.6vw;--y:51.2vh;--s:6.1px;--o:0.17;--d:54vh"></i><i class="ar" style="--x:67.2vw;--y:84.9vh;--s:6.2px;--o:0.12;--d:81vh"></i><i style="--x:19.7vw;--y:27.1vh;--s:5.9px;--o:0.16;--d:48vh"></i><i style="--x:46.3vw;--y:103.7vh;--s:5.1px;--o:0.12;--d:49vh"></i><i style="--x:32.1vw;--y:125.4vh;--s:4.9px;--o:0.20;--d:79vh"></i><i style="--x:47.3vw;--y:-14.0vh;--s:5.2px;--o:0.17;--d:95vh"></i><i class="ar" style="--x:12.0vw;--y:106.9vh;--s:5.7px;--o:0.20;--d:49vh"></i><i style="--x:83.1vw;--y:67.7vh;--s:5.1px;--o:0.20;--d:67vh"></i></div><b class="palco__torcia"></b></div>
 <a class="skip" href="#main">Salta al contenuto</a>
 
 <div class="barra" id="barra">
-  <a class="barra__link" href="/eventi.html">
+  <a class="barra__link" href="/candidatura.html">
     <span class="barra__dot" aria-hidden="true"></span>
-    <span>Sales Process Day 2026</span>
-    <span class="barra__sep barra__data" aria-hidden="true">·</span>
-    <span class="barra__data">14 ottobre · Milano</span>
-    <span class="barra__slot barra__sep" aria-hidden="true">·</span>
-    <span class="barra__slot">30 posti in sala</span>
-    <span class="barra__pill"><span>Prendi il tuo posto</span><svg class="freccia" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12h14.5M13.5 6.5 19 12l-5.5 5.5"/></svg></span>
+    <span>Vuoi collaborare con noi?</span>
+    <span class="barra__pill"><span>Candida la tua azienda</span><svg class="freccia" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12h14.5M13.5 6.5 19 12l-5.5 5.5"/></svg></span>
   </a>
   <button class="barra__x" id="barra-x" aria-label="Chiudi l'annuncio">
     <svg width="12" height="12" viewBox="0 0 11 11" aria-hidden="true"><path d="M1 1l9 9M10 1l-9 9" stroke="currentColor" stroke-width="1.6"/></svg>
@@ -55,7 +55,7 @@
 <header class="nav" id="nav">
   <div class="wrap wrap--nav nav__in">
     <a class="marchio" href="/" aria-label="Sales Process, home">
-      <img class="marchio__img" src="/assets/brand/logo-h64.webp" srcset="/assets/brand/logo-h64.webp 312w, /assets/brand/logo-h160.webp 779w" sizes="146px" alt="Sales Process" style="height:30px" width="312" height="64">
+      <img class="marchio__img" src="/assets/brand/logo-full-h112.webp" alt="Sales Process" style="height:40px" width="461" height="112" decoding="async">
     </a>
     <!-- Il capitolo in cui sei (motion.js, dalle sezioni con data-cap):
          solo orientamento, i lettori di schermo hanno già i titoli. -->
@@ -73,7 +73,7 @@
 <div class="menu" id="menu" role="dialog" aria-modal="true" aria-label="Menu" hidden>
   <div class="menu__card">
     <div class="menu__testa">
-      <a class="marchio" href="/" aria-label="Sales Process, home"><img class="marchio__img" src="/assets/brand/logo-h64.webp" srcset="/assets/brand/logo-h64.webp 312w, /assets/brand/logo-h160.webp 779w" sizes="146px" alt="Sales Process" style="height:30px" width="312" height="64"></a>
+      <a class="marchio" href="/" aria-label="Sales Process, home"><img class="marchio__img" src="/assets/brand/logo-full-h112.webp" alt="Sales Process" style="height:40px" width="461" height="112" loading="lazy" decoding="async"></a>
       <button class="menu-btn menu-btn--chiudi" id="menu-chiudi" type="button" aria-label="Chiudi il menu">
         <span class="menu-btn__txt">Chiudi</span><span class="menu-btn__ico is-x" aria-hidden="true"><span></span></span>
       </button>
@@ -275,13 +275,14 @@
         </div>
         <a class="footer__mail link-wipe" href="mailto:amministrazione@salesprocess.it">amministrazione@<wbr>salesprocess.it</a>
         <p class="t-piccolo footer__sedi"><b>Uffici di rappresentanza</b><br>Via Marco D'Agrate 41, 20139 Milano (MI)</p>
-        <p class="t-piccolo footer__sedi"><b>Sede legale</b><br>Piazza IV Novembre, 22070 Capiago Intimiano (CO)</p>
+        <p class="t-piccolo footer__sedi"><b>Sede legale</b><br>Piazza IV Novembre 1, 22070 Capiago Intimiano (CO)</p>
       </div>
     </div>
     <div class="footer__legale">
-      <span><em>[Ragione sociale]</em></span>
-      <span>P.IVA <em>[da cliente]</em></span>
-      <span>ISO 9001:2015 n. <em>[da cliente]</em></span>
+      <span>© 2026 Sales Process S.r.l.</span>
+      <span>P.IVA e C.F. 03924340130</span>
+      <span>REA CO-407061</span>
+      <span>Capitale sociale € 30.000,00</span>
       <a href="https://www.iubenda.com/privacy-policy/61378305" target="_blank" rel="noopener" class="link-wipe">Privacy Policy</a>
       <a href="https://www.iubenda.com/privacy-policy/61378305/cookie-policy" target="_blank" rel="noopener" class="link-wipe">Cookie Policy</a>
       <span>Dati aggiornati al 09.09.2026</span>

@@ -60,7 +60,7 @@ async page => {
   ok('home: freccia della squadra sposta la pista', t0 !== t1);
   await p.evaluate(() => scrollTo(0, 0));
   await p.click('#barra-x');
-  ok('home: chiusura barra', await p.evaluate(() => document.documentElement.classList.contains('barra-off') && localStorage.getItem('barra') === 'off'));
+  ok('home: chiusura barra', await p.evaluate(() => document.documentElement.classList.contains('barra-off') && localStorage.getItem('barra-collabora') === 'off'));
 
   /* 4b · il menu a card (giro 4): apre, tiene il fuoco, chiude con Esc e
      con un clic sul velo, rende il fuoco al bottone, blocca lo scroll */
