@@ -533,7 +533,8 @@ Applicato:
 Verifica: 38/38 test, movimento ridotto senza movimento, audit senza rilievi, Lighthouse mobile
 Home 96, Metodo 97, Candidatura 99, accessibilità 100, CLS 0.
 
-*Ritocchi del 15.10* — «metti il logo corretto; dati fiscali corretti nel footer, cercali sul web;
+*Ritocchi del 15.10* (prima versione; preloader, cursore e polvere sono stati poi corretti dalla
+revisione della regia: vedi il paragrafo successivo) — «metti il logo corretto; dati fiscali corretti nel footer, cercali sul web;
 preloader e transizioni fra le pagine; nella barra in alto per ora "vuoi collaborare con noi? Candida
 la tua azienda"; effetti mouse ed effetti di sfondo leggeri fra le sezioni».
 - **Il logo.** La variante della nav era stata ricavata TAGLIANDO il file del cliente in altezza (per

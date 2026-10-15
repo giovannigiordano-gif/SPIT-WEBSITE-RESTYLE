@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-14T20:25:56.574Z",
+  "generatedAt": "2026-10-15T08:35:37.290Z",
   "title": "Design System: Sales Process Italia",
   "extensions": {
     "colorMeta": {
@@ -314,7 +314,7 @@
       },
       "label": {
         "displayName": "Label",
-        "purpose": "Etichette di gruppo che non stanno sopra un titolo, con particella da 8px; descrizioni del menu."
+        "purpose": "Etichette di gruppo che non stanno sopra un titolo, con particella da 8px. Il menu non ha descrizioni (15.10)."
       },
       "meta": {
         "displayName": "Meta",
@@ -371,6 +371,21 @@
         "name": "luce-cta",
         "value": "radial-gradient(closest-side, rgba(255,130,0,.40), rgba(255,130,0,0))",
         "purpose": "La luce che lascia il cubo e accende da dietro il CTA del finale (380x190px)."
+      },
+      {
+        "name": "lama-di-luce",
+        "value": "linear-gradient(90deg, rgba(255,150,60,0) 0%, rgba(255,150,60,.55) 50%, rgba(255,150,60,0) 100%); box-shadow: 0 0 28px 3px rgba(255,130,0,.16)",
+        "purpose": "Filo di 1px in testa alle sezioni che cambiano la luce del palco (anche #metodo nel pin-spacer): luce che attraversa la soglia, non un divisore."
+      },
+      {
+        "name": "polvere-accesa",
+        "value": "0 0 10px rgba(255,130,0, o x 1.4)",
+        "purpose": "I tre quadrati arancioni della polvere (fill a opacita x 1.8)."
+      },
+      {
+        "name": "bagliore-sipario",
+        "value": "radial-gradient(60% 100% at 50% 100%, rgba(184,91,0,.22), rgba(184,91,0,0) 70%)",
+        "purpose": "Un solo bagliore a tutta larghezza sotto i quattro gradini del sipario (40% in basso)."
       }
     ],
     "motion": [
@@ -387,7 +402,7 @@
       {
         "name": "ease-uscita",
         "value": "cubic-bezier(.55,0,.80,.16)",
-        "purpose": "Uscite: chiusura del menu, pagina vecchia nel passaggio a scalinata."
+        "purpose": "Uscite: chiusura del menu."
       },
       {
         "name": "t-micro",
@@ -456,8 +471,8 @@
       },
       {
         "name": "vt-scalinata",
-        "value": "old 420ms ease-uscita / new 760ms ease-salita, clip-path a quattro gradini",
-        "purpose": "Il passaggio di base fra le pagine; barra e nav ferme con un nome proprio."
+        "value": "old root vt-esce 160ms cubic-bezier(.4,0,1,1) (opacity 0, scale .985); ::view-transition Base Fredda con il logo intero al centro (min(46vw, 230px)); new root vt-entra 640ms ease-salita +300ms, clip-path a quattro gradini",
+        "purpose": "Il passaggio di base fra le pagine (15.10): la vecchia si spegne, il logo resta solo sul buio ~140ms, la nuova sale a gradini. Dal menu e dal CTA il fondo e senza logo; barra e nav ferme con un nome proprio."
       },
       {
         "name": "vt-foto-pagina",
@@ -480,9 +495,39 @@
         "purpose": "Il bottone diventa la pagina della candidatura (tipi dal-cta, cta-ar, cta-bianco)."
       },
       {
+        "name": "sipario-preloader",
+        "value": "prima pagina della sessione: logo 220ms ease-salita, filo 300ms +100ms; a 450ms i gradini salgono 420ms cubic-bezier(.7,0,.2,1) +50ms x gradino, logo via 260ms; ~1.1s in tutto",
+        "purpose": "Preloader corto: saltato da pointerdown/keydown/wheel/touchstart, intercetta i clic finche copre, mai su /candidatura.html, non mette in pausa l'apertura (l'LCP si dipinge sotto). Script in linea nel <head>; niente a movimento ridotto."
+      },
+      {
+        "name": "sipario-ripiego",
+        "value": "senza onpagereveal: gradini che coprono 300ms +35ms x gradino, navigazione dopo 220ms; la pagina nuova nasce coperta e si scopre dopo 120ms",
+        "purpose": "Il passaggio fra le pagine dove mancano le View Transitions fra documenti (Firefox)."
+      },
+      {
         "name": "speculation-rules",
         "value": "prefetch /*.html e /, eagerness moderate",
         "purpose": "La pagina sotto il cursore si scarica prima del clic; mai prerender."
+      },
+      {
+        "name": "cursore-anello",
+        "value": "quadrato arrotondato 34px, raggio 10px, bordo 1.5px rgba(255,255,255,.28); lerp .24 in rAF; bottoni +12px col loro raggio, link 54px/16px arancio caldo, foto 86px/24px, premuto scale .9",
+        "purpose": "Accento del cursore di sistema, che resta sempre visibile; abbraccia i bottoni senza spostarli, sparisce nei campi di testo e sugli iframe. Solo hover:hover e pointer:fine; spento a movimento ridotto, prefers-contrast: more, forced-colors."
+      },
+      {
+        "name": "profondita",
+        "value": "transform translate3d(-x*k, -y*k*.7), k 6-24px per figura, lerp .08, solo figure in vista",
+        "purpose": "Fotografie e polvere scivolano in senso opposto al puntatore; transform perche le animazioni di scroll usano translate. Stesse condizioni dell'anello."
+      },
+      {
+        "name": "polvere",
+        "value": "12 quadrati (6 lontani 3.5-5px, 6 vicini 5-7.5px), linear, animation-timeline: scroll(root block), salita 16-40vh / 45-95vh",
+        "purpose": "La polvere del palco: nessun ciclo infinito, si muove solo con lo scroll o il cursore; spenta ad alto contrasto."
+      },
+      {
+        "name": "lama",
+        "value": "linear, animation-timeline: view(), cover 0% -> 100%; 0%: opacity 0 scale .15, 50%: 1 / 1, 100%: .15",
+        "purpose": "La lama di luce si allarga dal centro e si accende quando il confine passa a meta schermo; ferma a .3 senza view() o a movimento ridotto."
       },
       {
         "name": "accendi",
@@ -534,7 +579,7 @@
       {
         "name": "nav-compatta",
         "value": "1100px",
-        "purpose": "Sotto: nav 60px su Base Fredda, niente capitolo corrente."
+        "purpose": "Sotto: nav 60px su Base Fredda, niente capitolo corrente, logo a 34px."
       },
       {
         "name": "colonna",
@@ -544,11 +589,16 @@
       {
         "name": "telefono-piastra",
         "value": "620px",
-        "purpose": "Piastra CTA in basso; bottone Menu solo icona."
+        "purpose": "Piastra CTA in basso; bottone Menu solo icona; logo a 30px."
       },
       {
         "name": "stretto",
         "value": "480px"
+      },
+      {
+        "name": "barra-stretta",
+        "value": "420px",
+        "purpose": "Sotto: nella barra dell'invito resta solo la freccia."
       },
       {
         "name": "touch",
@@ -635,9 +685,9 @@
       "name": "Voci del menu",
       "kind": "nav",
       "refersTo": "menu-voce",
-      "description": "Le pagine a corpo da titolo nella card gigante, descrizioni in una colonna condivisa (subgrid); sopra l'elenco le altre voci si spengono a .48, la scelta fa un passo e accende la particella.",
-      "html": "<nav class=\"ds-menu\"><a href=\"#\" aria-current=\"page\"><span class=\"n\">Metodo</span><span class=\"d\">Quattro reparti, un numero</span></a><a href=\"#\"><span class=\"n\">Risultati</span><span class=\"d\">Le aziende, con fonte e data</span></a><a href=\"#\"><span class=\"n\">Team</span><span class=\"d\">Le persone dietro i reparti</span></a></nav>",
-      "css": ".ds-menu { display: grid; grid-template-columns: max-content minmax(0, 1fr); column-gap: 32px; padding: 24px 32px; background: #0F0E11; border: 1px solid rgba(255,255,255,.20); border-radius: 28px; } .ds-menu a { grid-column: 1 / -1; display: grid; grid-template-columns: subgrid; align-items: baseline; padding-block: 6px; text-decoration: none; } .ds-menu .n { position: relative; justify-self: start; font: 500 56px/1 'DM Sans', 'Segoe UI', system-ui, sans-serif; letter-spacing: -.035em; color: rgba(255,255,255,.80); transition: color 200ms linear, translate 320ms cubic-bezier(.16,.84,.24,1); } .ds-menu .n::before { content: ''; position: absolute; left: -.36em; top: .37em; width: .17em; height: .17em; border-radius: 22%; background: #FF8200; scale: 0; transition: scale 320ms cubic-bezier(.16,.84,.24,1); } .ds-menu .d { font: 500 15px/1.35 'DM Sans', 'Segoe UI', system-ui, sans-serif; color: rgba(255,255,255,.56); transition: color 200ms linear; } .ds-menu:hover a .n { color: rgba(255,255,255,.48); } .ds-menu a:hover .n, .ds-menu a:focus-visible .n { color: #F8F8F8; translate: .36em 0; } .ds-menu a:hover .n::before, .ds-menu a:focus-visible .n::before { scale: 1; } .ds-menu a:hover .d { color: #F8F8F8; } .ds-menu a[aria-current=\"page\"] .n { color: #F8F8F8; text-decoration: underline; text-decoration-color: #FF8200; text-decoration-thickness: .05em; text-underline-offset: .14em; } .ds-menu a:focus-visible { outline: none; } .ds-menu a:focus-visible .n { outline: 3px solid #FF8200; outline-offset: 4px; border-radius: 6px; }"
+      "description": "Le pagine a corpo da titolo nella card gigante, solo i nomi (dal 15.10 nessuna descrizione); sopra l'elenco le altre voci si spengono a .48, la scelta fa un passo e accende la particella.",
+      "html": "<nav class=\"ds-menu\"><a href=\"#\" aria-current=\"page\"><span class=\"n\">Metodo</span></a><a href=\"#\"><span class=\"n\">Risultati</span></a><a href=\"#\"><span class=\"n\">Team</span></a></nav>",
+      "css": ".ds-menu { display: grid; grid-template-columns: max-content; padding: 24px 32px; background: #0F0E11; border: 1px solid rgba(255,255,255,.20); border-radius: 28px; } .ds-menu a { grid-column: 1 / -1; display: grid; grid-template-columns: subgrid; align-items: baseline; padding-block: 6px; text-decoration: none; } .ds-menu .n { position: relative; justify-self: start; font: 500 56px/1 'DM Sans', 'Segoe UI', system-ui, sans-serif; letter-spacing: -.035em; color: rgba(255,255,255,.80); transition: color 200ms linear, translate 320ms cubic-bezier(.16,.84,.24,1); } .ds-menu .n::before { content: ''; position: absolute; left: -.36em; top: .37em; width: .17em; height: .17em; border-radius: 22%; background: #FF8200; scale: 0; transition: scale 320ms cubic-bezier(.16,.84,.24,1); } .ds-menu:hover a .n { color: rgba(255,255,255,.48); } .ds-menu a:hover .n, .ds-menu a:focus-visible .n { color: #F8F8F8; translate: .36em 0; } .ds-menu a:hover .n::before, .ds-menu a:focus-visible .n::before { scale: 1; } .ds-menu a[aria-current=\"page\"] .n { color: #F8F8F8; text-decoration: underline; text-decoration-color: #FF8200; text-decoration-thickness: .05em; text-underline-offset: .14em; } .ds-menu a:focus-visible { outline: none; } .ds-menu a:focus-visible .n { outline: 3px solid #FF8200; outline-offset: 4px; border-radius: 6px; }"
     },
     {
       "name": "Segnacapitolo",
@@ -654,19 +704,27 @@
       "description": "Il conto del contro-esempio: tre colonne uguali sotto un filo, numeri bianchi, lo zero vuoto in Rosso Perdita.",
       "html": "<div class=\"ds-conto\"><div><b>4</b>fornitori da coordinare</div><div><b>3</b>passaggi che si rompono</div><div class=\"z\"><b>0</b>responsabili del fatturato</div></div>",
       "css": ".ds-conto { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: 48px; padding-top: 32px; border-top: 1px solid rgba(255,255,255,.20); font: 500 22px/1.2 'DM Sans', 'Segoe UI', system-ui, sans-serif; letter-spacing: -.012em; color: #F8F8F8; } .ds-conto b { display: block; margin-bottom: 12px; font: 600 104px/.84 'DM Sans', 'Segoe UI', system-ui, sans-serif; letter-spacing: -.05em; font-variant-numeric: tabular-nums; color: #F8F8F8; } .ds-conto .z b { color: transparent; -webkit-text-stroke: 2px #F04B3A; }"
+    },
+    {
+      "name": "Barra annuncio",
+      "kind": "nav",
+      "refersTo": "su-arancio",
+      "description": "Tutta la fascia e un link: l'invito e una frase sottolineata con la freccia, non una pill (niente tre CTA identici nella prima schermata).",
+      "html": "<a class=\"ds-barra\" href=\"#\"><span class=\"ds-barra__dot\"></span><span>Vuoi collaborare con noi?</span><span class=\"ds-barra__inv\">Candida la tua azienda <svg viewBox=\"0 0 24 24\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M4.5 12h14.5M13.5 6.5 19 12l-5.5 5.5\"/></svg></span></a>",
+      "css": ".ds-barra { display: flex; align-items: center; justify-content: center; gap: 12px; height: 40px; padding-inline: 16px; background: linear-gradient(90deg, #C56200 0%, #FF8200 46%, #FF9A38 100%); color: #100F12; font: 700 13px/1 'DM Sans', 'Segoe UI', system-ui, sans-serif; letter-spacing: -.005em; white-space: nowrap; text-decoration: none; } .ds-barra__dot { width: 7px; height: 7px; border-radius: 2px; background: #4A2200; } .ds-barra__inv { display: inline-flex; align-items: center; gap: 4px; text-decoration: underline; text-decoration-thickness: 1.5px; text-underline-offset: 3px; text-decoration-color: rgba(16,15,18,.45); transition: text-decoration-color 200ms linear; } .ds-barra__inv svg { transition: translate 200ms cubic-bezier(.62,0,.20,1); } .ds-barra:hover .ds-barra__inv { text-decoration-color: currentColor; } .ds-barra:hover .ds-barra__inv svg { translate: 3px 0; } .ds-barra:focus-visible { outline: 2px solid #1A1206; outline-offset: -4px; }"
     }
   ],
   "narrative": {
     "northStar": "Dal buio dei contatti alla luce del fatturato",
-    "overview": "Il sito è un palco scuro unico. Non c'è una pila di fasce con il loro fondo: c'è una stanza fissa (`.palco`, a z-index −1) dietro tutta la pagina, e le sezioni, trasparenti, dichiarano quale luce vogliono. Camminando nella pagina cambia l'illuminazione della stanza, non la stanza. Sopra quel buio si muove una sola luce, l'arancio del marchio, che non è mai vernice: è alone, bordo acceso, numero, cursore. Il quadrato del mark (la \"particella\", 12px, raggio 2px) è il modulo di tutto, e nella home diventa un oggetto: il cubo arancione, sparso nell'hero, che cade fra due mani nel problema, passa di mano nel metodo e viene alzato come un trofeo nel finale.\n\nLa pelle è vincolata dal cliente e allineata al riferimento sharpify.io: near-black freddo, gerarchia fatta con l'opacità del bianco e non con una palette, DM Sans al display a peso 500, raggi 2/8/12/999px. Il DNA che resta di Sales Process: l'arancio `#FF8200`, il mark a moduli, il payoff FATTURARE ×3, le fotografie con le mani in bianco e nero e l'oggetto arancione (anche quelle generate del giro 3, scontornate dalla luminanza: galleggiano sul palco senza scatola), la voce italiana diretta. Densità media-bassa, respiro di sezione fluido (60px a 360px, 112px di tetto), contenitori da 980 a 1400px.\n\nUna pagina lunga si legge **a capitoli** (giro 4). La home è una copertina (hero, loghi), sei capitoli in ordine di racconto (01 Il problema · 02 La soluzione · 03 Il metodo · 04 I risultati · 05 Le persone · 06 Il podcast) e una chiusura (dove siamo, finale); l'ordine è scritto nel commento in testa a `pages/index.html`. Ogni capitolo apre con un segnacapitolo e un h2, le sezioni che lo continuano hanno un h3 un gradino sotto, e il palco cambia luce una volta per capitolo, non per sezione. Il sistema rifiuta la pila di blocchi con la stessa dissolvenza su ogni sezione, le card tutte uguali, l'occhiello sopra il titolo di sezione (maiuscolo spaziato o no), il quadratino tinto d'accento sotto le icone, il magnetic hover e il tilt 3D da cartolina, il bianco su arancio.\n\nIl movimento è texture, non collezione di effetti: tre gesti, ciascuno con il suo asse, e una curva d'ingresso per blocchi e testo (`cubic-bezier(.16,.84,.24,1)`, `--ease-salita`). **Il gradino** (materia): foto e pannelli vengono scoperti da quattro colonne sfalsate che salgono (`.scalinata`, anche nel passaggio fra le pagine). **La riga** (testo): le parole salgono in verticale dentro una maschera, oppure restano ferme e si accendono alla linea di lettura (`[data-accendi]`); lo split è fatto al build in entrambi i casi e il testo non entra mai in diagonale. **La luce** (interazione e racconto): una luce radiale segue il cursore su CTA, card e palco; la superficie resta ferma. Nel finale la stessa luce lascia il cubo e va ad accendere il CTA. Le scene fotografiche si muovono legate allo scroll (`animation-timeline: view()`), sempre lineari: le mani della caduta, la staffetta, il braccio del finale, gli schermi delle testimonianze. Le griglie entrano con una citazione della diagonale (`--dx` = −0,45 × `--travel`), solo movimento. Il 3D (three.js) vive solo nell'hero della home, desktop con puntatore fine, senza reduced-motion, scaricato dopo il load e fermo fuori viewport o sotto il menu.\n\nIl giro 3 degli effetti ha aggiunto le coreografie che legano le pagine fra loro, sempre dentro quei tre gesti: la fotografia del menu che **vola** nell'apertura della pagina scelta, il **bottone che diventa la pagina** della candidatura, l'hero che **arretra**, il numero del capitolo che **si posa**, il **numero a rullo**, il **cubo sul filo** della staffetta su telefono, il **finale fermo** su desktop. Le coreografie fra documenti hanno curve proprie (vedi Il passaggio fra le pagine); l'ingresso di blocchi e testo resta `--ease-salita`. A movimento ridotto il sito è fermo: restano solo le dissolvenze.",
+    "overview": "Il sito è un palco scuro unico. Non c'è una pila di fasce con il loro fondo: c'è una stanza fissa (`.palco`, a z-index −1) dietro tutta la pagina, e le sezioni, trasparenti, dichiarano quale luce vogliono. Camminando nella pagina cambia l'illuminazione della stanza, non la stanza. Sopra quel buio si muove una sola luce, l'arancio del marchio, che non è mai vernice: è alone, bordo acceso, numero, cursore. Il quadrato del mark (la \"particella\", 12px, raggio 2px) è il modulo di tutto, e nella home diventa un oggetto: il cubo arancione, sparso nell'hero, che cade fra due mani nel problema, passa di mano nel metodo e viene alzato come un trofeo nel finale.\n\nLa pelle è vincolata dal cliente e allineata al riferimento sharpify.io: near-black freddo, gerarchia fatta con l'opacità del bianco e non con una palette, DM Sans al display a peso 500, raggi 2/8/12/999px. Il DNA che resta di Sales Process: l'arancio `#FF8200`, il mark a moduli, il payoff FATTURARE ×3, le fotografie con le mani in bianco e nero e l'oggetto arancione (anche quelle generate del giro 3, scontornate dalla luminanza: galleggiano sul palco senza scatola), la voce italiana diretta. Densità media-bassa, respiro di sezione fluido (60px a 360px, 112px di tetto), contenitori da 980 a 1400px.\n\nUna pagina lunga si legge **a capitoli** (giro 4). La home è una copertina (hero, loghi), sei capitoli in ordine di racconto (01 Il problema · 02 La soluzione · 03 Il metodo · 04 I risultati · 05 Le persone · 06 Il podcast) e una chiusura (dove siamo, finale); l'ordine è scritto nel commento in testa a `pages/index.html`. Ogni capitolo apre con un segnacapitolo e un h2, le sezioni che lo continuano hanno un h3 un gradino sotto, e il palco cambia luce una volta per capitolo, non per sezione. Il sistema rifiuta la pila di blocchi con la stessa dissolvenza su ogni sezione, le card tutte uguali, l'occhiello sopra il titolo di sezione (maiuscolo spaziato o no), il quadratino tinto d'accento sotto le icone, il magnetic hover e il tilt 3D da cartolina, il bianco su arancio.\n\nIl movimento è texture, non collezione di effetti: tre gesti, ciascuno con il suo asse, e una curva d'ingresso per blocchi e testo (`cubic-bezier(.16,.84,.24,1)`, `--ease-salita`). **Il gradino** (materia): foto e pannelli vengono scoperti da quattro colonne sfalsate che salgono (`.scalinata`, anche nel passaggio fra le pagine). **La riga** (testo): le parole salgono in verticale dentro una maschera, oppure restano ferme e si accendono alla linea di lettura (`[data-accendi]`); lo split è fatto al build in entrambi i casi e il testo non entra mai in diagonale. **La luce** (interazione e racconto): una luce radiale segue il cursore su CTA, card e palco; la superficie resta ferma. Il cursore del sistema resta sempre visibile: lo accompagna solo un anello a quadrato arrotondato, e le fotografie scivolano di pochi pixel in senso opposto al puntatore (la profondità). Nel finale la stessa luce lascia il cubo e va ad accendere il CTA. Le scene fotografiche si muovono legate allo scroll (`animation-timeline: view()`), sempre lineari: le mani della caduta, la staffetta, il braccio del finale, gli schermi delle testimonianze. Le griglie entrano con una citazione della diagonale (`--dx` = −0,45 × `--travel`), solo movimento. Il 3D (three.js) vive solo nell'hero della home, desktop con puntatore fine, senza reduced-motion, scaricato dopo il load e fermo fuori viewport o sotto il menu.\n\nIl giro 3 degli effetti ha aggiunto le coreografie che legano le pagine fra loro, sempre dentro quei tre gesti: la fotografia del menu che **vola** nell'apertura della pagina scelta, il **bottone che diventa la pagina** della candidatura, l'hero che **arretra**, il numero del capitolo che **si posa**, il **numero a rullo**, il **cubo sul filo** della staffetta su telefono, il **finale fermo** su desktop. Le coreografie fra documenti hanno curve proprie (vedi Il passaggio fra le pagine); l'ingresso di blocchi e testo resta `--ease-salita`. A movimento ridotto il sito è fermo: restano solo le dissolvenze.\n\nI ritocchi del 15.10 hanno aggiunto la regia attorno alle pagine, con gli stessi materiali (il logo vero, i quattro gradini, la particella, la luce arancione): **il sipario** (un preloader corto alla prima pagina della sessione, e il passaggio di ripiego dove mancano le View Transitions), il **logo sul buio** fra una pagina e l'altra, **l'anello del cursore**, **la profondità**, **la polvere** nel palco e **la lama di luce** sui confini fra le stanze. Una revisione della regia li ha tenuti corti e cedevoli: il cursore del sistema non si nasconde mai, il preloader si alza a 0,45s, si salta al primo gesto e non trattiene l'apertura della pagina.",
     "keyCharacteristics": [
       "Un fondo continuo con sette atmosfere in dissolvenza incrociata (1100ms), una per capitolo, accese da un IntersectionObserver sulla fascia centrale del viewport.",
       "Un solo accento, `#FF8200`, usato come luce; testo scuro `#100F12` su ogni fill arancione.",
       "Una sola famiglia, DM Sans variabile ospitata in casa; nessun serif, nessun monospace.",
       "Due livelli di titolo e basta: h2 che apre un capitolo, h3 che lo continua.",
       "La particella del marchio come modulo di elenchi, campi a unità, sedie, chiuse; il cubo come filo fotografico della home.",
-      "Tre gesti di motion, una curva d'ingresso, reduced-motion gestito a token (il travel va a zero, la dissolvenza sopravvive); i passaggi fra le pagine sono View Transitions fra documenti con nomi dati al volo.",
-      "Un sito statico e leggero: Lighthouse mobile 96–99, accessibilità 100, CLS 0 su ogni pagina misurata.",
+      "Tre gesti di motion, una curva d'ingresso, reduced-motion gestito a token (il travel va a zero, la dissolvenza sopravvive); i passaggi fra le pagine sono View Transitions fra documenti con nomi dati al volo, e dove mancano il sipario a quattro gradini.",
+      "Un sito statico e leggero: Lighthouse mobile 95–98 anche con il sipario (Home 95, Metodo 97, Candidatura 98), accessibilità 100, CLS 0 su ogni pagina misurata.",
       "Bersagli touch ≥ 44px (`--tap`) su ogni puntatore grossolano; nessun testo sotto 12px."
     ],
     "rules": [
@@ -682,7 +740,7 @@
       },
       {
         "name": "The One Orange Button Rule",
-        "body": "Il fill arancione è della candidatura, la conversione del sito (nav, piastra mobile, piede del menu, chiuse). Ogni altro invito primario è bianco: il canale YouTube del podcast, l'hero. Due bottoni arancioni nello stesso schermo sono un errore.",
+        "body": "Il fill arancione è della candidatura, la conversione del sito (nav, piastra mobile, piede del menu, chiuse). Ogni altro invito primario è bianco: il canale YouTube del podcast, l'hero. Due bottoni arancioni nello stesso schermo sono un errore. La barra in cima non ripete il bottone: il suo invito è una frase sottolineata con la freccia. Tre inviti identici nella prima schermata (barra, nav, hero) sono un difetto, non un'enfasi.",
         "section": "colors"
       },
       {
@@ -737,12 +795,12 @@
       },
       {
         "name": "The Continuous Stage Rule",
-        "body": "Le sezioni non dipingono un fondo: il fondo è il palco, e cambia una volta per capitolo. Si anima solo l'opacità dei livelli del palco (compositor), mai un gradiente, mai un blur su area grande. Ad alto contrasto le atmosfere si spengono. I filetti esistono dentro le sezioni (in testa a un indice, a un conto, a un registro), mai come confine fra due sezioni.",
+        "body": "Le sezioni non dipingono un fondo: il fondo è il palco, e cambia una volta per capitolo. Si anima solo l'opacità dei livelli del palco (compositor), mai un gradiente, mai un blur su area grande. Ad alto contrasto le atmosfere si spengono. I filetti esistono dentro le sezioni (in testa a un indice, a un conto, a un registro), mai come confine fra due sezioni. Sul confine passa solo la lama di luce, e solo dove la stanza cambia: è luce arancione che si accende con lo scroll, non un divisore grigio.",
         "section": "elevation"
       },
       {
         "name": "The Light-Not-Lift Rule",
-        "body": "Una superficie risponde al passaggio illuminandosi dove si trova il cursore (radiale bianco 7,5% + arancio 5%, 340px), non sollevandosi con un'ombra. Spostamento massimo 3px in tutto il sistema, fuori dalle voci del menu e dell'indice che fanno un passo laterale.",
+        "body": "Una superficie risponde al passaggio illuminandosi dove si trova il cursore (radiale bianco 7,5% + arancio 5%, 340px), non sollevandosi con un'ombra. Spostamento massimo 3px in ogni hover del sistema, fuori dalle voci del menu e dell'indice che fanno un passo laterale. La profondità non è un hover: è la parallasse di tutto lo schermo rispetto al puntatore, su `transform`, e non solleva mai una superficie.",
         "section": "elevation"
       }
     ],
@@ -760,11 +818,15 @@
       "**Do** riportare pieno, al fuoco della tastiera, ogni blocco che un'animazione di scroll spegne o sposta (hero che arretra, CTA del finale).",
       "**Do** dare 44px a ogni bersaglio su touch, label visibili ai campi, focus `2px` arancione con offset 3px.",
       "**Do** dare a ogni numero fonte e data, in Meta 13px con cifre tabulari.",
-      "**Do** usare le fotografie della serie (mani in bianco e nero con oggetto arancione) senza scatola, sfumate sul palco, e i ritratti reali in scala di grigi che si colorano al passaggio."
+      "**Do** usare le fotografie della serie (mani in bianco e nero con oggetto arancione) senza scatola, sfumate sul palco, e i ritratti reali in scala di grigi che si colorano al passaggio.",
+      "**Do** usare ovunque il lockup intero del cliente dal file vero a misura (`logo-full-h112.webp`), scalato senza deformarlo.",
+      "**Do** tenere il cursore del sistema sempre visibile: un accento di cursore lo accompagna, non lo sostituisce, e si spegne su touch, a movimento ridotto, con contrasto elevato e con colori forzati.",
+      "**Do** tenere il preloader corto (si alza entro 0,45s), saltabile al primo gesto, lontano dalla Candidatura e senza trattenere l'apertura: l'LCP si dipinge sotto di lui."
     ],
     "donts": [
       "**Don't** mettere testo bianco su arancio, mai: nemmeno nella barra annuncio, nel menu o nei bottoni.",
       "**Don't** mettere due bottoni arancioni nello stesso schermo, né un fill arancione su un invito che non sia la candidatura.",
+      "**Don't** mettere tre inviti identici nella stessa schermata: nella barra l'invito è una frase sottolineata, non un terzo bottone.",
       "**Don't** usare Instrument Serif, IBM Plex Mono o qualunque monospace: il sito è tutto DM Sans.",
       "**Don't** colorare d'arancio le parole marcate nei titoli di sezione, né i numeri del capitolo del problema.",
       "**Don't** mettere un occhiello, un'etichetta o una pill sopra un titolo di sezione, in nessuna forma (maiuscolo spaziato, tondo, tra parentesi quadre, con o senza particella). La pill d'apertura resta un'eccezione del cliente, non un precedente.",
@@ -772,8 +834,8 @@
       "**Don't** far superare a un h3 o a una frase di risoluzione il titolo del suo capitolo.",
       "**Don't** rimettere voci di navigazione in linea nella nav: le pagine stanno nella card.",
       "**Don't** mettere quadratini arancioni sulle card del team o dei reparti, né un rounded square tinto sotto le icone, né icone sugli otto servizi.",
-      "**Don't** ridisegnare il logo del sito o quello del podcast: si usano i file veri.",
-      "**Don't** dipingere un fondo proprio su una sezione o separarne due con un filo di 1px: la pagina diventa una pila di blocchi.",
+      "**Don't** ridisegnare, tagliare o schiacciare il logo del sito o quello del podcast: si usano i file veri, interi.",
+      "**Don't** dipingere un fondo proprio su una sezione o separarne due con un filo grigio di 1px: la pagina diventa una pila di blocchi. L'unica luce sul confine è la lama, arancione, accesa dallo scroll e solo dove cambia la stanza.",
       "**Don't** applicare la stessa dissolvenza a ogni sezione o fare card tutte uguali.",
       "**Don't** usare magnetic hover, tilt 3D al cursore o easing con overshoot; il testo non entra mai in diagonale. L'unica inclinazione è d'ingresso e legata allo scroll (gli schermi delle testimonianze), e finisce su `transform: none`.",
       "**Don't** mettere l'adesione `@view-transition` nel foglio di stile: salta quando il foglio non è in cache.",
@@ -781,6 +843,8 @@
       "**Don't** accendere parole (`[data-accendi]`) su testo sotto 24px: spente sono in Testo 4.",
       "**Don't** animare gradienti, blur su area grande, `font-weight` o `font-variation-settings`; si animano transform, opacity e clip-path su pochi elementi.",
       "**Don't** scrivere testo sotto 12px, né Testo 4 (40%) sotto 24px.",
+      "**Don't** nascondere il cursore del sistema (`cursor: none`) né sostituirlo con un disegno.",
+      "**Don't** fare un preloader lungo, che non si salta o che mette in pausa la pagina sotto: costa LCP e Speed Index a ogni prima visita.",
       "**Don't** usare il duotone nero/arancio sui volti: disumanizza la prova che converte di più.",
       "**Don't** pubblicare numeri senza fonte né inventare dati mancanti (numero verde, liberatorie, ISO, logo del podcast)."
     ]

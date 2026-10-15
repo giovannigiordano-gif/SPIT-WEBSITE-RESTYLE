@@ -184,9 +184,9 @@ html.menu-aperto { overflow: hidden; scrollbar-gutter: stable; }
 .menu.is-on .menu__card { clip-path: inset(0 0 0 0 round 28px); transition: clip-path 680ms var(--ease-salita); }
 .menu__testa { grid-column: 1 / -1; display: flex; align-items: center; justify-content: space-between; }
 
-/* Le voci: nomi a corpo da titolo e, nella stessa riga, una riga di
-   descrizione. Le descrizioni partono tutte dalla stessa verticale
-   (subgrid), non a ruota libera dopo ogni nome.                       */
+/* Le voci: solo i nomi delle pagine, a corpo da titolo (15.10: niente
+   più didascalie). Una colonna; ogni voce resta una griglia perché il
+   nome, come elemento di griglia, possa scorrere al passaggio.        */
 .menu__voci {
   grid-column: 1; align-self: center;
   display: grid; grid-template-columns: max-content;
@@ -383,7 +383,8 @@ html.menu-aperto { overflow: hidden; scrollbar-gutter: stable; }
    del passaggio fra le pagine) e la pagina si compone mentre si scopre.
    Dove non ci sono View Transitions fa anche da passaggio: i gradini
    salgono a coprire (sipario-giu), la pagina nuova nasce coperta e si
-   scopre. Non intercetta i clic. Lo script è nel <head>.               */
+   scopre. Finché copre intercetta i clic, e il primo clic o tasto lo fa
+   salire subito. Lo script è nel <head>.                              */
 .sipario { position: fixed; inset: 0; z-index: 2147482000; display: none; }
 /* finché copre, intercetta i clic (prima passavano ai bottoni nascosti
    sotto); un clic, un tasto o la rotella lo fanno salire subito (script

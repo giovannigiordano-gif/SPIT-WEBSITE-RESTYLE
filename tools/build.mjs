@@ -159,7 +159,9 @@ const palco = () => `<div class="palco" aria-hidden="true">${ATMO.map(a => `<i d
    salgono uno per uno); nei browser senza View Transitions fra documenti
    fa da passaggio fra le pagine (motion.js lo chiude, la pagina nuova lo
    riapre). Lo governa uno script nel <head>, prima del primo fotogramma.
-   Non blocca i clic e non esiste a movimento ridotto.                  */
+   Finché copre intercetta i clic (un clic, un tasto o la rotella lo fanno
+   salire subito: niente clic a vuoto sui bottoni nascosti sotto); dura
+   ~0,7s, mai sulla candidatura, e non esiste a movimento ridotto.     */
 const sipario = () => `<div class="sipario" aria-hidden="true"><i style="--k:0"></i><i style="--k:1"></i><i style="--k:2"></i><i style="--k:3"></i><span class="sipario__marchio"><img src="/assets/brand/logo-full-h112.webp" alt="" width="461" height="112" decoding="async"></span><span class="sipario__filo"></span></div>`
 
 /* La fascia è UN link: prima il bersaglio era la sola pill, che sotto i
