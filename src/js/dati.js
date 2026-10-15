@@ -428,11 +428,20 @@ const FOTO_PASSAGGIO = [
   ['passaggio-2', 'Il cubo arancione viene posato nel palmo aperto della mano che lo riceve'],
   ['passaggio-3', 'Una mano stringe il cubo arancione appena ricevuto'],
 ];
+/* IL PERCORSO (15.10, «vorrei fosse un percorso, con container, chiaro
+   alla lettura»): ogni tappa è una card appesa alla linea del percorso,
+   con il suo nodo — cerchio il reparto, quadrato il passaggio (il cubo che
+   passa di mano), quadrato grande l'arrivo. Il numero fantasma è uno span
+   nascosto ai lettori di schermo; il tempo e lo strumento del passaggio
+   sono due etichette, ognuna con il suo segno. */
+const NODO = (tipo) => `<span class="tappa__nodo${tipo ? ' tappa__nodo--' + tipo : ''}" aria-hidden="true"></span>`;
+const ICO_TEMPO = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg>';
+const ICO_SCHEDA = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4.5" width="16" height="15" rx="2.2"/><path d="M8 9.5h8M8 13h5"/></svg>';
 const stazione = (r) => {
-  const n = el('article', 'stazione');
+  const n = el('article', 'stazione tappa');
   n.dataset.n = '0' + r.i;
-  n.innerHTML = `
-    <span class="icoq">${ICO[REP_ICO[r.i]]}</span>
+  n.innerHTML = `${NODO('')}
+    <div class="stazione__testa"><span class="stazione__n" aria-hidden="true">0${r.i}</span><span class="icoq">${ICO[REP_ICO[r.i]]}</span></div>
     <h3 class="stazione__nome">${r.nome}</h3>
     <p class="stazione__claim">${r.claim}</p>
     <p class="stazione__out">${r.out}</p>`;
@@ -440,10 +449,10 @@ const stazione = (r) => {
 };
 const passaggio = (h, i) => {
   const [f, alt] = FOTO_PASSAGGIO[i];
-  const n = el('figure', 'passaggio');
-  n.innerHTML = `
-    <div class="passaggio__foto"><img src="/assets/foto/${f}-800.webp" srcset="/assets/foto/${f}-480.webp 480w, /assets/foto/${f}-800.webp 800w, /assets/foto/${f}-1200.webp 1200w" sizes="(max-width: 1023px) 78vw, 28vw" alt="${alt}" width="1200" height="1500" loading="lazy" decoding="async"></div>
-    <figcaption><span class="passaggio__n">Passaggio ${i + 1} di 3</span><b class="passaggio__cosa">${h.cosa}</b><span class="passaggio__det">${h.sla} · ${h.tool}</span></figcaption>`;
+  const n = el('figure', 'passaggio tappa');
+  n.innerHTML = `${NODO('consegna')}
+    <div class="passaggio__foto"><img src="/assets/foto/${f}-800.webp" srcset="/assets/foto/${f}-480.webp 480w, /assets/foto/${f}-800.webp 800w, /assets/foto/${f}-1200.webp 1200w" sizes="(max-width: 1023px) 92vw, 340px" alt="${alt}" width="1200" height="1500" loading="lazy" decoding="async"></div>
+    <figcaption><span class="passaggio__n">Passaggio ${i + 1} di 3</span><b class="passaggio__cosa">${h.cosa}</b><span class="passaggio__det"><span class="passaggio__chip">${ICO_TEMPO}${h.sla}</span><span class="passaggio__chip">${ICO_SCHEDA}${h.tool}</span></span></figcaption>`;
   return n;
 };
 
@@ -665,6 +674,8 @@ const monta = () => {
       sp.insertBefore(stazione(r), fine);
       if (HANDOFF[k]) sp.insertBefore(passaggio(HANDOFF[k], k), fine);
     });
+    /* l'arrivo è nella pagina: riceve qui il suo nodo, l'ultimo del percorso */
+    fine?.insertAdjacentHTML('afterbegin', NODO('arrivo'));
   }
   $('#volti-grid')?.append(...VOLTI.map(volto));
 

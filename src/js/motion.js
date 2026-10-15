@@ -576,8 +576,8 @@
        scroll di quelle stesse figure lavorano su translate, e i due si
        sommano invece di pestarsi. Si aggiornano solo quelle in vista.    */
     const PROF = [['.testa-pag__foto', 12], ['.finale__foto', 16], ['.podcast__foto', 14], ['.cartelli__f', 10],
-      ['.caduta__s--sx', 6], ['.caduta__s--dx', 6], ['.caduta__s--cubo', 22], ['.passaggio__foto', 8],
-      ['.staffetta__fine img', 8], ['.scala-volti', 10], ['.libri__foto', 10], ['.palco__polvere--lontana', 8], ['.palco__polvere--vicina', 24]];
+      ['.caduta__s--sx', 6], ['.caduta__s--dx', 6], ['.caduta__s--cubo', 22], ['.passaggio__foto img', 8],
+      ['.staffetta__foto img', 8], ['.scala-volti', 10], ['.libri__foto', 10], ['.palco__polvere--lontana', 8], ['.palco__polvere--vicina', 24]];
     const prof = [];
     PROF.forEach(([s, k]) => $$(s).forEach(n => prof.push({ n, k, vis: s.startsWith('.palco') })));
     if (prof.length) {
@@ -667,10 +667,12 @@
     binario.className = 'staffetta__binario'; binario.setAttribute('aria-hidden', 'true');
     cubo.className = 'staffetta__cubo is-fermo';
     binario.append(cubo); pistaCol.append(binario);
+    /* il percorso va dal nodo del primo reparto al nodo dell'arrivo (15.10) */
+    const nodoY = () => parseFloat(getComputedStyle(sc).getPropertyValue('--nodo-y')) || 32;
     const misura = () => {
       if (!primo || !fine) return;
-      const r = pistaCol.getBoundingClientRect(), f = fine.getBoundingClientRect();
-      const y0 = primo.getBoundingClientRect().top - r.top, y1 = f.top + f.height / 2 - r.top;
+      const r = pistaCol.getBoundingClientRect(), f = fine.getBoundingClientRect(), ny = nodoY();
+      const y0 = primo.getBoundingClientRect().top + ny - r.top, y1 = f.top + ny - r.top;
       binario.style.setProperty('--b0', y0.toFixed(1) + 'px');
       binario.style.setProperty('--bh', Math.max(0, y1 - y0).toFixed(1) + 'px');
     };
@@ -678,9 +680,9 @@
     const stato = () => {
       rq = 0;
       if (!primo || !fine || sc.classList.contains('is-scena')) return;
-      const linea = innerHeight * .6, f = fine.getBoundingClientRect();
-      cubo.classList.toggle('is-fermo', primo.getBoundingClientRect().top > linea);
-      cubo.classList.toggle('is-posato', f.top + f.height / 2 <= linea + 1);
+      const linea = innerHeight * .6, ny = nodoY();
+      cubo.classList.toggle('is-fermo', primo.getBoundingClientRect().top + ny > linea);
+      cubo.classList.toggle('is-posato', fine.getBoundingClientRect().top + ny <= linea + 1);
     };
     const chiedi = () => { if (!rq) rq = requestAnimationFrame(stato); };
     new ResizeObserver(() => { misura(); chiedi(); }).observe(pistaCol);
@@ -747,33 +749,80 @@
        una colonna, tutta accesa (CSS).
        MAI .set({display:'none'}) dentro una timeline pinnata: è una
        mutazione di layout che disallinea start/end in silenzio.        */
+    /* 15.10, IL PERCORSO: le tappe sono card appese a una linea sola. Lo
+       scroll fa scorrere la pista, accende la linea dietro il cubo e porta
+       il cubo da un nodo all'altro; la tappa si accende quando il cubo
+       arriva al suo nodo, e le card si srotolano dalla linea mentre
+       entrano da destra. Tutto sulla stessa timeline, quindi sempre in
+       sincrono anche con lo scrub. */
     if ($('#staffetta:not(.staffetta--colonna)')) {
       mm.add('(min-width: 1024px) and (min-height: 680px) and (prefers-reduced-motion: no-preference)', () => {
         const sc = $('#staffetta'), pista = $('#staffetta-pista');
-        const tappe = $$('.stazione, .passaggio, .staffetta__fine', pista);
-        sc.classList.add('is-scena');
-        /* quanto deve scorrere: finché l'atterraggio non è al centro */
+        const tappe = $$('.tappa', pista);
         const fine = $('.staffetta__fine', pista);
-        const dist = () => Math.max(0, fine.offsetLeft + fine.offsetWidth / 2 - innerWidth / 2);
-        const accendi = () => {
-          const x = innerWidth * .62;
-          tappe.forEach(t => t.classList.toggle('is-on', t.getBoundingClientRect().left < x));
+        sc.classList.add('is-scena');
+        const perc = document.createElement('div');
+        perc.className = 'percorso'; perc.setAttribute('aria-hidden', 'true');
+        perc.innerHTML = '<i class="percorso__linea"></i><i class="percorso__fill"></i>' +
+          tappe.map(t => `<i class="percorso__nodo${t.classList.contains('passaggio') ? ' percorso__nodo--consegna' : t === fine ? ' percorso__nodo--arrivo' : ''}"></i>`).join('') +
+          '<i class="percorso__cubo"></i>';
+        pista.append(perc);
+        const nodi = $$('.percorso__nodo', perc), fill = $('.percorso__fill', perc), cubo = $('.percorso__cubo', perc);
+        /* le misure: nodi relativi all'inizio della linea (il bordo sinistro della prima card) */
+        let xs = [], corsa = 0;
+        const misura = () => {
+          const nx = parseFloat(getComputedStyle(sc).getPropertyValue('--nodo-x')) || 26;
+          const x0 = tappe[0].offsetLeft;
+          xs = tappe.map(t => t.offsetLeft + nx - x0);
+          corsa = xs[xs.length - 1] - xs[0];
+          perc.style.cssText = `left:${x0}px;top:${tappe[0].offsetTop - 1}px;width:${fine.offsetLeft + fine.offsetWidth - x0}px`;
+          perc.style.setProperty('--f0', xs[0] + 'px');
+          perc.style.setProperty('--fw', corsa + 'px');
+          nodi.forEach((n, k) => { n.style.left = xs[k] + 'px'; });
         };
-        const tw = gsap.to(pista, {
-          x: () => -dist(), ease: 'none',
+        misura();
+        /* quanto deve scorrere: finché l'arrivo non è al centro */
+        const dist = () => Math.max(0, fine.offsetLeft + fine.offsetWidth / 2 - innerWidth / 2);
+        /* tl esiste solo dopo la creazione: ScrollTrigger può chiamare
+           onRefresh mentre la crea */
+        let qui = -2, tl = null;
+        const accendi = () => {
+          const cx = xs[0] + corsa * (tl ? tl.progress() : 0);
+          let k = -1;
+          xs.forEach((x, i) => {
+            const on = cx >= x - 1;
+            tappe[i].classList.toggle('is-on', on); nodi[i].classList.toggle('is-on', on);
+            if (on) k = i;
+          });
+          if (k !== qui) { tappe.forEach((t, i) => t.classList.toggle('is-qui', i === k)); qui = k; }
+        };
+        tl = gsap.timeline({
+          defaults: { ease: 'none' }, onUpdate: accendi,
           scrollTrigger: {
             trigger: '#metodo', start: 'top top', end: () => '+=' + dist(),
             pin: true, pinSpacing: true, anticipatePin: 1, scrub: .6,
             invalidateOnRefresh: true, fastScrollEnd: true,
-            onUpdate: accendi, onRefresh: accendi,
+            onRefreshInit: misura, onRefresh: () => { misura(); accendi(); },
           },
         });
+        tl.to(pista, { x: () => -dist() }, 0)
+          .fromTo(fill, { scaleX: 0 }, { scaleX: 1 }, 0)
+          .fromTo(cubo, { x: 0 }, { x: () => corsa }, 0);
+        /* le card che arrivano da destra si srotolano dalla linea; quelle
+           già a schermo all'inizio sono già aperte */
+        const entrate = tappe.filter(t => t.offsetLeft > innerWidth * .88).map(t => gsap.fromTo(t,
+          { clipPath: 'inset(-2% -12% 100% -12%)' },
+          { clipPath: 'inset(-2% -12% -30% -12%)', ease: 'none',
+            scrollTrigger: { trigger: t, containerAnimation: tl, start: 'left 88%', end: 'left 64%', scrub: true } }));
         accendi();
         return () => {
-          tw.scrollTrigger?.kill(); tw.kill();
+          entrate.forEach(e => { e.scrollTrigger?.kill(); e.kill(); });
+          tl.scrollTrigger?.kill(); tl.kill();
+          perc.remove();
           sc.classList.remove('is-scena');
           gsap.set(pista, { clearProps: 'transform' });
-          tappe.forEach(t => t.classList.remove('is-on'));
+          gsap.set(tappe, { clearProps: 'clipPath' });
+          tappe.forEach(t => t.classList.remove('is-on', 'is-qui'));
         };
       });
     }

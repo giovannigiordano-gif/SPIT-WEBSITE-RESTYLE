@@ -367,10 +367,10 @@ ${footer()}
 
 <!-- Ordine voluto: i defer girano nell'ordine del documento, e dati.js
      (i contenuti) non deve aspettare il CDN di GSAP. -->
-<script src="/js/dati.js" defer></script>
+<script src="/js/dati.js?v=${V_DATI}" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js" defer></script>
-<script src="/js/motion.js" defer></script>
+<script src="/js/motion.js?v=${V_MOTION}" defer></script>
 </body>
 </html>
 `
@@ -390,6 +390,11 @@ const css = sorgenti.map(c => c
 await writeFile(join(OUT, 'css', 'sito.css'), css)
 const VERSIONE = createHash('sha1').update(css).digest('hex').slice(0, 10)
 console.log('→ src/css/sito.css  (' + css.length + ' byte, v=' + VERSIONE + ')')
+/* 15.10: anche i due script hanno la loro versione nell'indirizzo, come il
+   foglio: senza, un browser che li aveva in cache mostrava la pagina nuova
+   con i dati vecchi (il team di prima in home). */
+const vJs = async (n) => createHash('sha1').update(await readFile(join(OUT, 'js', n), 'utf8')).digest('hex').slice(0, 10)
+const V_DATI = await vJs('dati.js'), V_MOTION = await vJs('motion.js')
 
 /* ── IL LOGO DEL PODCAST ──────────────────────────────────────────────────
    È un file del cliente e non si ridisegna. Se esiste in

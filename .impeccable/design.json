@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-15T09:54:40.858Z",
+  "generatedAt": "2026-10-15T10:30:11.855Z",
   "title": "Design System: Sales Process Italia",
   "extensions": {
     "colorMeta": {
@@ -561,8 +561,13 @@
       },
       {
         "name": "cubo-sul-filo",
-        "value": "position: sticky a 100vh - --lettura dentro .staffetta__binario",
-        "purpose": "Il cubo cavalca il filo della staffetta (colonna); lo muove il compositore, non un listener."
+        "value": "position: sticky a 100vh - --lettura dentro .staffetta__binario, dal primo nodo all'arrivo",
+        "purpose": "In colonna il cubo cavalca la linea della staffetta fino all'arrivo; lo muove il compositore, non un listener."
+      },
+      {
+        "name": "percorso-staffetta",
+        "value": "una timeline GSAP (pin, scrub .6): pista x, linea accesa scaleX 0 -> 1, cubo x da nodo a nodo; .is-on/.is-qui dalla posizione del cubo; card srotolate con clip-path (containerAnimation, left 88% -> 64%); nodo-onda 900ms",
+        "purpose": "La staffetta come percorso: card appese a una linea sola, il cubo la percorre e accende ogni tappa quando arriva al suo nodo."
       },
       {
         "name": "finale-fermo",

@@ -36,7 +36,7 @@
      Con il passaggio a gradini e la foto che vola, il cambio di pagina
      parte senza attesa di rete. -->
 <script type="speculationrules">{"prefetch":[{"where":{"or":[{"href_matches":"/*.html"},{"href_matches":"/"}]},"eagerness":"moderate"}]}</script>
-<link rel="stylesheet" href="/css/sito.css?v=c5f34c8677">
+<link rel="stylesheet" href="/css/sito.css?v=8197cad997">
 </head>
 <body data-pagina="home">
 <div class="sipario" aria-hidden="true"><i style="--k:0"></i><i style="--k:1"></i><i style="--k:2"></i><i style="--k:3"></i><span class="sipario__marchio"><img src="/assets/brand/logo-full-h112.webp" alt="" width="461" height="112" decoding="async"></span><span class="sipario__filo"></span></div>
@@ -315,10 +315,11 @@
      Il rovescio del contro-esempio: lo stesso cubo, qui, passa di mano in
      mano. Quattro reparti e, fra uno e l'altro, il passaggio di consegna
      fotografato, con cosa passa, in quanto tempo e con quale strumento.
-     Su desktop la sezione si ferma e lo scroll fa scorrere i fotogrammi in
-     orizzontale; ognuno si accende quando arriva al centro, e la sequenza
-     atterra sul cubo posato sul contratto. Sotto i 1024px, e a motion
-     ridotto, è una colonna. Il segnacapitolo sta DENTRO la pista: la
+     15.10: è un PERCORSO. Ogni tappa è una card appesa alla linea; su
+     desktop la sezione si ferma, la pista scorre in orizzontale, il cubo
+     percorre la linea e accende ogni tappa quando ci arriva, fino al cubo
+     posato sul contratto. Sotto i 1024px, e a motion ridotto, è una
+     colonna con la linea sul bordo sinistro. Il segnacapitolo sta DENTRO la pista: la
      sezione è fissata durante lo scorrimento, e scorre via con il titolo. -->
 <section class="sez sez--capo staffetta-sez sf sf--radente" id="metodo" data-cap="3">
   <div class="staffetta" id="staffetta">
@@ -330,8 +331,8 @@
       </div>
       <!-- /js/dati.js: quattro reparti e tre passaggi, alternati -->
       <!-- L'atterraggio: il cubo posato sul contratto firmato. -->
-      <figure class="staffetta__fine">
-        <img src="/assets/foto/staffetta-firma-800.webp" srcset="/assets/foto/staffetta-firma-480.webp 480w, /assets/foto/staffetta-firma-800.webp 800w, /assets/foto/staffetta-firma-1200.webp 1200w" sizes="(max-width: 1023px) 78vw, 32vw" alt="Una mano posa il cubo arancione su un contratto firmato" width="1200" height="1500" loading="lazy" decoding="async">
+      <figure class="staffetta__fine tappa">
+        <div class="staffetta__foto"><img src="/assets/foto/staffetta-firma-800.webp" srcset="/assets/foto/staffetta-firma-480.webp 480w, /assets/foto/staffetta-firma-800.webp 800w, /assets/foto/staffetta-firma-1200.webp 1200w" sizes="(max-width: 1023px) 92vw, 380px" alt="Una mano posa il cubo arancione su un contratto firmato" width="1200" height="1500" loading="lazy" decoding="async"></div>
         <figcaption><strong>La trattativa.</strong> Il contatto educato incontra il venditore formato. È l'unico punto in cui nasce il fatturato.</figcaption>
       </figure>
     </div>
@@ -622,9 +623,9 @@
 
 <!-- Ordine voluto: i defer girano nell'ordine del documento, e dati.js
      (i contenuti) non deve aspettare il CDN di GSAP. -->
-<script src="/js/dati.js" defer></script>
+<script src="/js/dati.js?v=bad3656a12" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js" defer></script>
-<script src="/js/motion.js" defer></script>
+<script src="/js/motion.js?v=25146bc6a4" defer></script>
 </body>
 </html>

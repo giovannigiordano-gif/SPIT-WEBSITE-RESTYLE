@@ -1930,57 +1930,113 @@ animation-range: entry 35% cover 52%;
 .u-voce__num { margin-block: var(--s-2); }
 }
 .staffetta-sez { overflow-x: clip; }
-.staffetta { position: relative; }
+.staffetta { position: relative; --nodo: 12px; --nodo-y: 32px; --nodo-x: 26px; }
 .staffetta__pista {
---passo: clamp(36px, 5vw, 64px);
-display: grid; gap: var(--passo);
+--passo: clamp(14px, 1.6vw, 20px);
+position: relative; display: grid; gap: var(--passo);
 width: min(100% - 2 * var(--margine), var(--w-piena) - 2 * var(--margine));
 margin-inline: auto;
 }
 .staffetta__testa { display: grid; gap: var(--s-5); justify-items: start; }
 .staffetta__testa .t-d2 { max-inline-size: 16ch; }
 .staffetta__testa .t-deck { max-inline-size: 44ch; }
-.stazione { position: relative; display: grid; align-content: start; gap: var(--s-4); padding-top: var(--s-5); border-top: 1px solid var(--c-filo-forte); }
-.stazione::before {
-content: attr(data-n);
-font: 700 clamp(46px, 4.4vw, 64px)/.8 var(--f-display); letter-spacing: -.05em;
+.staffetta:not(.is-scena) .staffetta__testa { margin-bottom: clamp(18px, 3vw, 44px); }
+.tappa {
+position: relative; margin: 0; min-width: 0;
+display: flex; flex-direction: column; gap: var(--s-3);
+padding: clamp(20px, 1.8vw, 26px) clamp(20px, 1.8vw, 26px) clamp(20px, 1.8vw, 24px) clamp(26px, 2.2vw, 32px);
+border: 1px solid var(--c-filo); border-left: 0; border-radius: 0 14px 14px 0;
+background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.015));
+transition: border-color var(--t-stato) linear, box-shadow var(--t-apertura) var(--ease-salita);
+}
+.staffetta__fine { border-color: rgba(255,130,0,.24); background: linear-gradient(180deg, rgba(255,130,0,.08), rgba(255,255,255,.015)); }
+.tappa__nodo {
+position: absolute; z-index: 2; top: calc(var(--nodo-y) - var(--nodo) / 2); left: calc(var(--nodo) / -2);
+width: var(--nodo); height: var(--nodo); border-radius: 50%;
+background: var(--c-ar);
+box-shadow: inset 0 0 0 2px var(--c-ar), 0 0 0 4px rgba(255,130,0,.16), 0 0 16px rgba(255,130,0,.5);
+}
+.tappa__nodo--consegna { border-radius: 3px; }
+.tappa__nodo--arrivo { --nodo: 18px; border-radius: 4px; }
+.stazione__testa { display: flex; align-items: center; justify-content: space-between; gap: var(--s-3); }
+.stazione__n {
+font: 700 clamp(40px, 3.4vw, 54px)/.8 var(--f-display); letter-spacing: -.05em;
 color: transparent; -webkit-text-stroke: 1.5px var(--c-ar);
 transition: -webkit-text-stroke-color var(--t-stato) linear;
 }
-.stazione .icoq { width: 30px; height: 30px; color: var(--c-ar); transition: color var(--t-stato) linear; }
-.stazione__nome { font: 500 clamp(28px, 2.6vw, 42px)/1.04 var(--f-display); letter-spacing: -.02em; color: var(--c-t1); max-inline-size: 13ch; }
-.stazione__claim { font: 400 17px/1.55 var(--f-display); color: var(--c-t2); max-inline-size: 30ch; }
-.stazione__out { font: 600 16px/1.35 var(--f-display); color: var(--c-ar-hot); font-variant-numeric: tabular-nums; transition: color var(--t-stato) linear; }
-.passaggio { margin: 0; display: grid; gap: var(--s-4); justify-items: start; }
-.passaggio__foto { width: min(100%, 560px); }
-.passaggio__foto img {
-display: block; width: 100%; height: auto;
--webkit-mask-image: radial-gradient(ellipse 82% 80% at 50% 50%, #000 62%, transparent 100%);
-mask-image: radial-gradient(ellipse 82% 80% at 50% 50%, #000 62%, transparent 100%);
+.stazione .icoq { width: 28px; height: 28px; transition: color var(--t-stato) linear; }
+.stazione__nome { margin-top: var(--s-2); font: 500 clamp(24px, 2vw, 32px)/1.06 var(--f-display); letter-spacing: -.02em; color: var(--c-t1); max-inline-size: 14ch; }
+.stazione__claim { font: 400 16px/1.5 var(--f-display); color: var(--c-t2); max-inline-size: 32ch; }
+.stazione__out {
+margin-top: auto; padding-top: var(--s-3); border-top: 1px solid var(--c-filo);
+font: 600 clamp(16px, 1.25vw, 18px)/1.3 var(--f-display); letter-spacing: -.005em; color: var(--c-ar-hot); font-variant-numeric: tabular-nums;
+transition: color var(--t-stato) linear;
 }
-.passaggio figcaption { display: grid; gap: 3px; }
+.passaggio__foto, .staffetta__foto {
+position: relative; overflow: hidden; border-radius: 10px; aspect-ratio: 16 / 10;
+background: radial-gradient(58% 64% at 50% 46%, rgba(255,130,0,.2), rgba(255,130,0,0) 72%), #0E0D10;
+}
+.passaggio__foto img, .staffetta__foto img {
+display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 44%;
+scale: 1.08; transition: scale var(--t-apertura) var(--ease-salita), filter var(--t-apertura) linear;
+}
+.staffetta__foto img { object-position: 50% 54%; }
+.passaggio figcaption { display: grid; gap: 4px; }
 .passaggio__n { font: 500 13px/1.3 var(--f-display); color: var(--c-t3); }
-.passaggio__cosa { font: 600 clamp(18px, 1.4vw, 22px)/1.25 var(--f-display); letter-spacing: -.01em; color: var(--c-t1); }
-.passaggio__det { font: 500 14px/1.4 var(--f-display); color: var(--c-ar-hot); font-variant-numeric: tabular-nums; }
-.staffetta__fine { margin: 0; display: grid; gap: var(--s-5); justify-items: start; }
-.staffetta__fine img {
-display: block; width: min(100%, 560px); height: auto;
--webkit-mask-image: radial-gradient(ellipse 80% 78% at 50% 50%, #000 62%, transparent 100%);
-mask-image: radial-gradient(ellipse 80% 78% at 50% 50%, #000 62%, transparent 100%);
+.passaggio__cosa { font: 600 clamp(18px, 1.4vw, 21px)/1.25 var(--f-display); letter-spacing: -.01em; color: var(--c-t1); }
+.passaggio__det { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+.passaggio__chip {
+display: inline-flex; align-items: center; gap: 6px; height: 28px; padding: 0 11px 0 9px;
+border: 1px solid rgba(255,130,0,.4); border-radius: 999px;
+font: 500 13px/1 var(--f-display); color: var(--c-t2); font-variant-numeric: tabular-nums; white-space: nowrap;
+transition: border-color var(--t-stato) linear;
 }
-.staffetta__fine figcaption { max-inline-size: 36ch; font: 400 17px/1.55 var(--f-display); color: var(--c-t2); }
-.staffetta__fine strong { display: block; margin-bottom: var(--s-2); font: 500 clamp(32px, 3vw, 48px)/1.04 var(--f-display); letter-spacing: -.02em; color: var(--c-t1); }
-.staffetta:not(.is-scena) :is(.passaggio, .staffetta__fine) { position: relative; }
-.staffetta__pista { --filo-x: calc(var(--margine) * -.5); }
+.passaggio__chip svg { width: 15px; height: 15px; flex: none; color: var(--c-ar-hot); transition: color var(--t-stato) linear; }
+.staffetta__fine figcaption { font: 400 16px/1.5 var(--f-display); color: var(--c-t2); max-inline-size: 36ch; }
+.staffetta__fine strong { display: block; margin-bottom: 6px; font: 500 clamp(26px, 2.2vw, 34px)/1.05 var(--f-display); letter-spacing: -.02em; color: var(--c-t1); }
+.staffetta:not(.is-scena) .tappa::before {
+content: ''; position: absolute; z-index: 1; left: -1px; top: 0; bottom: calc(-1 * var(--passo));
+width: 2px; background: var(--c-filo-forte); pointer-events: none;
+}
+.staffetta:not(.is-scena) .staffetta__testa + .tappa::before { top: var(--nodo-y); }
+.staffetta:not(.is-scena) .staffetta__fine::before { bottom: auto; height: var(--nodo-y); }
 @supports (animation-timeline: view()) {
-@media (prefers-reduced-motion: no-preference) and (max-width: 899px) {
-.staffetta:not(.is-scena) .staffetta__pista { --filo-x: -21px; --pista-pl: 22px; padding-left: 22px; }
+@media (prefers-reduced-motion: no-preference) {
+.staffetta:not(.is-scena) .tappa { view-timeline: --tappa block; }
+.staffetta:not(.is-scena) .tappa::after {
+content: ''; position: absolute; z-index: 1; left: -1px; top: 0; bottom: calc(-1 * var(--passo));
+width: 2px; background: var(--c-ar); transform-origin: 50% 0; scale: 1 0; pointer-events: none;
+animation: filo-scende linear both; animation-timeline: view();
+animation-range: entry var(--lettura) entry calc(100% + var(--lettura));
+}
+.staffetta:not(.is-scena) .staffetta__testa + .tappa::after { top: var(--nodo-y); }
+.staffetta:not(.is-scena) .staffetta__fine::after { bottom: auto; height: var(--nodo-y); }
+.staffetta:not(.is-scena) .tappa > .tappa__nodo,
+.staffetta:not(.is-scena) .tappa .stazione__n,
+.staffetta:not(.is-scena) .tappa .icoq,
+.staffetta:not(.is-scena) .tappa .stazione__out,
+.staffetta:not(.is-scena) .tappa :is(.passaggio__foto, .staffetta__foto) img,
+.staffetta:not(.is-scena) .tappa .passaggio__chip {
+animation-timing-function: linear; animation-fill-mode: both; animation-timeline: --tappa;
+animation-range: entry calc(var(--lettura) + var(--nodo-y) - 2px) entry calc(var(--lettura) + var(--nodo-y) + 48px);
+}
+.staffetta:not(.is-scena) .tappa > .tappa__nodo { animation-name: nodo-acceso; animation-range: entry calc(var(--lettura) + var(--nodo-y) - 2px) entry calc(var(--lettura) + var(--nodo-y) + 2px); }
+.staffetta:not(.is-scena) .tappa .stazione__n { animation-name: tappa-numero; }
+.staffetta:not(.is-scena) .tappa .icoq { animation-name: tappa-glifo; }
+.staffetta:not(.is-scena) .tappa .stazione__out { animation-name: tappa-consegna; }
+.staffetta:not(.is-scena) .tappa :is(.passaggio__foto, .staffetta__foto) img { animation-name: tappa-foto; }
+.staffetta:not(.is-scena) .tappa .passaggio__chip { animation-name: tappa-etichetta; }
 }
 }
-.staffetta:not(.is-scena) .staffetta__pista { position: relative; }
+@keyframes filo-scende    { to { scale: 1 1; } }
+@keyframes nodo-acceso    { from { background: var(--c-base); box-shadow: inset 0 0 0 2px rgba(255,255,255,.42), 0 0 0 0 rgba(255,130,0,0), 0 0 0 rgba(255,130,0,0); } }
+@keyframes tappa-numero   { from { -webkit-text-stroke-color: rgba(255,255,255,.22); } }
+@keyframes tappa-glifo    { from { color: rgba(255,255,255,.34); } }
+@keyframes tappa-consegna { from { color: var(--c-t3); } }
+@keyframes tappa-foto     { from { filter: grayscale(1) brightness(.72); scale: 1.16; } }
+@keyframes tappa-etichetta { from { border-color: var(--c-filo-forte); } }
 .staffetta__binario {
-position: absolute; z-index: 2; pointer-events: none; width: 14px;
-left: calc(var(--pista-pl, 0px) + var(--filo-x) - 7px);
+position: absolute; z-index: 3; pointer-events: none; width: 14px; left: -7px;
 top: calc(var(--b0, 0px) - 7px); height: calc(var(--bh, 0px) + 14px);
 }
 .staffetta.is-scena .staffetta__binario { display: none; }
@@ -1993,91 +2049,78 @@ transition: scale var(--t-stato) var(--ease-salita), opacity var(--t-stato) line
 }
 .staffetta__cubo.is-fermo { opacity: 0; scale: .6; }
 .staffetta__cubo.is-posato { scale: 1.3; }
-@supports (animation-timeline: view()) {
-@media (prefers-reduced-motion: no-preference) {
-.staffetta:not(.is-scena) :is(.stazione, .passaggio)::after,
-.staffetta:not(.is-scena) .staffetta__fine::before {
-content: ''; position: absolute; top: 0; bottom: calc(-1 * var(--passo));
-left: calc(var(--filo-x) - 1px); width: 2px; border-radius: 2px;
-background: var(--c-ar); transform-origin: 50% 0; scale: 1 0; pointer-events: none;
-animation: filo-scende linear both; animation-timeline: view();
-animation-range: entry var(--lettura) entry calc(100% + var(--lettura));
-}
-.staffetta:not(.is-scena) .staffetta__fine::before { bottom: 50%; }
-.staffetta:not(.is-scena) .staffetta__fine::after {
-content: ''; position: absolute; top: 50%; left: calc(var(--filo-x) - 5px);
-width: 10px; height: 10px; border-radius: var(--q-r); background: var(--c-ar);
-translate: 0 -50%; scale: 0; pointer-events: none;
-animation: filo-atterra linear both; animation-timeline: view();
-animation-range: entry var(--lettura) entry calc(var(--lettura) + 24px);
-}
-.staffetta:not(.is-scena) .stazione::before,
-.staffetta:not(.is-scena) .stazione .icoq {
-animation: reparto-acceso linear both; animation-timeline: view();
-animation-range: entry var(--lettura) entry calc(var(--lettura) + 56px);
-}
-}
-}
-@keyframes filo-scende    { to { scale: 1 1; } }
-@keyframes filo-atterra   { to { scale: 1; } }
-@keyframes reparto-acceso { from { opacity: .28; } }
 @media (min-width: 900px) {
-.staffetta--colonna .staffetta__pista { gap: 0; --passo: 0px; }
-.staffetta--colonna .staffetta__testa { margin-bottom: clamp(40px, 4vw, 72px); }
-.staffetta--colonna .stazione {
-grid-template-columns: minmax(0, 3fr) minmax(0, 4fr) minmax(0, 5fr);
-column-gap: clamp(24px, 3vw, 48px); align-items: start;
-padding-block: clamp(28px, 3vw, 44px);
+.staffetta:not(.is-scena) .tappa { padding: 28px clamp(24px, 3vw, 40px) 28px clamp(32px, 3vw, 44px); }
+.staffetta:not(.is-scena) .stazione {
+display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+column-gap: clamp(24px, 3vw, 56px); row-gap: var(--s-3); align-items: start;
 }
-.staffetta--colonna .stazione::before { grid-row: 1 / span 4; }
-.staffetta--colonna .stazione > * { grid-column: 2; }
-.staffetta--colonna .stazione .stazione__claim, .staffetta--colonna .stazione .stazione__out { grid-column: 3; }
-.staffetta--colonna .stazione .icoq { grid-row: 1; }
-.staffetta--colonna .stazione .stazione__nome { grid-row: 2; }
-.staffetta--colonna .stazione .stazione__claim { grid-row: 1 / span 2; align-self: start; padding-top: 4px; }
-.staffetta--colonna .stazione .stazione__out { grid-row: 3; }
-.staffetta--colonna .passaggio, .staffetta--colonna .staffetta__fine {
-grid-template-columns: minmax(0, 3fr) minmax(0, 4fr) minmax(0, 5fr); align-items: end; column-gap: clamp(24px, 3vw, 48px);
-padding-block: var(--s-4);
+.staffetta:not(.is-scena) .stazione__testa { grid-column: 1; grid-row: 1; justify-content: flex-start; gap: var(--s-4); }
+.staffetta:not(.is-scena) .stazione__nome { grid-column: 1; grid-row: 2; }
+.staffetta:not(.is-scena) .stazione__claim { grid-column: 2; grid-row: 1 / span 2; align-self: center; font-size: 17px; }
+.staffetta:not(.is-scena) .stazione__out { grid-column: 2; grid-row: 3; margin-top: 0; }
+.staffetta:not(.is-scena) :is(.passaggio, .staffetta__fine) {
+display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+column-gap: clamp(24px, 3vw, 56px); align-items: center;
 }
-.staffetta--colonna .passaggio__foto { grid-column: 2; grid-row: 1; width: min(100%, 420px); }
-.staffetta--colonna .passaggio figcaption { grid-column: 3; grid-row: 1; padding-bottom: var(--s-6); }
-.staffetta--colonna .staffetta__fine { padding-top: var(--s-6); border-top: 1px solid var(--c-filo-forte); }
-.staffetta--colonna .staffetta__fine img { grid-column: 2; grid-row: 1; width: min(100%, 420px); }
-.staffetta--colonna .staffetta__fine figcaption { grid-column: 3; grid-row: 1; padding-bottom: var(--s-6); }
-}
-@media (max-width: 1023px) {
-.passaggio__foto img, .staffetta__fine img {
--webkit-mask-image: radial-gradient(ellipse 92% 88% at 50% 50%, #000 66%, transparent 100%);
-mask-image: radial-gradient(ellipse 92% 88% at 50% 50%, #000 66%, transparent 100%);
-}
+.staffetta:not(.is-scena) :is(.passaggio__foto, .staffetta__foto) { grid-column: 1; grid-row: 1; }
+.staffetta:not(.is-scena) :is(.passaggio, .staffetta__fine) figcaption { grid-column: 2; grid-row: 1; }
 }
 .staffetta-sez:has(.staffetta.is-scena) { padding-block: 0; }
-.staffetta.is-scena { height: 100vh; height: 100svh; display: grid; align-content: start; overflow: hidden; }
+.staffetta.is-scena { height: 100vh; height: 100svh; overflow: hidden; }
 .staffetta.is-scena .staffetta__pista {
-display: flex; align-items: center; gap: clamp(48px, 5vw, 96px);
-width: max-content; margin: 0;
-padding-inline: max(var(--margine), calc((100vw - var(--w-piena)) / 2 + var(--margine))) 12vw;
-padding-top: calc(var(--barra-h) + var(--nav-h) + clamp(14px, 3vh, 32px));
+display: flex; align-items: center; gap: clamp(26px, 2.6vw, 44px);
+width: max-content; height: 100%; margin: 0; box-sizing: border-box;
+padding: calc(var(--barra-h) + var(--nav-h) + clamp(14px, 3vh, 32px)) 12vw clamp(20px, 4vh, 48px)
+max(var(--margine), calc((100vw - var(--w-piena)) / 2 + var(--margine)));
 will-change: transform;
 }
-.staffetta.is-scena .staffetta__testa { width: min(40vw, 600px); flex: none; align-self: flex-start; }
-.staffetta.is-scena .stazione { width: clamp(280px, 22vw, 360px); flex: none; border-top: 0; padding-top: 0; }
-.staffetta.is-scena .passaggio { width: clamp(340px, 34vw, 560px); flex: none; }
-.staffetta.is-scena .passaggio__foto { width: 100%; }
-.staffetta.is-scena .passaggio__foto img { max-height: 64vh; width: auto; max-width: 100%; margin-inline: auto; }
-.staffetta.is-scena .staffetta__fine { width: clamp(360px, 36vw, 600px); flex: none; grid-template-columns: 1fr; }
-.staffetta.is-scena .staffetta__fine img { max-height: 56vh; width: auto; max-width: 100%; }
-.staffetta.is-scena .stazione::before { -webkit-text-stroke-color: rgba(255,255,255,.16); }
-.staffetta.is-scena .stazione .icoq,
-.staffetta.is-scena .stazione__out { color: var(--c-t3); }
-.staffetta.is-scena .stazione.is-on::before { -webkit-text-stroke-color: var(--c-ar); }
-.staffetta.is-scena .stazione.is-on .icoq,
-.staffetta.is-scena .stazione.is-on .stazione__out { color: var(--c-ar); }
-.staffetta.is-scena .passaggio,
-.staffetta.is-scena .staffetta__fine { opacity: .5; transition: opacity var(--t-stato) linear; }
-.staffetta.is-scena .passaggio.is-on,
-.staffetta.is-scena .staffetta__fine.is-on { opacity: 1; }
+.staffetta.is-scena .staffetta__testa { width: min(36vw, 560px); flex: none; align-self: flex-start; margin-right: clamp(6px, 1.4vw, 24px); }
+.staffetta.is-scena .tappa {
+flex: none; height: clamp(300px, 42vh, 440px);
+border-top: 0; border-left: 1px solid var(--c-filo); border-radius: 0 0 14px 14px;
+padding: 30px 24px 22px;
+}
+.staffetta.is-scena .staffetta__fine { border-left-color: rgba(255,130,0,.24); }
+.staffetta.is-scena .stazione { width: clamp(268px, 21vw, 360px); }
+.staffetta.is-scena .passaggio { width: clamp(280px, 22vw, 380px); }
+.staffetta.is-scena .staffetta__fine { width: clamp(300px, 25vw, 420px); }
+.staffetta.is-scena .tappa > .tappa__nodo { display: none; }
+.staffetta.is-scena :is(.passaggio__foto, .staffetta__foto) { aspect-ratio: auto; flex: 1 1 0; min-height: 0; }
+.staffetta.is-scena .tappa:not(.is-on) .stazione__n { -webkit-text-stroke-color: rgba(255,255,255,.22); }
+.staffetta.is-scena .tappa:not(.is-on) .icoq { color: rgba(255,255,255,.34); }
+.staffetta.is-scena .tappa:not(.is-on) .stazione__out { color: var(--c-t3); }
+.staffetta.is-scena .tappa:not(.is-on) :is(.passaggio__foto, .staffetta__foto) img { filter: grayscale(1) brightness(.72); scale: 1.16; }
+.staffetta.is-scena .tappa:not(.is-on) .passaggio__chip { border-color: var(--c-filo-forte); }
+.staffetta.is-scena .tappa:not(.is-on) .passaggio__chip svg { color: var(--c-t3); }
+.staffetta.is-scena .tappa.is-qui { border-color: rgba(255,130,0,.42); box-shadow: 0 30px 70px -34px rgba(255,130,0,.55); }
+.percorso { position: absolute; height: 2px; pointer-events: none; }
+.percorso > * { position: absolute; display: block; }
+.percorso__linea { z-index: 1; inset: 0; background: var(--c-filo-forte); }
+.percorso__fill {
+z-index: 1; top: 0; left: var(--f0, 0px); width: var(--fw, 0px); height: 2px; transform-origin: 0 50%;
+background: linear-gradient(90deg, rgba(255,130,0,.3), var(--c-ar) 70%);
+box-shadow: 0 0 10px rgba(255,130,0,.45);
+}
+.percorso__nodo {
+z-index: 2; top: 1px; width: 12px; height: 12px; translate: -50% -50%; border-radius: 50%;
+background: var(--c-base); box-shadow: inset 0 0 0 2px rgba(255,255,255,.42);
+transition: background-color var(--t-stato) linear, box-shadow var(--t-stato) linear;
+}
+.percorso__nodo--consegna { border-radius: 3px; }
+.percorso__nodo--arrivo { width: 18px; height: 18px; border-radius: 4px; }
+.percorso__nodo.is-on {
+background: var(--c-ar);
+box-shadow: inset 0 0 0 2px var(--c-ar), 0 0 0 4px rgba(255,130,0,.16), 0 0 16px rgba(255,130,0,.55);
+}
+.percorso__nodo::after { content: ''; position: absolute; inset: 0; border-radius: inherit; box-shadow: 0 0 0 2px var(--c-ar); opacity: 0; }
+.percorso__nodo.is-on::after { animation: nodo-onda 900ms cubic-bezier(.2,.6,.3,1) both; }
+@keyframes nodo-onda { from { opacity: .9; scale: 1; } to { opacity: 0; scale: 3.2; } }
+.percorso__cubo {
+z-index: 3; top: 1px; left: var(--f0, 0px); width: 14px; height: 14px; translate: -50% -50%; border-radius: 3px;
+background: linear-gradient(145deg, #FFA24A, #E06F00);
+box-shadow: inset 0 1px 0 rgba(255,255,255,.35), 0 0 16px rgba(255,130,0,.6), 0 0 44px rgba(255,130,0,.25);
+}
 .finale { position: relative; padding-top: var(--sez-y); overflow: clip; }
 .finale::before {
 content: ''; position: absolute; inset: auto -10% -340px -10%; height: 860px;

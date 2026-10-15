@@ -656,6 +656,34 @@ Verifica: catture della sequenza a 0,2–3,6s (desktop, telefono, passaggio del 
 test; movimento ridotto senza movimento né invisibili; audit 8 pagine × 5 larghezze senza rilievi; Lighthouse
 mobile Home 95, Metodo 97, accessibilità 100, CLS 0.
 
+*La staffetta diventa un percorso (15.10)* — «Il fatturato non si perde nei reparti…: questa sezione è molto
+bella ma gli elementi fluttuanti senza casa rendono tutto disordinato. Mi piace l'impostazione orizzontale, che
+manterrei, ma vorrei fosse un percorso. Aggiungi animazioni, container e rendila chiara alla lettura.»
+- **Le case**: ogni tappa è una card. I quattro reparti (numero fantasma e icona, nome, cosa fa, e in fondo
+  sotto un filo cosa consegnano), i tre passaggi (la foto del cubo che passa di mano in una cornice con la sua
+  luce, «Passaggio n di 3», cosa passa, e il tempo e lo strumento come due etichette con il loro segno),
+  l'arrivo (la trattativa, la card calda). Prima le didascalie dei passaggi stavano a un'altra quota delle foto.
+- **Il percorso**: una linea sola, che è il bordo delle card (in orizzontale il bordo alto, in colonna il
+  sinistro), con un nodo per tappa: cerchio il reparto, quadrato il passaggio, quadrato grande l'arrivo.
+- **Le animazioni**: su desktop resta la scena orizzontale fissata; una sola timeline fa scorrere la pista,
+  accende la linea dietro il cubo e porta il cubo da un nodo all'altro. Quando arriva, il nodo si accende con
+  un'onda, la tappa si accende (il numero, l'icona, la consegna, e nella foto il cubo diventa arancione) e la
+  card dove sta il cubo ha il bordo e un'ombra calda. Le card che arrivano da destra si srotolano dalla linea.
+  Su telefono, tablet e nella pagina Metodo è una colonna: la linea scende sul bordo sinistro alla linea di
+  lettura, il cubo la cavalca e ogni tappa si accende quando il suo nodo la attraversa. A movimento ridotto è
+  tutto acceso e fermo.
+- Il testo non si spegne mai (si spengono solo i segni e la foto): una card «in attesa» resta leggibile.
+- Nella pagina Metodo la colonna su desktop ha card a due colonne (chi e cosa a sinistra, il resto a destra).
+
+*Il team in home* — «le modifiche al team vanno fatte anche in home page». Nel codice la home aveva già il
+team nuovo (Andrea Berrini con le iniziali, senza Paola Russo: lo stesso elenco della pagina Team, verificato
+nel carosello). La causa probabile è la cache: il foglio di stile aveva la versione nell'indirizzo, i due
+script no, e un browser che li aveva già scaricati poteva mostrare la pagina nuova con i dati vecchi. Ora anche
+`dati.js` e `motion.js` hanno la versione nell'indirizzo (`?v=` dal loro contenuto, nel build).
+Verifica: catture della scena a 1024, 1280, 1440 e 1920 in nove punti dello scorrimento, della colonna a 390,
+900 e nel Metodo, e a movimento ridotto; 38/38 test; movimento ridotto senza invisibili; audit 8 pagine × 5
+larghezze senza rilievi; Lighthouse mobile Home 95, Metodo 96, accessibilità 100, CLS 0.
+
 ### Cosa è stato fatto, fase per fase (skill applicate)
 
 **Fase 1 — design system** (impeccable craft-floor, design-taste-frontend, ui-ux-pro-max checklist)
@@ -787,6 +815,10 @@ Candidatura), indice (Fatturare³, Team), manifesto ed elenco numerato (DNA), mu
   veri, e non vanno presentate come tali. Se il cliente vuole dichiararlo (o sostituirle con scatti veri
   del suo ufficio, la scelta migliore per le quattro scene), l'elenco con uso e prompt è in
   `assets-src/higgsfield/provenienza.json`.
+- **La staffetta ha di nuovo card e una linea** (15.10, richiesta dell'agenzia). Nel giro 3 il cliente aveva
+  bocciato la «macchina» (schede in scatola su un binario, con un quadrato che scorreva). Il percorso è diverso:
+  tiene le fotografie dei passaggi, la linea è il bordo delle card e non un binario a parte, e la tappa si
+  accende solo quando il contatto ci arriva. Ma l'idea di partenza è vicina, e va confermata col cliente finale.
 - Il **muro FATTURARE centrato** era una decisione del cliente (HANDOFF §6). Su richiesta esplicita
   dell'agenzia («questa parte non mi piace») è diventato il finale con la foto, payoff a filo sinistro:
   va confermato anche con il cliente finale.
