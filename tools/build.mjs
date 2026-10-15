@@ -186,13 +186,14 @@ const corrente = (href, slug) => href === '/' + slug + '.html' ? ' aria-current=
    ogni voce la fotografia di quella pagina. Le foto si caricano solo
    alla prima apertura (data-src).                                     */
 const VOCI_MENU = [
-  { href: '/metodo.html',      label: 'Metodo',      desc: 'Quattro reparti, tre passaggi di consegna', foto: 'metodo-scalinata' },
-  { href: '/risultati.html',   label: 'Risultati',   desc: 'Prima e dopo, con i mesi in mezzo',          foto: 'risultati-scontrino' },
-  { href: '/dna.html',         label: 'DNA',         desc: 'La politica della qualità e i dieci principi', foto: 'dna-bussola' },
-  { href: '/team.html',        label: 'Team',        desc: 'Dodici persone, quattro reparti',            foto: 'team' },
-  { href: '/eventi.html',      label: 'Eventi',      desc: 'Sales Process Day · 14 ottobre 2026 · Milano', foto: 'eventi-biglietto' },
-  { href: '/fatturare.html',   label: 'Fatturare³',  desc: 'Il podcast, gli articoli, i libri',          foto: 'fatturare-microfono' },
-  { href: '/candidatura.html', label: 'Candidatura', desc: 'Candidature aperte · Q4 2026',               foto: 'candidatura-caffe' },
+  /* 15.10: «nel menu togli le didascalie» — restano solo i nomi delle pagine */
+  { href: '/metodo.html',      label: 'Metodo',      foto: 'metodo-scalinata' },
+  { href: '/risultati.html',   label: 'Risultati',   foto: 'risultati-scontrino' },
+  { href: '/dna.html',         label: 'DNA',         foto: 'dna-bussola' },
+  { href: '/team.html',        label: 'Team',        foto: 'team' },
+  { href: '/eventi.html',      label: 'Eventi',      foto: 'eventi-biglietto' },
+  { href: '/fatturare.html',   label: 'Fatturare³',  foto: 'fatturare-microfono' },
+  { href: '/candidatura.html', label: 'Candidatura', foto: 'candidatura-caffe' },
 ]
 /* Il Team non ha un oggetto: nell'anteprima, come nella sua apertura, i
    cinque volti disposti come i cinque quadrati del marchio.            */
@@ -229,7 +230,7 @@ const nav = (slug) => `
       </button>
     </div>
     <nav class="menu__voci" aria-label="Principale">
-      ${VOCI_MENU.map((v, i) => `<a href="${v.href}" data-foto="${v.foto}" style="--i:${i}"${corrente(v.href, slug)}><span class="menu__nome">${v.label}</span><span class="menu__desc">${v.desc}</span></a>`).join('\n      ')}
+      ${VOCI_MENU.map((v, i) => `<a href="${v.href}" data-foto="${v.foto}" style="--i:${i}"${corrente(v.href, slug)}><span class="menu__nome">${v.label}</span></a>`).join('\n      ')}
     </nav>
     <div class="menu__anteprime" aria-hidden="true">
       <img class="menu__ant menu__ant--casa" data-foto="casa" data-src="/assets/foto/finale-trofeo-800.webp" alt="" width="1200" height="1500">

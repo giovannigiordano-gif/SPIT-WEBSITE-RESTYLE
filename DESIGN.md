@@ -271,7 +271,7 @@ Un palco neutro e freddo, quasi nero, e una famiglia calda di arancio che fa da 
 - **Base Fredda** (`fondo-base`): il fondo del 90% della pagina e del palco; bianco sopra = 17,9:1.
 - **Nero Palco** (`nero-palco`): l'atmosfera "nero" (hero, loghi, aperture interne, footer), su cui l'oggetto arancione si legge come luce.
 - **Fondo Menu** (`fondo-menu`): la card del menu, opaca, con una brace radiale al 20% dietro le anteprime. Opaca di proposito: una card semitrasparente sopra l'hero mescolava due titoli.
-- **Bianco Riferimento** (`testo-1`): titoli e testo primario. **Testo 2** (80%) corpo e deck; **Secondo tempo** (`testo-segue`, 68%) solo il secondo tempo dei titoli; **Testo 3** (56%) meta, didascalie, fonti, descrizioni d'indice e di menu; **Testo 4** (40%) solo testo ≥ 24px o glifi (i numeri quieti dei principi DNA).
+- **Bianco Riferimento** (`testo-1`): titoli e testo primario. **Testo 2** (80%) corpo e deck; **Secondo tempo** (`testo-segue`, 68%) solo il secondo tempo dei titoli; **Testo 3** (56%) meta, didascalie, fonti, descrizioni d'indice; **Testo 4** (40%) solo testo ≥ 24px o glifi (i numeri quieti dei principi DNA).
 - **Superfici 1/2/3** (bianco al 4/6/9%): card, form, campi. Mai grigi opachi: ogni superficie resta trasparente alla luce che le passa dietro.
 - **Velo Nav** (`velo-nav`): nav velata e piastra CTA mobile, con `backdrop-filter: saturate(140%) blur(18px)`; pieno `#121115` con reduced-transparency. **Velo Menu** (`velo-menu`, nero al 58% con blur 6px; 86% senza blur in reduced-transparency): copre la pagina sotto la card.
 - **Filo / Filo Forte** (bianco al 12% / 20%): filetti, divisori, il filo del segnacapitolo, la riga in testa a conto, indici e registri. **Bordo UI** (34%, 3:1): il contorno di tutto ciò che è cliccabile (outline CTA, bottone Menu, chip, campi, social). **Bordo Arancio** (arancio al 42%): stato acceso di chip, pannelli dei reparti, palco della sala.
@@ -310,7 +310,7 @@ Le sette atmosfere del palco (in `sfondi.css`, non token): **nero** `#020202`; *
 - **Title** (500, `clamp(21px, 2.1vw, 27px)`, 1,22, −0,02em) e **Title-card** (700, 17px, 1,32, −0,01em): titoli di blocco e di card/persona. I titoli di colonna del conto e d'indice stanno fra 21 e 36px a 500.
 - **Deck** (400, `clamp(16px, 1.25vw, 19px)`, 1,58, max 58ch, Testo 2): il sommario sotto i titoli.
 - **Body** (400, 16px, 1,62, max 64ch, Testo 2) e **Body-sm** (400, 15px, 1,54, +0,01em).
-- **Label** (500, 15px, 1,35, −0,005em, in tondo, Testo 3): etichette di gruppo che non stanno sopra un titolo (la riga sopra i loghi, i blocchi di "Dove siamo"), precedute da una particella di 8px; descrizioni del menu.
+- **Label** (500, 15px, 1,35, −0,005em, in tondo, Testo 3): etichette di gruppo che non stanno sopra un titolo (la riga sopra i loghi, i blocchi di "Dove siamo"), precedute da una particella di 8px. Il menu non ha descrizioni: solo i nomi delle pagine (15.10).
 - **Meta** (500, 13px, 1,45, tracking 0, cifre tabulari, Testo 3): fonti, date, legende, filtri, note. Le etichette dei campi stanno a 600 13px.
 
 ### Named Rules
