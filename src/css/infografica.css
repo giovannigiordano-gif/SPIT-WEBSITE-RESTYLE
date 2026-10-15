@@ -112,7 +112,11 @@
     @media (max-width: 900px) { .conto .conto__c:nth-child(n) .conto__n { animation-timeline: view(); animation-range: entry 20% entry 90%; } }
   }
 }
-@keyframes conto-scende { from { translate: 0 -.4em; clip-path: inset(0 0 100% 0); } }
+/* PIÙ 3D (15.10): il numero cade come la paletta di un tabellone, girando
+   sul suo bordo alto */
+@keyframes conto-scende { from { translate: 0 -.4em; clip-path: inset(0 0 100% 0); rotate: x -84deg; } }
+.conto__c { perspective: 900px; }
+.conto__n { transform-origin: 50% 0; }
 /* lo zero è la battuta finale del conto: la sua riga ha il corpo dei
    passaggi rotti, non quello di una nota */
 /* (sta nella riga dei contenuti, al corpo dei passaggi rotti) */

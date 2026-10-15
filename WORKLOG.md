@@ -746,6 +746,29 @@ movimento ridotto senza movimento né testo invisibile (i dettagli delle schede 
 invece di sparire); audit 8 pagine × 5 larghezze senza rilievi; Lighthouse mobile su tutte le pagine: prestazioni
 95–98, accessibilità 100 (Eventi era 96), buone pratiche 100, SEO 100, CLS 0.
 
+*DNA, Team e più 3D (15.10)* — «La pagina del DNA: aggiungi riferimenti al DNA nella pagina, come un effetto a
+scroll, anche le card dei punti magari con un effetto simile al DNA. Migliora la pagina del team, deve essere più
+wow. Aggiungi in generale più effetti 3D al sito, compresa la home.»
+- **DNA**: una doppia elica fatta con i quadrati del marchio (un filamento arancione, uno bianco) che si
+  attorciglia mentre la pagina scorre, sotto l'apertura; la stessa elica in piedi fra le due colonne dei dieci
+  principi, che diventano le coppie di basi: ogni coppia arriva aperta, le due card ruotate verso l'esterno, e si
+  chiude piatta mentre sale. Tutto CSS (una proprietà registrata animata dallo scroll), niente librerie.
+- **Team**: il marchio fatto di volti arriva dal fondo dello spazio e, quando l'apertura esce, ruota e si apre in
+  profondità; le dodici facce si girano verso di te a onda; un filtro per reparto (Tutti, Direzione, Pubblicità,
+  Marketing, Reclutamento, Formazione) fa girare via in 3D chi non c'entra e scivolare gli altri al loro posto; i
+  ritratti dei fondatori si alzano dal tavolo; al passaggio la faccia si stacca dal fondo.
+- **Più 3D nel sito** (CSS, legato allo scroll, mai al cursore): le parole dei titoli si alzano ruotando sul loro
+  piede; i pannelli dei reparti e le tre righe del finale si alzano dal tavolo; i numeri del conto cadono come
+  palette; le foto d'apertura delle pagine interne arretrano in profondità quando escono; il nastro delle schede e
+  la squadra della home girano a ventaglio; il cubo della staffetta è un cubo vero a sei facce che rotola lungo la
+  linea (anche in colonna, sul telefono e nel Metodo).
+Problema trovato: il nodo del passaggio acceso tornava pieno nella scena (una regola con la stessa specificità
+veniva dopo); corretto.
+Verifica: catture dell'elica in tre punti dello scorrimento, dei principi, del Team (arrivo, uscita, griglia,
+filtro durante e dopo), del cubo ingrandito, dei ventagli e della foto del Metodo; 42/42 test; movimento ridotto
+senza movimento né invisibili; audit 8 pagine × 5 larghezze senza rilievi; Lighthouse mobile Home 95, DNA 98, Team
+95, Metodo 96, accessibilità 100, CLS 0.
+
 ### Cosa è stato fatto, fase per fase (skill applicate)
 
 **Fase 1 — design system** (impeccable craft-floor, design-taste-frontend, ui-ux-pro-max checklist)

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-15T13:56:58.365Z",
+  "generatedAt": "2026-10-15T14:34:22.810Z",
   "title": "Design System: Sales Process Italia",
   "extensions": {
     "colorMeta": {
@@ -608,6 +608,21 @@
         "name": "un-solo-arancione",
         "value": "IntersectionObserver sugli inviti .cta--ar della pagina (50%) e sulle conversioni (#candidatura, #muro, #posti, .chiusa, 12%): html.cta-gemello porta il CTA della nav a contorno, la piastra scende; html.barra-via sotto i 620px fa uscire la barra passata l'apertura",
         "purpose": "La regola del sistema (un solo bottone arancione per schermo) la fa rispettare il sito, non la buona volontà delle pagine."
+      },
+      {
+        "name": "elica-dna",
+        "value": "@property --giro (angle, ereditata) 0 -> 540deg su view(); coppie rotateX/rotateY(k*26deg + giro), quadrati controruotati, opacita da sin(angolo)",
+        "purpose": "La doppia elica dei quadrati del marchio nella pagina DNA: sotto l'apertura e come spina dei dieci principi, che si chiudono a coppie (com-zip)."
+      },
+      {
+        "name": "tre-d-css",
+        "value": "parola-sale con rotate x 72deg; sale-pannello, sali-muro, ritratto-alza con rotateX dal bordo basso; conto-scende rotate x -84deg; foto-arretra (exit, rotate x 18deg, z -180px); ventaglio --ry/--tz dal carosello; cubo3d a sei facce che rotola",
+        "purpose": "Il 3D di CSS del sito, legato allo scroll o al tempo, mai al cursore; fermo a movimento ridotto."
+      },
+      {
+        "name": "filtro-reparti",
+        "value": "chip Tutti + 5 reparti; uscita rotateY 0 -> 90deg 280ms, posto FLIP 560ms, ingresso rotateY -90deg -> 0 560ms",
+        "purpose": "Il Team si filtra per reparto con le facce che si girano."
       }
     ],
     "breakpoints": [

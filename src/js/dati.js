@@ -471,7 +471,7 @@ const volto = (v) => el('article', 'volto', `
   <div>
     <p class="t-t2">${v.nome}</p>
     <p class="t-piccolo" style="color:var(--c-t3)">${v.ruolo}</p>
-  </div>`, v.f ? { 'data-p': v.f } : null);
+  </div>`, { 'data-rep': v.rep, ...(v.f ? { 'data-p': v.f } : {}) });
 
 /* La scheda persona dello slider di home. Il ritratto è l'oggetto; il
    nome sta sopra la sfumatura, non dentro una card separata.          */
@@ -586,6 +586,11 @@ const COMAND = [
   { t: 'La trasparenza', d: 'Con noi stessi, con i membri del team e con i nostri clienti. La trasparenza viene prima.' },
 ];
 
+/* LA DOPPIA ELICA (15.10, DNA): coppie di quadrati del marchio legate da un
+   filo, ognuna un passo più avanti nella rotazione della precedente; il
+   giro lo aggiunge lo scroll (--giro, pagine.css). Serve due volte: il
+   filo sotto l'apertura e la spina fra le due colonne dei principi. */
+const elica = (n) => Array.from({ length: n }, (_, k) => `<i class="elica__p" style="--k:${k}"><b></b><b></b></i>`).join('');
 /* Un principio è una voce d'elenco numerata, non una card: il numero qui
    È informazione (sono "i dieci principi"), quindi resta, in arancio, a
    sinistra; il titolo e il testo a destra.                            */
@@ -684,7 +689,50 @@ const monta = () => {
     /* l'arrivo è nella pagina: riceve qui il suo nodo, l'ultimo del percorso */
     fine?.insertAdjacentHTML('afterbegin', NODO('arrivo'));
   }
-  $('#volti-grid')?.append(...VOLTI.map(volto));
+  const vgrid = $('#volti-grid');
+  if (vgrid) {
+    vgrid.append(...VOLTI.map((v, i) => { const n = volto(v); n.style.setProperty('--c', i % 4); return n; }));
+    /* IL REPARTO SI SCEGLIE (15.10, «il team deve essere più wow»): Tutti e i
+       cinque gruppi; chi non c'entra si gira via in 3D, chi resta scivola al
+       suo posto, chi entra si gira verso di te. Le etichette sono i nomi dei
+       reparti già sulle card. */
+    const ordine = [5, 1, 2, 3, 4];
+    const filtri = el('div', 'tab__filtri volti__filtri',
+      ['<button class="chip" type="button" aria-pressed="true" data-r="0">Tutti</button>']
+        .concat(ordine.map(r => `<button class="chip" type="button" aria-pressed="false" data-r="${r}">${REP_NOMI[r - 1]}</button>`)).join(''),
+      { role: 'group', 'aria-label': 'Filtra per reparto' });
+    vgrid.before(filtri);
+    const tessere = $$('.volto', vgrid);
+    const fermo = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let attivo = 0, occupato = false;
+    filtri.addEventListener('click', (e) => {
+      const b = e.target.closest('.chip'); if (!b || occupato) return;
+      const r = +b.dataset.r; if (r === attivo) return; attivo = r;
+      $$('.chip', filtri).forEach(c => c.setAttribute('aria-pressed', String(c === b)));
+      const dentro = t => r === 0 || +t.dataset.rep === r;
+      const prima = new Map(tessere.filter(t => !t.hidden).map(t => [t, t.getBoundingClientRect()]));
+      const escono = tessere.filter(t => !t.hidden && !dentro(t));
+      const entrano = tessere.filter(t => t.hidden && dentro(t));
+      const posa = () => {
+        escono.forEach(t => { t.hidden = true; });
+        entrano.forEach(t => { t.hidden = false; });
+        if (fermo) return;
+        tessere.filter(t => !t.hidden && prima.has(t)).forEach(t => {
+          const a = prima.get(t), d = t.getBoundingClientRect(), dx = a.left - d.left, dy = a.top - d.top;
+          if (dx || dy) t.animate([{ transform: `translate(${dx}px, ${dy}px)` }, { transform: 'none' }], { duration: 560, easing: 'cubic-bezier(.16,.84,.24,1)' });
+        });
+        entrano.forEach((t, k) => t.animate(
+          [{ transform: 'perspective(900px) rotateY(-90deg)', opacity: 0 }, { transform: 'perspective(900px) rotateY(0deg)', opacity: 1 }],
+          { duration: 560, delay: 140 + k * 60, easing: 'cubic-bezier(.16,.84,.24,1)', fill: 'backwards' }));
+      };
+      if (fermo || !escono.length) { posa(); return; }
+      occupato = true;
+      Promise.all(escono.map((t, k) => t.animate(
+        [{ transform: 'perspective(900px) rotateY(0deg)', opacity: 1 }, { transform: 'perspective(900px) rotateY(90deg)', opacity: 0 }],
+        { duration: 280, delay: k * 35, easing: 'cubic-bezier(.55,0,.8,.16)', fill: 'forwards' }).finished))
+        .then(() => { posa(); escono.forEach(t => t.getAnimations().forEach(a => { if (!a.animationName) a.cancel(); })); occupato = false; });
+    });
+  }
 
   /* Slider di home: le persone + i cloni per il loop + la porta finale.
      I cloni sono aria-hidden: lo screen reader legge dodici persone una
@@ -698,6 +746,10 @@ const monta = () => {
     vg.append(palco, lista);
   }
   $('#comand')?.append(...COMAND.map(comandamento));
+  /* i dieci principi sono le coppie di basi: le due colonne sono i due
+     filamenti, la spina fra loro è l'elica (pagine.css) */
+  $('#comand')?.insertAdjacentHTML('afterbegin', `<div class="comand__elica" aria-hidden="true">${elica(30)}</div>`);
+  const ed = $('#elica-dna'); if (ed) ed.innerHTML = elica(40);
 
   /* Il player entra solo al clic: prima c'è una locandina da 30KB. Dalla
      scaletta si sceglie e si guarda con un clic solo. */

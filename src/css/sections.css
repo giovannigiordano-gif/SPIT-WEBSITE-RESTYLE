@@ -184,11 +184,15 @@ html.vuole-3d .hero__mark { opacity: 0; }
 @keyframes scheda-entra { from { translate: 0 64px; rotate: 2.5deg; opacity: 0; } }
 @media (prefers-reduced-motion: no-preference) {
   .scheda { transition: border-color var(--t-micro) linear, transform var(--t-stato) var(--ease-salita); }
-  .scheda:hover { transform: translateY(-6px); }
+  .scheda:hover { translate: 0 -6px; }
   .scheda.is-centro .torre--dopo { animation: torre-cresce 1100ms var(--ease-salita) both; }
 }
 @keyframes torre-cresce { from { clip-path: inset(100% 0 0 0); } }
 .scheda.is-centro { border-color: rgba(255,130,0,.5); }
+/* il nastro e la squadra a ventaglio (motion.js scrive --ry e --tz solo
+   dove il carosello gira: desktop, movimento pieno) */
+.scheda, .pers { transform: perspective(1400px) rotateY(var(--ry, 0deg)) translateZ(var(--tz, 0px)); }
+.scheda { transition: border-color var(--t-micro) linear, translate var(--t-stato) var(--ease-salita); }
 .scheda.is-centro .scheda__extra > span { color: var(--c-t1); }
 /* la testa è solo il logo (15.10): più grande, è l'unico nome del cliente */
 /* audit 15.10: il logo è l'unico nome del cliente, ha la sua fascia in
@@ -823,6 +827,19 @@ a.indice__cta::after { content: ''; position: absolute; inset: 0; }
    figura del cambio di pagina, vt-entra); lo scontrino di Risultati si
    srotola dal basso. A tempo: sono sopra la piega, in ogni browser. */
 .testa-pag__foto--gradini img { animation: vt-entra var(--t-apertura) var(--ease-salita) 380ms both; }
+/* PIÙ 3D (15.10): mentre l'apertura esce dallo schermo la sua foto
+   arretra — si inclina all'indietro e sprofonda — invece di scorrere via
+   piatta. Solo con view() e movimento pieno; la profondità al cursore
+   resta sulla figura (transform), questa sta sull'immagine. */
+.testa-pag__foto { perspective: 1200px; }
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .testa-pag__foto img { animation: foto-arretra linear both; animation-timeline: view(); animation-range: exit 0% exit 100%; transform-origin: 50% 100%; }
+    .testa-pag__foto--gradini img { animation: vt-entra var(--t-apertura) var(--ease-salita) 380ms both, foto-arretra linear both; animation-timeline: auto, view(); animation-range: normal, exit 0% exit 100%; }
+    .testa-pag__foto--srotola img { animation: srotola var(--t-apertura) var(--ease-salita) 380ms both, foto-arretra linear both; animation-timeline: auto, view(); animation-range: normal, exit 0% exit 100%; }
+  }
+}
+@keyframes foto-arretra { to { rotate: x 18deg; translate: 0 -4% -180px; opacity: .35; } }
 /* il braccio della scalinata entra dal bordo destro dello schermo: nella
    colonna finiva con un taglio dritto a mezz'aria (audit 15.10) */
 @media (min-width: 901px) { .testa-pag__foto--gradini { justify-self: end; margin-right: calc(-1 * max(var(--margine), (100vw - var(--w-piena)) / 2 + var(--margine))); } }
@@ -882,7 +899,26 @@ a.indice__cta::after { content: ''; position: absolute; inset: 0; }
 .scala-volti img:nth-child(3) { --k: 2; --da: -14% 24%; --dr: 5deg; }
 .scala-volti img:nth-child(4) { --k: 3; --da: 34% 12%; --dr: -6deg; }
 .scala-volti img:nth-child(5) { --k: 4; --da: 10% 40%; --dr: 7deg; }
-@keyframes volto-arriva { from { translate: var(--da); rotate: var(--dr); scale: .84; opacity: 0; } }
+/* PIÙ WOW (15.10): i volti arrivano dal fondo dello spazio, ognuno girando
+   sul suo asse, e si posano nel marchio; quando l'apertura esce dallo
+   schermo il marchio ruota e i volti si separano in profondità — il
+   marchio visto di lato, fatto di persone una dietro l'altra. */
+@keyframes volto-arriva { from { translate: var(--da) -560px; rotate: var(--ra, 0 0 1) var(--rr, 40deg); scale: .84; opacity: 0; } }
+.scala-volti img:nth-child(1) { --ra: .4 1 0; --rr: 50deg; --z: 140px; }
+.scala-volti img:nth-child(2) { --ra: -.3 1 .1; --rr: -46deg; --z: -40px; }
+.scala-volti img:nth-child(3) { --ra: .5 .8 0; --rr: 40deg; --z: 90px; }
+.scala-volti img:nth-child(4) { --ra: -.6 1 0; --rr: -52deg; --z: -120px; }
+.scala-volti img:nth-child(5) { --ra: .2 1 .2; --rr: 44deg; --z: 200px; }
+.scala-volti { perspective: 1100px; transform-style: preserve-3d; }
+@supports (animation-timeline: view()) {
+  @media (min-width: 901px) and (prefers-reduced-motion: no-preference) {
+    .scala-volti { view-timeline: --scala block; animation: volti-ruota linear both; animation-timeline: view(); animation-range: exit 0% exit 100%; }
+    .scala-volti img { animation: volto-arriva var(--t-maschera) var(--ease-salita) both, volto-esplode linear both;
+      animation-delay: calc(420ms + (4 - var(--k)) * var(--stagger) * 1.5), 0s; animation-timeline: auto, --scala; animation-range: normal, exit 0% exit 80%; }
+  }
+}
+@keyframes volti-ruota { to { rotate: 0.2 1 0 -34deg; } }
+@keyframes volto-esplode { to { translate: 0 0 var(--z); } }
 @supports (animation-timeline: view()) {
   @media (max-width: 900px) and (prefers-reduced-motion: no-preference) {
     .scala-volti { view-timeline: --volti block; }
@@ -963,6 +999,21 @@ a.indice__cta::after { content: ''; position: absolute; inset: 0; }
   transition: filter var(--t-micro) linear;
 }
 .volto:hover .volto__ph { filter: grayscale(0); }
+.volto[hidden] { display: none; }
+.volti__filtri { margin-bottom: var(--s-6); }
+/* PIÙ WOW (15.10): le dodici facce si girano verso di te a onda, colonna
+   dopo colonna, mentre la griglia sale; al passaggio la faccia si stacca
+   dal fondo (profondità, niente arancione: regola delle card del team). */
+.volti { perspective: 1600px; }
+.volto__ph { transition: filter var(--t-micro) linear, translate var(--t-stato) var(--ease-salita), box-shadow var(--t-stato) linear; }
+.volto:hover .volto__ph { translate: 0 -6px; box-shadow: 0 24px 50px -20px rgba(0,0,0,.85), 0 0 0 1px rgba(255,255,255,.14); }
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    /* la faccia ha finito di girarsi quando è tutta a schermo: mai una griglia ferma di traverso */
+    .volto { animation: volto-gira linear both; animation-timeline: view(); animation-range: entry calc(var(--c, 0) * 6%) entry calc(64% + var(--c, 0) * 12%); transform-origin: 50% 50%; }
+  }
+}
+@keyframes volto-gira { from { rotate: y -50deg; translate: 0 36px; } }
 .volto__ph img { width: 100%; height: 100%; object-fit: cover; }
 .volto__tag--dir { color: var(--c-t2); }
 .volto__mono { z-index: 0; }

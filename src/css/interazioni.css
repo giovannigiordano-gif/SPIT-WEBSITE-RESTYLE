@@ -42,10 +42,14 @@
    maschera che si apre dal basso — il gesto della scalinata applicato
    alla fotografia. clip-path su quattro elementi, non su una pagina. */
 .reparti4 > * { animation-name: sale-pannello; }
+/* PIÙ 3D (15.10): il pannello si alza come gli schermi delle
+   testimonianze — sdraiato all'indietro, sul suo bordo basso — mentre la
+   tendina lo scopre */
 @keyframes sale-pannello {
-  from { translate: 0 calc(var(--travel) * 2.4); clip-path: inset(22% 0 0 0 round var(--r-card)); }
-  to   { translate: 0 0;    clip-path: inset(0 0 0 0 round var(--r-card)); }
+  from { translate: 0 calc(var(--travel) * 2.4); clip-path: inset(22% 0 0 0 round var(--r-card)); transform: perspective(1400px) rotateX(26deg); }
+  to   { translate: 0 0;    clip-path: inset(0 0 0 0 round var(--r-card)); transform: none; }
 }
+.reparti4 > * { transform-origin: 50% 100%; }
 /* La tendina a gradini è movimento anche senza spostamento: in
    reduced-motion i pannelli sono già scoperti. */
 @media (prefers-reduced-motion: reduce) { .reparti4 > * { animation: none; } }

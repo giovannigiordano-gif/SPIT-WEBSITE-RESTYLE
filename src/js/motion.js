@@ -284,6 +284,11 @@
            misurata dal vivo: 0,841 al centro contro 1,06 ai bordi, cioè
            una valle dove doveva esserci un picco.                      */
         const k = Math.max(0, 1 - Math.abs(cx - vpC) / soglia);
+        /* PIÙ 3D (15.10): a ventaglio — le card ai lati guardano il centro e
+           arretrano (rotateY e translateZ, sections.css) */
+        const d = Math.max(-1, Math.min(1, (cx - vpC) / soglia));
+        c.n.style.setProperty('--ry', (-d * 26).toFixed(2) + 'deg');
+        c.n.style.setProperty('--tz', (-Math.abs(d) * 110).toFixed(1) + 'px');
         c.n.style.setProperty('--s', (0.95 + 0.08 * k).toFixed(3));
         c.n.style.setProperty('--o', (0.72 + 0.28 * k).toFixed(3));
         c.n.style.zIndex = k > .65 ? 2 : 1;
@@ -701,6 +706,7 @@
     const binario = document.createElement('div'), cubo = document.createElement('i');
     binario.className = 'staffetta__binario'; binario.setAttribute('aria-hidden', 'true');
     cubo.className = 'staffetta__cubo is-fermo';
+    cubo.innerHTML = '<i class="cubo3d-vista"><i class="cubo3d"><i></i><i></i><i></i><i></i><i></i><i></i></i></i>';
     binario.append(cubo); pistaCol.append(binario);
     /* il percorso va dal nodo del primo reparto al nodo dell'arrivo (15.10) */
     const nodoY = () => parseFloat(getComputedStyle(sc).getPropertyValue('--nodo-y')) || 32;
@@ -800,9 +806,9 @@
         perc.className = 'percorso'; perc.setAttribute('aria-hidden', 'true');
         perc.innerHTML = '<i class="percorso__linea"></i><i class="percorso__fill"></i>' +
           tappe.map(t => `<i class="percorso__nodo${t.classList.contains('passaggio') ? ' percorso__nodo--consegna' : t === fine ? ' percorso__nodo--arrivo' : ''}"></i>`).join('') +
-          '<i class="percorso__cubo"></i>';
+          '<i class="percorso__cubo"><i class="cubo3d-vista"><i class="cubo3d"><i></i><i></i><i></i><i></i><i></i><i></i></i></i></i>';
         pista.append(perc);
-        const nodi = $$('.percorso__nodo', perc), fill = $('.percorso__fill', perc), cubo = $('.percorso__cubo', perc);
+        const nodi = $$('.percorso__nodo', perc), fill = $('.percorso__fill', perc), cubo = $('.percorso__cubo', perc), cubo3d = $('.cubo3d', perc);
         /* le misure: nodi relativi all'inizio della linea (il bordo sinistro della prima card) */
         let xs = [], corsa = 0;
         const misura = () => {
@@ -847,7 +853,10 @@
         });
         tl.to(pista, { x: () => -dist() }, 0)
           .fromTo(fill, { scaleX: 0 }, { scaleX: 1 }, 0)
-          .fromTo(cubo, { x: 0 }, { x: () => corsa }, 0);
+          .fromTo(cubo, { x: 0 }, { x: () => corsa }, 0)
+          /* PIÙ 3D (15.10): mentre viaggia il cubo rotola — un quarto di giro
+             ogni 120px di strada, e un poco di imbardata */
+          .fromTo(cubo3d, { rotationX: 0, rotationY: 0 }, { rotationX: () => corsa / 120 * 90, rotationY: () => corsa / 420 * 90 }, 0);
         /* le card che arrivano da destra si srotolano dalla linea; quelle
            già a schermo all'inizio sono già aperte */
         const entrate = tappe.filter(t => t.offsetLeft > innerWidth * .88).map(t => gsap.fromTo(t,

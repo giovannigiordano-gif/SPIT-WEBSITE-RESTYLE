@@ -110,6 +110,61 @@
 }
 @media (max-width: 860px) { .comand { grid-template-columns: 1fr; } }
 
+/* ── DNA · LA DOPPIA ELICA (15.10, «riferimenti al DNA, un effetto a scroll») ─
+   Coppie di quadrati del marchio legate da un filo: ogni coppia ruota di un
+   passo più della precedente, così i due filamenti disegnano una doppia
+   elica; lo scroll aggiunge il giro (--giro), e l'elica si attorciglia
+   mentre la pagina scorre. I quadrati restano sempre rivolti a chi guarda
+   (ruotano al contrario della coppia) e si spengono quando passano dietro
+   (opacità dal seno dell'angolo). A movimento ridotto: ferma, già disegnata. */
+@property --giro { syntax: '<angle>'; inherits: true; initial-value: 0deg; }
+@keyframes elica-gira { to { --giro: 540deg; } }
+.elica-fascia { position: relative; padding-top: clamp(12px, 2vw, 28px); overflow: clip; }
+.elica {
+  --r: clamp(38px, 4.4vw, 58px);
+  position: relative; height: calc(var(--r) * 2 + 24px);
+  display: flex; justify-content: space-between; align-items: center;
+  perspective: 900px;
+}
+.elica__p {
+  --a: calc(var(--k) * 26deg + var(--giro));
+  position: relative; flex: none; width: 10px; height: calc(var(--r) * 2);
+  transform-style: preserve-3d; transform: rotateX(var(--a));
+}
+.elica__p::before { content: ''; position: absolute; left: 50%; top: 5px; bottom: 5px; width: 1px; margin-left: -.5px; background: rgba(255,255,255,.16); }
+.elica__p b { position: absolute; left: 0; width: 10px; height: 10px; border-radius: 2px; transform: rotateX(calc(-1 * var(--a))); }
+.elica__p b:first-child { top: -5px; background: var(--c-ar); box-shadow: 0 0 10px rgba(255,130,0,.45); opacity: calc(.4 + .6 * (1 - sin(var(--a))) / 2); }
+.elica__p b:last-child { bottom: -5px; background: rgba(248,248,248,.86); opacity: calc(.3 + .7 * (1 + sin(var(--a))) / 2); }
+@media (max-width: 640px) { .elica .elica__p:nth-child(n+25) { display: none; } }
+/* LA SPINA DEI PRINCIPI: la stessa elica, in piedi, fra le due colonne */
+.comand { position: relative; }
+.comand__elica {
+  --r: clamp(15px, 1.7vw, 25px);
+  position: absolute; z-index: 0; left: 50%; top: 0; bottom: 0; width: calc(var(--r) * 2); margin-left: calc(var(--r) * -1);
+  display: flex; flex-direction: column; justify-content: space-between; align-items: center;
+  padding-block: 22px; perspective: 700px; pointer-events: none;
+}
+.comand__elica .elica__p { --a: calc(var(--k) * 30deg + var(--giro)); width: calc(var(--r) * 2); height: 9px; transform: rotateY(var(--a)); }
+.comand__elica .elica__p::before { left: 5px; right: 5px; top: 50%; bottom: auto; width: auto; height: 1px; margin: -.5px 0 0; }
+.comand__elica .elica__p b { top: 0; bottom: auto; width: 9px; height: 9px; transform: rotateY(calc(-1 * var(--a))); }
+.comand__elica .elica__p b:first-child { left: -4.5px; opacity: calc(.4 + .6 * (1 + sin(var(--a))) / 2); }
+.comand__elica .elica__p b:last-child { left: auto; right: -4.5px; opacity: calc(.3 + .7 * (1 - sin(var(--a))) / 2); }
+@media (max-width: 860px) { .comand__elica { display: none; } }
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .elica, .comand__elica { animation: elica-gira linear both; animation-timeline: view(); animation-range: cover 0% cover 100%; }
+    /* I PRINCIPI SI CHIUDONO COME LE DUE METÀ DEL DNA: ogni coppia arriva
+       aperta — le due card ruotate verso l'esterno sul lato della spina —
+       e si chiude piatta mentre sale. Solo movimento: il testo resta pieno. */
+    .comand { perspective: 1800px; }
+    .com { animation: com-zip linear both; animation-timeline: view(); animation-range: entry 0% cover 38%; }
+    .com:nth-of-type(odd) { transform-origin: 100% 50%; --zr: 24deg; --zx: -34px; }
+    .com:nth-of-type(even) { transform-origin: 0% 50%; --zr: -24deg; --zx: 34px; }
+    @media (max-width: 860px) { .com:nth-of-type(n) { transform-origin: 0 50%; --zr: -14deg; --zx: 18px; } }
+  }
+}
+@keyframes com-zip { from { rotate: y var(--zr); translate: var(--zx) 0; } }
+
 /* ── TEAM ─────────────────────────────────────────────────────────────── */
 .volti__nota { margin-top: var(--s-6); max-inline-size: 64ch; color: var(--c-t2); }
 .volti__nota strong { color: var(--c-t1); font-weight: 600; }
@@ -117,6 +172,14 @@
 .fondatore { display: grid; grid-template-columns: clamp(120px, 12vw, 180px) 1fr; gap: clamp(20px, 2.4vw, 36px); align-items: start; padding-top: var(--s-6); border-top: 1px solid var(--c-filo-forte); }
 .fondatore__foto { width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; border-radius: 22%; filter: grayscale(1) contrast(1.05); transition: filter var(--t-stato) linear; }
 .fondatore:hover .fondatore__foto { filter: grayscale(0); }
+/* i fondatori si alzano come gli schermi: sdraiati all'indietro, sul bordo basso (15.10) */
+.fondatore { perspective: 1200px; }
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .fondatore__foto { transform-origin: 50% 100%; animation: ritratto-alza linear both; animation-timeline: view(); animation-range: entry 0% cover 40%; }
+  }
+}
+@keyframes ritratto-alza { from { rotate: x 38deg; translate: 0 30px; } }
 .fondatore__txt { display: grid; gap: var(--s-3); }
 .fondatore__nome { font: 500 clamp(26px, 2.4vw, 36px)/1.05 var(--f-display); letter-spacing: -.02em; color: var(--c-t1); }
 .fondatore__ruolo { font: 500 14px/1.3 var(--f-display); color: var(--c-ar-hot); margin-bottom: var(--s-2); }

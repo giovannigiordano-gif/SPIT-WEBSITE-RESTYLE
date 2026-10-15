@@ -27,7 +27,12 @@
    corsivi: la riga non cambia altezza, nessun CLS.                    */
 .w { display: inline-block; overflow: clip; vertical-align: top; padding: .04em .08em .18em; margin: -.04em -.08em -.18em; }
 .w > span { display: inline-block; }
-@keyframes parola-sale { from { translate: 0 112%; } }
+/* PIÙ 3D (15.10): la parola non sale soltanto, si ALZA — ruota sul suo
+   piede dentro la maschera, come una carta che si raddrizza. La
+   prospettiva sta sulla maschera, così ogni parola ha la sua. */
+.w { perspective: 520px; }
+.w > span { transform-origin: 50% 100%; }
+@keyframes parola-sale { from { translate: 0 112%; rotate: x 72deg; } }
 
 /* Nell'hero a TEMPO: è sopra la piega, una timeline di scroll lì non
    partirebbe. Sei parole, 70ms l'una: la frase è composta in 1,2s.    */
@@ -68,7 +73,7 @@
   .testa-pag--tre .testa-pag__foto { --dy: calc(var(--travel) * 3);
     animation-delay: 260ms; animation-duration: var(--t-apertura); }
 }
-@keyframes detto { from { translate: 0 115%; scale: 1 1.05; } }
+@keyframes detto { from { translate: 0 115%; scale: 1 1.05; rotate: x 64deg; } }
 /* :root alza la specificità sopra le due regole precedenti: in
    reduced-motion nessuna parola si muove, ovunque.                    */
 @media (prefers-reduced-motion: reduce) {
@@ -276,14 +281,15 @@
    vicina al wrap può rifloware a metà animazione producendo CLS.
    15.10, «più wow»: dopo l'atterraggio una luce passa dentro le lettere,
    una riga dopo l'altra (luce-riga, sul background-clip del testo).     */
-.finale__payoff .mask { transform-origin: bottom left; }
+.finale__payoff .mask { transform-origin: bottom left; perspective: 1100px; }
+.finale__riga { transform-origin: 50% 100%; }
 .finale__payoff .mask > .finale__riga {
   animation: sali-muro var(--t-maschera) var(--ease-salita) both;
   animation-timeline: view();
   animation-range-start: entry calc(var(--i) * 14%);
   animation-range-end: entry 100%;
 }
-@keyframes sali-muro { from { translate: 0 105%; scale: 1 1.05; } to { translate: 0 0; scale: 1 1; } }
+@keyframes sali-muro { from { translate: 0 105%; scale: 1 1.05; rotate: x 68deg; } to { translate: 0 0; scale: 1 1; rotate: x 0deg; } }
 @keyframes luce-riga { from { background-position: 100% 0; } to { background-position: 0% 0; } }
 @media (prefers-reduced-motion: reduce) { .finale__payoff .mask > .finale__riga { animation: none; translate: 0 0; scale: 1 1; } }
 
@@ -302,7 +308,7 @@
    zero, la dissolvenza sopravvive, ogni stato resta raggiungibile.       */
 @media (prefers-reduced-motion: reduce) {
   .hero .mask > [data-riga],
-  .finale__payoff .mask > .finale__riga { translate: 0 0 !important; scale: 1 !important; }
+  .finale__payoff .mask > .finale__riga { translate: 0 0 !important; scale: 1 !important; rotate: none !important; }
 }
 
 /* ── REVEAL DELLE TESTE DI SEZIONE ────────────────────────────────────────
