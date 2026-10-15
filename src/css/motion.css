@@ -268,40 +268,15 @@
 @keyframes capo-posa { from { scale: 1.8; opacity: 0; } 45% { opacity: 1; } }
 @keyframes capo-nome { from { clip-path: inset(0 100% 0 0); } }
 
-/* ── IL FINALE · FATTURARE ×3 ─────────────────────────────────────────────
-   Zero JS, compositor thread: le tre righe salgono una per una dentro la
-   loro maschera, con una leggera pressa verticale (scaleY, composite).
-   MAI animare font-variation-settings o font-weight: non sono
-   compositabili, e poiché la larghezza dei glifi cresce col peso una riga
-   vicina al wrap può rifloware a metà animazione producendo CLS.         */
-.finale__payoff .mask { transform-origin: bottom left; }
-.finale__payoff .mask > .finale__riga {
-  animation: sali-muro var(--t-maschera) var(--ease-salita) both;
-  animation-timeline: view();
-  animation-range-start: entry calc(var(--i) * 14%);
-  animation-range-end: entry 100%;
-}
-@keyframes sali-muro { from { translate: 0 105%; scale: 1 1.05; } to { translate: 0 0; scale: 1 1; } }
-/* movimento ridotto: le tre righe sono già al loro posto (il controllo del
-   giro 3 le trovava ancora in salita, 105% dentro la maschera) */
-@media (prefers-reduced-motion: reduce) { .finale__payoff .mask > .finale__riga { animation: none; translate: 0 0; scale: 1 1; } }
-
-@supports not (animation-timeline: view()) {
-  .finale__payoff .mask > .finale__riga {
-    animation: none; translate: 0 105%;
-    transition: translate var(--t-maschera) var(--ease-salita);
-    transition-delay: calc(var(--i) * 140ms);
-  }
-  .finale.is-in .mask > .finale__riga { translate: 0 0; }
-}
+/* Il finale: le tre righe FATTURARE sono diventate il logo del podcast
+   (15.10); il suo atterraggio è in racconto.css, accanto al finale.   */
 
 /* ── REDUCED MOTION ───────────────────────────────────────────────────────
    MAI `*{animation:none!important}`: farebbe scomparire per sempre ogni
    elemento con fill-mode:both che parte da opacity 0. Qui il travel va a
    zero, la dissolvenza sopravvive, ogni stato resta raggiungibile.       */
 @media (prefers-reduced-motion: reduce) {
-  .hero .mask > [data-riga],
-  .finale__payoff .mask > .finale__riga { translate: 0 0 !important; scale: 1 !important; }
+  .hero .mask > [data-riga] { translate: 0 0 !important; scale: 1 !important; }
 }
 
 /* ── REVEAL DELLE TESTE DI SEZIONE ────────────────────────────────────────

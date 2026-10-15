@@ -635,7 +635,7 @@ a.indice__cta::after { content: ''; position: absolute; inset: 0; }
   column-gap: clamp(32px, 5vw, 96px); align-items: center;
 }
 .podcast__testo { display: grid; justify-items: start; gap: var(--s-5); }
-.podcast__logo { display: block; width: auto; height: clamp(72px, 6.4vw, 104px); margin-bottom: var(--s-2); }
+.podcast__logo { display: block; width: auto; height: clamp(72px, 6.4vw, 104px); margin-bottom: var(--s-2); border-radius: 16px; box-shadow: 0 0 0 1px rgba(255,255,255,.06), 0 14px 32px rgba(0,0,0,.4); }
 .podcast__testo .t-deck { max-inline-size: 52ch; }
 .podcast__testo .cta-riga { margin-top: var(--s-2); }
 .podcast__nota { color: var(--c-t3); }

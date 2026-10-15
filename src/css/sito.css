@@ -1364,7 +1364,7 @@ display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
 column-gap: clamp(32px, 5vw, 96px); align-items: center;
 }
 .podcast__testo { display: grid; justify-items: start; gap: var(--s-5); }
-.podcast__logo { display: block; width: auto; height: clamp(72px, 6.4vw, 104px); margin-bottom: var(--s-2); }
+.podcast__logo { display: block; width: auto; height: clamp(72px, 6.4vw, 104px); margin-bottom: var(--s-2); border-radius: 16px; box-shadow: 0 0 0 1px rgba(255,255,255,.06), 0 14px 32px rgba(0,0,0,.4); }
 .podcast__testo .t-deck { max-inline-size: 52ch; }
 .podcast__testo .cta-riga { margin-top: var(--s-2); }
 .podcast__nota { color: var(--c-t3); }
@@ -1934,14 +1934,23 @@ display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
 column-gap: clamp(24px, 4vw, 72px); align-items: end;
 }
 .finale__testo { display: grid; gap: var(--s-5); justify-items: start; padding-bottom: var(--sez-y); }
-.finale__payoff {
-display: grid; margin: 0;
-font: 700 clamp(52px, 7.4vw, 118px)/.9 var(--f-display);
-letter-spacing: -.035em; text-transform: uppercase; color: var(--c-t1);
+.finale__payoff { margin: 0; }
+.finale__logo {
+display: block; width: clamp(200px, 21vw, 300px); height: auto; border-radius: 22px;
+box-shadow: 0 28px 60px rgba(0,0,0,.5), 0 0 0 1px rgba(255,255,255,.06), 0 0 80px rgba(255,130,0,.16);
 }
-.finale__payoff .mask { display: block; overflow: hidden; padding-bottom: .04em; }
-.finale__riga { display: block; }
-.finale__riga--ar { color: var(--c-ar); }
+@keyframes logo-atterra { from { opacity: 0; scale: .78; rotate: -7deg; translate: 0 36px; } 60% { opacity: 1; } }
+@supports (animation-timeline: view()) {
+@media (prefers-reduced-motion: no-preference) {
+.finale__logo { animation: logo-atterra linear both; animation-timeline: view(); animation-range: entry 10% cover 40%; }
+}
+}
+@supports not (animation-timeline: view()) {
+@media (prefers-reduced-motion: no-preference) {
+.finale__logo { opacity: 0; scale: .85; rotate: -5deg; transition: opacity var(--t-reveal) linear, scale var(--t-apertura) var(--ease-salita), rotate var(--t-apertura) var(--ease-salita); }
+.finale.is-in .finale__logo { opacity: 1; scale: 1; rotate: 0deg; }
+}
+}
 .finale__nota { font: 500 14px/1.4 var(--f-display); color: var(--c-t3); }
 .finale__testo .t-deck { max-inline-size: 46ch; }
 .finale__foto { margin: 0; align-self: end; justify-self: center; width: min(100%, 520px); }
@@ -1995,9 +2004,9 @@ animation-range: entry 40% contain 50%;
 max-height: calc(100svh - var(--barra-h) - var(--nav-h) - 16px);
 animation-name: trofeo-fermo; animation-range: entry 35% contain 40%;
 }
-.finale .finale__payoff .mask > .finale__riga {
+.finale .finale__logo {
 animation-timeline: --finale;
-animation-range: entry calc(42% + var(--i) * 10%) contain calc(4% + var(--i) * 8%);
+animation-range: entry 42% contain 14%;
 }
 .finale__testo > :not(.finale__payoff) {
 animation: finale-segue linear both; animation-timeline: --finale;
@@ -2336,26 +2345,8 @@ animation-range: entry 20% cover 40%; transform-origin: 0 85%;
 }
 @keyframes capo-posa { from { scale: 1.8; opacity: 0; } 45% { opacity: 1; } }
 @keyframes capo-nome { from { clip-path: inset(0 100% 0 0); } }
-.finale__payoff .mask { transform-origin: bottom left; }
-.finale__payoff .mask > .finale__riga {
-animation: sali-muro var(--t-maschera) var(--ease-salita) both;
-animation-timeline: view();
-animation-range-start: entry calc(var(--i) * 14%);
-animation-range-end: entry 100%;
-}
-@keyframes sali-muro { from { translate: 0 105%; scale: 1 1.05; } to { translate: 0 0; scale: 1 1; } }
-@media (prefers-reduced-motion: reduce) { .finale__payoff .mask > .finale__riga { animation: none; translate: 0 0; scale: 1 1; } }
-@supports not (animation-timeline: view()) {
-.finale__payoff .mask > .finale__riga {
-animation: none; translate: 0 105%;
-transition: translate var(--t-maschera) var(--ease-salita);
-transition-delay: calc(var(--i) * 140ms);
-}
-.finale.is-in .mask > .finale__riga { translate: 0 0; }
-}
 @media (prefers-reduced-motion: reduce) {
-.hero .mask > [data-riga],
-.finale__payoff .mask > .finale__riga { translate: 0 0 !important; scale: 1 !important; }
+.hero .mask > [data-riga] { translate: 0 0 !important; scale: 1 !important; }
 }
 .testa > .t-eyebrow,
 .testa > .t-d2:not([data-split]),

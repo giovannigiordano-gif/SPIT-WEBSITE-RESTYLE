@@ -590,6 +590,16 @@ l'usabilità»). Applicato:
 Verifica: 38/38 test; movimento ridotto pulito; audit 8 pagine × 5 larghezze senza rilievi; Lighthouse
 mobile Home 95 (Speed Index 2,1s, era 3,0s), Metodo 97, Candidatura 98, accessibilità 100, CLS 0.
 
+*Il logo del podcast (15.10)* — «Fatturare Fatturare Fatturare: questa sezione non mi piace, incolla lì il
+logo del podcast» (con il logo allegato). Nel finale della home le tre righe tipografiche FATTURARE sono
+diventate il logo del podcast (che il payoff lo porta già scritto): una copertina con gli angoli
+arrotondati che atterra come un adesivo e si raddrizza, accanto al braccio che alza il cubo; la nota «Il
+payoff, e anche il nome del podcast» resta sotto. Lo stesso file entra dagli agganci già pronti nel
+capitolo podcast della home e nella sezione podcast di Fatturare³ (il logo del giro 4 non era leggibile).
+Originale in assets-src/podcast/, versione web 24 KB. Il file è 300×300: sopra i 150px, sugli schermi
+retina, si sgrana un poco (§6). Se invece «questa sezione» era il titolo della pagina Fatturare³, va
+spostato lì.
+
 ### Cosa è stato fatto, fase per fase (skill applicate)
 
 **Fase 1 — design system** (impeccable craft-floor, design-taste-frontend, ui-ux-pro-max checklist)
@@ -749,6 +759,9 @@ Candidatura), indice (Fatturare³, Team), manifesto ed elenco numerato (DNA), mu
   invita a collaborare, ma il menu («Sales Process Day · 14 ottobre 2026 · Milano») e la pagina Eventi
   vendono ancora un evento passato. Serve la data della prossima edizione (o la decisione di
   trasformare la pagina in un «com'è andata»).
+- **Il logo del podcast in alta risoluzione.** Quello allegato in chat è 300×300 px: nel finale è
+  mostrato a 300px (200 su telefono) e sugli schermi retina è un po' morbido. Serve la versione da
+  almeno 600×600 o il vettoriale.
 - **Il logo con i punti.** Sul sito ufficiale il payoff è «FATTURARE. FATTURARE. FATTURARE.» (file
   `logo-2048x498-1.avif`, 8,4 KB, caricato a ottobre 2025 in salesprocess.it/wp-content/uploads/2025/10/);
   il file HD consegnato con l'handoff ha «FATTURARE, FATTURARE, FATTURARE.». Non l'ho scaricato senza

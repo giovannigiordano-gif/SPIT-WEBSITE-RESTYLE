@@ -399,7 +399,7 @@ console.log('→ src/css/sito.css  (' + css.length + ' byte, v=' + VERSIONE + ')
 const LOGO_PODCAST = ['svg', 'webp', 'png'].map(e => 'fatturare-logo.' + e)
   .find(n => existsSync(join(OUT, 'assets', 'podcast', n)))
 const logoPodcast = () => LOGO_PODCAST
-  ? `<img class="podcast__logo" src="/assets/podcast/${LOGO_PODCAST}" alt="Fatturare Fatturare Fatturare, il podcast" loading="lazy" decoding="async">`
+  ? `<img class="podcast__logo" src="/assets/podcast/${LOGO_PODCAST}" alt="Fatturare Fatturare Fatturare, il podcast" width="300" height="300" loading="lazy" decoding="async">`
   : ''   /* niente occhiello al posto del logo: il nome è nella nota sotto il CTA */
 if (!LOGO_PODCAST) console.log('⚠ logo del podcast assente: src/assets/podcast/fatturare-logo.(svg|webp|png)')
 
