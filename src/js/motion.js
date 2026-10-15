@@ -389,16 +389,35 @@
      Visibile SOLO nella terra di mezzo: mai sopra l'hero (che ha già il suo
      CTA) e mai sopra la conversione. Due CTA identici nello stesso viewport
      sono un difetto, non una ridondanza utile.                          */
-  const piastra = $('#piastra');
-  if (piastra) {
-    const alto = $('#hero') || $('.testa-pag');
-    const basso = $('#candidatura') || $('#muro');
-    let dentroAlto = !!alto, dentroBasso = false;
-    const calcola = () => piastra.classList.toggle('is-off', dentroAlto || dentroBasso);
-    if (alto)  new IntersectionObserver(([e]) => { dentroAlto = e.isIntersecting; calcola(); }, { threshold: 0 }).observe(alto);
-    if (basso) new IntersectionObserver(([e]) => { dentroBasso = e.isIntersecting; calcola(); }, { threshold: .12 }).observe(basso);
-    calcola();
+  /* UN SOLO ARANCIONE PER SCHERMO (audit 15.10): il CTA della nav e la
+     piastra ci sono sempre; quando nello schermo c'è già un invito arancione
+     della pagina (una chiusa, il finale, il form, la sala) la nav lo abbassa
+     a contorno (html.cta-gemello) e la piastra scende. Prima la piastra
+     sapeva solo di #candidatura e #muro: in Metodo, DNA, Eventi e Fatturare
+     restava sopra la chiusa. */
+  const piastra = $('#piastra'), radiceC = document.documentElement;
+  const alto = $('#hero') || $('.testa-pag');
+  const inviti = $$('main .cta--ar').filter(a => !a.closest('.nav, .menu, .piastra'));
+  const conversioni = $$('#candidatura, #muro, #posti, .chiusa');
+  const visti = new Set();
+  let dentroAlto = !!alto;
+  const calcolaC = () => {
+    const doppio = visti.size > 0;
+    radiceC.classList.toggle('cta-gemello', doppio);
+    piastra?.classList.toggle('is-off', dentroAlto || doppio);
+  };
+  if ('IntersectionObserver' in window) {
+    const tieni = es => { es.forEach(e => e.isIntersecting ? visti.add(e.target) : visti.delete(e.target)); calcolaC(); };
+    const ioInv = new IntersectionObserver(tieni, { threshold: .5 }), ioConv = new IntersectionObserver(tieni, { threshold: .12 });
+    inviti.forEach(n => ioInv.observe(n)); conversioni.forEach(n => ioConv.observe(n));
+    /* sui telefoni la barra in cima lascia lo schermo quando l'apertura è
+       passata (html.barra-via, solo sotto i 620px): barra, nav e piastra
+       insieme mangiavano un quarto dello schermo */
+    if (alto) new IntersectionObserver(([e]) => {
+      dentroAlto = e.isIntersecting; radiceC.classList.toggle('barra-via', !e.isIntersecting); calcolaC();
+    }, { threshold: 0 }).observe(alto);
   }
+  calcolaC();
 
   /* ── FORM · SQUALIFICA IN TEMPO REALE ───────────────────────────────────
      Il quiz viene assorbito dal form: zero passi aggiuntivi, meno
@@ -417,6 +436,22 @@
     });
     form.addEventListener('submit', (e) => {
       e.preventDefault();
+      /* audit 15.10: sotto il milione il bottone dice «Iscriviti al podcast»
+         e porta al podcast, non manda la candidatura dell'azienda */
+      if (form.classList.contains('is-squalificato')) { location.href = 'https://www.youtube.com/channel/UCaB0Zuz1IO5pTSJ5qZPv8IA'; return; }
+      /* prima si controlla: un campo vuoto si segna, con il messaggio del
+         browser sotto, e il fuoco ci va sopra (prima un form vuoto «partiva») */
+      let primo = null;
+      $$('input, select', form).forEach(c => {
+        const campo = c.closest('.campo'); if (!campo) return;
+        let m = $('.campo__errore', campo);
+        if (c.checkValidity()) { c.removeAttribute('aria-invalid'); campo.classList.remove('campo--errore'); m?.remove(); return; }
+        c.setAttribute('aria-invalid', 'true'); campo.classList.add('campo--errore');
+        if (!m) { m = document.createElement('p'); m.className = 'campo__errore'; m.id = c.id + '-errore'; campo.append(m); c.setAttribute('aria-describedby', ((c.getAttribute('aria-describedby') || '') + ' ' + m.id).trim()); }
+        m.textContent = c.validationMessage;
+        primo ||= c;
+      });
+      if (primo) { primo.focus(); return; }
       sub.style.minWidth = sub.offsetWidth + 'px';   /* larghezza bloccata */
       etichetta.textContent = 'Invio in corso…';     /* nessuno spinner rotante */
       sub.disabled = true;
@@ -781,8 +816,13 @@
           nodi.forEach((n, k) => { n.style.left = xs[k] + 'px'; });
         };
         misura();
-        /* quanto deve scorrere: finché l'arrivo non è al centro */
-        const dist = () => Math.max(0, fine.offsetLeft + fine.offsetWidth / 2 - innerWidth / 2);
+        /* quanto deve scorrere: finché l'arrivo non tocca il margine destro
+           del contenuto (lo stesso del sinistro). Centrato, lasciava mezzo
+           schermo vuoto a destra quando la scena si sbloccava (audit 15.10). */
+        const dist = () => {
+          const m = parseFloat(getComputedStyle(pista).paddingLeft) || 0;
+          return Math.max(0, fine.offsetLeft + fine.offsetWidth - (innerWidth - m));
+        };
         /* tl esiste solo dopo la creazione: ScrollTrigger può chiamare
            onRefresh mentre la crea */
         let qui = -2, tl = null;

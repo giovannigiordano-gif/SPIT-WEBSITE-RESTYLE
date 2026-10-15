@@ -126,19 +126,20 @@ const HANDOFF = [
    numero che si pubblica è questo, perché è quello verificabile.        */
 const REP_NOMI = ['Pubblicità', 'Marketing', 'Reclutamento', 'Formazione', 'Direzione'];
 const VOLTI = [
-  { nome: 'Alberto Frisoni',      ruolo: 'CEO',                  rep: 5, f: 'frisoni' },
+  /* z e o: quanto avvicinarsi e dove sta il volto, per le mezze figure */
+  { nome: 'Alberto Frisoni',      ruolo: 'CEO',                  rep: 5, f: 'frisoni', z: 1.5, o: '52% 22%' },
   { nome: 'Alfio Bardolla',       ruolo: 'Cofondatore',          rep: 5, f: 'bardolla' },
-  { nome: 'Ion Rotaru',           ruolo: 'Direttore operativo',  rep: 5, f: 'rotaru' },
-  { nome: 'Matteo Ratti',         ruolo: 'Media buyer',          rep: 1, f: 'ratti' },
+  { nome: 'Ion Rotaru',           ruolo: 'Direttore operativo',  rep: 5, f: 'rotaru', z: 1.5, o: '55% 23%' },
+  { nome: 'Matteo Ratti',         ruolo: 'Media buyer',          rep: 1, f: 'ratti', z: 1.45, o: '53% 25%' },
   /* 15.10: senza ritratto per ora — al posto della foto le iniziali, nello
      stesso riquadro. Con il file (src/assets/team-webp/berrini.webp e
      berrini-400.webp) basta scrivere f: 'berrini'. */
   { nome: 'Andrea Berrini',       ruolo: 'Direttore marketing',  rep: 2, f: null, iniziali: 'AB' },
-  { nome: 'Dario Plasmati',       ruolo: 'Copywriter',           rep: 2, f: 'plasmati' },
-  { nome: 'Giovanni Giordano',    ruolo: 'CRM specialist',       rep: 2, f: 'giordano' },
-  { nome: 'Giulia Elicio',        ruolo: 'HR manager',           rep: 3, f: 'elicio' },
+  { nome: 'Dario Plasmati',       ruolo: 'Copywriter',           rep: 2, f: 'plasmati', z: 1.5, o: '52% 18%' },
+  { nome: 'Giovanni Giordano',    ruolo: 'CRM specialist',       rep: 2, f: 'giordano', z: 1.5, o: '50% 14%' },
+  { nome: 'Giulia Elicio',        ruolo: 'HR manager',           rep: 3, f: 'elicio', z: 1.6, o: '57% 28%' },
   { nome: 'Giorgia Tocco',        ruolo: 'HR',                   rep: 3, f: 'tocco' },
-  { nome: 'Cristian Amodio',      ruolo: 'Sales coach',          rep: 4, f: 'amodio' },
+  { nome: 'Cristian Amodio',      ruolo: 'Sales coach',          rep: 4, f: 'amodio', z: 1.5, o: '50% 24%' },
   { nome: 'Gloria Antonelli',     ruolo: 'Sales coach',          rep: 4, f: 'antonelli' },
   { nome: 'Sabrina Frisoni',      ruolo: 'Office manager',       rep: 5, f: 'sabrina' },
 ];
@@ -219,12 +220,13 @@ const scheda = (p, k = 0) => el('article', 'scheda', `
 
 /* ── I NUMERI A UNITÀ ─────────────────────────────────────────────────────
    Un quadrato del marchio = un'unità, sulla STESSA griglia per i tre numeri
-   (50 colonne, 25 sotto i 700px): 150 sono tre righe, 33 mezza riga, 750
+   (50 colonne, 40 sotto i 700px — erano 25, e il campo dei 750 era alto
+   mezzo telefono, audit 15.10): 150 sono tre righe, 33 mezza riga, 750
    quindici righe. L'altezza del campo è la quantità, e nessuna barra è
    disegnata a occhio. Il campo è un SVG con un <pattern> (due rettangoli,
    non 933 nodi): uno strato spento e uno acceso, e l'acceso si scopre
    riga per riga allo scroll (racconto.css).                             */
-const colonne = () => matchMedia('(max-width: 700px)').matches ? 25 : 50;
+const colonne = () => matchMedia('(max-width: 700px)').matches ? 40 : 50;
 const strato = (n, col, id, colore, cls) => {
   const righe = Math.floor(n / col), resto = n % col, h = righe + (resto ? 1 : 0);
   return `<svg class="ucampo__strato ${cls}" viewBox="0 0 ${col} ${h}" preserveAspectRatio="xMinYMin meet" aria-hidden="true" focusable="false">
@@ -457,12 +459,14 @@ const passaggio = (h, i) => {
   return n;
 };
 
+/* l'avvicinamento delle mezze figure (z, o in VOLTI) */
+const zoomVolto = (v) => v.z ? ` style="--z:${v.z};--zo:${v.o}"` : '';
 /* chi non ha ancora il ritratto ha le sue iniziali nello stesso riquadro */
 const iniziali = (v, cls) => `<span class="${cls}" aria-hidden="true">${v.iniziali || v.nome.split(' ').map(p => p[0]).join('')}</span>`;
 const volto = (v) => el('article', 'volto', `
   <div class="volto__ph">
-    ${v.f ? `<img src="/assets/team-webp/${v.f}-400.webp" srcset="/assets/team-webp/${v.f}-400.webp 400w, /assets/team-webp/${v.f}.webp 640w" sizes="(max-width: 700px) 46vw, (max-width: 1024px) 31vw, 290px" alt="${v.nome}, ${v.ruolo}" width="640" height="640" loading="lazy" decoding="async">` : iniziali(v, 'volto__mono')}
-    <span class="volto__tag">${REP_NOMI[v.rep - 1]}</span>
+    ${v.f ? `<img src="/assets/team-webp/${v.f}-400.webp" srcset="/assets/team-webp/${v.f}-400.webp 400w, /assets/team-webp/${v.f}.webp 640w" sizes="(max-width: 700px) 46vw, (max-width: 1024px) 31vw, 290px" alt="${v.nome}, ${v.ruolo}" width="640" height="640" loading="lazy" decoding="async"${zoomVolto(v)}>` : iniziali(v, 'volto__mono')}
+    <span class="volto__tag${v.rep === 5 ? ' volto__tag--dir' : ''}">${REP_NOMI[v.rep - 1]}</span>
   </div>
   <div>
     <p class="t-t2">${v.nome}</p>
@@ -477,7 +481,7 @@ const persona = (v) => {
   const n = el('a', 'pers');
   n.href = '/team.html';
   n.innerHTML = `
-    ${v.f ? `<img src="/assets/team-webp/${v.f}-400.webp" srcset="/assets/team-webp/${v.f}-400.webp 400w, /assets/team-webp/${v.f}.webp 640w" sizes="(max-width: 1100px) 72vw, 272px" alt="${v.nome}, ${v.ruolo}" width="640" height="640" loading="lazy" decoding="async">` : iniziali(v, 'pers__mono')}
+    ${v.f ? `<img src="/assets/team-webp/${v.f}-400.webp" srcset="/assets/team-webp/${v.f}-400.webp 400w, /assets/team-webp/${v.f}.webp 640w" sizes="(max-width: 1100px) 72vw, 272px" alt="${v.nome}, ${v.ruolo}" width="640" height="640" loading="lazy" decoding="async"${zoomVolto(v)}>` : iniziali(v, 'pers__mono')}
     <div class="pers__txt">
       <span class="pers__rep"><i aria-hidden="true"></i>${REP_NOMI[v.rep - 1]}</span>
       <p class="t-t2">${v.nome}</p>
@@ -542,7 +546,9 @@ const VIDEO = [
 const srcVideo = (tipo, id) => tipo === 'vimeo'
   ? 'https://player.vimeo.com/video/' + id + '?autoplay=1&title=0&byline=0&portrait=0'
   : 'https://www.youtube-nocookie.com/embed/' + id + '?autoplay=1&rel=0';
-const voceVideo = (v, i) => `<li><button class="video__voce${i === 0 ? ' is-on' : ''}" type="button" data-i="${i}" aria-pressed="${i === 0}" aria-label="Guarda la testimonianza di ${v.nome}">
+/* niente aria-label: il nome accessibile è il testo visibile, preceduto da
+   un «Guarda la testimonianza di» per i lettori di schermo (audit 15.10) */
+const voceVideo = (v, i) => `<li><button class="video__voce${i === 0 ? ' is-on' : ''}" type="button" data-i="${i}" aria-pressed="${i === 0}"><span class="sr">Guarda la testimonianza di </span>
     <span class="video__mini"><img src="/assets/video/${v.id}-400.webp" alt="" width="400" height="225" loading="lazy" decoding="async"></span>
     <span class="video__chi"><span class="t-t2">${v.nome}</span><span class="t-micro">Cliente Sales Process</span></span>
   </button></li>`;
@@ -745,6 +751,8 @@ const monta = () => {
 
   const sg = $('#settori-grid');
   if (sg) sg.innerHTML = SETTORI.map(s => `<li>${s}</li>`).join('');
+  /* nel form il settore si scrive o si sceglie fra i trentatré (audit 15.10) */
+  if ($('#f-settore')) document.body.append(el('datalist', null, SETTORI.map(s => `<option value="${s}"></option>`).join(''), { id: 'settori-lista' }));
 
   /* Tabella + filtri */
   const body = $('#tabella-body'), conta = $('#tab-conta');
@@ -752,7 +760,8 @@ const monta = () => {
     const L = ['Reparto','Cosa riceve','Cosa consegna','SLA','Strumento','Chi risponde'];
     const render = (f) => {
       const rows = f === 'tutti' ? RIGHE : RIGHE.filter(r => r.f === f);
-      body.innerHTML = rows.map(r => `<tr>
+      /* data-primo: la prima riga di ogni reparto (su telefono porta il nome del reparto, le altre no) */
+      body.innerHTML = rows.map((r, i) => `<tr${i === 0 || rows[i - 1].rep !== r.rep ? ' data-primo' : ''}>
         <td data-l="${L[0]}">${r.rep}</td><td data-l="${L[1]}">${r.in}</td>
         <td data-l="${L[2]}">${r.out}</td><td data-l="${L[3]}" class="sla">${r.sla}</td>
         <td data-l="${L[4]}">${r.tool}</td><td data-l="${L[5]}">${r.chi}</td></tr>`).join('');

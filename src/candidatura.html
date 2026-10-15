@@ -45,7 +45,7 @@
      Con il passaggio a gradini e la foto che vola, il cambio di pagina
      parte senza attesa di rete. -->
 <script type="speculationrules">{"prefetch":[{"where":{"or":[{"href_matches":"/*.html"},{"href_matches":"/"}]},"eagerness":"moderate"}]}</script>
-<link rel="stylesheet" href="/css/sito.css?v=35dab2c463">
+<link rel="stylesheet" href="/css/sito.css?v=92b1893be1">
 </head>
 <body data-pagina="candidatura">
 <div class="sipario" aria-hidden="true"><i style="--k:0"></i><i style="--k:1"></i><i style="--k:2"></i><i style="--k:3"></i><span class="sipario__marchio"><img src="/assets/brand/logo-full-h112.webp" alt="" width="461" height="112" decoding="async"></span><span class="sipario__filo"></span></div>
@@ -53,7 +53,7 @@
 <a class="skip" href="#main">Salta al contenuto</a>
 
 <div class="barra" id="barra">
-  <a class="barra__link" href="/candidatura.html">
+  <a class="barra__link" href="#candidatura">
     <span class="barra__dot" aria-hidden="true"></span>
     <span>Vuoi collaborare con noi?</span>
     <span class="barra__invito"><span>Candida la tua azienda</span><svg class="freccia" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12h14.5M13.5 6.5 19 12l-5.5 5.5"/></svg></span>
@@ -73,7 +73,7 @@
     <p class="nav__cap" id="nav-cap" aria-hidden="true"><span class="nav__cap-n"></span><span class="nav__cap-nome"></span></p>
     <div class="nav__dx">
       
-      <a class="cta cta--ar cta--luce cta--nav" href="/candidatura.html">Candida la tua azienda</a>
+      <a class="cta cta--ar cta--luce cta--nav" href="#candidatura">Candida la tua azienda</a>
       <button class="menu-btn" id="burger" type="button" aria-label="Apri il menu" aria-expanded="false" aria-controls="menu">
         <span class="menu-btn__txt">Menu</span><span class="menu-btn__ico" aria-hidden="true"><span></span></span>
       </button>
@@ -144,7 +144,7 @@
      è serietà. Nessun countdown: la scarsità si dichiara come fatto
      strutturale, mai come pressione temporale. -->
 <section class="sez sf sf--radente" id="filtro">
-  <div class="wrap wrap--grid">
+  <div class="wrap wrap--piena">
     <div class="testa">
       <h2 class="t-d2" data-split><span class="w" style="--w:0"><span>Il</span></span> <span class="w" style="--w:1"><span>filtro</span></span> <span class="w" style="--w:2"><span>è</span></span> <span class="w" style="--w:3"><span>scritto</span></span> <span class="w" style="--w:4"><span>prima,</span></span> <span class="w" style="--w:5"><span><span class="segue">non</span></span></span> <span class="w" style="--w:6"><span><span class="segue">dopo.</span></span></span></h2>
     </div>
@@ -219,7 +219,7 @@
       </div>
       <div class="campo">
         <label for="f-fatturato">Fatturato annuo</label>
-        <select id="f-fatturato" name="fatturato" required>
+        <select id="f-fatturato" name="fatturato" required aria-describedby="squalifica">
           <option value="">Seleziona una fascia</option>
           <option value="sotto1">Sotto 1 M€</option>
           <option value="1-2">1–2 M€</option>
@@ -228,9 +228,12 @@
           <option value="oltre5">Oltre 5 M€</option>
         </select>
       </div>
+      <p class="t-piccolo squalifica" id="squalifica" aria-live="polite">
+        Non è un no per sempre: è un no per adesso. Ti mandiamo il podcast e ci riparliamo quando sei sopra il milione.
+      </p>
       <div class="campo">
         <label for="f-settore">Settore</label>
-        <input id="f-settore" name="settore" type="text" required>
+        <input id="f-settore" name="settore" type="text" list="settori-lista" required>
       </div>
       <div class="campo">
         <label for="f-nome">Nome e ruolo</label>
@@ -247,9 +250,6 @@
 
       <p class="t-micro">La leggiamo noi, non un software. Ti rispondiamo entro 48 ore lavorative.</p>
 
-      <p class="t-piccolo squalifica" id="squalifica" aria-live="polite">
-        Non è un no per sempre: è un no per adesso. Ti mandiamo il podcast e ci riparliamo quando sei sopra il milione.
-      </p>
     </form>
   </div>
 </section>
@@ -301,7 +301,7 @@
         </article>
         <article class="card sede">
           <p class="t-eyebrow">Sede legale</p>
-          <p class="t-t1" style="font-size:19px">Piazza IV Novembre<br>22070 Capiago Intimiano (CO)</p>
+          <p class="t-t1" style="font-size:19px">Piazza IV Novembre 1<br>22070 Capiago Intimiano (CO)</p>
         </article>
         <article class="card sede">
           <p class="t-eyebrow">Scrivici</p>
@@ -351,10 +351,7 @@
       </div>
       <div class="footer__contatti">
         <h2 class="footer__h">Contatti</h2>
-        <div class="verde">
-          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.6 3.5c.8 0 1.5.5 1.8 1.2l1 2.5c.3.7.1 1.5-.5 2l-1.1.9a11 11 0 0 0 4.9 4.9l.9-1.1c.5-.6 1.3-.8 2-.5l2.5 1a1.9 1.9 0 0 1 1.2 1.8v2.2c0 1.1-.9 2-2 2A16.6 16.6 0 0 1 4.4 5.5c0-1.1.9-2 2-2z"/></svg>
-          <span><em>Numero Verde</em><b class="verde__n">Numero verde da fornire</b></span>
-        </div>
+        <!-- il numero verde compare qui quando c'è (const TEL): un segnaposto nel piè di pagina sembrava un sito non finito -->
         <a class="footer__mail link-wipe" href="mailto:amministrazione@salesprocess.it">amministrazione@<wbr>salesprocess.it</a>
         <p class="t-piccolo footer__sedi"><b>Uffici di rappresentanza</b><br>Via Marco D'Agrate 41, 20139 Milano (MI)</p>
         <p class="t-piccolo footer__sedi"><b>Sede legale</b><br>Piazza IV Novembre 1, 22070 Capiago Intimiano (CO)</p>
@@ -374,16 +371,16 @@
 </footer>
 
 <div class="piastra is-off" id="piastra">
-  <a class="cta cta--ar" href="/candidatura.html">Candida la tua azienda</a>
+  <a class="cta cta--ar" href="#candidatura">Candida la tua azienda</a>
 </div>
 
 <div class="grana" aria-hidden="true"></div>
 
 <!-- Ordine voluto: i defer girano nell'ordine del documento, e dati.js
      (i contenuti) non deve aspettare il CDN di GSAP. -->
-<script src="/js/dati.js?v=e8c33eccb9" defer></script>
+<script src="/js/dati.js?v=3e99f89530" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js" defer></script>
-<script src="/js/motion.js?v=25146bc6a4" defer></script>
+<script src="/js/motion.js?v=ced171e6a2" defer></script>
 </body>
 </html>

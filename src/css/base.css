@@ -81,6 +81,10 @@ input, select, textarea { caret-color: var(--c-ar); }
 .sez--alone::before {
   content: ''; position: absolute; inset: 0; pointer-events: none;
   background: var(--alone-fioco);
+  /* l'alone nasce dal primo pixel della sezione: senza sfumarlo, il suo
+     bordo alto tagliava il palco con una riga dritta (audit 15.10) */
+  -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 220px);
+          mask-image: linear-gradient(180deg, transparent 0, #000 220px);
 }
 .sez > .wrap { position: relative; }
 

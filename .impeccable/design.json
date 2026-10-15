@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-15T10:30:11.855Z",
+  "generatedAt": "2026-10-15T13:56:58.365Z",
   "title": "Design System: Sales Process Italia",
   "extensions": {
     "colorMeta": {
@@ -603,6 +603,11 @@
         "name": "animazioni-infinite",
         "value": "marquee dei loghi 46s (pausa a hover e focus); galleggia dei contatti DOM dell'hero dove non c'e il 3D",
         "purpose": "Il marquee e l'unica voluta; i contatti DOM su telefono sono in attesa di decisione del cliente (C2)."
+      },
+      {
+        "name": "un-solo-arancione",
+        "value": "IntersectionObserver sugli inviti .cta--ar della pagina (50%) e sulle conversioni (#candidatura, #muro, #posti, .chiusa, 12%): html.cta-gemello porta il CTA della nav a contorno, la piastra scende; html.barra-via sotto i 620px fa uscire la barra passata l'apertura",
+        "purpose": "La regola del sistema (un solo bottone arancione per schermo) la fa rispettare il sito, non la buona volontà delle pagine."
       }
     ],
     "breakpoints": [

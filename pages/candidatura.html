@@ -28,7 +28,7 @@ desc: Fatturato 1-5 M€, no start-up, risposta in 48 ore lavorative. Il filtro 
      è serietà. Nessun countdown: la scarsità si dichiara come fatto
      strutturale, mai come pressione temporale. -->
 <section class="sez sf sf--radente" id="filtro">
-  <div class="wrap wrap--grid">
+  <div class="wrap wrap--piena">
     <div class="testa">
       <h2 class="t-d2" data-split>Il filtro è scritto prima, <span class="segue">non dopo.</span></h2>
     </div>
@@ -103,7 +103,7 @@ desc: Fatturato 1-5 M€, no start-up, risposta in 48 ore lavorative. Il filtro 
       </div>
       <div class="campo">
         <label for="f-fatturato">Fatturato annuo</label>
-        <select id="f-fatturato" name="fatturato" required>
+        <select id="f-fatturato" name="fatturato" required aria-describedby="squalifica">
           <option value="">Seleziona una fascia</option>
           <option value="sotto1">Sotto 1 M€</option>
           <option value="1-2">1–2 M€</option>
@@ -112,9 +112,12 @@ desc: Fatturato 1-5 M€, no start-up, risposta in 48 ore lavorative. Il filtro 
           <option value="oltre5">Oltre 5 M€</option>
         </select>
       </div>
+      <p class="t-piccolo squalifica" id="squalifica" aria-live="polite">
+        Non è un no per sempre: è un no per adesso. Ti mandiamo il podcast e ci riparliamo quando sei sopra il milione.
+      </p>
       <div class="campo">
         <label for="f-settore">Settore</label>
-        <input id="f-settore" name="settore" type="text" required>
+        <input id="f-settore" name="settore" type="text" list="settori-lista" required>
       </div>
       <div class="campo">
         <label for="f-nome">Nome e ruolo</label>
@@ -131,9 +134,6 @@ desc: Fatturato 1-5 M€, no start-up, risposta in 48 ore lavorative. Il filtro 
 
       <p class="t-micro">La leggiamo noi, non un software. Ti rispondiamo entro 48 ore lavorative.</p>
 
-      <p class="t-piccolo squalifica" id="squalifica" aria-live="polite">
-        Non è un no per sempre: è un no per adesso. Ti mandiamo il podcast e ci riparliamo quando sei sopra il milione.
-      </p>
     </form>
   </div>
 </section>
@@ -185,7 +185,7 @@ desc: Fatturato 1-5 M€, no start-up, risposta in 48 ore lavorative. Il filtro 
         </article>
         <article class="card sede">
           <p class="t-eyebrow">Sede legale</p>
-          <p class="t-t1" style="font-size:19px">Piazza IV Novembre<br>22070 Capiago Intimiano (CO)</p>
+          <p class="t-t1" style="font-size:19px">Piazza IV Novembre 1<br>22070 Capiago Intimiano (CO)</p>
         </article>
         <article class="card sede">
           <p class="t-eyebrow">Scrivici</p>

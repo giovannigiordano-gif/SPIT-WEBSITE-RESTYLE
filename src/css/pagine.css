@@ -15,6 +15,8 @@
    Il commiato di ogni pagina interna: una frase e l'azione, centrate,
    sotto l'alone fioco. Una sola chiusa per pagina, sempre uguale.     */
 .chiusa__in { display: grid; justify-items: center; gap: var(--s-7); text-align: center; }
+/* dopo la chiusa viene il piè di pagina: mezzo respiro, non uno intero di nero (audit 15.10) */
+.chiusa { padding-bottom: calc(var(--sez-y) * .55); }
 .chiusa__in .t-d2 { max-inline-size: 20ch; margin-inline: auto; }
 
 /* ── I 33 SETTORI · un elenco tipografico ─────────────────────────────── */
@@ -34,18 +36,24 @@
 .settori li:hover { color: var(--c-t1); }
 .settori li:hover::before { background: var(--c-ar); }
 @media (max-width: 640px) { .settori { columns: 2 140px; column-gap: 18px; } .settori li { font-size: 15px; gap: 9px; } }
+/* trentatré in tre colonne da undici: in quattro la quarta restava corta di tre righe (audit 15.10) */
+@media (min-width: 1100px) {
+  .settori { columns: auto; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: repeat(11, auto); grid-auto-flow: column; column-gap: clamp(24px, 3vw, 48px); }
+}
 
 /* ── DNA · il manifesto a tutta misura ────────────────────────────────── */
 .manifesto {
   display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 6fr);
   column-gap: clamp(28px, 5vw, 96px); row-gap: var(--s-6); align-items: start;
+  /* il filo che apre la chiusa corre per tutta la misura (audit 15.10:
+     sul paragrafo da 26ch si fermava a due terzi) */
+  padding-bottom: clamp(48px, 6vw, 104px); border-bottom: 1px solid var(--c-filo-forte);
 }
 .manifesto__tit { max-inline-size: 15ch; }
 .manifesto__corpo { display: grid; gap: var(--s-5); padding-top: clamp(4px, .8vw, 12px); }
 .manifesto__testo { font: 400 clamp(17px, 1.3vw, 20px)/1.66 var(--f-display); color: var(--c-t2); max-inline-size: 52ch; }
 .manifesto__chiusa {
-  margin-top: clamp(48px, 6vw, 104px); padding-top: clamp(28px, 3vw, 48px);
-  border-top: 1px solid var(--c-filo-forte);
+  padding-top: clamp(28px, 3vw, 48px);
   font: 500 clamp(30px, 4vw, 60px)/1.08 var(--f-display); letter-spacing: -.02em; word-spacing: .03em;
   color: var(--c-t1); max-inline-size: 26ch;
 }
@@ -57,9 +65,10 @@
    del manifesto. Ora il nome è il titolo, la frase sta un gradino sotto. */
 .qualita { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(24px, 4vw, 72px); }
 .dichiarazione { display: grid; gap: var(--s-3); align-content: start; padding-top: var(--s-5); border-top: 1px solid var(--c-filo-forte); }
-.dichiarazione__et { font: 600 clamp(18px, 1.4vw, 21px)/1.25 var(--f-display); letter-spacing: -.01em; color: var(--c-t1); }
-.dichiarazione__testo { font: 500 clamp(24px, 2.2vw, 32px)/1.2 var(--f-display); letter-spacing: -.015em; color: var(--c-t2); max-inline-size: 22ch; }
-@media (max-width: 820px) { .qualita { grid-template-columns: 1fr; } }
+/* audit 15.10: la gerarchia era rovesciata (etichetta bianca, frase grigia) */
+.dichiarazione__et { font: 600 clamp(16px, 1.2vw, 18px)/1.25 var(--f-display); letter-spacing: -.005em; color: var(--c-t3); }
+.dichiarazione__testo { font: 500 clamp(26px, 2.6vw, 40px)/1.15 var(--f-display); letter-spacing: -.02em; color: var(--c-t1); max-inline-size: 22ch; }
+@media (max-width: 820px) { .qualita { grid-template-columns: 1fr; } .dichiarazione__testo { font-size: 22px; } }
 
 /* I dieci principi: il numero è informazione (sono dieci), ma a guidare è
    il titolo. Venti cifre arancioni da 56px urlavano più dei principi
@@ -67,7 +76,7 @@
 .comand { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: clamp(32px, 5vw, 96px); border-top: 1px solid var(--c-filo-forte); }
 .com {
   position: relative; display: grid; grid-template-columns: clamp(56px, 5.4vw, 84px) 1fr; column-gap: 20px; row-gap: 6px;
-  align-content: start; padding: clamp(24px, 2.4vw, 36px) 0; border-bottom: 1px solid var(--c-filo);
+  align-content: start; padding: clamp(24px, 2.4vw, 36px) clamp(10px, 1.2vw, 16px); border-bottom: 1px solid var(--c-filo);
 }
 .com__n {
   grid-row: 1 / span 2;
@@ -85,7 +94,7 @@
    spostamento: resta anche a movimento ridotto. */
 .com { isolation: isolate; }
 .com::before {
-  content: ''; position: absolute; inset: 0 -16px; z-index: -1; border-radius: var(--r-card);
+  content: ''; position: absolute; inset: 0; z-index: -1; border-radius: var(--r-card);
   background: linear-gradient(90deg, rgba(255,130,0,.10), rgba(255,130,0,0) 70%); opacity: 0; pointer-events: none;
 }
 .com__n { position: relative; }
@@ -114,6 +123,26 @@
 .fondatore em { font-style: normal; color: var(--c-t1); }
 .fondatore__nota { color: var(--c-t3); margin-top: var(--s-2); }
 @media (max-width: 900px) { .fondatori { grid-template-columns: 1fr; } }
+/* Fatturare³: il logo del podcast accanto al titolo, mai oltre i suoi 300px */
+.podcast-hub { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); column-gap: clamp(28px, 5vw, 96px); }
+.podcast-hub > :not(.podcast__logo) { grid-column: 1; }
+.podcast-hub > .podcast__logo { grid-column: 2; grid-row: 1 / span 2; align-self: center; justify-self: end;
+  width: min(100%, 240px); height: auto; margin: 0; border-radius: 22px;
+  box-shadow: 0 0 0 1px rgba(255,255,255,.06), 0 30px 80px -20px rgba(255,130,0,.38); }
+@media (max-width: 860px) { .podcast-hub { grid-template-columns: 1fr; } .podcast-hub > .podcast__logo { grid-column: 1; grid-row: auto; justify-self: start; width: 160px; } }
+/* il titolo di Fatturare³ come il marchio: tre righe a gradino */
+.testa-pag--tre .t-hero .w { display: block; }
+.testa-pag--tre .t-hero .w:nth-child(2) { margin-left: .5em; }
+.testa-pag--tre .t-hero .w:nth-child(3) { margin-left: 1em; }
+/* i fondatori si vedono: il ritratto cresce (audit 15.10: a 172px era più
+   debole del nome accanto) */
+.fondatore { grid-template-columns: clamp(140px, 15vw, 224px) 1fr; }
+/* l'ufficio: il testo a sinistra, l'indirizzo in una card a destra */
+.ufficio { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: clamp(28px, 5vw, 96px); align-items: end; }
+.ufficio .sede { display: grid; gap: var(--s-3); justify-items: start; }
+@media (max-width: 860px) { .ufficio { grid-template-columns: 1fr; align-items: start; } }
+.ruoli__cta { margin-top: var(--s-7); }
+.indice--ruoli .indice__desc { color: var(--c-t2); }
 /* QUESTE PERSONE (ciclo 1): passi su «Giulia» nella frase sopra la griglia
    e si accende la sua faccia — il nome nella frase è una persona vera.
    Niente arancio (regola delle schede del team); senza :has() non succede
@@ -140,14 +169,20 @@
    scarsità è una pianta, non un timer.                                */
 .sala { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(32px, 5vw, 96px); align-items: center; }
 .sala__pianta { margin: 0; display: grid; gap: clamp(18px, 2vw, 28px); justify-items: center; }
+/* il palco è una luce, non un campo da compilare (audit 15.10): un filo
+   arancione con il suo bagliore, la scritta in grigio leggibile */
 .sala__palco {
-  width: 100%; padding: 12px; text-align: center;
-  border: 1px solid var(--c-bordo-ar); border-radius: var(--r-8);
-  background: rgba(255,130,0,.06);
-  font: 600 13px/1 var(--f-display); color: var(--c-ar-hot);
+  position: relative; width: 100%; padding: 12px 0 0; text-align: center;
+  font: 600 13px/1 var(--f-display); letter-spacing: .02em; color: var(--c-t3);
+}
+.sala__palco::before {
+  content: ''; position: absolute; left: 0; right: 0; top: 0; height: 2px; border-radius: 2px;
+  background: var(--c-ar); box-shadow: 0 0 22px 2px rgba(255,130,0,.45);
 }
 .sala__sedie { display: grid; grid-template-columns: repeat(10, 1fr); gap: clamp(8px, 1vw, 14px); width: 100%; }
-.sala__sedie i { aspect-ratio: 1; border-radius: 22%; background: var(--c-ar); }
+.sala__sedie i { aspect-ratio: 1; border-radius: 22%; border: 1.5px solid var(--c-ar); background: rgba(255,130,0,.14);
+  /* le file si curvano verso il palco, come in una sala vera */
+  translate: 0 calc((var(--c, 4.5) - 4.5) * (var(--c, 4.5) - 4.5) * -.6px); }
 /* LA SALA, POSTO PER POSTO (ciclo 1): prima si accende il palco, poi le
    trenta sedie una per una dalla prima fila — trenta è un numero che si
    conta. Prima ogni sedia aveva la sua view(): si accendevano a blocchi di
@@ -160,13 +195,13 @@
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
     .sala__pianta { view-timeline: --sala block; }
-    .sala__palco { animation: palco-acceso linear both; animation-timeline: --sala; animation-range: cover 14% cover 22%; }
+    .sala__palco::before { animation: palco-acceso linear both; animation-timeline: --sala; animation-range: cover 14% cover 22%; }
     .sala__sedie i { --n: calc(var(--r, 0) * 10 + var(--c)); animation: sedia linear both; animation-timeline: --sala;
       animation-range: cover calc(22% + var(--n) * .8%) cover calc(25% + var(--n) * .8%); }
   }
 }
-@keyframes palco-acceso { from { opacity: .3; } }
-@keyframes sedia { from { opacity: .12; scale: .6; } to { opacity: 1; scale: 1; } }
+@keyframes palco-acceso { from { opacity: .2; scale: .3 1; } }
+@keyframes sedia { from { opacity: .5; scale: .6; border-color: rgba(255,255,255,.32); background-color: rgba(255,255,255,0); } }
 .sala__fatti { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid var(--c-filo-forte); }
 .fatto { display: grid; align-content: start; gap: 6px; padding: clamp(20px, 2vw, 32px) clamp(14px, 2vw, 28px) 8px 0; }
 .fatto + .fatto { padding-left: clamp(14px, 2vw, 28px); border-left: 1px solid var(--c-filo); }
@@ -199,7 +234,9 @@
 .libro__nota { color: var(--c-t3); }
 @media (max-width: 860px) {
   .libri { grid-template-columns: minmax(0, 1fr); }
-  .libri__foto { max-width: min(64vw, 300px); order: 2; }
+  /* la foto dei libri apre la sezione (audit 15.10: dopo l'elenco, una mano
+     sola restava davanti alla chiusa) */
+  .libri__foto { max-width: min(48vw, 220px); order: -1; justify-self: start; }
 }
 
 /* ── CANDIDATURA · gli slot del trimestre ─────────────────────────────── */
@@ -208,7 +245,7 @@
   margin-top: var(--s-7); padding-top: var(--s-5); border-top: 1px solid var(--c-filo);
 }
 .slot__quadri { display: grid; grid-template-columns: repeat(9, 22px); gap: 8px; }
-.slot__quadri i { aspect-ratio: 1; border-radius: 22%; border: 1.5px solid rgba(255,255,255,.32); }
+.slot__quadri i { aspect-ratio: 1; border-radius: 22%; border: 1.5px solid transparent; background: rgba(255,255,255,.07); }
 .slot__quadri i.is-preso { border-color: var(--c-ar); background: var(--c-ar); }
 /* GLI SLOT DEL TRIMESTRE (ciclo 1): i quattro assegnati si riempiono uno
    per uno, i cinque liberi restano vuoti — la selezione è un fatto che si

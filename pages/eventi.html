@@ -91,7 +91,7 @@ desc: Una giornata sui processi di vendita per titolari di PMI. 14 ottobre 2026,
 
 <!-- ══ PER CHI ═══════════════════════════════════════════════════════════ -->
 <section class="sez sf sf--radente">
-  <div class="wrap wrap--grid">
+  <div class="wrap wrap--piena">
     <div class="testa">
       <h2 class="t-d2" data-split>Trenta posti: <span class="segue">preferiamo la stanza giusta a quella piena.</span></h2>
     </div>
@@ -136,7 +136,7 @@ desc: Una giornata sui processi di vendita per titolari di PMI. 14 ottobre 2026,
       <div class="campo"><label for="f-tel">Telefono</label><input id="f-tel" name="telefono" type="tel" autocomplete="tel" required></div>
       <div class="campo">
         <label for="f-fatturato">Fatturato annuo</label>
-        <select id="f-fatturato" name="fatturato" required>
+        <select id="f-fatturato" name="fatturato" required aria-describedby="squalifica">
           <option value="">Seleziona una fascia</option>
           <option value="sotto1">Sotto 1 M€</option>
           <option value="1-2">1–2 M€</option>
@@ -145,11 +145,11 @@ desc: Una giornata sui processi di vendita per titolari di PMI. 14 ottobre 2026,
           <option value="oltre5">Oltre 5 M€</option>
         </select>
       </div>
-      <button class="cta cta--ar cta--luce" type="submit" id="form-submit"><span class="cta__label">Prenota il posto</span></button>
-      <p class="t-micro">Ti confermiamo entro 48 ore lavorative. Se i posti sono esauriti te lo diciamo subito.</p>
       <p class="t-piccolo squalifica" id="squalifica" aria-live="polite">
         Sotto il milione la giornata non ti serve ancora: ti mandiamo il podcast e i materiali, gratis, e ci riparliamo quando sei sopra.
       </p>
+      <button class="cta cta--ar cta--luce" type="submit" id="form-submit"><span class="cta__label">Prenota il posto</span></button>
+      <p class="t-micro">Ti confermiamo entro 48 ore lavorative. Se i posti sono esauriti te lo diciamo subito.</p>
     </form>
   </div>
 </section>

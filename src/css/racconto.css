@@ -19,7 +19,10 @@
    imprenditori) è l'unico acceso in arancio: è il numero protagonista.  */
 /* in home i numeri continuano le schede dei clienti: una riga d'attacco al
    posto del titolo */
-.numeri__attacco { margin-bottom: clamp(24px, 2vw, 36px); color: var(--c-t2); }
+/* l'attacco dei numeri è una frase, non una didascalia (audit 15.10): dopo
+   la legenda delle schede si leggeva come una riga dimenticata */
+.numeri__attacco { margin-bottom: clamp(24px, 2vw, 36px); font: 600 clamp(22px, 2vw, 30px)/1.2 var(--f-display); letter-spacing: -.015em; color: var(--c-t1); }
+#numeri.sez--segue { padding-top: clamp(32px, 4vw, 64px); }
 .unita { border-top: 1px solid var(--c-filo-forte); }
 .u-voce {
   display: grid;
@@ -64,7 +67,7 @@
   -webkit-mask-image: linear-gradient(transparent, #000 18% 82%, transparent);
           mask-image: linear-gradient(transparent, #000 18% 82%, transparent);
 }
-.u-voce__lab { font: 500 clamp(17px, 1.3vw, 20px)/1.25 var(--f-display); letter-spacing: -.01em; color: var(--c-t1); max-inline-size: 24ch; }
+.u-voce__lab { font: 500 clamp(17px, 1.3vw, 20px)/1.25 var(--f-display); letter-spacing: -.01em; color: var(--c-t1); max-inline-size: 24ch; text-wrap: balance; }
 .u-voce__campo { display: grid; gap: var(--s-4); padding-top: clamp(4px, 1.2vw, 18px); }
 .ucampo { position: relative; width: 100%; }
 .ucampo__strato { position: absolute; inset: 0; width: 100%; height: 100%; display: block; overflow: visible; }
@@ -142,7 +145,7 @@
   background: var(--c-ar);
   box-shadow: inset 0 0 0 2px var(--c-ar), 0 0 0 4px rgba(255,130,0,.16), 0 0 16px rgba(255,130,0,.5);
 }
-.tappa__nodo--consegna { border-radius: 3px; }
+.tappa__nodo--consegna { border-radius: 3px; background: var(--c-base); box-shadow: inset 0 0 0 2px var(--c-ar), 0 0 0 4px rgba(255,130,0,.12), 0 0 14px rgba(255,130,0,.45); }
 .tappa__nodo--arrivo { --nodo: 18px; border-radius: 4px; }
 
 /* IL REPARTO: numero fantasma e icona (decisione cliente), nome, cosa fa, cosa consegna */
@@ -272,6 +275,9 @@
     column-gap: clamp(24px, 3vw, 56px); align-items: center;
   }
   .staffetta:not(.is-scena) :is(.passaggio__foto, .staffetta__foto) { grid-column: 1; grid-row: 1; }
+  /* il passaggio collega due reparti, non pesa più di loro (audit 15.10):
+     la sua foto è una striscia larga, il cubo al centro */
+  .staffetta:not(.is-scena) .passaggio__foto { aspect-ratio: 21 / 9; }
   .staffetta:not(.is-scena) :is(.passaggio, .staffetta__fine) figcaption { grid-column: 2; grid-row: 1; }
 }
 
@@ -330,6 +336,7 @@
   transition: background-color var(--t-stato) linear, box-shadow var(--t-stato) linear;
 }
 .percorso__nodo--consegna { border-radius: 3px; }
+.percorso__nodo--consegna.is-on { background: var(--c-base); box-shadow: inset 0 0 0 2px var(--c-ar), 0 0 0 4px rgba(255,130,0,.12), 0 0 14px rgba(255,130,0,.5); }
 .percorso__nodo--arrivo { width: 18px; height: 18px; border-radius: 4px; }
 .percorso__nodo.is-on {
   background: var(--c-ar);
@@ -427,6 +434,10 @@
   .finale__foto { width: min(78%, 420px); }
   /* in colonna le tre righe prendono tutta la larghezza, come un manifesto */
   .finale__payoff { font-size: clamp(52px, 18vw, 150px); }
+  /* il braccio viene PRIMA delle righe e ne esce (audit 15.10: sotto il
+     CTA sembrava un ornamento del piè di pagina) */
+  .finale__foto { order: -1; width: min(64%, 320px); justify-self: end; margin-bottom: clamp(-72px, -12vw, -40px); position: relative; z-index: 0; }
+  .finale__testo { position: relative; z-index: 1; }
 }
 
 /* ── IL FINALE FERMO (giro 3 effetti) ─────────────────────────────────────
@@ -444,9 +455,12 @@
   @media (prefers-reduced-motion: no-preference) and (min-width: 1024px) and (min-height: 680px) {
     .finale { height: 200vh; height: 200svh; padding-top: 0; }
     .finale::before { content: none; }
+    /* audit 15.10: centrata, la scena lasciava ~300px di palco vuoto fra la
+       mappa e le righe mentre entrava; ora parte dall'alto, e il braccio
+       (in basso a destra) riempie il resto */
     .finale__in {
       position: sticky; top: 0; height: 100vh; height: 100svh; isolation: isolate;
-      padding-top: calc(var(--barra-h) + var(--nav-h)); align-items: center;
+      padding-top: calc(var(--barra-h) + var(--nav-h) + clamp(16px, 5vh, 56px)); align-items: start;
     }
     .finale__in::before {
       content: ''; position: absolute; z-index: -1; left: 50%; bottom: -340px;

@@ -684,6 +684,68 @@ Verifica: catture della scena a 1024, 1280, 1440 e 1920 in nove punti dello scor
 900 e nel Metodo, e a movimento ridotto; 38/38 test; movimento ridotto senza invisibili; audit 8 pagine × 5
 larghezze senza rilievi; Lighthouse mobile Home 95, Metodo 96, accessibilità 100, CLS 0.
 
+*Risultati: solo il logo (15.10)* — «anche in pagina risultati togli provenienza e settore e modifica le
+immagini, magari lascia solo logo». Le schede dei clienti (Home e Risultati) hanno in testa solo il logo, più
+grande, in una sua fascia; le legende dei numeri non citano più la fonte; il fascicolo apre con il logo del
+cliente grande sulla sua luce al posto della foto, e la sua riga dice «Fascicolo 01 · 11 mesi». Tolti «fonte» dal
+titolo dei numeri, dalla descrizione della pagina e dalla frase d'apertura.
+
+*Audit di tutte le pagine (15.10)* — «fai un audit di tutte le pagine e sistema e rendile da oscar. tutte!».
+Catture a scorrimento di 8 pagine a 1440 e 390 (172 fotogrammi), quattro revisori in parallelo (Home; Metodo e
+DNA; Risultati, Team e Candidatura; Eventi e Fatturare³), Lighthouse su tutte. Corretto:
+- **Un solo arancione per schermo** (la regola del sistema, violata quasi ovunque): quando a schermo c'è già un
+  invito arancione della pagina (una chiusa, il finale, il form, la sala), il bottone della nav diventa un
+  contorno e la piastra del telefono scende. Prima la piastra conosceva solo Candidatura e Home, e in Metodo, DNA,
+  Eventi e Fatturare³ restava sopra la chiusa. Il play dei video è bianco.
+- **Telefono**: passata l'apertura, la barra in cima esce e la nav sale (barra, nav e piastra prendevano un quarto
+  dello schermo). Titoli d'apertura più grandi (Home 46–60px, pagine interne 38–52px); la foto d'apertura delle
+  pagine interne più piccola, a destra, nel primo schermo; nel Team il marchio fatto di volti apre la pagina.
+- **Giunture**: gli aloni delle chiuse, del tetto e del form nascevano con una riga dritta sul primo pixel della
+  sezione; ora sfumano. Mezzo respiro (non uno intero) fra le chiuse e il piè di pagina.
+- **Piè di pagina**: il segnaposto «Numero verde da fornire» non si mostra più (torna da solo con il numero, §6);
+  riga legale allineata.
+- **Home**: il finale fermo parte dall'alto (prima ~300px di palco vuoto fra la mappa e le righe); sul telefono il
+  braccio con il cubo esce dalle tre righe invece di restare sotto il CTA; la staffetta finisce con le card al
+  margine destro (non a mezzo schermo vuoto) e il capitolo 04 non galleggia più a 350px; il campo dei 750 sul
+  telefono è su 40 colonne (era alto mezzo schermo); «Dal 2020, senza arrotondare.» è una frase, non una
+  didascalia; nel lettore dei video il play sta in basso a sinistra e non copre i volti.
+- **Metodo**: righe orfane nei titoli (spazi che non vanno a capo, testo invariato); su telefono la tabella è
+  raggruppata per reparto (il nome una volta sola: erano 2.400px di card che lo ripetevano); lo SLA in bianco
+  (dodici celle arancioni erano vernice); nel percorso il nodo del passaggio acceso è vuoto, così non si confonde
+  con il cubo; in colonna la foto del passaggio è una striscia (il passaggio collega, non pesa più dei reparti).
+- **DNA**: missione e visione con la gerarchia giusta (la frase in bianco grande, l'etichetta sotto); il filo che
+  apre la chiusa del manifesto corre per tutta la misura; la luce di lettura dei principi sta dentro la colonna.
+- **Risultati**: il nastro tiene le schede alte uguali (i dettagli della scheda al centro si accendono senza
+  allungarla); il fascicolo su 5/7; i 33 settori in tre colonne da undici.
+- **Team**: le mezze figure si avvicinano al volto (le teste variavano di due volte e mezza fra primi piani e
+  mezze figure), stesso margine sinistro in tutte le sezioni, ritratti dei fondatori più grandi, l'ufficio con la
+  card dell'indirizzo accanto (e «Vieni a prendere un caffè» porta a «dove siamo», non al form), la Direzione
+  con l'etichetta neutra (i reparti sono quattro).
+- **Candidatura (e il form di Eventi)**: il form si controlla prima di partire (campi vuoti segnati, con il
+  messaggio del browser sotto, e il fuoco sul primo; prima un form vuoto «partiva» e restava su «Invio in
+  corso…»); sotto il milione la squalifica compare sotto il campo che la provoca e il bottone «Iscriviti al
+  podcast» porta davvero al podcast; il settore suggerisce i 33 settori; la tendina ha il segno del sito; su
+  telefono il form viene subito dopo il titolo; sulla pagina della candidatura nav, barra e piastra portano al
+  form invece di ricaricare la pagina; la sede legale ha il numero civico.
+- **Eventi**: le sedie della sala sono trenta posti vuoti che si accendono (contorno e velo arancione, file
+  curve verso il palco), il palco è una luce (la scritta in grigio leggibile: era l'unico errore di contrasto di
+  Lighthouse); il programma ha il titolo fermo a sinistra e la giornata a destra; «Vieni se / Non vieni se» è un
+  registro a due colonne (anche in Candidatura); la piastra del telefono dice «Prenota il posto» e porta alla sala.
+- **Fatturare³**: il titolo a tre righe a gradino, come il marchio; il logo del podcast accanto al titolo del
+  podcast; le righe «in arrivo» non fingono di essere link (niente luce né passo, solo il badge); i titoli degli
+  articoli alla misura di un indice; ai libri il nome dell'autore, non la nota «copertina e link da fornire»; su
+  telefono la foto dei libri apre la sezione.
+- **Tecnica**: immagine per la condivisione (og.jpg) e meta og/twitter, icona per la schermata Home di iPhone,
+  il nome accessibile dei bottoni della scaletta contiene il testo visibile (Lighthouse).
+Problema trovato: nel mio script di modifica una sostituzione di testo ha trasformato `$$(` in `$(` (in
+JavaScript `$$` è un segno speciale nelle sostituzioni) e ha rotto il form e la mappa: i test l'hanno trovato,
+corretto prima del commit; gli script di modifica ora sostituiscono con split/join.
+Giro di conferma: nuove catture a scorrimento delle 8 pagine a 1440 e 390 (le correzioni si vedono tutte; la foto
+d'apertura del Metodo ora entra dal bordo destro dello schermo invece di finire con un taglio dritto); 42/42 test;
+movimento ridotto senza movimento né testo invisibile (i dettagli delle schede ora restano leggibili in grigio
+invece di sparire); audit 8 pagine × 5 larghezze senza rilievi; Lighthouse mobile su tutte le pagine: prestazioni
+95–98, accessibilità 100 (Eventi era 96), buone pratiche 100, SEO 100, CLS 0.
+
 ### Cosa è stato fatto, fase per fase (skill applicate)
 
 **Fase 1 — design system** (impeccable craft-floor, design-taste-frontend, ui-ux-pro-max checklist)
@@ -819,13 +881,29 @@ Candidatura), indice (Fatturare³, Team), manifesto ed elenco numerato (DNA), mu
   bocciato la «macchina» (schede in scatola su un binario, con un quadrato che scorreva). Il percorso è diverso:
   tiene le fotografie dei passaggi, la linea è il bordo delle card e non un binario a parte, e la tappa si
   accende solo quando il contatto ci arriva. Ma l'idea di partenza è vicina, e va confermata col cliente finale.
+- **Dall'audit del 15.10, proposte che toccano testi o dati (non applicate):**
+  - Risultati: la frase d'apertura dice ancora «Ogni numero su questa pagina ha una data e una liberatoria
+    firmata»: vale solo quando le liberatorie ci sono davvero. Due titoli di fila ripetono «numeri».
+  - Candidatura: una riga sulla privacy accanto al bottone (nome e telefono si raccolgono senza avviso: testo
+    da scrivere con il legale); il contatore «Q4 2026 · 31 candidature · agg. 09.09.2026» va aggiornato; il
+    form va collegato a un invio vero (CRM o servizio): oggi si controlla ma non spedisce.
+  - Metodo: «Dentro i quattro reparti» racconta per la quarta volta gli stessi reparti (proposta: toglierla dal
+    Metodo, o mettere le foto nelle card del percorso).
+  - DNA: l'apertura ripete «fatturato» fra titolo e sommario; un invito «Leggi i dieci principi» manca.
+  - Eventi: «30 posti» compare cinque volte e il rimborso quattro; finché la data è passata la pagina
+    dovrebbe dire «prossima edizione» e il form diventare una lista d'attesa.
+  - Fatturare³: un episodio vero sulla pagina (serve l'ID dell'ultimo episodio); «Ricevilo per email» è un
+    mailto travestito da iscrizione; mancano i link di Spotify e Apple Podcasts e quelli dei libri.
+  - Team: «CEO» nella griglia e «Fondatore» nella sezione dei fondatori per Alberto Frisoni: va scelto uno.
+  - L'immagine per la condivisione usa il dominio www.salesprocess.it (const SITO in tools/build.mjs): da
+    confermare quando si va online.
 - Il **muro FATTURARE centrato** era una decisione del cliente (HANDOFF §6). Su richiesta esplicita
   dell'agenzia («questa parte non mi piace») è diventato il finale con la foto, payoff a filo sinistro:
   va confermato anche con il cliente finale.
 
 **Contenuti — i bloccanti dell'HANDOFF §7, tutti ancora aperti**
-- **Numero verde** (`const TEL` in cima a `tools/build.mjs`): il blocco del footer è pronto, tratteggiato
-  finché manca il numero.
+- **Numero verde** (`const TEL` in cima a `tools/build.mjs`): dal 15.10 il blocco del footer non si mostra
+  finché manca il numero (il segnaposto sembrava un sito non finito); con il numero compare da solo.
 - **Schede-risultato reali con liberatoria firmata.** ⚠ Dal 15.10, su richiesta dell'agenzia, le sei
   schede non dicono più da dove vengono i numeri né che sono provvisori (tolte la riga della fonte e la
   nota sotto il nastro). Nei dati restano marcate `prov:true`. Così sembrano risultati definitivi:

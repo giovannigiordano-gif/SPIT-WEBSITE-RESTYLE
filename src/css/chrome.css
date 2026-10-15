@@ -303,6 +303,17 @@ html.menu-aperto { overflow: hidden; scrollbar-gutter: stable; }
 /* Solo sui telefoni: fra 621 e 1100px la nav mostra già il CTA, e due
    "Candida la tua azienda" nello stesso schermo sono un doppione. */
 @media (max-width: 620px) { .piastra { display: block; } body { padding-bottom: 76px; } }
+/* UN SOLO ARANCIONE (audit 15.10): con un invito arancione della pagina a
+   schermo, quello della nav diventa un contorno */
+.nav .cta--nav { transition: background-color var(--t-stato) linear, color var(--t-stato) linear, box-shadow var(--t-stato) linear; }
+html.cta-gemello .nav .cta--nav { background: transparent; color: var(--c-t1); box-shadow: inset 0 0 0 1px var(--c-bordo-ui); }
+html.cta-gemello .nav .cta--nav::before { opacity: 0; }
+/* sui telefoni, passata l'apertura, la barra esce e la nav sale al suo posto */
+@media (max-width: 620px) {
+  .barra, .nav { transition: translate var(--t-stato) var(--ease-scatto); }
+  html.barra-via .barra { translate: 0 -100%; }
+  html.barra-via .nav { translate: 0 calc(-1 * var(--barra-h)); }
+}
 
 /* ── FOOTER ──────────────────────────────────────────────────────────────
    Nessun filo netto in cima: il pavimento si scurisce sul palco.
@@ -345,7 +356,7 @@ html.menu-aperto { overflow: hidden; scrollbar-gutter: stable; }
   transition: color var(--t-micro) linear, border-color var(--t-micro) linear, background-color var(--t-micro) linear, translate var(--t-micro) var(--ease-scatto);
 }
 .footer__social a:hover { color: var(--c-ar); border-color: var(--c-ar); background: rgba(255,130,0,.10); translate: 0 -2px; }
-.footer__legale { display: flex; flex-wrap: wrap; gap: 8px 22px; padding-block: var(--s-6); font: 400 13px/1.5 var(--f-display); color: var(--c-t3); }
+.footer__legale { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 22px; padding-block: var(--s-6); font: 400 13px/1.5 var(--f-display); color: var(--c-t3); }
 .footer__legale a { min-height: 24px; display: inline-flex; align-items: center; }
 /* La chiusa: i quattro quadrati diventano la scalinata del marchio. */
 .footer__chiusa { display: flex; align-items: flex-end; gap: 4px; padding-bottom: var(--s-7); }
