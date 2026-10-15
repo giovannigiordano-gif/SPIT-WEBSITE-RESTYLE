@@ -45,6 +45,9 @@ const socialHtml = () => SOCIAL.map(s =>
    un numero di telefono sbagliato è un danno reale, quindi resta un
    segnaposto dichiarato. Cambiare QUI e ricostruire.                    */
 const TEL = { num: null, label: 'Numero verde da fornire' }
+/* Il dominio di pubblicazione: le anteprime dei social (og:image) vogliono
+   un indirizzo assoluto. Da confermare al momento di andare online (§6). */
+const SITO = 'https://www.salesprocess.it'
 const telHref = TEL.num ? 'tel:' + TEL.num.replace(/\s/g, '') : null
 const MAIL = 'amministrazione@salesprocess.it'
 
@@ -327,6 +330,17 @@ const shell = ({ title, desc, slug, body }) => `<!doctype html>
 <meta name="description" content="${desc}">
 <meta name="theme-color" content="#161519">
 <link rel="icon" href="/assets/brand/favicon.svg">
+<link rel="apple-touch-icon" href="/assets/brand/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Sales Process">
+<meta property="og:locale" content="it_IT">
+<meta property="og:title" content="${title}">
+<meta property="og:description" content="${desc}">
+<meta property="og:url" content="${SITO}/${slug === 'index' ? '' : slug + '.html'}">
+<meta property="og:image" content="${SITO}/assets/brand/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
 <!-- Il passaggio a scalinata fra le pagine (motion.css, @view-transition).
      Per catturare la pagina vecchia il browser deve disegnarne un
      fotogramma: in una scheda nascosta o sotto automazione non succede, e la

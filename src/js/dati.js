@@ -164,7 +164,7 @@ const RIGHE = [
    sezione monta una card e lo dice.                                      */
 const FASCICOLI = [
   { n:1, settore:'Impiantistica', geo:'Bergamo', mesi:11, da:1.4, a:3.1, foto:'hand-contract', logo:'c-13',
-    dati:['Partenza 1,4 M€','4 venditori reclutati','Meta + telefono','Fonte CRM cliente'],
+    dati:['Partenza 1,4 M€','4 venditori reclutati','Meta + telefono'],
     fatto:[
       'Rifatta la struttura di campagna: budget riallocato sui due canali che chiudevano davvero.',
       'Sequenza di qualificazione prima della chiamata: il venditore parla solo con chi è pronto.',
@@ -203,10 +203,11 @@ const logoCliente = (id, cls) => {
 /* 15.10: «qui togli provenienza e dato provvisorio» — la riga della fonte
    non c'è più (i numeri vanno comunque confermati: WORKLOG §6). --k è il
    posto nel ventaglio d'ingresso. */
+/* 15.10 (Risultati): «togli provenienza e settore, lascia solo il logo» —
+   la testa della scheda è il logo del cliente, e basta. */
 const scheda = (p, k = 0) => el('article', 'scheda', `
   <div class="scheda__testa">
     ${logoCliente(p.logo, 'scheda__logo')}
-    <p class="scheda__cart">${p.settore} · ${p.geo}</p>
   </div>
   <div class="scheda__grafico" aria-hidden="true">
     <span class="scheda__col">${torre(p.da, 'torre--prima')}<span class="scheda__v">${fmt1.format(p.da)}</span></span>
@@ -271,7 +272,7 @@ const voce = (x, i) => {
     </div>
     <div class="u-voce__campo">
       ${campo(x, i)}
-      <p class="u-voce__leg"><span class="q q--8" style="background:${x.acceso}" aria-hidden="true"></span> = ${x.uno} · ${x.fonte}</p>
+      <p class="u-voce__leg"><span class="q q--8" style="background:${x.acceso}" aria-hidden="true"></span> = ${x.uno}</p>
     </div>`;
   return n;
 };
@@ -500,13 +501,13 @@ const porta = () => {
   return a;
 };
 
+/* 15.10 (Risultati): «modifica le immagini, magari lascia solo il logo» —
+   il fascicolo apre con il logo del cliente, grande, sulla sua luce; il
+   settore, la città e la fonte non ci sono più. */
 const fascicolo = (f) => el('article', 'fascicolo rise', `
-  <div class="scalinata" style="aspect-ratio:auto;min-height:440px">
-    ${[0,1,2,3].map(i => `<span style="--i:${i}"><img src="/assets/webp/${f.foto}.webp" alt="${i ? '' : 'Fascicolo cliente'}" ${i ? 'aria-hidden="true"' : ''} width="603" height="800" loading="lazy"></span>`).join('')}
-  </div>
+  <div class="fascicolo__marchio">${logoCliente(f.logo, 'fascicolo__logo')}</div>
   <div class="fascicolo__panel">
-    <p class="t-micro">Fascicolo 0${f.n} · ${f.settore} · ${f.geo} · ${f.mesi} mesi</p>
-    <img class="fascicolo__logo" src="/assets/clients-white/${f.logo}.png" alt="" loading="lazy">
+    <p class="t-micro">Fascicolo 0${f.n} · ${f.mesi} mesi</p>
     <p class="t-numero" style="font-size:clamp(34px,3.8vw,52px)">da ${fmt1.format(f.da)} a ${fmt1.format(f.a)} <span class="t-unita">M€</span></p>
     <div class="arco" aria-hidden="true" style="--mesi:${f.mesi}">
       <span class="scheda__col">${torre(f.da, 'torre--prima')}<span class="scheda__v">${fmt1.format(f.da)}</span></span>

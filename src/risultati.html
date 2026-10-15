@@ -10,9 +10,20 @@
      (QA del giro 3). Movimento ridotto: nessun passaggio. -->
 <style>@view-transition{navigation:auto}@media (prefers-reduced-motion:reduce){@view-transition{navigation:none}}</style>
 <title>Risultati — Sales Process</title>
-<meta name="description" content="I numeri dei clienti, con la loro data e la loro fonte. Fascicoli con fatturato di partenza, fatturato di arrivo, mesi, canale e liberatoria firmata.">
+<meta name="description" content="I numeri dei clienti, prima e dopo, con i mesi in mezzo. Fascicoli con fatturato di partenza, fatturato di arrivo, mesi e canale.">
 <meta name="theme-color" content="#161519">
 <link rel="icon" href="/assets/brand/favicon.svg">
+<link rel="apple-touch-icon" href="/assets/brand/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Sales Process">
+<meta property="og:locale" content="it_IT">
+<meta property="og:title" content="Risultati — Sales Process">
+<meta property="og:description" content="I numeri dei clienti, prima e dopo, con i mesi in mezzo. Fascicoli con fatturato di partenza, fatturato di arrivo, mesi e canale.">
+<meta property="og:url" content="https://www.salesprocess.it/risultati.html">
+<meta property="og:image" content="https://www.salesprocess.it/assets/brand/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
 <!-- Il passaggio a scalinata fra le pagine (motion.css, @view-transition).
      Per catturare la pagina vecchia il browser deve disegnarne un
      fotogramma: in una scheda nascosta o sotto automazione non succede, e la
@@ -34,7 +45,7 @@
      Con il passaggio a gradini e la foto che vola, il cambio di pagina
      parte senza attesa di rete. -->
 <script type="speculationrules">{"prefetch":[{"where":{"or":[{"href_matches":"/*.html"},{"href_matches":"/"}]},"eagerness":"moderate"}]}</script>
-<link rel="stylesheet" href="/css/sito.css?v=8197cad997">
+<link rel="stylesheet" href="/css/sito.css?v=35dab2c463">
 </head>
 <body data-pagina="risultati">
 <div class="sipario" aria-hidden="true"><i style="--k:0"></i><i style="--k:1"></i><i style="--k:2"></i><i style="--k:3"></i><span class="sipario__marchio"><img src="/assets/brand/logo-full-h112.webp" alt="" width="461" height="112" decoding="async"></span><span class="sipario__filo"></span></div>
@@ -146,7 +157,7 @@
 <section class="sez sez--segue sf sf--pozzo" id="numeri">
   <div class="wrap wrap--piena">
     <div class="testa testa--segue">
-      <h3 class="t-d3" data-split><span class="w" style="--w:0"><span>I</span></span> <span class="w" style="--w:1"><span>numeri,</span></span> <span class="w" style="--w:2"><span><span class="segue">con</span></span></span> <span class="w" style="--w:3"><span><span class="segue">la</span></span></span> <span class="w" style="--w:4"><span><span class="segue">loro</span></span></span> <span class="w" style="--w:5"><span><span class="segue">data</span></span></span> <span class="w" style="--w:6"><span><span class="segue">e</span></span></span> <span class="w" style="--w:7"><span><span class="segue">la</span></span></span> <span class="w" style="--w:8"><span><span class="segue">loro</span></span></span> <span class="w" style="--w:9"><span><span class="segue">fonte.</span></span></span></h3>
+      <h3 class="t-d3" data-split><span class="w" style="--w:0"><span>I</span></span> <span class="w" style="--w:1"><span>numeri,</span></span> <span class="w" style="--w:2"><span><span class="segue">con</span></span></span> <span class="w" style="--w:3"><span><span class="segue">la</span></span></span> <span class="w" style="--w:4"><span><span class="segue">loro</span></span></span> <span class="w" style="--w:5"><span><span class="segue">data.</span></span></span></h3>
       <p class="t-deck">Dal 2020, senza arrotondare.</p>
     </div>
     <div class="unita" id="numeri-grid"><!-- /js/dati.js --></div>
@@ -154,9 +165,10 @@
 </section>
 
 <!-- ══ I FASCICOLI ═══════════════════════════════════════════════════════
-     VINCOLO DI CONTENUTO: nessun fascicolo si pubblica senza settore,
-     numero di partenza, numero di arrivo, mesi, canale, fonte e
-     liberatoria. Meglio uno vero che tre vuoti — e lo si dice. -->
+     VINCOLO DI CONTENUTO: nessun fascicolo si pubblica senza numero di
+     partenza, numero di arrivo, mesi, canale e liberatoria (15.10: settore,
+     città e fonte non si mostrano più, il cliente lo dice il suo logo).
+     Meglio uno vero che tre vuoti — e lo si dice. -->
 <section class="sez sf sf--brace" id="fascicoli">
   <div class="wrap wrap--piena">
     <div class="testa">
@@ -257,7 +269,7 @@
 
 <!-- Ordine voluto: i defer girano nell'ordine del documento, e dati.js
      (i contenuti) non deve aspettare il CDN di GSAP. -->
-<script src="/js/dati.js?v=bad3656a12" defer></script>
+<script src="/js/dati.js?v=e8c33eccb9" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js" defer></script>
 <script src="/js/motion.js?v=25146bc6a4" defer></script>
