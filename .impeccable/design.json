@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-15T08:35:37.290Z",
+  "generatedAt": "2026-10-15T09:28:27.045Z",
   "title": "Design System: Sales Process Italia",
   "extensions": {
     "colorMeta": {
@@ -266,7 +266,7 @@
       },
       "payoff": {
         "displayName": "Payoff",
-        "purpose": "Solo FATTURARE x3 nel finale, maiuscolo, a filo sinistro, terza riga arancione."
+        "purpose": "Solo FATTURARE x3 nel finale, maiuscolo, a filo sinistro, terza riga arancione. Nel finale fermo a tutta scala (fino a 210px), in colonna a tutta larghezza (18vw, fino a 150px)."
       },
       "menu-voce": {
         "displayName": "Voce del menu",
@@ -552,7 +552,7 @@
       {
         "name": "schermo-alza",
         "value": "perspective(1200px) translateY(56px) rotateX(20deg) scale(.96) -> none, linear, entry 0% -> cover 45%",
-        "purpose": "Le testimonianze si alzano in piano; ingresso a scroll, non tilt al cursore."
+        "purpose": "Il palco delle testimonianze si alza in piano; ingresso a scroll, non tilt al cursore."
       },
       {
         "name": "servizi-avanza",
@@ -566,8 +566,28 @@
       },
       {
         "name": "finale-fermo",
-        "value": ".finale 200svh, sticky; --finale entry/contain; luce-passa contain 44-64%",
-        "purpose": "Desktop >= 1024x680: payoff, trofeo, luce e CTA nello stesso schermo; la luce passa dal cubo al CTA."
+        "value": ".finale 200svh, sticky; --finale entry/contain; payoff a tutta scala in una colonna, braccio in assoluto davanti (z 2); luce-riga contain 14% + 7%/riga; luce-passa contain 44-64%",
+        "purpose": "Desktop >= 1024x680: payoff, trofeo, luce e CTA nello stesso schermo; il braccio passa davanti alle lettere, la luce attraversa le righe e poi passa dal cubo al CTA."
+      },
+      {
+        "name": "luce-riga",
+        "value": "background-clip: text, gradiente 100deg 260% con banda calda; background-position 100% -> 0%, lineare, legata allo scroll",
+        "purpose": "Una luce attraversa le tre righe del payoff una volta, una dopo l'altra, dopo l'atterraggio. Ferma a movimento ridotto."
+      },
+      {
+        "name": "scheda-entra",
+        "value": "translate 0 64px, rotate 2.5deg, opacity 0 -> none; --nastro entry 8% + 7%/scheda -> entry 58% + 7%/scheda",
+        "purpose": "Le schede dei clienti entrano a ventaglio quando la fascia sale."
+      },
+      {
+        "name": "scheda-centro",
+        "value": ".is-centro: bordo arancio 50%, torre del dopo clip-path inset(100% 0 0 0) -> none in 1100ms --ease-salita, dettagli aperti",
+        "purpose": "La scheda che passa al centro del nastro si accende (carosello su desktop, IntersectionObserver sulla fascia centrale dove il nastro e uno scorrimento nativo)."
+      },
+      {
+        "name": "scaletta-cambia",
+        "value": "WAAPI opacity 0 -> 1, scale .985 -> 1, 380ms cubic-bezier(.16,.84,.24,1)",
+        "purpose": "Il palco delle testimonianze cambia video quando si sceglie una voce della scaletta."
       },
       {
         "name": "animazioni-infinite",
@@ -701,9 +721,9 @@
       "name": "Conto 4 → 3 → 0",
       "kind": "custom",
       "refersTo": "numero",
-      "description": "Il conto del contro-esempio: tre colonne uguali sotto un filo, numeri bianchi, lo zero vuoto in Rosso Perdita.",
+      "description": "Il conto del contro-esempio: tre colonne con la stessa anatomia allineate riga per riga (subgrid) e separate da un filo verticale, numeri bianchi, lo zero vuoto in Rosso Perdita con il contorno a 3px.",
       "html": "<div class=\"ds-conto\"><div><b>4</b>fornitori da coordinare</div><div><b>3</b>passaggi che si rompono</div><div class=\"z\"><b>0</b>responsabili del fatturato</div></div>",
-      "css": ".ds-conto { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: 48px; padding-top: 32px; border-top: 1px solid rgba(255,255,255,.20); font: 500 22px/1.2 'DM Sans', 'Segoe UI', system-ui, sans-serif; letter-spacing: -.012em; color: #F8F8F8; } .ds-conto b { display: block; margin-bottom: 12px; font: 600 104px/.84 'DM Sans', 'Segoe UI', system-ui, sans-serif; letter-spacing: -.05em; font-variant-numeric: tabular-nums; color: #F8F8F8; } .ds-conto .z b { color: transparent; -webkit-text-stroke: 2px #F04B3A; }"
+      "css": ".ds-conto { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: 0; padding-top: 32px; border-top: 1px solid rgba(255,255,255,.20); font: 500 22px/1.2 'DM Sans', 'Segoe UI', system-ui, sans-serif; letter-spacing: -.012em; color: #F8F8F8; } .ds-conto b { display: block; margin-bottom: 12px; font: 600 104px/.84 'DM Sans', 'Segoe UI', system-ui, sans-serif; letter-spacing: -.05em; font-variant-numeric: tabular-nums; color: #F8F8F8; } .ds-conto .z b { color: transparent; -webkit-text-stroke: 3px #F04B3A; } .ds-conto > div { padding-inline: 32px; } .ds-conto > div:first-child { padding-left: 0; } .ds-conto > div:last-child { padding-right: 0; } .ds-conto > div + div { border-left: 1px solid rgba(255,255,255,.12); }"
     },
     {
       "name": "Barra annuncio",
@@ -837,7 +857,7 @@
       "**Don't** ridisegnare, tagliare o schiacciare il logo del sito o quello del podcast: si usano i file veri, interi.",
       "**Don't** dipingere un fondo proprio su una sezione o separarne due con un filo grigio di 1px: la pagina diventa una pila di blocchi. L'unica luce sul confine è la lama, arancione, accesa dallo scroll e solo dove cambia la stanza.",
       "**Don't** applicare la stessa dissolvenza a ogni sezione o fare card tutte uguali.",
-      "**Don't** usare magnetic hover, tilt 3D al cursore o easing con overshoot; il testo non entra mai in diagonale. L'unica inclinazione è d'ingresso e legata allo scroll (gli schermi delle testimonianze), e finisce su `transform: none`.",
+      "**Don't** usare magnetic hover, tilt 3D al cursore o easing con overshoot; il testo non entra mai in diagonale. L'unica inclinazione è d'ingresso e legata allo scroll (il palco delle testimonianze, il ventaglio delle schede), e finisce su `transform: none`.",
       "**Don't** mettere l'adesione `@view-transition` nel foglio di stile: salta quando il foglio non è in cache.",
       "**Don't** aggiungere animazioni infinite: oltre al marquee dei loghi (con pausa) non ce ne sono di volute.",
       "**Don't** accendere parole (`[data-accendi]`) su testo sotto 24px: spente sono in Testo 4.",
@@ -846,7 +866,7 @@
       "**Don't** nascondere il cursore del sistema (`cursor: none`) né sostituirlo con un disegno.",
       "**Don't** fare un preloader lungo, che non si salta o che mette in pausa la pagina sotto: costa LCP e Speed Index a ogni prima visita.",
       "**Don't** usare il duotone nero/arancio sui volti: disumanizza la prova che converte di più.",
-      "**Don't** pubblicare numeri senza fonte né inventare dati mancanti (numero verde, liberatorie, ISO, logo del podcast)."
+      "**Don't** inventare dati mancanti (numero verde, liberatorie, ISO, ritratti) né pubblicare numeri di clienti senza la loro liberatoria: dal 15.10 le schede non stampano più la fonte, quindi i numeri online devono essere quelli veri e autorizzati."
     ]
   }
 }

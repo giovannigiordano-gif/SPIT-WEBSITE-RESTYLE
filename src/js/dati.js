@@ -130,7 +130,10 @@ const VOLTI = [
   { nome: 'Alfio Bardolla',       ruolo: 'Cofondatore',          rep: 5, f: 'bardolla' },
   { nome: 'Ion Rotaru',           ruolo: 'Direttore operativo',  rep: 5, f: 'rotaru' },
   { nome: 'Matteo Ratti',         ruolo: 'Media buyer',          rep: 1, f: 'ratti' },
-  { nome: 'Paola Russo',          ruolo: 'Social media manager', rep: 1, f: 'russo' },
+  /* 15.10: senza ritratto per ora — al posto della foto le iniziali, nello
+     stesso riquadro. Con il file (src/assets/team-webp/berrini.webp e
+     berrini-400.webp) basta scrivere f: 'berrini'. */
+  { nome: 'Andrea Berrini',       ruolo: 'Direttore marketing',  rep: 2, f: null, iniziali: 'AB' },
   { nome: 'Dario Plasmati',       ruolo: 'Copywriter',           rep: 2, f: 'plasmati' },
   { nome: 'Giovanni Giordano',    ruolo: 'CRM specialist',       rep: 2, f: 'giordano' },
   { nome: 'Giulia Elicio',        ruolo: 'HR manager',           rep: 3, f: 'elicio' },
@@ -197,7 +200,10 @@ const logoCliente = (id, cls) => {
   const [w, h] = L ? misuraLogo(L[1]) : [120, 30];
   return `<img class="${cls}" src="/assets/clients-white/${id}.webp" alt="" width="${w}" height="${h}" loading="lazy" decoding="async">`;
 };
-const scheda = (p) => el('article', 'scheda', `
+/* 15.10: «qui togli provenienza e dato provvisorio» — la riga della fonte
+   non c'è più (i numeri vanno comunque confermati: WORKLOG §6). --k è il
+   posto nel ventaglio d'ingresso. */
+const scheda = (p, k = 0) => el('article', 'scheda', `
   <div class="scheda__testa">
     ${logoCliente(p.logo, 'scheda__logo')}
     <p class="scheda__cart">${p.settore} · ${p.geo}</p>
@@ -208,8 +214,7 @@ const scheda = (p) => el('article', 'scheda', `
   </div>
   <p class="scheda__num">da ${fmt1.format(p.da)} a ${fmt1.format(p.a)} <span class="t-unita">M€</span></p>
   <p class="scheda__mesi">Fatturato in ${p.mesi} mesi</p>
-  <span class="scheda__extra"><span>${p.extra}</span></span>
-  <p class="scheda__fonte">${p.prov ? 'Dato provvisorio · in attesa di liberatoria' : 'Fonte: CRM cliente · agg. 08.2026 · con liberatoria'}</p>`);
+  <span class="scheda__extra"><span>${p.extra}</span></span>`, { style: '--k:' + (k % 6) });
 
 /* ── I NUMERI A UNITÀ ─────────────────────────────────────────────────────
    Un quadrato del marchio = un'unità, sulla STESSA griglia per i tre numeri
@@ -346,15 +351,17 @@ const passaggio = (h, i) => {
   return n;
 };
 
+/* chi non ha ancora il ritratto ha le sue iniziali nello stesso riquadro */
+const iniziali = (v, cls) => `<span class="${cls}" aria-hidden="true">${v.iniziali || v.nome.split(' ').map(p => p[0]).join('')}</span>`;
 const volto = (v) => el('article', 'volto', `
   <div class="volto__ph">
-    <img src="/assets/team-webp/${v.f}-400.webp" srcset="/assets/team-webp/${v.f}-400.webp 400w, /assets/team-webp/${v.f}.webp 640w" sizes="(max-width: 700px) 46vw, (max-width: 1024px) 31vw, 290px" alt="${v.nome}, ${v.ruolo}" width="640" height="640" loading="lazy" decoding="async">
+    ${v.f ? `<img src="/assets/team-webp/${v.f}-400.webp" srcset="/assets/team-webp/${v.f}-400.webp 400w, /assets/team-webp/${v.f}.webp 640w" sizes="(max-width: 700px) 46vw, (max-width: 1024px) 31vw, 290px" alt="${v.nome}, ${v.ruolo}" width="640" height="640" loading="lazy" decoding="async">` : iniziali(v, 'volto__mono')}
     <span class="volto__tag">${REP_NOMI[v.rep - 1]}</span>
   </div>
   <div>
     <p class="t-t2">${v.nome}</p>
     <p class="t-piccolo" style="color:var(--c-t3)">${v.ruolo}</p>
-  </div>`, { 'data-p': v.f });
+  </div>`, v.f ? { 'data-p': v.f } : null);
 
 /* La scheda persona dello slider di home. Il ritratto è l'oggetto; il
    nome sta sopra la sfumatura, non dentro una card separata.          */
@@ -364,7 +371,7 @@ const persona = (v) => {
   const n = el('a', 'pers');
   n.href = '/team.html';
   n.innerHTML = `
-    <img src="/assets/team-webp/${v.f}-400.webp" srcset="/assets/team-webp/${v.f}-400.webp 400w, /assets/team-webp/${v.f}.webp 640w" sizes="(max-width: 1100px) 72vw, 272px" alt="${v.nome}, ${v.ruolo}" width="640" height="640" loading="lazy" decoding="async">
+    ${v.f ? `<img src="/assets/team-webp/${v.f}-400.webp" srcset="/assets/team-webp/${v.f}-400.webp 400w, /assets/team-webp/${v.f}.webp 640w" sizes="(max-width: 1100px) 72vw, 272px" alt="${v.nome}, ${v.ruolo}" width="640" height="640" loading="lazy" decoding="async">` : iniziali(v, 'pers__mono')}
     <div class="pers__txt">
       <span class="pers__rep"><i aria-hidden="true"></i>${REP_NOMI[v.rep - 1]}</span>
       <p class="t-t2">${v.nome}</p>
@@ -420,8 +427,19 @@ const VIDEO = [
   { id: 'y47Ho--fc28', tipo: 'yt',   nome: 'Claudia Petrazzuolo' },
 ];
 
-/* FACCIATA: cinque iframe al caricamento costerebbero oltre un megabyte e
-   secondi di INP. Si carica il player solo al click.                    */
+/* LE TESTIMONIANZE (15.10, «migliora la sezione delle recensioni»): non più
+   una griglia di cinque riquadri uguali ma un LETTORE e la sua SCALETTA. Il
+   video scelto è grande; accanto, le cinque testimonianze in fila, con il
+   volto e il nome: si sceglie, e il video parte lì. Sempre a FACCIATA:
+   cinque iframe al caricamento costerebbero oltre un megabyte e secondi di
+   INP, si carica il player solo al clic.                                */
+const srcVideo = (tipo, id) => tipo === 'vimeo'
+  ? 'https://player.vimeo.com/video/' + id + '?autoplay=1&title=0&byline=0&portrait=0'
+  : 'https://www.youtube-nocookie.com/embed/' + id + '?autoplay=1&rel=0';
+const voceVideo = (v, i) => `<li><button class="video__voce${i === 0 ? ' is-on' : ''}" type="button" data-i="${i}" aria-pressed="${i === 0}" aria-label="Guarda la testimonianza di ${v.nome}">
+    <span class="video__mini"><img src="/assets/video/${v.id}-400.webp" alt="" width="400" height="225" loading="lazy" decoding="async"></span>
+    <span class="video__chi"><span class="t-t2">${v.nome}</span><span class="t-micro">Cliente Sales Process</span></span>
+  </button></li>`;
 const video = (v, i) => {
   const f = el('figure', 'vidbox');
   f.innerHTML = `
@@ -479,8 +497,8 @@ const monta = () => {
   /* Nastro: contenuto + cloni aria-hidden per il loop senza salti. */
   const pista = $('#nastro-pista');
   if (pista) {
-    PROVE.forEach(p => pista.append(scheda(p)));
-    PROVE.forEach(p => { const c = scheda(p); c.setAttribute('aria-hidden', 'true'); pista.append(c); });
+    PROVE.forEach((p, k) => pista.append(scheda(p, k)));
+    PROVE.forEach((p, k) => { const c = scheda(p, k); c.setAttribute('aria-hidden', 'true'); pista.append(c); });
   }
 
   /* Marquee loghi: contenuto duplicato, il keyframe trasla del 50%. Ogni
@@ -538,31 +556,37 @@ const monta = () => {
      volta sola, non ventisei.                                          */
   const vg = $('#video-grid');
   if (vg) {
-    vg.append(...VIDEO.map(video));
-    /* Sesta cella: la griglia 3×2 si chiude con un'azione, non con un buco. */
-    const pv = el('a', 'vid vid--porta');
-    pv.href = '/risultati.html';
-    pv.innerHTML = `
-      <p class="t-t1" style="max-inline-size:15ch">I numeri dei nostri clienti, con fonte e data.</p>
-      <span class="frecc" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-      </span>`;
-    vg.append(pv);
+    vg.classList.add('video--lettore');
+    const palco = el('div', 'video__palco');
+    palco.append(video(VIDEO[0], 0));
+    const lista = el('ol', 'video__lista', VIDEO.map(voceVideo).join(''), { 'aria-label': 'Le testimonianze' });
+    vg.append(palco, lista);
   }
   $('#comand')?.append(...COMAND.map(comandamento));
 
-  /* Il player entra solo al click: prima c’e una locandina da 30KB. */
-  $('#video-grid')?.addEventListener('click', (e) => {
-    const b = e.target.closest('.vid'); if (!b || b.dataset.aperto) return;
+  /* Il player entra solo al clic: prima c'è una locandina da 30KB. Dalla
+     scaletta si sceglie e si guarda con un clic solo. */
+  const apriVideo = (b) => {
+    if (!b || b.dataset.aperto) return;
     b.dataset.aperto = '1';
-    const src = b.dataset.tipo === 'vimeo'
-      ? 'https://player.vimeo.com/video/' + b.dataset.id + '?autoplay=1&title=0&byline=0&portrait=0'
-      : 'https://www.youtube-nocookie.com/embed/' + b.dataset.id + '?autoplay=1&rel=0';
     const f = document.createElement('iframe');
-    f.src = src; f.title = b.getAttribute('aria-label') || 'Testimonianza';
+    f.src = srcVideo(b.dataset.tipo, b.dataset.id); f.title = b.getAttribute('aria-label') || 'Testimonianza';
     f.allow = 'autoplay; fullscreen; picture-in-picture';
     f.allowFullscreen = true;
     b.append(f);
+  };
+  $('#video-grid')?.addEventListener('click', (e) => {
+    const voce = e.target.closest('.video__voce');
+    if (voce) {
+      const i = +voce.dataset.i, palco = $('.video__palco', vg);
+      palco.replaceChildren(video(VIDEO[i], 0));
+      if (!matchMedia('(prefers-reduced-motion: reduce)').matches)
+        palco.animate([{ opacity: 0, transform: 'scale(.985)' }, { opacity: 1, transform: 'none' }], { duration: 380, easing: 'cubic-bezier(.16,.84,.24,1)' });
+      $$('.video__voce', vg).forEach((n, k) => { n.classList.toggle('is-on', k === i); n.setAttribute('aria-pressed', String(k === i)); });
+      apriVideo($('.vid', palco));
+      return;
+    }
+    apriVideo(e.target.closest('.vid'));
   });
 
   const sq = $('#squadra-pista');
@@ -573,11 +597,6 @@ const monta = () => {
     const p2 = porta(); p2.setAttribute('aria-hidden', 'true'); p2.tabIndex = -1; sq.append(p2);
   }
 
-  /* Finché anche una sola scheda è provvisoria, la nota sotto il nastro non
-     può dire che le sei hanno la liberatoria. Coi dati veri (prov:false)
-     resta il testo della pagina.                                        */
-  const nn = $('#nastro-nota');
-  if (nn && PROVE.some(p => p.prov)) nn.textContent = 'Schede dimostrative: i numeri definitivi arrivano con le liberatorie firmate dei clienti.';
   const fl = $('#fascicoli-lista');
   if (fl) {
     fl.append(...FASCICOLI.map(fascicolo));

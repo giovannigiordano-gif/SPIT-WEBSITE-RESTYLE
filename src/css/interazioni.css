@@ -59,12 +59,12 @@
    e girava anche a movimento ridotto. Ora lineare, su un tratto lungo, e
    finisce su transform: none (nessuno strato 3D permanente). */
 @media (prefers-reduced-motion: no-preference) {
-  .video > .vidbox {
+  .video > .video__palco {
     animation-name: schermo-alza; animation-timing-function: linear;
     animation-range: entry 0% cover 45%; transform-origin: 50% 100%;
   }
 }
-@media (prefers-reduced-motion: reduce) { .video > .vidbox { animation: none; } }
+@media (prefers-reduced-motion: reduce) { .video > .video__palco { animation: none; } }
 @keyframes schermo-alza {
   from { transform: perspective(1200px) translateY(56px) rotateX(20deg) scale(.96); }
   to   { transform: none; }

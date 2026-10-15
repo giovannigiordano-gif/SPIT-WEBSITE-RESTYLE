@@ -600,6 +600,40 @@ Originale in assets-src/podcast/, versione web 24 KB. Il file è 300×300: sopra
 retina, si sgrana un poco (§6). Se invece «questa sezione» era il titolo della pagina Fatturare³, va
 spostato lì.
 
+*Il conto 4 · 3 · 0 (15.10)* — «questa sezione è poco leggibile». Le tre colonne avevano tre grammatiche
+diverse (un elenco; coppie grigie da 14px alternate a frasi grandi; una frase sola) e titoli quasi al corpo
+del testo. Ora hanno la stessa anatomia, allineata riga per riga (subgrid): numero e titolo (600, più
+grande), un filo, il contenuto, la nota in fondo; un filo verticale separa i tre conti. Nei passaggi rotti
+prima cosa cade, in bianco, poi fra chi e chi (15px e 80% di luminosità, prima 14px e 56%); lo zero vuoto
+con il contorno a 3px, così si legge come cifra. Home e Metodo; polvere del palco più tenue.
+
+*Schede, recensioni, team e finale (15.10, pomeriggio)*
+- **Le schede dei clienti** («togli provenienza e dato provvisorio, anima le card»): tolta la riga della
+  fonte da ogni scheda e la nota sotto il nastro (Home e Risultati). Le schede entrano a ventaglio quando la
+  fascia sale (una dopo l'altra, dal basso, appena ruotate); quella che passa al centro si accende: bordo
+  arancio, la torre del «dopo» che ricresce dal livello di partenza, i dettagli aperti. Su telefono e tablet,
+  dove il nastro è uno scorrimento nativo, la scheda al centro si accende lo stesso. Al passaggio del mouse
+  sale di un gradino. ⚠ Senza fonte i numeri sembrano definitivi: vanno confermati prima di andare online (§6).
+- **Le recensioni** («migliora la sezione delle recensioni»): non più cinque riquadri uguali ma un lettore
+  e la sua scaletta. Il video scelto è grande; accanto le cinque testimonianze in fila, con miniatura e nome;
+  si sceglie e il video parte lì con un clic solo (la miniatura in onda è a colori, con il filo arancio). Il
+  player resta a facciata: nessun iframe finché non si clicca. Su telefono la scaletta va sotto. Tolta la
+  sesta cella «I numeri dei nostri clienti, con fonte e data»: con il lettore la griglia non ha più un buco
+  da chiudere, e le schede non hanno più la fonte.
+- **Il team**: tolta Paola Russo; aggiunto Andrea Berrini, Direttore marketing, nel reparto Marketing (home e
+  pagina Team). Manca il ritratto: per ora le sue iniziali, grandi e a contorno, nello stesso riquadro (§6).
+- **Il finale** («ripristina la sezione fatturare fatturare fatturare come era prima però rendila più wow»):
+  tornano le tre righe al posto del logo del podcast (che resta nei capitoli podcast). Su desktop la scena
+  resta ferma mentre le righe, a tutta scala (fino a 210px), atterrano una dopo l'altra; poi una luce le
+  attraversa dentro le lettere, una riga dopo l'altra; il braccio con il cubo sale DAVANTI al payoff; poi la
+  frase e il CTA, che la luce accende da dietro. Su telefono e tablet le righe prendono tutta la larghezza
+  della colonna, come un manifesto (65–150px), e la luce passa mentre salgono. A movimento ridotto: righe
+  piene, ferme.
+Verifica: 38/38 test (il video di testa entra al clic, la scaletta cambia video e carica il player giusto);
+movimento ridotto senza movimento né testo invisibile; audit 8 pagine × 5 larghezze senza rilievi; righe del
+finale misurate a 360/390/768/900/1023px, nessuna esce dalla colonna; Lighthouse mobile Home 95, Risultati 96,
+Team 96, accessibilità 100, CLS 0.
+
 ### Cosa è stato fatto, fase per fase (skill applicate)
 
 **Fase 1 — design system** (impeccable craft-floor, design-taste-frontend, ui-ux-pro-max checklist)
@@ -738,11 +772,16 @@ Candidatura), indice (Fatturare³, Team), manifesto ed elenco numerato (DNA), mu
 **Contenuti — i bloccanti dell'HANDOFF §7, tutti ancora aperti**
 - **Numero verde** (`const TEL` in cima a `tools/build.mjs`): il blocco del footer è pronto, tratteggiato
   finché manca il numero.
-- **Schede-risultato reali con liberatoria firmata.** ⚠ Oggi le sei schede sono provvisorie ma ognuna
-  stampa «Fonte: CRM cliente · agg. 08.2026 · con liberatoria», e la nota sotto il nastro dice che le
-  altre non hanno liberatoria. È copy del prototipo e non l'ho toccato, ma **non può andare online
-  così**: o arrivano le liberatorie, o la riga va riscritta (proposta: «Dato provvisorio · in attesa di
-  liberatoria» quando `prov:true`).
+- **Schede-risultato reali con liberatoria firmata.** ⚠ Dal 15.10, su richiesta dell'agenzia, le sei
+  schede non dicono più da dove vengono i numeri né che sono provvisori (tolte la riga della fonte e la
+  nota sotto il nastro). Nei dati restano marcate `prov:true`. Così sembrano risultati definitivi:
+  **prima di andare online servono i numeri veri con la liberatoria firmata** di ogni cliente, oppure le
+  schede vanno tolte.
+- **Il ritratto di Andrea Berrini** (Direttore marketing, aggiunto il 15.10): finché manca ci sono le
+  sue iniziali. Con la foto (stesso taglio e bianco e nero degli altri) salvata come
+  `src/assets/team-webp/berrini.webp` (640px) e `berrini-400.webp`, basta scrivere `f: 'berrini'` nella sua
+  riga in `src/js/dati.js`. Da confermare anche il reparto (l'ho messo in Marketing). Paola Russo è
+  stata tolta dal team; la sua foto resta in `src/assets/team-webp/` (non l'ho cancellata).
 - I tre **passaggi di consegna** (chi, cosa, SLA, strumento): sono il contenuto della scena pinnata.
 - **Fascicoli clienti**, **candidature per trimestre**, **elenco reale dei 33 settori**, **durata media del
   rapporto**, **certificato ISO** (il link «Certificazione» è un segnaposto dichiarato). Ragione sociale, P.IVA,
@@ -750,18 +789,18 @@ Candidatura), indice (Fatturare³, Team), manifesto ed elenco numerato (DNA), mu
   visura camerale, il REA viene da due aggregatori e non dal sito del cliente.
 - **URL di articoli e libri** (titoli e copertine), oggi marcati `.todo` in `fatturare.html`. Il podcast
   ora porta al canale YouTube indicato dall'agenzia (giro 4).
-- **Logo del podcast** (giro 4): il file allegato in chat non è leggibile dal disco. Salvarlo come
-  `src/assets/podcast/fatturare-logo.svg` (o `.webp`/`.png`) e lanciare `node tools/build.mjs`: entra da
-  solo nel capitolo «Il podcast» della home e nella sezione podcast di Fatturare³. Non va ridisegnato.
+- **Logo del podcast**: risolto il 15.10 con il file allegato in chat (`src/assets/podcast/fatturare-logo.webp`,
+  originale in `assets-src/podcast/`), nel capitolo «Il podcast» della home e nella sezione podcast di
+  Fatturare³. Non è stato ridisegnato.
 
 **Dalla correzione di bozze (ciclo 1) — scelte del cliente, non errori: da confermare**
 - **La data dell'evento.** Sales Process Day era il **14 ottobre 2026**: dal 15.10 la barra in cima
   invita a collaborare, ma il menu («Sales Process Day · 14 ottobre 2026 · Milano») e la pagina Eventi
   vendono ancora un evento passato. Serve la data della prossima edizione (o la decisione di
   trasformare la pagina in un «com'è andata»).
-- **Il logo del podcast in alta risoluzione.** Quello allegato in chat è 300×300 px: nel finale è
-  mostrato a 300px (200 su telefono) e sugli schermi retina è un po' morbido. Serve la versione da
-  almeno 600×600 o il vettoriale.
+- **Il logo del podcast in alta risoluzione.** Quello allegato in chat è 300×300 px. Da quando nel
+  finale sono tornate le tre righe, il logo compare solo nei capitoli podcast, a 72–104px: lì il file
+  basta anche sugli schermi retina. La versione da 600×600 o il vettoriale serve solo per usarlo più grande.
 - **Il logo con i punti.** Sul sito ufficiale il payoff è «FATTURARE. FATTURARE. FATTURARE.» (file
   `logo-2048x498-1.avif`, 8,4 KB, caricato a ottobre 2025 in salesprocess.it/wp-content/uploads/2025/10/);
   il file HD consegnato con l'handoff ha «FATTURARE, FATTURARE, FATTURARE.». Non l'ho scaricato senza

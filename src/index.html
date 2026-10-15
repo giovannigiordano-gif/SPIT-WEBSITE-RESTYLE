@@ -36,7 +36,7 @@
      Con il passaggio a gradini e la foto che vola, il cambio di pagina
      parte senza attesa di rete. -->
 <script type="speculationrules">{"prefetch":[{"where":{"or":[{"href_matches":"/*.html"},{"href_matches":"/"}]},"eagerness":"moderate"}]}</script>
-<link rel="stylesheet" href="/css/sito.css?v=c2a54ee2a1">
+<link rel="stylesheet" href="/css/sito.css?v=0203d674e2">
 </head>
 <body data-pagina="home">
 <div class="sipario" aria-hidden="true"><i style="--k:0"></i><i style="--k:1"></i><i style="--k:2"></i><i style="--k:3"></i><span class="sipario__marchio"><img src="/assets/brand/logo-full-h112.webp" alt="" width="461" height="112" decoding="async"></span><span class="sipario__filo"></span></div>
@@ -378,7 +378,6 @@
   <div class="wrap wrap--piena nastro__piede">
     <!-- Una riga che disinnesca «avete scelto i migliori» meglio di tre
          testimonianze. -->
-    <p class="t-micro" id="nastro-nota">Sei schede su 150 clienti: alle altre manca la liberatoria, non il risultato.</p>
     <p class="t-micro nastro__legenda"><span class="q q--8 q--ar" aria-hidden="true"></span> = 100.000 € di fatturato annuo</p>
   </div>
 </section>
@@ -531,15 +530,17 @@
 <!-- ══ IL FINALE · il contatto diventato fatturato ═════════════════════
      Il cubo che nell'hero era un contatto sparso, nel contro-esempio cadeva
      e nella staffetta passava di mano, qui è alzato come un trofeo.
-     15.10: «Fatturare Fatturare Fatturare — questa sezione non mi piace,
-     incolla lì il logo del podcast». Al posto delle tre righe tipografiche
-     c'è il logo del podcast, che il payoff lo porta già scritto; il titolo
-     resta un h2 (il nome lo dà l'alt). Un CTA solo. -->
+     15.10: il logo del podcast qui non andava («ripristina la sezione come
+     era prima, però rendila più wow»): tornano le tre righe, più grandi, con
+     il braccio che le attraversa davanti e una luce che passa nelle
+     lettere (racconto.css). Un CTA solo. -->
 <section class="finale" id="muro" data-atmo="alba">
   <div class="wrap wrap--piena finale__in">
     <div class="finale__testo">
       <h2 class="finale__payoff" id="muro-righe">
-        <img class="finale__logo" src="/assets/podcast/fatturare-logo.webp" alt="Fatturare Fatturare Fatturare" width="300" height="300" loading="lazy" decoding="async">
+        <span class="mask"><span class="finale__riga" style="--i:0">Fatturare</span></span>
+        <span class="mask"><span class="finale__riga" style="--i:1">Fatturare</span></span>
+        <span class="mask"><span class="finale__riga finale__riga--ar" style="--i:2">Fatturare</span></span>
       </h2>
       <p class="finale__nota">Il payoff, e anche il nome del podcast.</p>
       <p class="t-deck">È l'unica cosa che misuriamo. Non le impression, non i lead, non le attività svolte: il numero che trovi in fondo al tuo bilancio.</p>

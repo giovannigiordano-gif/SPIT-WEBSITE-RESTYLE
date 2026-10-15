@@ -287,6 +287,8 @@
         c.n.style.setProperty('--s', (0.95 + 0.08 * k).toFixed(3));
         c.n.style.setProperty('--o', (0.72 + 0.28 * k).toFixed(3));
         c.n.style.zIndex = k > .65 ? 2 : 1;
+        /* la scheda al centro si accende (sections.css, .is-centro) */
+        c.n.classList.toggle('is-centro', k > .8);
       }
       raf = requestAnimationFrame(tick);
     };
@@ -372,6 +374,14 @@
   }
 
   carosello({ wrap: $('#nastro-wrap'), pista: $('#nastro-pista'), cards: '.scheda', pausa: '#nastro-pausa' });
+  /* Dove il nastro è uno scorrimento nativo (telefono, tablet), la scheda
+     che passa al centro della fascia si accende lo stesso. */
+  const nwrap = $('#nastro-wrap');
+  if (nwrap && (!matchMedia('(min-width: 1101px)').matches || RM()) && 'IntersectionObserver' in window) {
+    const ioC = new IntersectionObserver(es => es.forEach(e => e.target.classList.toggle('is-centro', e.isIntersecting)),
+      { root: nwrap, rootMargin: '0px -42% 0px -42%', threshold: 0 });
+    $$('.scheda', nwrap).forEach(n => ioC.observe(n));
+  }
   carosello({ wrap: $('#squadra-wrap'), pista: $('#squadra-pista'), cards: '.pers',
               pausa: '#squadra-pausa', prev: '#sq-prev', next: '#sq-next', v: .024 });
 
