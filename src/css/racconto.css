@@ -233,6 +233,15 @@
   }
 }
 @keyframes filo-scende    { to { scale: 1 1; } }
+/* PIÙ DINAMICA (15.10): in colonna la tappa arriva girata sul lato della
+   linea, come un cartello appeso che si raddrizza */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .staffetta:not(.is-scena) .staffetta__pista { perspective: 1400px; }
+    .staffetta:not(.is-scena) .tappa { transform-origin: 0 50%; animation: tappa-gira linear both; animation-timeline: view(); animation-range: entry 0% entry 90%; }
+  }
+}
+@keyframes tappa-gira { from { rotate: y -24deg; } }
 @keyframes nodo-acceso    { from { background: var(--c-base); box-shadow: inset 0 0 0 2px rgba(255,255,255,.42), 0 0 0 0 rgba(255,130,0,0), 0 0 0 rgba(255,130,0,0); } }
 @keyframes tappa-numero   { from { -webkit-text-stroke-color: rgba(255,255,255,.22); } }
 @keyframes tappa-glifo    { from { color: rgba(255,255,255,.34); } }
@@ -352,6 +361,50 @@
 .percorso__nodo::after { content: ''; position: absolute; inset: 0; border-radius: inherit; box-shadow: 0 0 0 2px var(--c-ar); opacity: 0; }
 .percorso__nodo.is-on::after { animation: nodo-onda 900ms cubic-bezier(.2,.6,.3,1) both; }
 @keyframes nodo-onda { from { opacity: .9; scale: 1; } to { opacity: 0; scale: 3.2; } }
+/* PIÙ DINAMICA (15.10) ─────────────────────────────────────────────────────
+   La scia: una lama di luce dietro il cubo, lunga quanto lui è veloce. */
+.percorso__scia {
+  position: absolute; right: 50%; top: 50%; width: 0; height: 4px; translate: 0 -50%;
+  border-radius: 4px; pointer-events: none;
+  background: linear-gradient(90deg, rgba(255,130,0,0), rgba(255,176,98,.9));
+}
+/* L'arrivo: dodici quadrati del marchio esplodono dal nodo della trattativa */
+.percorso__scoppio { z-index: 3; top: 1px; width: 0; height: 0; }
+.percorso__scoppio > i {
+  position: absolute; left: -4px; top: -4px; width: 8px; height: 8px; border-radius: 2px;
+  background: var(--c-ar); opacity: 0; box-shadow: 0 0 10px rgba(255,130,0,.6);
+}
+.percorso.is-arrivato .percorso__scoppio > i { animation: scoppio 1100ms cubic-bezier(.16,.84,.24,1) both; }
+.percorso.is-arrivato .percorso__scoppio > i:nth-child(even) { background: #F8F8F8; animation-duration: 1300ms; }
+@keyframes scoppio {
+  0%   { opacity: 1; transform: rotate(var(--ang)) translateX(0) scale(1); }
+  100% { opacity: 0; transform: rotate(var(--ang)) translateX(var(--d)) scale(.3) rotate(160deg); }
+}
+.staffetta.is-scena .staffetta__fine.is-arrivo { animation: arrivo-acceso 1200ms cubic-bezier(.16,.84,.24,1) both; }
+@keyframes arrivo-acceso { 0% { box-shadow: 0 0 0 0 rgba(255,130,0,.55), 0 30px 70px -34px rgba(255,130,0,.55); } 100% { box-shadow: 0 0 0 26px rgba(255,130,0,0), 0 30px 70px -34px rgba(255,130,0,.55); } }
+/* Le card appese dondolano dal loro bordo alto (motion.js scrive rotate) */
+.staffetta.is-scena .tappa { transform-origin: 50% 0; }
+.staffetta.is-scena { isolation: isolate; }
+/* Il pavimento del palco: una griglia di quadrati in prospettiva che
+   scorre con la pista, e una pozza di luce sotto il cubo */
+.staffetta__pavimento {
+  position: absolute; left: 0; right: 0; bottom: 0; height: 30%; z-index: -1; pointer-events: none; overflow: hidden;
+  perspective: 520px; perspective-origin: 50% 0;
+  -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 45%, #000 70%, transparent 100%);
+          mask-image: linear-gradient(180deg, transparent 0, #000 45%, #000 70%, transparent 100%);
+}
+.staffetta__griglia {
+  position: absolute; left: -60%; right: -60%; top: 0; height: 320%; transform-origin: 50% 0; transform: rotateX(74deg);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='36' height='36'%3E%3Crect width='3.4' height='3.4' rx='.7' fill='white' fill-opacity='.2'/%3E%3C/svg%3E");
+  background-size: 36px 36px;
+}
+.staffetta__pozza {
+  position: absolute; left: 0; top: 0; width: 520px; height: 70%; margin-left: -260px;
+  background: radial-gradient(50% 50% at 50% 30%, rgba(255,130,0,.28), rgba(255,130,0,0) 70%);
+}
+/* le foto dei passaggi: dentro la cornice scorrono più piano della card */
+.staffetta.is-scena :is(.passaggio__foto, .staffetta__foto) img { translate: var(--px, 0px) 0; }
+.staffetta.is-scena .tappa.is-on :is(.passaggio__foto, .staffetta__foto) img { scale: 1.13; }
 .percorso__cubo {
   --l: 16px;
   z-index: 3; top: 1px; left: var(--f0, 0px); width: var(--l); height: var(--l); translate: -50% -50%;

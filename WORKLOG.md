@@ -769,6 +769,25 @@ filtro durante e dopo), del cubo ingrandito, dei ventagli e della foto del Metod
 senza movimento né invisibili; audit 8 pagine × 5 larghezze senza rilievi; Lighthouse mobile Home 95, DNA 98, Team
 95, Metodo 96, accessibilità 100, CLS 0.
 
+*La staffetta più dinamica (15.10)* — «Il fatturato non si perde nei reparti. Si perde nei passaggi fra i reparti:
+bella così, ma rendila più dinamica e wow.» Impostazione, testi e percorso restano; cambia come si muove.
+- **Il cubo si ferma alle tappe**: fra due nodi accelera e frena (curva a S) mentre la pista scorre regolare, così
+  resta sul nodo il tempo di leggere la tappa; rotola mentre viaggia e lascia una scia di luce lunga quanto è veloce.
+- **Le card dondolano**: sono appese alla linea per il bordo alto; quando la linea corre si inclinano contro il moto
+  e quando si ferma oscillano un poco e tornano dritte (una molla per card, al massimo 7°, mai storte a riposo).
+- **I numeri contano** quando il cubo arriva alla tappa (in colonna, quando la tappa passa la linea di lettura), una
+  volta sola, col punto delle migliaia come nel testo.
+- **L'arrivo**: dodici quadrati del marchio esplodono dal nodo della trattativa e la card si accende con un'onda.
+- **Il palco**: un pavimento di quadrati in prospettiva che scorre con la pista e una pozza di luce sotto il cubo; le
+  foto dei passaggi scorrono più piano della loro cornice (parallasse).
+- **In colonna** (telefono, Metodo) ogni tappa arriva girata sul lato della linea, come un cartello che si raddrizza.
+Problemi trovati: l'italiano di Intl non mette il punto sotto le cinque cifre («1000»): formattatore nostro. Sul
+telefono il filo dell'avanzamento restava a mezz'aria quando la barra arancione usciva e la nav saliva: ora sale con
+lei.
+Verifica: scena catturata ferma in quattro punti, in corsa (card inclinate di ~2°, scia di 107px, pozza sotto il
+cubo) e all'arrivo (scoppio, onda); colonna sul telefono e nel Metodo con i numeri che contano; 42/42 test;
+movimento ridotto senza movimento né invisibili.
+
 ### Cosa è stato fatto, fase per fase (skill applicate)
 
 **Fase 1 — design system** (impeccable craft-floor, design-taste-frontend, ui-ux-pro-max checklist)

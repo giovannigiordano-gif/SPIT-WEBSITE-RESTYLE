@@ -310,9 +310,10 @@ html.cta-gemello .nav .cta--nav { background: transparent; color: var(--c-t1); b
 html.cta-gemello .nav .cta--nav::before { opacity: 0; }
 /* sui telefoni, passata l'apertura, la barra esce e la nav sale al suo posto */
 @media (max-width: 620px) {
-  .barra, .nav { transition: translate var(--t-stato) var(--ease-scatto); }
+  .barra, .nav, .avanza { transition: translate var(--t-stato) var(--ease-scatto); }
   html.barra-via .barra { translate: 0 -100%; }
-  html.barra-via .nav { translate: 0 calc(-1 * var(--barra-h)); }
+  /* il filo dell'avanzamento sale con la nav: restava a mezz'aria (15.10) */
+  html.barra-via :is(.nav, .avanza) { translate: 0 calc(-1 * var(--barra-h)); }
 }
 
 /* ── FOOTER ──────────────────────────────────────────────────────────────

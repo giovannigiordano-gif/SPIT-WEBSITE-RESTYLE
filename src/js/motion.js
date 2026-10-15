@@ -726,6 +726,21 @@
       cubo.classList.toggle('is-posato', fine.getBoundingClientRect().top + ny <= linea + 1);
     };
     const chiedi = () => { if (!rq) rq = requestAnimationFrame(stato); };
+    /* PIÙ DINAMICA (15.10): in colonna i numeri della tappa contano quando
+       la tappa passa la linea di lettura, una volta */
+    /* il punto delle migliaia sempre, come nel testo («1.000»): l'italiano
+       di Intl non lo mette sotto le cinque cifre */
+    const fmtC = { format: (v) => String(v).replace(/\B(?=(\d{3})+(?!\d))/g, '.') };
+    const ioConta = new IntersectionObserver(es => es.forEach(e => {
+      if (!e.isIntersecting || sc.classList.contains('is-scena')) return;
+      ioConta.unobserve(e.target);
+      $$('.conta', e.target).forEach(n => {
+        const a = +n.dataset.a, t0 = performance.now();
+        const passo = (ora) => { const u = Math.min(1, (ora - t0) / 1100); n.textContent = fmtC.format(Math.round(a * (1 - Math.pow(1 - u, 3)))); if (u < 1) requestAnimationFrame(passo); };
+        requestAnimationFrame(passo);
+      });
+    }), { rootMargin: '0px 0px -40% 0px' });
+    $$('.stazione', pistaCol).forEach(n => ioConta.observe(n));
     new ResizeObserver(() => { misura(); chiedi(); }).observe(pistaCol);
     document.fonts?.ready.then(misura);
     new IntersectionObserver(([e]) => {
@@ -808,20 +823,88 @@
           tappe.map(t => `<i class="percorso__nodo${t.classList.contains('passaggio') ? ' percorso__nodo--consegna' : t === fine ? ' percorso__nodo--arrivo' : ''}"></i>`).join('') +
           '<i class="percorso__cubo"><i class="cubo3d-vista"><i class="cubo3d"><i></i><i></i><i></i><i></i><i></i><i></i></i></i></i>';
         pista.append(perc);
+        /* PIÙ DINAMICA (15.10): la scia dietro il cubo e i quadrati dell'arrivo */
+        perc.insertAdjacentHTML('beforeend', '<i class="percorso__scoppio">' +
+          Array.from({ length: 12 }, (_, k) => `<i style="--ang:${k * 30 + (k % 2) * 12}deg;--d:${46 + (k % 3) * 16}px"></i>`).join('') + '</i>');
         const nodi = $$('.percorso__nodo', perc), fill = $('.percorso__fill', perc), cubo = $('.percorso__cubo', perc), cubo3d = $('.cubo3d', perc);
+        cubo.insertAdjacentHTML('afterbegin', '<i class="percorso__scia"></i>');
+        const scia = $('.percorso__scia', cubo), scoppio = $('.percorso__scoppio', perc);
+        /* il pavimento del palco: punti in prospettiva che scorrono con la
+           pista, e una pozza di luce che segue il cubo */
+        const pav = document.createElement('div');
+        pav.className = 'staffetta__pavimento'; pav.setAttribute('aria-hidden', 'true');
+        pav.innerHTML = '<i class="staffetta__griglia"></i><i class="staffetta__pozza"></i>';
+        sc.append(pav);
+        const griglia = $('.staffetta__griglia', pav), pozza = $('.staffetta__pozza', pav);
         /* le misure: nodi relativi all'inizio della linea (il bordo sinistro della prima card) */
-        let xs = [], corsa = 0;
+        let xs = [], corsa = 0, ps = [], percL = 0;
         const misura = () => {
           const nx = parseFloat(getComputedStyle(sc).getPropertyValue('--nodo-x')) || 26;
           const x0 = tappe[0].offsetLeft;
           xs = tappe.map(t => t.offsetLeft + nx - x0);
           corsa = xs[xs.length - 1] - xs[0];
+          /* il momento (progresso della scena) in cui il cubo è su ogni nodo */
+          ps = xs.map(x => corsa ? (x - xs[0]) / corsa : 0);
+          percL = x0;
           perc.style.cssText = `left:${x0}px;top:${tappe[0].offsetTop - 1}px;width:${fine.offsetLeft + fine.offsetWidth - x0}px`;
           perc.style.setProperty('--f0', xs[0] + 'px');
           perc.style.setProperty('--fw', corsa + 'px');
           nodi.forEach((n, k) => { n.style.left = xs[k] + 'px'; });
+          scoppio.style.left = xs[xs.length - 1] + 'px';
         };
         misura();
+        /* IL CUBO SI FERMA ALLE TAPPE: fra due nodi accelera e frena (curva
+           a S), la pista intanto scorre lineare; sul nodo arriva nello stesso
+           momento di prima, ma ci resta mentre la tappa si legge */
+        const morbido = u => u < .5 ? 4 * u * u * u : 1 - Math.pow(-2 * u + 2, 3) / 2;
+        const cuboX = (p) => {
+          if (!corsa || p <= 0) return 0;
+          if (p >= 1) return corsa;
+          let k = 0; while (k < ps.length - 2 && p > ps[k + 1]) k++;
+          const u = Math.min(1, Math.max(0, (p - ps[k]) / Math.max(1e-6, ps[k + 1] - ps[k])));
+          return xs[k] - xs[0] + (xs[k + 1] - xs[k]) * morbido(u);
+        };
+        const posaCubo = gsap.quickSetter(cubo, 'x', 'px'), posaFill = gsap.quickSetter(fill, 'scaleX');
+        const giraX = gsap.quickSetter(cubo3d, 'rotationX', 'deg'), giraY = gsap.quickSetter(cubo3d, 'rotationY', 'deg');
+        /* I NUMERI CONTANO quando il cubo arriva alla tappa, una volta */
+        const contati = new Set(), fmtIt = { format: (v) => String(v).replace(/\B(?=(\d{3})+(?!\d))/g, '.') };
+        const conta = (t) => {
+          if (contati.has(t)) return; contati.add(t);
+          $$('.conta', t).forEach(n => {
+            const a = +n.dataset.a, t0 = performance.now();
+            const passo = (ora) => { const u = Math.min(1, (ora - t0) / 1100); n.textContent = fmtIt.format(Math.round(a * (1 - Math.pow(1 - u, 3)))); if (u < 1) requestAnimationFrame(passo); };
+            requestAnimationFrame(passo);
+          });
+        };
+        /* LE CARD DONDOLANO: sono appese alla linea per il bordo alto; quando
+           la linea corre si inclinano contro il moto e, quando si ferma,
+           oscillano un poco e tornano dritte (una molla per card, ognuna con
+           la sua rigidità). Massimo 7°, mai a riposo. */
+        const molle = tappe.map((t, i) => ({ t, a: 0, v: 0, k: 120 + (i % 3) * 30, c: 9 + (i % 2) * 3 }));
+        let cx = 0, rafF = 0, tPrec = 0, pxPrec = 0, vPista = 0, cxPrec = 0, vCubo = 0, lungo = 0;
+        const fisica = (ora) => {
+          const dt = tPrec ? Math.min(.05, (ora - tPrec) / 1000) : .016; tPrec = ora;
+          const px = gsap.getProperty(pista, 'x');
+          vPista += ((px - pxPrec) / dt - vPista) * .3; pxPrec = px;
+          vCubo += ((cx - cxPrec) / dt - vCubo) * .3; cxPrec = cx;
+          const bersaglio = Math.max(-7, Math.min(7, vPista * .0042));
+          let vivo = Math.abs(vPista) > 3 || Math.abs(vCubo) > 3;
+          for (const m of molle) {
+            m.v += (-m.k * (m.a - bersaglio) - m.c * m.v) * dt; m.a += m.v * dt;
+            if (Math.abs(m.a) > .03 || Math.abs(m.v) > .05) vivo = true;
+            m.t.style.rotate = m.a.toFixed(3) + 'deg';
+          }
+          /* la scia: lunga quanto è veloce il cubo, e si ritira quando si ferma */
+          lungo += (Math.min(170, Math.abs(vCubo) * .16) - lungo) * .22;
+          scia.style.width = lungo.toFixed(1) + 'px';
+          if (lungo > .4) vivo = true;
+          /* il pavimento scorre con la pista; la luce sta sotto il cubo */
+          griglia.style.transform = `rotateX(74deg) translate3d(${(px % 36).toFixed(1)}px, 0, 0)`;
+          pozza.style.transform = `translate3d(${(percL + xs[0] + cx + px).toFixed(1)}px, 0, 0)`;
+          if (vivo) rafF = requestAnimationFrame(fisica);
+          else { rafF = 0; tPrec = 0; }
+        };
+        const spingi = () => { if (!rafF) { pxPrec = gsap.getProperty(pista, 'x'); cxPrec = cx; tPrec = 0; rafF = requestAnimationFrame(fisica); } };
         /* quanto deve scorrere: finché l'arrivo non tocca il margine destro
            del contenuto (lo stesso del sinistro). Centrato, lasciava mezzo
            schermo vuoto a destra quando la scena si sbloccava (audit 15.10). */
@@ -831,16 +914,28 @@
         };
         /* tl esiste solo dopo la creazione: ScrollTrigger può chiamare
            onRefresh mentre la crea */
-        let qui = -2, tl = null;
+        let qui = -2, tl = null, arrivato = false;
         const accendi = () => {
-          const cx = xs[0] + corsa * (tl ? tl.progress() : 0);
+          cx = cuboX(tl ? tl.progress() : 0);
+          posaCubo(cx); posaFill(corsa ? cx / corsa : 0);
+          /* mentre viaggia il cubo rotola: un quarto di giro ogni 120px, e un poco d'imbardata */
+          giraX(cx / 120 * 90); giraY(cx / 420 * 90);
+          const ax = xs[0] + cx;
           let k = -1;
           xs.forEach((x, i) => {
-            const on = cx >= x - 1;
+            const on = ax >= x - 1;
             tappe[i].classList.toggle('is-on', on); nodi[i].classList.toggle('is-on', on);
-            if (on) k = i;
+            if (on) { k = i; if (tl?.scrollTrigger?.isActive && tappe[i].classList.contains('stazione')) conta(tappe[i]); }
           });
           if (k !== qui) { tappe.forEach((t, i) => t.classList.toggle('is-qui', i === k)); qui = k; }
+          /* L'ARRIVO: il cubo si posa sulla trattativa, i quadrati esplodono
+             dal nodo e la card si accende; tornando indietro si riarma */
+          const giunto = k === xs.length - 1;
+          if (giunto !== arrivato) {
+            arrivato = giunto;
+            perc.classList.toggle('is-arrivato', giunto); fine.classList.toggle('is-arrivo', giunto);
+          }
+          spingi();
         };
         tl = gsap.timeline({
           defaults: { ease: 'none' }, onUpdate: accendi,
@@ -851,23 +946,30 @@
             onRefreshInit: misura, onRefresh: () => { misura(); accendi(); },
           },
         });
-        tl.to(pista, { x: () => -dist() }, 0)
-          .fromTo(fill, { scaleX: 0 }, { scaleX: 1 }, 0)
-          .fromTo(cubo, { x: 0 }, { x: () => corsa }, 0)
-          /* PIÙ 3D (15.10): mentre viaggia il cubo rotola — un quarto di giro
-             ogni 120px di strada, e un poco di imbardata */
-          .fromTo(cubo3d, { rotationX: 0, rotationY: 0 }, { rotationX: () => corsa / 120 * 90, rotationY: () => corsa / 420 * 90 }, 0);
+        /* la timeline muove solo la pista: cubo, linea, rotolamento, molle e
+           pavimento li calcola accendi() dal suo progresso */
+        tl.to(pista, { x: () => -dist() }, 0);
         /* le card che arrivano da destra si srotolano dalla linea; quelle
            già a schermo all'inizio sono già aperte */
         const entrate = tappe.filter(t => t.offsetLeft > innerWidth * .88).map(t => gsap.fromTo(t,
           { clipPath: 'inset(-2% -12% 100% -12%)' },
           { clipPath: 'inset(-2% -12% -30% -12%)', ease: 'none',
             scrollTrigger: { trigger: t, containerAnimation: tl, start: 'left 88%', end: 'left 64%', scrub: true } }));
+        /* LE FOTO DEI PASSAGGI IN PARALLASSE: dentro la cornice l'immagine
+           scorre più piano della card, come dietro una finestra */
+        const parallassi = $$('.passaggio__foto img, .staffetta__foto img', pista).map(img => gsap.fromTo(img,
+          { '--px': '4%' }, { '--px': '-4%', ease: 'none',
+            scrollTrigger: { trigger: img.closest('.tappa'), containerAnimation: tl, start: 'left right', end: 'right left', scrub: true } }));
         accendi();
         return () => {
           entrate.forEach(e => { e.scrollTrigger?.kill(); e.kill(); });
+          parallassi.forEach(e => { e.scrollTrigger?.kill(); e.kill(); });
+          cancelAnimationFrame(rafF); rafF = 0;
+          tappe.forEach(t => { t.style.rotate = ''; });
+          $$('.passaggio__foto img, .staffetta__foto img', pista).forEach(i => i.style.removeProperty('--px'));
+          fine.classList.remove('is-arrivo');
           tl.scrollTrigger?.kill(); tl.kill();
-          perc.remove();
+          perc.remove(); pav.remove();
           sc.classList.remove('is-scena');
           gsap.set(pista, { clearProps: 'transform' });
           gsap.set(tappe, { clearProps: 'clipPath' });

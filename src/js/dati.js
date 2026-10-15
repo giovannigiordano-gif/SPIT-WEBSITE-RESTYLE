@@ -440,6 +440,11 @@ const FOTO_PASSAGGIO = [
 const NODO = (tipo) => `<span class="tappa__nodo${tipo ? ' tappa__nodo--' + tipo : ''}" aria-hidden="true"></span>`;
 const ICO_TEMPO = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg>';
 const ICO_SCHEDA = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4.5" width="16" height="15" rx="2.2"/><path d="M8 9.5h8M8 13h5"/></svg>';
+/* I numeri di ciò che il reparto consegna contano quando il contatto
+   arriva (15.10, «più dinamica»): ogni cifra diventa uno span con il suo
+   valore d'arrivo; i giorni no (sono una durata, non un risultato). */
+const contatori = (t) => t.replace(/\b(\d{1,3}(?:\.\d{3})+|\d+)\b(?!%?\s*giorni)/g,
+  (m) => `<span class="conta" data-a="${m.replace(/\./g, '')}">${m}</span>`);
 const stazione = (r) => {
   const n = el('article', 'stazione tappa');
   n.dataset.n = '0' + r.i;
@@ -447,7 +452,7 @@ const stazione = (r) => {
     <div class="stazione__testa"><span class="stazione__n" aria-hidden="true">0${r.i}</span><span class="icoq">${ICO[REP_ICO[r.i]]}</span></div>
     <h3 class="stazione__nome">${r.nome}</h3>
     <p class="stazione__claim">${r.claim}</p>
-    <p class="stazione__out">${r.out}</p>`;
+    <p class="stazione__out">${contatori(r.out)}</p>`;
   return n;
 };
 const passaggio = (h, i) => {
