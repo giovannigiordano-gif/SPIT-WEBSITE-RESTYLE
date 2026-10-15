@@ -713,19 +713,30 @@ const monta = () => {
       const prima = new Map(tessere.filter(t => !t.hidden).map(t => [t, t.getBoundingClientRect()]));
       const escono = tessere.filter(t => !t.hidden && !dentro(t));
       const entrano = tessere.filter(t => t.hidden && dentro(t));
+      /* l'altezza della griglia resta ferma mentre le facce si spostano, poi
+         scorre alla nuova: la frase sotto e la sezione dopo non saltano sopra
+         le facce in viaggio */
+      const hPrima = vgrid.getBoundingClientRect().height;
+      if (!fermo) vgrid.style.height = hPrima + 'px';
       const posa = () => {
         escono.forEach(t => { t.hidden = true; });
         entrano.forEach(t => { t.hidden = false; });
         if (fermo) return;
+        vgrid.style.height = 'auto';
+        const hDopo = vgrid.getBoundingClientRect().height;
+        vgrid.style.height = hPrima + 'px';
+        vgrid.animate([{ height: hPrima + 'px' }, { height: hDopo + 'px' }], { duration: 560, easing: 'cubic-bezier(.16,.84,.24,1)' })
+          .finished.then(() => { vgrid.style.height = ''; }, () => { vgrid.style.height = ''; });
         tessere.filter(t => !t.hidden && prima.has(t)).forEach(t => {
           const a = prima.get(t), d = t.getBoundingClientRect(), dx = a.left - d.left, dy = a.top - d.top;
           if (dx || dy) t.animate([{ transform: `translate(${dx}px, ${dy}px)` }, { transform: 'none' }], { duration: 560, easing: 'cubic-bezier(.16,.84,.24,1)' });
         });
         entrano.forEach((t, k) => t.animate(
           [{ transform: 'perspective(900px) rotateY(-90deg)', opacity: 0 }, { transform: 'perspective(900px) rotateY(0deg)', opacity: 1 }],
-          { duration: 560, delay: 140 + k * 60, easing: 'cubic-bezier(.16,.84,.24,1)', fill: 'backwards' }));
+          { duration: 560, delay: 40 + k * 45, easing: 'cubic-bezier(.16,.84,.24,1)', fill: 'backwards' }));
       };
-      if (fermo || !escono.length) { posa(); return; }
+      if (fermo) { posa(); return; }
+      if (!escono.length) { posa(); return; }
       occupato = true;
       Promise.all(escono.map((t, k) => t.animate(
         [{ transform: 'perspective(900px) rotateY(0deg)', opacity: 1 }, { transform: 'perspective(900px) rotateY(90deg)', opacity: 0 }],
