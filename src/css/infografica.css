@@ -60,27 +60,44 @@
    contorno, nel colore della perdita — perché nessuno dei quattro lo
    riempie. Il numero sta nel titolo della colonna: un lettore di schermo
    legge «4 fornitori da coordinare», non una cifra orfana.            */
+/* 15.10 («questa sezione è poco leggibile»): ogni colonna aveva una
+   grammatica sua (un elenco; coppie grigie da 14px alternate a frasi
+   grandi; una frase sola) e i titoli avevano quasi il corpo del testo
+   sotto. Ora le tre colonne hanno la stessa anatomia, allineata riga per
+   riga (subgrid): numero e titolo, un filo, il contenuto, la nota in fondo;
+   un filo verticale separa i tre conti. Nei passaggi rotti prima ciò che
+   cade, poi fra chi e chi, a un corpo e un contrasto leggibili.        */
 .conto {
-  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
-  column-gap: clamp(28px, 4vw, 72px); row-gap: var(--s-7);
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: auto auto auto;
   padding-top: clamp(28px, 2.6vw, 40px); border-top: 1px solid var(--c-filo-forte);
 }
-.conto__c { display: grid; align-content: start; gap: var(--s-4); min-width: 0; }
-.conto__tit { font: 500 clamp(21px, 1.7vw, 26px)/1.2 var(--f-display); letter-spacing: -.012em; color: var(--c-t1); }
+.conto__c {
+  grid-row: span 3; display: grid; grid-template-rows: subgrid; row-gap: 0; align-content: start; min-width: 0;
+  padding-inline: clamp(20px, 2.6vw, 44px);
+}
+.conto__c:first-child { padding-left: 0; }
+.conto__c:last-child { padding-right: 0; }
+.conto__c + .conto__c { border-left: 1px solid var(--c-filo); }
+.conto__tit {
+  font: 600 clamp(22px, 1.9vw, 28px)/1.15 var(--f-display); letter-spacing: -.015em; color: var(--c-t1);
+  padding-bottom: clamp(16px, 1.4vw, 22px); margin-bottom: clamp(16px, 1.4vw, 22px);
+  border-bottom: 1px solid var(--c-filo);
+}
 .conto__n {
   display: block; margin-bottom: clamp(10px, 1vw, 16px);
   font: 600 clamp(76px, 8.4vw, 136px)/.84 var(--f-display); letter-spacing: -.05em;
   font-variant-numeric: tabular-nums; color: var(--c-t1);
 }
-.conto__c--zero .conto__n { color: transparent; -webkit-text-stroke: 2px var(--c-rottura); }
-.conto__l { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; font: 500 16px/1.45 var(--f-display); color: var(--c-t2); }
-/* i tre passaggi: fra chi e chi, poi cosa cade */
-.conto__l--rotture { gap: var(--s-4); }
-.conto__l--rotture li { display: grid; gap: 4px; }
-.conto__fra { display: inline-flex; align-items: center; flex-wrap: wrap; gap: 4px 8px; font: 500 14px/1.4 var(--f-display); color: var(--c-t3); }
+/* lo zero è vuoto: il contorno è più spesso, così si legge come cifra */
+.conto__c--zero .conto__n { color: transparent; -webkit-text-stroke: 3px var(--c-rottura); }
+.conto__l { list-style: none; margin: 0; padding: 0; display: grid; align-content: start; gap: 6px; font: 500 17px/1.45 var(--f-display); color: var(--c-t2); }
+/* i tre passaggi: prima cosa cade (in bianco), sotto fra chi e chi */
+.conto__l--rotture { gap: clamp(14px, 1.2vw, 18px); }
+.conto__l--rotture li { display: grid; gap: 3px; }
+.conto__l--rotture b { font: 600 clamp(17px, 1.3vw, 19px)/1.3 var(--f-display); letter-spacing: -.01em; color: var(--c-t1); }
+.conto__fra { display: inline-flex; align-items: center; flex-wrap: wrap; gap: 4px 8px; font: 500 15px/1.4 var(--f-display); color: var(--c-t2); }
 .conto__fra svg { width: 14px; height: 14px; color: var(--c-rottura); }
-.conto__l--rotture b { font: 500 clamp(19px, 1.5vw, 22px)/1.25 var(--f-display); letter-spacing: -.01em; color: var(--c-t1); }
-.conto__nota { font: 400 15px/1.55 var(--f-display); color: var(--c-t3); max-inline-size: 34ch; }
+.conto__nota { align-self: start; margin-top: clamp(20px, 2vw, 28px); font: 400 15px/1.55 var(--f-display); color: var(--c-t3); max-inline-size: 34ch; }
 /* IL CONTO SCENDE (ciclo 1): i tre numeri cadono al loro posto nell'ordine
    del conto — 4, 3, poi lo zero vuoto — come il cubo sopra di loro. Le
    colonne non scivolano più (tolte da sale-griglia in interazioni.css):
@@ -98,12 +115,15 @@
 @keyframes conto-scende { from { translate: 0 -.4em; clip-path: inset(0 0 100% 0); } }
 /* lo zero è la battuta finale del conto: la sua riga ha il corpo dei
    passaggi rotti, non quello di una nota */
-.conto__c--zero .conto__nota { font: 500 clamp(19px, 1.5vw, 22px)/1.3 var(--f-display); letter-spacing: -.01em; color: var(--c-t1); max-inline-size: 24ch; }
+/* (sta nella riga dei contenuti, al corpo dei passaggi rotti) */
+.conto__c--zero .conto__nota { margin-top: 0; font: 600 clamp(17px, 1.3vw, 19px)/1.4 var(--f-display); letter-spacing: -.01em; color: var(--c-t1); max-inline-size: 26ch; }
 @media (max-width: 900px) {
   /* in colonna ogni numero apre la sua fascia, col suo filo */
-  .conto { grid-template-columns: minmax(0, 1fr); row-gap: var(--s-6); padding-top: 0; border-top: 0; }
-  .conto__c { padding-top: var(--s-5); border-top: 1px solid var(--c-filo-forte); }
+  .conto { grid-template-columns: minmax(0, 1fr); grid-template-rows: none; row-gap: var(--s-6); padding-top: 0; border-top: 0; }
+  .conto__c { grid-row: auto; grid-template-rows: none; padding-inline: 0; padding-top: var(--s-5); border-top: 1px solid var(--c-filo-forte); }
+  .conto__c + .conto__c { border-left: 0; }
   .conto__n { font-size: clamp(64px, 18vw, 88px); }
+  .conto__nota { margin-top: var(--s-4); }
 }
 
 /* La frase che chiude il capitolo: il costo, detto una volta e grande. */

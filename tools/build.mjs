@@ -148,8 +148,8 @@ const polvere = (() => {
     const o = (o0 + r() * (o1 - o0)).toFixed(2), d = Math.round(d0 + r() * (d1 - d0))
     return `<i${arancio.includes(i) ? ' class="ar"' : ''} style="--x:${x}vw;--y:${y}vh;--s:${z}px;--o:${o};--d:${d}vh"></i>`
   }).join('')}</div>`
-  return strato(6, 'palco__polvere--lontana', [3.5, 5], [.08, .14], [16, 40], [2]) +
-         strato(6, 'palco__polvere--vicina', [5, 7.5], [.10, .18], [45, 95], [1, 4])
+  return strato(6, 'palco__polvere--lontana', [3.5, 5], [.05, .09], [16, 40], [2]) +
+         strato(6, 'palco__polvere--vicina', [5, 7.5], [.06, .11], [45, 95], [1, 4])
 })()
 const palco = () => `<div class="palco" aria-hidden="true">${ATMO.map(a => `<i data-a="${a}"></i>`).join('')}${polvere}<b class="palco__torcia"></b></div>`
 
