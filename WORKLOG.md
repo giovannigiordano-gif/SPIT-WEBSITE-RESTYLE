@@ -865,6 +865,14 @@ sull'indirizzo pubblico: 47/47, nessun errore JS, 16 link interni a 200 (il form
 innocuo); Lighthouse mobile online Home 97, DNA 95, Team 97, accessibilità e buone pratiche 100, CLS 0 (SEO 63
 per il noindex voluto).
 
+*Il ritratto di Andrea Berrini (16.10)* — «Foto di Andrea Berrini da usare.» L'originale è in
+`assets-src/team/berrini-originale.jpg` (1080×1324); il ritratto è tagliato quadrato come gli altri (la testa a circa
+due terzi dell'altezza, centrata) e salvato come `src/assets/team-webp/berrini.webp` (640px) e `berrini-400.webp`
+(400px), con gli stessi parametri degli altri. Al posto delle iniziali ora c'è la foto nella griglia del Team, nella
+squadra della home e nel marchio di volti che cambia (adesso ci passano tutti e dodici).
+Verifica: catture della griglia (filtro Marketing) e del marchio con Berrini appena arrivato, a colori e col nome;
+la foto si carica in home; 47/47 test.
+
 ### Cosa è stato fatto, fase per fase (skill applicate)
 
 **Fase 1 — design system** (impeccable craft-floor, design-taste-frontend, ui-ux-pro-max checklist)
@@ -1033,11 +1041,9 @@ Candidatura), indice (Fatturare³, Team), manifesto ed elenco numerato (DNA), mu
   nota sotto il nastro). Nei dati restano marcate `prov:true`. Così sembrano risultati definitivi:
   **prima di andare online servono i numeri veri con la liberatoria firmata** di ogni cliente, oppure le
   schede vanno tolte.
-- **Il ritratto di Andrea Berrini** (Direttore marketing, aggiunto il 15.10): finché manca ci sono le
-  sue iniziali. Con la foto (stesso taglio e bianco e nero degli altri) salvata come
-  `src/assets/team-webp/berrini.webp` (640px) e `berrini-400.webp`, basta scrivere `f: 'berrini'` nella sua
-  riga in `src/js/dati.js`. Da confermare anche il reparto (l'ho messo in Marketing). Paola Russo è
-  stata tolta dal team; la sua foto resta in `src/assets/team-webp/` (non l'ho cancellata).
+- **Il reparto di Andrea Berrini** (Direttore marketing): l'ho messo in Marketing, da confermare. Il ritratto è
+  arrivato il 16.10 ed è in pagina. Paola Russo è stata tolta dal team; la sua foto resta in
+  `src/assets/team-webp/` (non l'ho cancellata).
 - I tre **passaggi di consegna** (chi, cosa, SLA, strumento): sono il contenuto della scena pinnata.
 - **Fascicoli clienti**, **candidature per trimestre**, **elenco reale dei 33 settori**, **durata media del
   rapporto**, **certificato ISO** (il link «Certificazione» è un segnaposto dichiarato). Ragione sociale, P.IVA,

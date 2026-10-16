@@ -131,10 +131,10 @@ const VOLTI = [
   { nome: 'Alfio Bardolla',       ruolo: 'Cofondatore',          rep: 5, f: 'bardolla' },
   { nome: 'Ion Rotaru',           ruolo: 'Direttore operativo',  rep: 5, f: 'rotaru', z: 1.5, o: '55% 23%' },
   { nome: 'Matteo Ratti',         ruolo: 'Media buyer',          rep: 1, f: 'ratti', z: 1.45, o: '53% 25%' },
-  /* 15.10: senza ritratto per ora — al posto della foto le iniziali, nello
-     stesso riquadro. Con il file (src/assets/team-webp/berrini.webp e
-     berrini-400.webp) basta scrivere f: 'berrini'. */
-  { nome: 'Andrea Berrini',       ruolo: 'Direttore marketing',  rep: 2, f: null, iniziali: 'AB' },
+  /* 16.10: il ritratto è arrivato (originale in assets-src/team/, tagliato
+     come gli altri: la testa a circa due terzi del quadrato). Chi non ha
+     ancora il ritratto ha f: null e le iniziali nello stesso riquadro. */
+  { nome: 'Andrea Berrini',       ruolo: 'Direttore marketing',  rep: 2, f: 'berrini' },
   { nome: 'Dario Plasmati',       ruolo: 'Copywriter',           rep: 2, f: 'plasmati', z: 1.5, o: '52% 18%' },
   { nome: 'Giovanni Giordano',    ruolo: 'CRM specialist',       rep: 2, f: 'giordano', z: 1.5, o: '50% 14%' },
   { nome: 'Giulia Elicio',        ruolo: 'HR manager',           rep: 3, f: 'elicio', z: 1.6, o: '57% 28%' },
