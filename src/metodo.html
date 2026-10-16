@@ -40,7 +40,7 @@
 
 <!-- Il sipario: preloader alla prima pagina della sessione, passaggio fra
      le pagine dove non ci sono le View Transitions (vedi sipario() sopra). -->
-<script>(function(){var d=document.documentElement,v,p;try{if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;v=sessionStorage.getItem('visto');p=sessionStorage.getItem('sipario');sessionStorage.setItem('visto','1');sessionStorage.removeItem('sipario')}catch(e){return}if((v&&!p)||location.pathname==='/candidatura.html')return;var primo=!v,c=d.classList,t1,t2,fine=function(){c.remove('sipario-su','sipario-primo','sipario-via')},via=function(dopo){clearTimeout(t1);clearTimeout(t2);c.add('sipario-via');t2=setTimeout(fine,dopo)},salta=function(){if(!c.contains('sipario-via')&&c.contains('sipario-su'))via(620)};c.add('sipario-su');if(primo)c.add('sipario-primo');t1=setTimeout(function(){via(650)},primo?450:120);['pointerdown','keydown','wheel','touchstart'].forEach(function(t){addEventListener(t,salta,{passive:true,once:true})});addEventListener('pagereveal',function(e){if(e.viewTransition){clearTimeout(t1);clearTimeout(t2);fine()}});addEventListener('pageshow',function(e){if(e.persisted)c.remove('sipario-su','sipario-primo','sipario-via','sipario-giu')})})()</script>
+<script>(function(){var d=document.documentElement,v,p;try{if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;v=sessionStorage.getItem('visto');p=sessionStorage.getItem('sipario');sessionStorage.setItem('visto','1');sessionStorage.removeItem('sipario')}catch(e){return}if((v&&!p)||location.pathname==='/candidatura.html')return;var primo=!v,c=d.classList,t1,t2,fine=function(){c.remove('sipario-su','sipario-primo','sipario-via')},via=function(dopo){clearTimeout(t1);clearTimeout(t2);c.add('sipario-via');t2=setTimeout(fine,dopo)},salta=function(){if(!c.contains('sipario-via')&&c.contains('sipario-su'))via(620)};c.add('sipario-su');if(primo)c.add('sipario-primo');t1=setTimeout(function(){via(650)},primo?(matchMedia('(max-width:760px)').matches?220:450):120);['pointerdown','keydown','wheel','touchstart'].forEach(function(t){addEventListener(t,salta,{passive:true,once:true})});addEventListener('pagereveal',function(e){if(e.viewTransition){clearTimeout(t1);clearTimeout(t2);fine()}});addEventListener('pageshow',function(e){if(e.persisted)c.remove('sipario-su','sipario-primo','sipario-via','sipario-giu')})})()</script>
 
 <link rel="preload" href="/assets/fonts/dm-sans-latin-var.woff2" as="font" type="font/woff2" crossorigin>
 
@@ -50,7 +50,7 @@
      Con il passaggio a gradini e la foto che vola, il cambio di pagina
      parte senza attesa di rete. -->
 <script type="speculationrules">{"prefetch":[{"where":{"or":[{"href_matches":"/*.html"},{"href_matches":"/"}]},"eagerness":"moderate"}]}</script>
-<link rel="stylesheet" href="/css/sito.css?v=2f19df6590">
+<link rel="stylesheet" href="/css/sito.css?v=6a973aafe2">
 </head>
 <body data-pagina="metodo">
 <div class="sipario" aria-hidden="true"><i style="--k:0"></i><i style="--k:1"></i><i style="--k:2"></i><i style="--k:3"></i><span class="sipario__marchio"><img src="/assets/brand/logo-full-h112.webp" alt="" width="461" height="112" decoding="async"></span><span class="sipario__filo"></span></div>

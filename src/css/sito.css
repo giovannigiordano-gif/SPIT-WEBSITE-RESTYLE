@@ -335,6 +335,12 @@ transition: transform var(--t-stato) var(--ease-scatto);
 .cta--testo { min-height: 24px; height: auto; padding: 0; border-radius: 0; color: var(--c-t1); font-weight: 500;
 justify-content: flex-start; justify-self: start; }
 .cta:active { translate: 0 0; scale: .985; }
+html { -webkit-tap-highlight-color: transparent; }
+@media (hover: none) {
+:is(.chip, .menu-btn, .pausa, .frecc, .barra__x, .menu__social a, .footer__social a):active { scale: .94; }
+.video__voce:active { scale: .985; }
+:is(.chip, .menu-btn, .pausa, .frecc, .barra__x, .menu__social a, .footer__social a, .video__voce) { transition-property: scale, color, border-color, background-color, box-shadow; transition-duration: 140ms; }
+}
 .cta--sm { height: 44px; padding-inline: 18px; font-size: 14px; }
 @media (pointer: coarse) { .cta--testo { min-height: var(--tap); } }
 .freccia { display: inline-block; width: 1.05em; height: 1.05em; flex: none; vertical-align: -.16em; margin-left: .18em;

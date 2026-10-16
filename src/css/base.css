@@ -192,6 +192,15 @@ input, select, textarea { caret-color: var(--c-ar); }
 .cta--testo { min-height: 24px; height: auto; padding: 0; border-radius: 0; color: var(--c-t1); font-weight: 500;
   justify-content: flex-start; justify-self: start; }
 .cta:active { translate: 0 0; scale: .985; }
+/* 16.10, «ottimizza per mobile»: sul telefono non c'è il passaggio del
+   mouse, quindi ogni comando risponde al tocco con una pressione (e niente
+   lampo grigio del browser al tocco) */
+html { -webkit-tap-highlight-color: transparent; }
+@media (hover: none) {
+  :is(.chip, .menu-btn, .pausa, .frecc, .barra__x, .menu__social a, .footer__social a):active { scale: .94; }
+  .video__voce:active { scale: .985; }
+  :is(.chip, .menu-btn, .pausa, .frecc, .barra__x, .menu__social a, .footer__social a, .video__voce) { transition-property: scale, color, border-color, background-color, box-shadow; transition-duration: 140ms; }
+}
 .cta--sm { height: 44px; padding-inline: 18px; font-size: 14px; }
 @media (pointer: coarse) { .cta--testo { min-height: var(--tap); } }
 
