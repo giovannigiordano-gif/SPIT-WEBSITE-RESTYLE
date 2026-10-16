@@ -856,6 +856,15 @@ Verifica: catture nel tempo a 1440 e 390 (un cambio alla volta, mai doppioni, no
 (`qa/team-volti.mp4`), due test nuovi (i volti cambiano da soli senza doppioni; il bottone li ferma): 47/47; movimento
 ridotto senza movimento; audit Team × 5 larghezze senza rilievi; Lighthouse mobile Team 95, accessibilità 100, CLS 0.
 
+*Online su Vercel (16.10)* — «Deployalo sulla repo.» Il repository era già collegato a Vercel
+(spit-restyle.vercel.app) ma l'indirizzo dava 404: Vercel pubblicava la radice del repo, il sito sta in `src/`. Con
+`vercel.json` (cartella di pubblicazione `src`, niente install né build, `noindex` solo sull'indirizzo vercel.app) il
+deploy è partito da solo al push ed è stato online in circa 25 secondi.
+Verifica sul sito online: tutte le pagine e i 34 percorsi della home rispondono 200; la suite completa girata
+sull'indirizzo pubblico: 47/47, nessun errore JS, 16 link interni a 200 (il form non invia niente, il test è
+innocuo); Lighthouse mobile online Home 97, DNA 95, Team 97, accessibilità e buone pratiche 100, CLS 0 (SEO 63
+per il noindex voluto).
+
 ### Cosa è stato fatto, fase per fase (skill applicate)
 
 **Fase 1 — design system** (impeccable craft-floor, design-taste-frontend, ui-ux-pro-max checklist)
@@ -963,15 +972,19 @@ Candidatura), indice (Fatturare³, Team), manifesto ed elenco numerato (DNA), mu
 ## 6 · Da decidere insieme
 
 **Azioni che non ho fatto perché irreversibili o fuori dal mio perimetro**
-- **Merge di `restyling-wow` su `main` (locale) e qualunque deploy**: non fatti.
+- **Merge di `restyling-wow` su `main` (locale)**: non fatto. Il deploy l'ha chiesto il cliente il 16.10 (vedi «Online»).
 - **Pubblicazione su GitHub** (15.10, su richiesta: «pusha il sito su questa repo, sempre»): il progetto è su
   https://github.com/giovannigiordano-gif/SPIT-WEBSITE-RESTYLE (repository **pubblico**): il ramo `restyling-wow`
   e, con lo stesso contenuto, il `main` del repository; il `main` locale resta il sito originale. Da qui in poi
   ogni modifica viene spinta lì. Nel repository ci sono anche HANDOFF, WORKLOG, documenti di lavoro e gli
   originali delle foto: se non devono essere pubblici, il repository va reso privato.
-- **Online**: GitHub Pages servirebbe il sito sotto /SPIT-WEBSITE-RESTYLE/, mentre i percorsi del sito sono
-  assoluti dalla radice (/css, /assets…): serve una build con il percorso di base, oppure un dominio
-  proprio. Netlify o Vercel collegati al repository, con cartella di pubblicazione `src`, funzionano così com'è.
+- **Online** (16.10, su richiesta: «deployalo sulla repo»): il sito è su **https://spit-restyle.vercel.app**, il
+  progetto Vercel già collegato al repository. Pubblicava la radice del repo (la home dava 404 e i percorsi assoluti
+  /css, /assets si rompevano sotto /src/): `vercel.json` ora pubblica `src/`, senza installazione né build (il sito
+  costruito è nel repository). Ogni push lo aggiorna in circa mezzo minuto. Sull'indirizzo vercel.app c'è un
+  `X-Robots-Tag: noindex`: è una copia di lavoro del sito del cliente e non deve finire nei motori di ricerca (per
+  questo Lighthouse lì dà SEO 63); un dominio vero aggiunto in seguito non ne è toccato. Da decidere: quando e come
+  il dominio salesprocess.it passa a questo progetto. GitHub Pages resta sconsigliato (percorsi assoluti dalla radice).
 - **Installare Python 3.12** (serve agli script di img2threejs e ui-ux-pro-max): richiede di accettare
   una licenza sulla macchina. La ricostruzione 3D è stata fatta seguendo il metodo a mano (WORKLOG §3).
 - `src/assets/fonts/instrument-serif-italic-latin.woff2` non è più usato: non l'ho cancellato.
