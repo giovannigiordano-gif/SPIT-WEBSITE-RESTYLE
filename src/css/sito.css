@@ -875,6 +875,10 @@ border-radius: 26%; background: rgba(255,255,255,var(--o));
 }
 }
 @keyframes polvere { to { translate: 0 calc(var(--d) * -1); } }
+.cubi3d {
+position: fixed; inset: 0; width: 100%; height: 100%;
+z-index: var(--z-palco); pointer-events: none;
+}
 main > .sf:not(.sez--segue):not(:first-child)::after,
 .pin-spacer > #metodo::after {
 content: ''; position: absolute; left: 0; right: 0; top: 0; height: 1px; z-index: -1; pointer-events: none;
@@ -891,7 +895,7 @@ main > .sf:not(.sez--segue):not(:first-child)::after,
 @keyframes lama { 0% { opacity: 0; scale: .15 1; } 50% { opacity: 1; scale: 1 1; } 100% { opacity: .15; scale: 1 1; } }
 html[data-atmo="notte"] .sf--notte .ar:not(h2 .ar) { color: var(--c-ar-hot); }
 @media (prefers-contrast: more) {
-.palco > i, .palco::after, .palco__polvere { display: none; }
+.palco > i, .palco::after, .palco__polvere, .cubi3d { display: none; }
 }
 @media (prefers-reduced-transparency: reduce) {
 .palco > i { transition: none; }

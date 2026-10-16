@@ -139,6 +139,17 @@ html.ha-cursore .palco__torcia { opacity: 1; }
 }
 @keyframes polvere { to { translate: 0 calc(var(--d) * -1); } }
 
+/* ── I CUBI DELLA HOME (16.10) ────────────────────────────────────────────
+   «I cubotti della hero li amo: riprendi effetti 3D simili per tutta la
+   homepage, senza esagerare.» Una tela WebGL sola (cubi3d.js), fissa come
+   il palco e subito sopra di lui: i cubi stanno DIETRO al contenuto, così
+   passano dietro le mani della caduta e dentro il cubo del trofeo, mai
+   sopra una parola. La crea motion.js solo con html.vuole-3d.          */
+.cubi3d {
+  position: fixed; inset: 0; width: 100%; height: 100%;
+  z-index: var(--z-palco); pointer-events: none;
+}
+
 /* ── LA LAMA DI LUCE FRA LE STANZE (15.10) ────────────────────────────────
    Dove cambia la luce del palco (una sezione che apre una stanza nuova,
    non quelle che continuano un capitolo) una lama sottile di luce
@@ -171,7 +182,7 @@ html[data-atmo="notte"] .sf--notte .ar:not(h2 .ar) { color: var(--c-ar-hot); }
 @media (prefers-contrast: more) {
   /* Ad alto contrasto le atmosfere si spengono: sono un lusso, non
      informazione, e qui rubano leggibilità.                            */
-  .palco > i, .palco::after, .palco__polvere { display: none; }
+  .palco > i, .palco::after, .palco__polvere, .cubi3d { display: none; }
 }
 @media (prefers-reduced-transparency: reduce) {
   .palco > i { transition: none; }

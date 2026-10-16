@@ -119,6 +119,23 @@
     if (document.readyState === 'complete') quandoLibero(); else addEventListener('load', quandoLibero, { once: true });
   }
 
+  /* ── I CUBI DELLA HOME (16.10) ─────────────────────────────────────────
+     I contatti dell'hero tornano tre volte lungo la home (cubi3d.js):
+     cadono accanto al problema, salgono a scalinata accanto ai numeri,
+     arrivano al trofeo del finale. Stesso cancello dell'hero; il modulo
+     si scarica quando il primo dei tre momenti è a meno di uno schermo. */
+  const ancoreCubi = document.querySelectorAll('[data-cubi]');
+  if (ancoreCubi.length && radice.classList.contains('vuole-3d')) {
+    const vicino = new IntersectionObserver((es) => {
+      if (!es.some(e => e.isIntersecting)) return;
+      vicino.disconnect();
+      const parti = () => { if (radice.classList.contains('vuole-3d')) import('/js/cubi3d.js').then(m => m.avvia()).catch(() => {}); };
+      'requestIdleCallback' in window ? requestIdleCallback(parti, { timeout: 800 }) : setTimeout(parti, 100);
+    }, { rootMargin: '70% 0px' });
+    const osserva = () => ancoreCubi.forEach(a => vicino.observe(a));
+    if (document.readyState === 'complete') osserva(); else addEventListener('load', osserva, { once: true });
+  }
+
   /* ── IL MENU A CARD GIGANTE ─────────────────────────────────────────────
      Un dialogo vero. Apre togliendo [hidden] e accendendo .is-on al
      fotogramma dopo, così la transizione parte; chiude al contrario e
