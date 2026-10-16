@@ -899,7 +899,13 @@ const monta = () => {
         <td data-l="${L[4]}">${r.tool}</td><td data-l="${L[5]}">${r.chi}</td></tr>`).join('');
       if (conta) conta.textContent = `${rows.length} righe su ${RIGHE.length}`;
     };
-    render('tutti');
+    /* 16.10, «ottimizza per mobile»: sul telefono la tabella diventa una
+       scheda per riga, e dodici erano circa quattro schermate. Lì parte dal
+       primo reparto (3 righe su 12, il conteggio lo dice); «Tutti» e gli
+       altri reparti restano a un tocco. */
+    const avvio = matchMedia('(max-width: 760px)').matches ? 'pubblicita' : 'tutti';
+    render(avvio);
+    $$('#tab-filtri .chip').forEach(c => c.setAttribute('aria-pressed', String(c.dataset.f === avvio)));
     $('#tab-filtri')?.addEventListener('click', (e) => {
       const b = e.target.closest('.chip'); if (!b) return;
       $$('#tab-filtri .chip').forEach(c => c.setAttribute('aria-pressed', String(c === b)));
