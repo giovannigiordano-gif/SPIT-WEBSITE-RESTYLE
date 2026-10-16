@@ -183,6 +183,11 @@ html.menu-aperto { overflow: hidden; scrollbar-gutter: stable; }
 }
 .menu.is-on .menu__card { clip-path: inset(0 0 0 0 round 28px); transition: clip-path 680ms var(--ease-salita); }
 .menu__testa { grid-column: 1 / -1; display: flex; align-items: center; justify-content: space-between; }
+/* LA POLVERE DEL MENU (16.10, menu-polvere.js): una tela dietro le voci,
+   i quadrati del marchio che esplodono dal bottone e poi salgono piano.
+   Il contenuto della card le sta sopra. */
+.menu__polvere { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+.menu__card > :not(.menu__polvere) { position: relative; z-index: 1; }
 
 /* Le voci: solo i nomi delle pagine, a corpo da titolo (15.10: niente
    più didascalie). Una colonna; ogni voce resta una griglia perché il
@@ -208,6 +213,14 @@ html.menu-aperto { overflow: hidden; scrollbar-gutter: stable; }
   font: 500 clamp(36px, min(7.2vh, 6.2vw), 92px)/1 var(--f-display); letter-spacing: -.035em;
   color: var(--c-t2);
   transition: color var(--t-micro) linear, translate var(--t-stato) var(--ease-salita);
+}
+/* 16.10, «animati»: all'apertura ogni voce si alza ruotando sul suo piede
+   (come le parole dei titoli), a gradini con le altre */
+.menu__voci a { perspective: 700px; }
+.menu__nome { transform-origin: 0 100%; rotate: x 78deg; }
+.menu.is-on .menu__nome {
+  rotate: x 0deg;
+  transition: color var(--t-micro) linear, translate var(--t-stato) var(--ease-salita), rotate 820ms var(--ease-salita) calc(170ms + var(--i) * 45ms);
 }
 /* La particella del marchio aspetta nel margine e si accende davanti alla
    voce sotto il cursore, che le fa spazio scorrendo a destra.          */
@@ -295,6 +308,7 @@ html.menu-aperto { overflow: hidden; scrollbar-gutter: stable; }
   .menu__voci a, .menu.is-on .menu__voci a { transition: opacity 180ms linear; translate: 0 0; transition-delay: 0s; }
   .menu.is-on .menu__piede { transition-delay: 0s; }
   .menu__voci a:hover .menu__nome, .menu__voci a:focus-visible .menu__nome { translate: 0 0; }
+  .menu__nome, .menu.is-on .menu__nome { rotate: none; }
 }
 
 /* ── PIASTRA CTA MOBILE ─────────────────────────────────────────────────── */

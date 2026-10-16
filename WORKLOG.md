@@ -888,6 +888,17 @@ se la pagina ha `#posti`, quindi torna da sola con la pagina vera.
 Verifica: catture a 1440 e 390; i due test del form eventi sostituiti da due sulla pagina in lavorazione (44 test, i
 tre in meno erano le ancore della pagina nascosta); movimento ridotto senza movimento.
 
+*Il menu con le particelle (16.10)* — «Anche nel menu inserisci effetti particellari e animati.»
+- **La polvere del menu** (`src/js/menu-polvere.js`, caricato alla prima apertura): i quadrati del marchio, per lo più
+  bianco caldo e uno su quattro arancione, a tre profondità, su una tela dietro le voci. All'apertura esplodono dal
+  bottone Menu, da dove nasce la card, e si spargono frenando; poi salgono piano ondeggiando. Si scostano dal cursore;
+  passando su una voce dal suo quadratino parte uno sbuffo arancione e le particelle arancioni le arrivano da tutta la
+  card e le girano attorno; la voce cliccata scoppia. Alla chiusura si spengono e il ciclo si ferma.
+- **Le voci si alzano** ruotando sul loro piede, a gradini, come le parole dei titoli.
+- A movimento ridotto niente tela e niente rotazione.
+Verifica: catture dell'apertura a 180, 420, 800 e 1700 ms, del passaggio su una voce, del telefono; a movimento
+ridotto la tela non c'è; i sette test del menu passano (44/44).
+
 ### Cosa è stato fatto, fase per fase (skill applicate)
 
 **Fase 1 — design system** (impeccable craft-floor, design-taste-frontend, ui-ux-pro-max checklist)

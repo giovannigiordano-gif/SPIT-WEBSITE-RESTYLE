@@ -151,6 +151,16 @@
        anche se il fuoco è caduto sul <body> (un clic su testo o foto). */
     const inerte = (si) => [...document.body.children].forEach(n => { if (n !== menu && n.tagName !== 'SCRIPT') n.inert = si; });
     document.addEventListener('keydown', (e) => { if (aperto && e.key === 'Escape') { e.preventDefault(); chiudi(); } });
+    /* LA POLVERE (16.10, «nel menu effetti particellari e animati»): i
+       quadrati del marchio su una tela dietro le voci (menu-polvere.js).
+       Il modulo arriva alla prima apertura, mai a movimento ridotto. */
+    let polvere = null, polvereInArrivo = null;
+    const conPolvere = (fn) => {
+      if (RM()) return;
+      if (polvere) { fn(polvere); return; }
+      polvereInArrivo ||= import('/js/menu-polvere.js').then(m => (polvere = m.avvia(card))).catch(() => null);
+      polvereInArrivo.then(p => { if (p) fn(p); });
+    };
 
     const apri = () => {
       if (aperto) return; aperto = true; clearTimeout(tNascondi);
@@ -158,6 +168,9 @@
       carica(); mostra(base());
       menu.hidden = false;
       origine();
+      /* la polvere esplode dal bottone, da dove nasce la card */
+      const bb = burger.getBoundingClientRect();
+      conPolvere(p => { if (aperto) p.apri({ x: bb.left + bb.width / 2, y: bb.top + bb.height / 2 }); });
       radice.classList.add('menu-aperto'); inerte(true);
       burger.setAttribute('aria-expanded', 'true');
       /* due fotogrammi: il primo applica --da con la card ancora chiusa */
@@ -167,6 +180,7 @@
     const chiudi = (torna = true) => {
       if (!aperto) return; aperto = false;
       origine();
+      polvere?.chiudi();
       menu.classList.remove('is-on');
       radice.classList.remove('menu-aperto'); inerte(false);
       burger.setAttribute('aria-expanded', 'false');
@@ -219,6 +233,7 @@
       const a = e.target.closest('a'); if (!a) return;
       /* ctrl/⌘/maiuscolo/clic centrale: nuova scheda, la pagina resta qui */
       if (e.button || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      if (a.closest('.menu__voci')) polvere?.scoppio(a);
       if (a.dataset.foto && vola(a)) return;
       chiudi(false);
     });
@@ -232,14 +247,14 @@
     /* L'anteprima segue il cursore e la tastiera; uscendo dall'elenco
        torna quella della pagina in cui si è.                            */
     voci.forEach(a => {
-      const k = () => mostra(a.dataset.foto);
+      const k = () => { mostra(a.dataset.foto); polvere?.voce(a); };
       a.addEventListener('pointerenter', k); a.addEventListener('focus', k);
     });
-    $('.menu__voci', menu)?.addEventListener('pointerleave', () => mostra(base()));
+    $('.menu__voci', menu)?.addEventListener('pointerleave', () => { mostra(base()); polvere?.voce(null); });
     /* Tornando indietro dalla cache del browser il menu non resta aperto. */
     addEventListener('pageshow', (e) => {
       if (!e.persisted) return;
-      riparti();
+      riparti(); polvere?.chiudi();
       aperto = false; menu.classList.remove('is-on'); menu.hidden = true;
       radice.classList.remove('menu-aperto'); inerte(false); burger.setAttribute('aria-expanded', 'false');
     });

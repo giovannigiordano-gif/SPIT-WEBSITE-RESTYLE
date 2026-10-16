@@ -446,6 +446,9 @@ Un capitolo (06), sull'atmosfera "notte": a sinistra (7/12) logo, titolo, sommar
 - **I libri** in Fatturare³ portano alla loro pagina Amazon: il titolo è il link, la riga intera lo prende, a destra «Su Amazon →» che fa un passo al passaggio. Nel Team i due titoli nella scheda di Alberto Frisoni sono link.
 - **Il footer** finisce con la riga legale (respiro `--s-7` sotto): i quattro quadratini della chiusa sono stati tolti («togli quei pallini»).
 
+### Il menu con le particelle (16.10)
+La polvere del palco nella card del menu: quadrati del marchio (raggio 22%) da 2 a 9px, opacità .14–.7 con la profondità, uno su quattro arancione, una tela 2D dietro le voci (una ogni 11.000 px², fra 50 e 150). All'apertura esplodono dal bottone Menu a ventaglio verso l'interno e frenano; poi salgono a 7–27 px/s ondeggiando. Il cursore le scosta (raggio 120px); la voce sotto il cursore richiama le arancioni da tutta la card e le fa girare attorno al suo quadratino, da cui parte uno sbuffo di otto quadrati; la voce cliccata ne fa scoppiare ventidue. Le voci all'apertura si alzano ruotando sul piede (78° → 0, 820ms, a gradini di 45ms). Il modulo arriva alla prima apertura; a movimento ridotto non c'è.
+
 ### Eventi in lavorazione (16.10)
 La pagina Eventi è in lavorazione: l'apertura standard con il biglietto, «Work in progress.» con «progress» in arancio, e sotto il sommario il marchio a 36px che si monta un quadrato alla volta (3,2 s in ciclo, 150ms fra un quadrato e l'altro, curva d'ingresso), poi i due inviti (bianco e contorno). La pagina completa è in `pages/_nascoste/eventi.html`.
 

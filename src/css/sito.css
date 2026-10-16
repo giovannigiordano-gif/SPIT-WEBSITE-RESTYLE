@@ -578,6 +578,8 @@ transition: clip-path 420ms var(--ease-uscita);
 }
 .menu.is-on .menu__card { clip-path: inset(0 0 0 0 round 28px); transition: clip-path 680ms var(--ease-salita); }
 .menu__testa { grid-column: 1 / -1; display: flex; align-items: center; justify-content: space-between; }
+.menu__polvere { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+.menu__card > :not(.menu__polvere) { position: relative; z-index: 1; }
 .menu__voci {
 grid-column: 1; align-self: center;
 display: grid; grid-template-columns: max-content;
@@ -599,6 +601,12 @@ position: relative; justify-self: start;
 font: 500 clamp(36px, min(7.2vh, 6.2vw), 92px)/1 var(--f-display); letter-spacing: -.035em;
 color: var(--c-t2);
 transition: color var(--t-micro) linear, translate var(--t-stato) var(--ease-salita);
+}
+.menu__voci a { perspective: 700px; }
+.menu__nome { transform-origin: 0 100%; rotate: x 78deg; }
+.menu.is-on .menu__nome {
+rotate: x 0deg;
+transition: color var(--t-micro) linear, translate var(--t-stato) var(--ease-salita), rotate 820ms var(--ease-salita) calc(170ms + var(--i) * 45ms);
 }
 .menu__nome::before {
 content: ''; position: absolute; left: -.36em; top: .37em; width: .17em; height: .17em;
@@ -671,6 +679,7 @@ transition: color var(--t-micro) linear, border-color var(--t-micro) linear;
 .menu__voci a, .menu.is-on .menu__voci a { transition: opacity 180ms linear; translate: 0 0; transition-delay: 0s; }
 .menu.is-on .menu__piede { transition-delay: 0s; }
 .menu__voci a:hover .menu__nome, .menu__voci a:focus-visible .menu__nome { translate: 0 0; }
+.menu__nome, .menu.is-on .menu__nome { rotate: none; }
 }
 .piastra {
 position: fixed; inset: auto 0 0; z-index: var(--z-nav);
