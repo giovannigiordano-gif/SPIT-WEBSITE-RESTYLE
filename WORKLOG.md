@@ -925,6 +925,23 @@ Risultato, Lighthouse mobile prima → dopo: Metodo 96 → 99 (LCP 2,79 → 2,26
 il suo titolo era già visibile dal primo fotogramma; pesa la pagina, la più lunga). Accessibilità, buone pratiche e SEO
 100, CLS 0 ovunque. Audit 8 pagine a 390 e 360 senza rilievi; movimento ridotto senza movimento né invisibili; 44/44 test.
 
+*L'hero 3D anche sul telefono (16.10)* — «La hero 3D la vorrei anche da mobile.»
+- **Il cancello**: la scena dell'hero ora parte anche sul telefono; restano fuori movimento ridotto, risparmio dati e
+  telefoni con poca memoria (deviceMemory < 3), che hanno la versione DOM. L'elica del DNA resta solo desktop.
+- **Sul telefono più leggera**: 120 contatti invece di 300, risoluzione al massimo 1,4x, il marchio grande quanto
+  quello DOM (154px, sborda del 18% come lui, sopra c'è il testo). Senza cursore la luce arancione gira da sola.
+- **three.js ridotto e di casa**: una build con il tree-shaking di esbuild che esporta solo le classi usate dalle due
+  scene (`tools/three-sp.entry.js` → `src/js/vendor/three-sp.min.js`, 134 KB gzip invece di 171), dallo stesso dominio:
+  niente connessione in più al CDN.
+- **Compilazione in parallelo**: i programmi WebGL si compilano con `renderer.compileAsync` prima del primo fotogramma;
+  prima cadevano nel primo fotogramma e bloccavano il thread per ~0,4 s.
+Misure (Lighthouse mobile, home): 96 senza 3D; 87 col 3D e three.js intero (TBT 364 ms); 92 con la build ridotta
+(TBT ~220 ms); 95–96 con la compilazione in parallelo (TBT 8–17 ms). LCP 2,85 s e CLS 0 invariati, +127 KB di peso
+(caricati dopo il load).
+Verifica: telefono emulato (390×844, tocco): i contatti 3D intorno al titolo con la luce che gira, la convergenza
+allo scroll e il marchio montato in fondo all'hero; a movimento ridotto resta la versione DOM; desktop: hero ed elica
+del DNA invariati con la build ridotta; 44/44 test; movimento ridotto senza movimento.
+
 ### Cosa è stato fatto, fase per fase (skill applicate)
 
 **Fase 1 — design system** (impeccable craft-floor, design-taste-frontend, ui-ux-pro-max checklist)
