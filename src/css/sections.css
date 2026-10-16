@@ -806,6 +806,9 @@ a.indice__cta::after { content: ''; position: absolute; inset: 0; }
    piatta. Solo con view() e movimento pieno; la profondità al cursore
    resta sulla figura (transform), questa sta sull'immagine. */
 .testa-pag__foto { perspective: 1200px; }
+/* senza view(): solo lo srotolarsi (stava DOPO il blocco @supports e gli
+   toglieva l'arretrare in uscita) */
+.testa-pag__foto--srotola img { animation: srotola var(--t-apertura) var(--ease-salita) 380ms both; }
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
     .testa-pag__foto img { animation: foto-arretra linear both; animation-timeline: view(); animation-range: exit 0% exit 100%; transform-origin: 50% 100%; }
@@ -817,8 +820,15 @@ a.indice__cta::after { content: ''; position: absolute; inset: 0; }
 /* il braccio della scalinata entra dal bordo destro dello schermo: nella
    colonna finiva con un taglio dritto a mezz'aria (audit 15.10) */
 @media (min-width: 901px) { .testa-pag__foto--gradini { justify-self: end; margin-right: calc(-1 * max(var(--margine), (100vw - var(--w-piena)) / 2 + var(--margine))); } }
-.testa-pag__foto--srotola img { animation: srotola var(--t-apertura) var(--ease-salita) 380ms both; }
 @keyframes srotola { from { clip-path: inset(100% 0 0 0); } }
+/* 16.10, «ottimizza per mobile»: sul telefono la foto d'apertura è spesso
+   l'elemento più grande dello schermo (l'LCP): si scopre subito, non dopo
+   380–480ms. La priorità di scaricamento resta bassa: alta rubava banda a
+   foglio e carattere e l'LCP saliva (misurato: 2,3 → 3,0 s). */
+@media (max-width: 900px) {
+  .testa-pag__foto.apri-2 { animation-delay: 100ms; }
+  .testa-pag__foto--gradini img, .testa-pag__foto--srotola img { animation-delay: 100ms, 0s; }
+}
 @media (prefers-reduced-motion: reduce) { .testa-pag__foto--gradini img, .testa-pag__foto--srotola img { animation: none; } }
 .testa-pag__meta { display: inline-flex; align-items: center; gap: 10px; font: 500 15px/1.35 var(--f-display); color: var(--c-t3); }
 .testa-pag__meta::before { content: ''; flex: none; width: 8px; height: 8px; border-radius: var(--q-r); background: var(--c-ar); }

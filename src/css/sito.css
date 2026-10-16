@@ -1496,6 +1496,7 @@ padding-block: clamp(24px, 4vh, 48px) clamp(56px, 9vh, 120px);
 .testa-pag .t-deck { max-inline-size: 48ch; }
 .testa-pag__foto--gradini img { animation: vt-entra var(--t-apertura) var(--ease-salita) 380ms both; }
 .testa-pag__foto { perspective: 1200px; }
+.testa-pag__foto--srotola img { animation: srotola var(--t-apertura) var(--ease-salita) 380ms both; }
 @supports (animation-timeline: view()) {
 @media (prefers-reduced-motion: no-preference) {
 .testa-pag__foto img { animation: foto-arretra linear both; animation-timeline: view(); animation-range: exit 0% exit 100%; transform-origin: 50% 100%; }
@@ -1505,8 +1506,11 @@ padding-block: clamp(24px, 4vh, 48px) clamp(56px, 9vh, 120px);
 }
 @keyframes foto-arretra { to { rotate: x 18deg; translate: 0 -4% -180px; opacity: .35; } }
 @media (min-width: 901px) { .testa-pag__foto--gradini { justify-self: end; margin-right: calc(-1 * max(var(--margine), (100vw - var(--w-piena)) / 2 + var(--margine))); } }
-.testa-pag__foto--srotola img { animation: srotola var(--t-apertura) var(--ease-salita) 380ms both; }
 @keyframes srotola { from { clip-path: inset(100% 0 0 0); } }
+@media (max-width: 900px) {
+.testa-pag__foto.apri-2 { animation-delay: 100ms; }
+.testa-pag__foto--gradini img, .testa-pag__foto--srotola img { animation-delay: 100ms, 0s; }
+}
 @media (prefers-reduced-motion: reduce) { .testa-pag__foto--gradini img, .testa-pag__foto--srotola img { animation: none; } }
 .testa-pag__meta { display: inline-flex; align-items: center; gap: 10px; font: 500 15px/1.35 var(--f-display); color: var(--c-t3); }
 .testa-pag__meta::before { content: ''; flex: none; width: 8px; height: 8px; border-radius: var(--q-r); background: var(--c-ar); }
@@ -2781,10 +2785,11 @@ animation-range: entry calc(var(--w) * 3.2%) entry 100%;
 }
 }
 .testa-pag [data-split] .w > span {
-animation: parola-sale var(--t-maschera) var(--ease-salita) both;
+animation: parola-sale-meta var(--t-maschera) var(--ease-salita) both;
 animation-timeline: auto; animation-range: normal;
-animation-delay: calc(120ms + var(--w) * 55ms);
+animation-delay: calc(60ms + var(--w) * 45ms);
 }
+@keyframes parola-sale-meta { from { translate: 0 46%; rotate: x 36deg; opacity: .55; } }
 @media (prefers-reduced-motion: no-preference) {
 .testa-pag--tre .t-hero .w > span { animation-name: detto; transform-origin: 0 100%;
 animation-delay: calc(140ms + var(--w) * var(--stagger-riga) * 2); }

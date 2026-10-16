@@ -58,12 +58,17 @@
     animation-range: entry calc(var(--w) * 3.2%) entry 100%;
   }
 }
-/* Gli H1 delle pagine interne sono sopra la piega: a tempo, come l'hero. */
+/* Gli H1 delle pagine interne sono sopra la piega: a tempo, come l'hero.
+   16.10, «ottimizza per mobile»: come l'H1 della home partono GIÀ A METÀ
+   della maschera, un po' inclinati, e dipinti dal primo fotogramma. Prima
+   partivano nascosti e l'LCP (il titolo, o la foto) aspettava la loro
+   salita: sul telefono 2,0–2,4 s di ritardo di resa. Il gesto resta. */
 .testa-pag [data-split] .w > span {
-  animation: parola-sale var(--t-maschera) var(--ease-salita) both;
+  animation: parola-sale-meta var(--t-maschera) var(--ease-salita) both;
   animation-timeline: auto; animation-range: normal;
-  animation-delay: calc(120ms + var(--w) * 55ms);
+  animation-delay: calc(60ms + var(--w) * 45ms);
 }
+@keyframes parola-sale-meta { from { translate: 0 46%; rotate: x 36deg; opacity: .55; } }
 /* DETTO TRE VOLTE (Fatturare³, ciclo 1): il payoff si pronuncia in tre
    tempi, con la stessa pressa del finale della home, e il microfono sale
    a prendere il terzo. */
