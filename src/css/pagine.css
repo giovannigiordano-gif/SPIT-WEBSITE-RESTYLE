@@ -152,11 +152,14 @@
   .com.is-letto .com__n::after { opacity: 1; }
 }
 @media (max-width: 860px) { .comand { grid-template-columns: 1fr; } }
+/* 16.10, «ottimizza per mobile»: sul telefono lo schermo è corto e il
+   testo dei principi è lungo. La card gira al massimo di 16° (era 40°) e
+   resta piatta per una fascia più larga: si legge mentre scorre. */
 @keyframes com-gira-tel {
-  0%   { transform: perspective(900px) rotateY(40deg); animation-timing-function: cubic-bezier(.22,.7,.3,1); }
-  30%  { transform: perspective(900px) rotateY(0deg); }
-  66%  { transform: perspective(900px) rotateY(0deg); animation-timing-function: cubic-bezier(.7,0,.78,.3); }
-  100% { transform: perspective(900px) rotateY(-40deg); }
+  0%   { transform: perspective(900px) rotateY(16deg); animation-timing-function: cubic-bezier(.22,.7,.3,1); }
+  24%  { transform: perspective(900px) rotateY(0deg); }
+  72%  { transform: perspective(900px) rotateY(0deg); animation-timing-function: cubic-bezier(.7,0,.78,.3); }
+  100% { transform: perspective(900px) rotateY(-16deg); }
 }
 
 /* ── DNA · LA DOPPIA ELICA ──────────────────────────────────────────────────

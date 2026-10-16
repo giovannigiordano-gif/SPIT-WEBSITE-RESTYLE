@@ -2534,10 +2534,10 @@ animation-range: entry 50% exit 50%, cover 36% cover 64%;
 }
 @media (max-width: 860px) { .comand { grid-template-columns: 1fr; } }
 @keyframes com-gira-tel {
-0%   { transform: perspective(900px) rotateY(40deg); animation-timing-function: cubic-bezier(.22,.7,.3,1); }
-30%  { transform: perspective(900px) rotateY(0deg); }
-66%  { transform: perspective(900px) rotateY(0deg); animation-timing-function: cubic-bezier(.7,0,.78,.3); }
-100% { transform: perspective(900px) rotateY(-40deg); }
+0%   { transform: perspective(900px) rotateY(16deg); animation-timing-function: cubic-bezier(.22,.7,.3,1); }
+24%  { transform: perspective(900px) rotateY(0deg); }
+72%  { transform: perspective(900px) rotateY(0deg); animation-timing-function: cubic-bezier(.7,0,.78,.3); }
+100% { transform: perspective(900px) rotateY(-16deg); }
 }
 @property --giro { syntax: '<angle>'; inherits: true; initial-value: 0deg; }
 @keyframes elica-gira { to { --giro: 540deg; } }
