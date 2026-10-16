@@ -228,6 +228,13 @@ html.menu-aperto { overflow: hidden; scrollbar-gutter: stable; }
 .menu__voci a:hover .menu__nome::before, .menu__voci a:focus-visible .menu__nome::before { scale: 1; }
 /* la pagina in cui sei: bianca e con il filo arancione sotto */
 .menu__voci a[aria-current="page"] .menu__nome { color: var(--c-t1); text-decoration: underline; text-decoration-color: var(--c-ar); text-decoration-thickness: .05em; text-underline-offset: .14em; }
+/* il podcast si riconosce dal suo logo (16.10), alto quanto le maiuscole */
+.menu__logo {
+  display: inline-block; width: .8em; height: .8em; margin-right: .24em; vertical-align: -.06em;
+  border-radius: 18%; object-fit: cover;
+  transition: rotate var(--t-stato) var(--ease-salita), scale var(--t-stato) var(--ease-salita);
+}
+.menu__voci a:hover .menu__logo, .menu__voci a:focus-visible .menu__logo { rotate: -6deg; scale: 1.06; }
 .menu__voci a:focus-visible { outline: none; }
 .menu__voci a:focus-visible .menu__nome { outline: 3px solid var(--c-ar); outline-offset: 4px; border-radius: 6px; }
 
@@ -357,14 +364,10 @@ html.cta-gemello .nav .cta--nav::before { opacity: 0; }
   transition: color var(--t-micro) linear, border-color var(--t-micro) linear, background-color var(--t-micro) linear, translate var(--t-micro) var(--ease-scatto);
 }
 .footer__social a:hover { color: var(--c-ar); border-color: var(--c-ar); background: rgba(255,130,0,.10); translate: 0 -2px; }
-.footer__legale { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 22px; padding-block: var(--s-6); font: 400 13px/1.5 var(--f-display); color: var(--c-t3); }
+/* 16.10: «sistema il footer, togli quei pallini» — i quattro quadratini in
+   fondo sono andati; la riga legale chiude la pagina, con il suo respiro */
+.footer__legale { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 22px; padding-block: var(--s-6) var(--s-7); font: 400 13px/1.5 var(--f-display); color: var(--c-t3); }
 .footer__legale a { min-height: 24px; display: inline-flex; align-items: center; }
-/* La chiusa: i quattro quadrati diventano la scalinata del marchio. */
-.footer__chiusa { display: flex; align-items: flex-end; gap: 4px; padding-bottom: var(--s-7); }
-.footer__chiusa i { width: 9px; height: 9px; border-radius: var(--q-r); background: var(--c-ar); }
-.footer__chiusa i:nth-child(2) { translate: 0 -5px; }
-.footer__chiusa i:nth-child(3) { translate: 0 -10px; }
-.footer__chiusa i:nth-child(4) { translate: 0 -15px; }
 
 @media (max-width: 1199px) {
   .footer__grid { grid-template-columns: repeat(4, minmax(0, 1fr));

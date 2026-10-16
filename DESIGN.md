@@ -441,8 +441,13 @@ Righe tipografiche per podcast, articoli, libri, ruoli: tipo (500 14px, Arancio 
 ### Il podcast
 Un capitolo (06), sull'atmosfera "notte": a sinistra (7/12) logo, titolo, sommario, il CTA bianco verso il canale YouTube (nuova scheda) e una nota in Meta; a destra (5/12) il microfono, che sale con la sezione un filo più lento del testo e sfuma in basso (max 76vh; su telefono al massimo 300px). Il logo lo inserisce il build (`<!--LOGO-PODCAST-->` in `tools/build.mjs`) da `src/assets/podcast/fatturare-logo.(svg|webp|png)`, alto `clamp(72px, 6.4vw, 104px)`; finché il file manca, al suo posto resta il nome scritto. Non va ridisegnato.
 
+### Il menu, il podcast, il footer (16.10)
+- **Il podcast nel menu**: la voce di Fatturare³ si chiama **Podcast** e porta il logo del podcast davanti al nome (alto 0,8em, raggio 18%; al passaggio gira di −6° e cresce del 6%). L'anteprima resta il microfono.
+- **I libri** in Fatturare³ portano alla loro pagina Amazon: il titolo è il link, la riga intera lo prende, a destra «Su Amazon →» che fa un passo al passaggio. Nel Team i due titoli nella scheda di Alberto Frisoni sono link.
+- **Il footer** finisce con la riga legale (respiro `--s-7` sotto): i quattro quadratini della chiusa sono stati tolti («togli quei pallini»).
+
 ### Dove siamo
-Non è un capitolo: è la chiusura, prima del finale. Dopo il podcast respira la metà (`.podcast-sez + .dove`, `padding-top: calc(var(--sez-y) * .45)`), senza segnacapitolo. Mappa a facciata (raggio 20px, l'embed di Google si carica solo al clic) e le sedi in card con la luce al cursore.
+Non è un capitolo: è la chiusura, prima del finale. Dopo il podcast respira la metà (`.podcast-sez + .dove`, `padding-top: calc(var(--sez-y) * .45)`), senza segnacapitolo. Dal 16.10 («deve essere centrata e chiamata Dove siamo; la mappa deve caricarsi da sola, sempre») è una colonna centrata: il titolo «Dove siamo», l'indirizzo con il caffè nel sommario, la mappa vera a tutta misura (raggio 20px, 21:9 su desktop, 16:9 fino a 1100px, 5:4 sul telefono; un iframe in pagina con `loading=lazy`, nessun clic) e sotto le tre sedi in fila, centrate, con la luce al cursore. Solo proporzioni, mai un'altezza minima: con `aspect-ratio` il minimo si trasferisce alla larghezza e la mappa sporge dallo schermo. Uguale in home e in candidatura.
 
 ### Le aperture
 - **Home:** hero centrato sul nero, campo di contatti (3D su desktop, DOM altrove), attacco a 500 e colpo in Display. **L'hero arretra** (`hero-arretra`, `scroll(root block)`, 0–70vh; 15–85vh sotto 900px): pieno per il primo 55%, poi scala a .9, sale di 2vh e si spegne, mentre i contatti convergono nel marchio. A scroll zero è identico (l'H1 resta l'elemento LCP); il fuoco della tastiera dentro l'hero lo riporta pieno.

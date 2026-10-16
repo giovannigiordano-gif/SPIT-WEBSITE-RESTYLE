@@ -45,7 +45,7 @@
      Con il passaggio a gradini e la foto che vola, il cambio di pagina
      parte senza attesa di rete. -->
 <script type="speculationrules">{"prefetch":[{"where":{"or":[{"href_matches":"/*.html"},{"href_matches":"/"}]},"eagerness":"moderate"}]}</script>
-<link rel="stylesheet" href="/css/sito.css?v=07a19fcd77">
+<link rel="stylesheet" href="/css/sito.css?v=944dde7020">
 </head>
 <body data-pagina="candidatura">
 <div class="sipario" aria-hidden="true"><i style="--k:0"></i><i style="--k:1"></i><i style="--k:2"></i><i style="--k:3"></i><span class="sipario__marchio"><img src="/assets/brand/logo-full-h112.webp" alt="" width="461" height="112" decoding="async"></span><span class="sipario__filo"></span></div>
@@ -95,7 +95,7 @@
       <a href="/dna.html" data-foto="dna-bussola" style="--i:2"><span class="menu__nome">DNA</span></a>
       <a href="/team.html" data-foto="team" style="--i:3"><span class="menu__nome">Team</span></a>
       <a href="/eventi.html" data-foto="eventi-biglietto" style="--i:4"><span class="menu__nome">Eventi</span></a>
-      <a href="/fatturare.html" data-foto="fatturare-microfono" style="--i:5"><span class="menu__nome">Fatturare³</span></a>
+      <a href="/fatturare.html" data-foto="fatturare-microfono" style="--i:5"><span class="menu__nome"><img class="menu__logo" src="/assets/podcast/fatturare-logo.webp" alt="" width="300" height="300" loading="lazy" decoding="async">Podcast</span></a>
       <a href="/candidatura.html" data-foto="candidatura-caffe" style="--i:6" aria-current="page"><span class="menu__nome">Candidatura</span></a>
     </nav>
     <div class="menu__anteprime" aria-hidden="true">
@@ -255,59 +255,38 @@
 </section>
 
 <!-- ══ DOVE SIAMO ════════════════════════════════════════════════════════
-     La mappa è a FACCIATA: l'embed di Google scarica oltre un megabyte e
-     scrive cookie di profilazione al primo byte — prima del consenso, con
-     una cookie policy iubenda attiva, è un problema legale, non solo di
-     performance. Si carica al click, e chi non clicca ha comunque
-     l'indirizzo, gli orari e il link diretto.
-     Sul sito attuale l'embed è `q=salesprocess` a zoom 13: il pin è vago.
-     Qui la query è l'indirizzo esatto. -->
+     Per chi preferisce venire a prendere un caffè prima di candidarsi.
+     16.10, «deve essere centrata e chiamata Dove siamo; la mappa deve
+     caricarsi da sola, sempre»: una colonna centrata. Il titolo, l'indirizzo
+     con il caffè, la mappa vera a tutta misura (un iframe in pagina: il
+     browser lo carica da solo quando ci si avvicina, loading=lazy, senza
+     clic) e sotto le tre sedi in fila. La query è l'indirizzo esatto. -->
 <section class="sez dove" id="dove">
   <div class="wrap wrap--piena">
     <div class="testa">
-      <h2 class="t-d3" data-split><span class="w" style="--w:0"><span>Via</span></span> <span class="w" style="--w:1"><span>Marco</span></span> <span class="w" style="--w:2"><span>D'Agrate</span></span> <span class="w" style="--w:3"><span>41,</span></span> <span class="w" style="--w:4"><span>Milano.</span></span> <span class="w" style="--w:5"><span><span class="segue">Quarto</span></span></span> <span class="w" style="--w:6"><span><span class="segue">piano.</span></span></span></h2>
-      <p class="t-deck">Il caffè lo facciamo noi. A dieci minuti dalla tangenziale Est, parcheggio in strada.</p>
+      <h2 class="t-d2" data-split><span class="w" style="--w:0"><span>Dove</span></span> <span class="w" style="--w:1"><span>siamo</span></span></h2>
+      <p class="t-deck">Via Marco D'Agrate 41, Milano. Quarto piano. Il caffè lo facciamo noi. A dieci minuti dalla tangenziale Est, parcheggio in strada.</p>
     </div>
 
-    <div class="dove__grid">
-      <div class="mappa" id="mappa"
-           data-q="Via Marco D%27Agrate 41, 20139 Milano"
-           data-z="16">
-        <div class="mappa__facciata">
-          <svg class="mappa__grid" aria-hidden="true" width="100%" height="100%">
-            <defs>
-              <pattern id="mg" width="44" height="44" patternUnits="userSpaceOnUse">
-                <path d="M44 0H0v44" fill="none" stroke="rgba(255,255,255,.055)" stroke-width="1"/>
-              </pattern>
-            </defs>
-            <rect width="100%" height="100%" fill="url(#mg)"/>
-          </svg>
-          <span class="mappa__pin" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 21s7-6.3 7-11a7 7 0 1 0-14 0c0 4.7 7 11 7 11z"/><circle cx="12" cy="10" r="2.6"/>
-            </svg>
-          </span>
-          <button class="cta cta--bianco mappa__btn" type="button">Carica la mappa</button>
-          <p class="t-micro mappa__nota">La mappa di Google scrive cookie: si carica solo se la chiedi.</p>
-        </div>
-      </div>
+    <div class="mappa" id="mappa">
+      <iframe src="https://maps.google.com/maps?q=Via%20Marco%20D%27Agrate%2041%2C%2020139%20Milano&amp;t=m&amp;z=16&amp;output=embed&amp;iwloc=near" title="Mappa: Via Marco D'Agrate 41, Milano" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+    </div>
 
-      <div class="dove__info">
-        <article class="card sede">
-          <p class="t-eyebrow" style="color:var(--c-ar-hot)">Uffici di rappresentanza</p>
-          <p class="t-t1">Via Marco D'Agrate 41<br>20139 Milano (MI)</p>
-          <p class="t-piccolo" style="color:var(--c-t3)">Quarto piano. Citofono Sales Process.</p>
-          <a class="cta cta--out cta--sm" href="https://www.google.com/maps/search/?api=1&query=Via+Marco+D%27Agrate+41%2C+20139+Milano" target="_blank" rel="noopener">Apri in Google Maps<svg class="freccia" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12h14.5M13.5 6.5 19 12l-5.5 5.5"/></svg></a>
-        </article>
-        <article class="card sede">
-          <p class="t-eyebrow">Sede legale</p>
-          <p class="t-t1" style="font-size:19px">Piazza IV Novembre 1<br>22070 Capiago Intimiano (CO)</p>
-        </article>
-        <article class="card sede">
-          <p class="t-eyebrow">Scrivici</p>
-          <a class="footer__mail link-wipe" href="mailto:amministrazione@salesprocess.it">amministrazione@salesprocess.it</a>
-        </article>
-      </div>
+    <div class="dove__info">
+      <article class="card sede">
+        <p class="t-eyebrow" style="color:var(--c-ar-hot)">Uffici di rappresentanza</p>
+        <p class="t-t1">Via Marco D'Agrate 41<br>20139 Milano (MI)</p>
+        <p class="t-piccolo" style="color:var(--c-t3)">Quarto piano. Citofono Sales Process.</p>
+        <a class="cta cta--out cta--sm" href="https://www.google.com/maps/search/?api=1&query=Via+Marco+D%27Agrate+41%2C+20139+Milano" target="_blank" rel="noopener">Apri in Google Maps<svg class="freccia" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12h14.5M13.5 6.5 19 12l-5.5 5.5"/></svg></a>
+      </article>
+      <article class="card sede">
+        <p class="t-eyebrow">Sede legale</p>
+        <p class="t-t1">Piazza IV Novembre 1<br>22070 Capiago Intimiano (CO)</p>
+      </article>
+      <article class="card sede">
+        <p class="t-eyebrow">Scrivici</p>
+        <a class="footer__mail link-wipe" href="mailto:amministrazione@salesprocess.it">amministrazione@salesprocess.it</a>
+      </article>
     </div>
   </div>
 </section>
@@ -337,7 +316,6 @@
       </ul></div>
       <div><h2 class="footer__h">Fatturare³</h2><ul>
         <li><a href="/fatturare.html">Il podcast</a></li>
-        <li><a href="/fatturare.html#articoli">Gli articoli</a></li>
         <li><a href="/eventi.html">Sales Process Day</a></li>
         <li><a href="/fatturare.html#libri">I due libri</a></li>
       </ul></div>
@@ -366,7 +344,6 @@
       <a href="https://www.iubenda.com/privacy-policy/61378305/cookie-policy" target="_blank" rel="noopener" class="link-wipe">Cookie Policy</a>
       <span>Dati aggiornati al 09.09.2026</span>
     </div>
-    <div class="footer__chiusa" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
   </div>
 </footer>
 
@@ -381,6 +358,6 @@
 <script src="/js/dati.js?v=d0fa4558a5" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js" defer></script>
-<script src="/js/motion.js?v=6caa8d5359" defer></script>
+<script src="/js/motion.js?v=6b5b355cda" defer></script>
 </body>
 </html>

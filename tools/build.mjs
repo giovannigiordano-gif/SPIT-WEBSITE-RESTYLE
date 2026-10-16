@@ -197,7 +197,9 @@ const VOCI_MENU = [
   { href: '/dna.html',         label: 'DNA',         foto: 'dna-bussola' },
   { href: '/team.html',        label: 'Team',        foto: 'team' },
   { href: '/eventi.html',      label: 'Eventi',      foto: 'eventi-biglietto' },
-  { href: '/fatturare.html',   label: 'Fatturare³',  foto: 'fatturare-microfono' },
+  /* 16.10: «nel menu vorrei il podcast con il logo» — la voce di Fatturare³
+     si chiama Podcast e porta il logo del podcast davanti al nome */
+  { href: '/fatturare.html',   label: 'Podcast',     foto: 'fatturare-microfono', logo: '/assets/podcast/fatturare-logo.webp' },
   { href: '/candidatura.html', label: 'Candidatura', foto: 'candidatura-caffe' },
 ]
 /* Il Team non ha un oggetto: nell'anteprima, come nella sua apertura, i
@@ -235,7 +237,7 @@ const nav = (slug) => `
       </button>
     </div>
     <nav class="menu__voci" aria-label="Principale">
-      ${VOCI_MENU.map((v, i) => `<a href="${v.href}" data-foto="${v.foto}" style="--i:${i}"${corrente(v.href, slug)}><span class="menu__nome">${v.label}</span></a>`).join('\n      ')}
+      ${VOCI_MENU.map((v, i) => `<a href="${v.href}" data-foto="${v.foto}" style="--i:${i}"${corrente(v.href, slug)}><span class="menu__nome">${v.logo ? `<img class="menu__logo" src="${v.logo}" alt="" width="300" height="300" loading="lazy" decoding="async">` : ''}${v.label}</span></a>`).join('\n      ')}
     </nav>
     <div class="menu__anteprime" aria-hidden="true">
       <img class="menu__ant menu__ant--casa" data-foto="casa" data-src="/assets/foto/finale-trofeo-800.webp" alt="" width="1200" height="1500">
@@ -273,7 +275,6 @@ const footer = (slug) => `
       </ul></div>
       <div><h2 class="footer__h">Fatturare³</h2><ul>
         <li><a href="/fatturare.html">Il podcast</a></li>
-        <li><a href="/fatturare.html#articoli">Gli articoli</a></li>
         <li><a href="/eventi.html">Sales Process Day</a></li>
         <li><a href="/fatturare.html#libri">I due libri</a></li>
       </ul></div>
@@ -305,7 +306,6 @@ const footer = (slug) => `
       <a href="https://www.iubenda.com/privacy-policy/61378305/cookie-policy" target="_blank" rel="noopener" class="link-wipe">Cookie Policy</a>
       <span>Dati aggiornati al 09.09.2026</span>
     </div>
-    <div class="footer__chiusa" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
   </div>
 </footer>
 

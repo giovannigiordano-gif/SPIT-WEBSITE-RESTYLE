@@ -669,27 +669,6 @@
     setTimeout(() => { location.href = u.href; }, 220);
   });
 
-  /* ── LA MAPPA A FACCIATA ────────────────────────────────────────────────
-     L'embed di Google scarica oltre un megabyte e scrive cookie di
-     profilazione al primo byte. Con una cookie policy attiva caricarlo
-     senza che l'utente lo chieda è un problema legale, non solo di
-     performance: si carica al click, e chi non clicca ha comunque
-     indirizzo, sede legale e link diretto.                             */
-  const mappa = $('#mappa');
-  mappa?.querySelector('.mappa__btn')?.addEventListener('click', () => {
-    if (mappa.dataset.aperto) return;
-    mappa.dataset.aperto = '1';
-    const q = mappa.dataset.q || '';
-    const z = mappa.dataset.z || '16';
-    const f = document.createElement('iframe');
-    f.src = 'https://maps.google.com/maps?q=' + q + '&t=m&z=' + z + '&output=embed&iwloc=near';
-    f.title = 'Mappa: Via Marco D\u2019Agrate 41, Milano';
-    f.loading = 'lazy';
-    f.referrerPolicy = 'no-referrer-when-downgrade';
-    mappa.append(f);
-    mappa.classList.add('is-on');
-  });
-
   /* ── IL BOTTONE DIVENTA LA PAGINA (giro 3 effetti) ─────────────────────
      «Candida la tua azienda» (nav, hero, piastra del telefono, finale): il
      bottone cliccato riceve il nome che la candidatura dà alla sua

@@ -819,6 +819,28 @@ Verifica: catture a 1440 e 390 e nel pannello del browser; tre test nuovi (cinqu
 caricamento, la scaletta fa partire il video scelto): 45/45; movimento ridotto senza invisibili; audit Risultati × 5
 larghezze senza rilievi; Lighthouse mobile Risultati 96, accessibilità 100, CLS 0.
 
+*Podcast, menu, libri, mappa e footer (16.10)*
+- **Fatturare³**: tolta la sezione «Le cose che ci chiedono più spesso, scritte una volta» (i sei articoli senza
+  link). Di conseguenza «articoli» esce dal sommario d'apertura, dal titolo e dalla descrizione della pagina e dal
+  footer («Gli articoli»).
+- **Il podcast nel menu, con il logo**: la voce Fatturare³ ora si chiama Podcast e ha il logo del podcast accanto al
+  nome, su desktop e telefono.
+- **I libri**: «Lo Schema Perfetto» e «Accelerare il Fatturato!» portano alle pagine Amazon indicate dal cliente,
+  ripulite dei parametri di tracciamento (`/dp/B08BWF2K9K` e `/dp/B0B4G37HJ1`); anche dalla scheda di Alberto Frisoni nel
+  Team. Il titolo è il link e la riga intera lo prende; il link è alto 44px.
+- **Dove siamo** (home e candidatura): centrata e chiamata «Dove siamo»; l'indirizzo e il caffè nel sommario; la mappa
+  **si carica da sola, sempre** (iframe in pagina, `loading=lazy`: il browser la carica quando ci si avvicina), a tutta
+  misura; sotto le tre sedi in fila. La sede legale ora ha il civico anche in home («Piazza IV Novembre 1», come nel
+  footer).
+- **Footer**: tolti i quattro quadratini in fondo; la riga legale chiude la pagina con il suo respiro.
+Problemi trovati: sul telefono la mappa sporgeva di 8px e spingeva fuori il bottone del menu (un'altezza minima con
+`aspect-ratio` si trasferisce alla larghezza): ora solo proporzioni. I titoli dei libri, come link, erano alti 31px
+sui touch: portati a 44.
+Verifica: catture a 1440 e 390 di «Dove siamo» (mappa caricata senza clic), menu aperto, libri e footer; 45/45 test
+(i due sulla mappa e sui video aggiornati: la mappa è in pagina senza clic, i video restano a facciata); movimento
+ridotto senza invisibili; audit Home, Fatturare³, Candidatura e Team × 5 larghezze senza rilievi; Lighthouse mobile
+Home 95, Fatturare³ 97, Candidatura 97, accessibilità 100, CLS 0.
+
 ### Cosa è stato fatto, fase per fase (skill applicate)
 
 **Fase 1 — design system** (impeccable craft-floor, design-taste-frontend, ui-ux-pro-max checklist)
@@ -966,7 +988,8 @@ Candidatura), indice (Fatturare³, Team), manifesto ed elenco numerato (DNA), mu
   - Eventi: «30 posti» compare cinque volte e il rimborso quattro; finché la data è passata la pagina
     dovrebbe dire «prossima edizione» e il form diventare una lista d'attesa.
   - Fatturare³: un episodio vero sulla pagina (serve l'ID dell'ultimo episodio); «Ricevilo per email» è un
-    mailto travestito da iscrizione; mancano i link di Spotify e Apple Podcasts e quelli dei libri.
+    mailto travestito da iscrizione; mancano i link di Spotify e Apple Podcasts (quelli dei libri sono arrivati il
+    16.10).
   - Team: «CEO» nella griglia e «Fondatore» nella sezione dei fondatori per Alberto Frisoni: va scelto uno.
   - L'immagine per la condivisione usa il dominio www.salesprocess.it (const SITO in tools/build.mjs): da
     confermare quando si va online.
@@ -992,8 +1015,12 @@ Candidatura), indice (Fatturare³, Team), manifesto ed elenco numerato (DNA), mu
   rapporto**, **certificato ISO** (il link «Certificazione» è un segnaposto dichiarato). Ragione sociale, P.IVA,
   REA e capitale sono nel footer dal 15.10, presi da fonti pubbliche (§3): vanno confermati sulla
   visura camerale, il REA viene da due aggregatori e non dal sito del cliente.
-- **URL di articoli e libri** (titoli e copertine), oggi marcati `.todo` in `fatturare.html`. Il podcast
-  ora porta al canale YouTube indicato dall'agenzia (giro 4).
+- **Copertine dei libri**: gli articoli sono stati tolti dal cliente e i link dei libri sono arrivati (16.10);
+  mancano solo le copertine. Il podcast porta al canale YouTube indicato dall'agenzia (giro 4).
+- **La mappa e i cookie** (16.10): su richiesta del cliente la mappa di Google si carica da sola, senza clic.
+  L'embed di Google scrive cookie di terze parti; senza un banner che li blocchi prima del consenso (per esempio
+  quello di iubenda, che il sito già usa per le policy) è un rischio rispetto alla normativa sui cookie. Da decidere
+  se attivare il blocco preventivo o tornare al clic.
 - **Logo del podcast**: risolto il 15.10 con il file allegato in chat (`src/assets/podcast/fatturare-logo.webp`,
   originale in `assets-src/podcast/`), nel capitolo «Il podcast» della home e nella sezione podcast di
   Fatturare³. Non è stato ridisegnato.

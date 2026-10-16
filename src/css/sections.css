@@ -684,7 +684,6 @@ html.vuole-3d .hero__mark { opacity: 0; }
 .indice__riga:has(.todo):hover .indice__tit { translate: none; }
 .indice__cta.todo::after { margin-left: 0; }
 /* gli articoli sono righe di un indice, non titoli di sezione */
-.indice--articoli .indice__tit { font-size: clamp(20px, 1.7vw, 26px); letter-spacing: -.018em; }
 .indice__tit {
   font: 500 clamp(24px, 2.4vw, 36px)/1.08 var(--f-display); letter-spacing: -.03em; color: var(--c-t1);
   transition: translate var(--t-stato) var(--ease-salita);
@@ -744,52 +743,27 @@ a.indice__cta::after { content: ''; position: absolute; inset: 0; }
   .podcast__foto { max-width: min(62vw, 300px); }
 }
 
-/* ── DOVE SIAMO ───────────────────────────────────────────────────────────── */
-.dove__grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 20px; align-items: stretch; }
-.dove__info { display: grid; gap: 16px; align-content: start; }
-.sede { padding: var(--s-5); display: grid; gap: var(--s-3); justify-items: start; }
+/* ── DOVE SIAMO (16.10) ──────────────────────────────────────────────────────
+   «Deve essere centrata e chiamata Dove siamo; la mappa deve caricarsi da
+   sola, sempre.» Una colonna centrata: titolo e indirizzo, la mappa vera a
+   tutta misura, sotto le tre sedi in fila. La mappa è un iframe in pagina
+   (loading=lazy): niente facciata, niente clic. */
+.dove .testa { justify-items: center; text-align: center; }
+.dove .testa .t-deck { max-inline-size: 58ch; }
 .mappa {
-  position: relative; overflow: hidden;
-  min-height: 420px; border-radius: var(--r-panel);
-  border: 1px solid var(--c-filo); background: rgba(255,255,255,.025);
+  /* solo proporzioni, niente altezza minima: con aspect-ratio un minimo
+     d'altezza si trasferisce alla larghezza e la mappa sporgeva dallo
+     schermo del telefono */
+  position: relative; overflow: hidden; aspect-ratio: 21 / 9;
+  border-radius: var(--r-panel); border: 1px solid var(--c-filo); background: var(--c-sup-1);
 }
-.mappa__facciata {
-  position: absolute; inset: 0; display: grid; place-content: center;
-  justify-items: center; gap: var(--s-4); text-align: center; padding: var(--s-6);
-}
-/* La griglia vive SOLO qui: sta al posto di una mappa, quindi non è
-   decorazione ma un segnaposto che dice «qui c'è una pianta».         */
-.mappa__grid { position: absolute; inset: 0; z-index: 0; }
-.mappa__pin {
-  position: relative; z-index: 1;
-  width: 58px; height: 58px; display: grid; place-items: center;
-  border-radius: 50%; color: var(--c-ar);
-  background: rgba(255,130,0,.10); border: 1px solid rgba(255,130,0,.28);
-}
-.mappa__pin svg { width: 26px; height: 26px; }
-/* IL PUNTO SULLA MAPPA (ciclo 1): prima pulsava all'infinito. Ora cade
-   sull'indirizzo UNA volta, quando la mappa arriva, con un'onda sola.
-   Movimento ridotto e browser senza view(): il segnaposto fermo. */
-@supports (animation-timeline: view()) {
-  @media (prefers-reduced-motion: no-preference) {
-    .mappa__pin { animation: pin-cade linear both; animation-timeline: view(); animation-range: entry 60% cover 40%; }
-    .mappa__pin::after {
-      content: ''; position: absolute; inset: -1px; border-radius: 50%; border: 1px solid var(--c-bordo-ar);
-      opacity: 0; pointer-events: none;
-      animation: pin-onda linear both; animation-timeline: view(); animation-range: cover 40% cover 54%;
-    }
-  }
-}
-@keyframes pin-cade { from { translate: 0 -32px; opacity: 0; } }
-@keyframes pin-onda { 0% { scale: 1; opacity: 0; } 15% { opacity: .9; } 100% { scale: 2.2; opacity: 0; } }
-.mappa__btn, .mappa__nota { position: relative; z-index: 1; }
-.mappa__nota { max-inline-size: 34ch; }
-.mappa iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; z-index: 2; }
-.mappa.is-on .mappa__facciata { display: none; }
-@media (max-width: 900px) {
-  .dove__grid { grid-template-columns: 1fr; }
-  .mappa { min-height: 320px; }
-}
+.mappa iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.dove__info { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: 16px; }
+.sede { padding: var(--s-5); display: grid; gap: var(--s-3); justify-items: start; }
+.dove .sede { justify-items: center; align-content: start; text-align: center; }
+@media (max-width: 1100px) { .mappa { aspect-ratio: 16 / 9; } }
+@media (max-width: 900px) { .dove__info { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 600px) { .mappa { aspect-ratio: 5 / 4; } }
 
 /* ═══════════════════════════════════════════════════════════════════════════
    COMPONENTI DELLE PAGINE INTERNE
@@ -972,14 +946,14 @@ a.indice__cta::after { content: ''; position: absolute; inset: 0; }
 .tempi--stretti::before, .tempi--stretti::after { bottom: 22px; }
 
 /* ── INDICE: varianti delle pagine interne ─────────────────────────────── */
-.indice--ruoli, .indice--articoli, .indice--3 { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr) max-content; }
+.indice--ruoli, .indice--3 { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr) max-content; }
 @media (max-width: 1100px) {
-  .indice--ruoli, .indice--articoli, .indice--3 { grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); }
-  .indice--ruoli .indice__desc, .indice--articoli .indice__desc, .indice--3 .indice__desc { grid-column: 2; }
+  .indice--ruoli, .indice--3 { grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); }
+  .indice--ruoli .indice__desc, .indice--3 .indice__desc { grid-column: 2; }
 }
 @media (max-width: 640px) {
-  .indice--ruoli, .indice--articoli, .indice--3 { grid-template-columns: minmax(0, 1fr); }
-  .indice--ruoli .indice__desc, .indice--articoli .indice__desc, .indice--articoli .indice__cta, .indice--3 .indice__desc, .indice--3 .indice__cta { grid-column: auto; }
+  .indice--ruoli, .indice--3 { grid-template-columns: minmax(0, 1fr); }
+  .indice--ruoli .indice__desc, .indice--3 .indice__desc, .indice--3 .indice__cta { grid-column: auto; }
 }
 
 /* ── BENTO STATICO (programma, ruoli, articoli, passi) ─────────────────── */

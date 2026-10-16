@@ -168,33 +168,6 @@
 }
 .pers:hover::before { box-shadow: inset 0 0 0 1px rgba(255,130,0,.42); }
 
-/* ── LA MAPPA A FACCIATA ──────────────────────────────────────────────────
-   L'embed di Google scarica oltre un megabyte e scrive cookie di
-   profilazione al primo byte: con una cookie policy attiva, caricarlo
-   senza consenso è un problema legale, non solo di performance.       */
-.dove__grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 20px; align-items: stretch; }
-.dove__info { display: grid; gap: 16px; align-content: start; }
-.sede { padding: var(--s-5); display: grid; gap: var(--s-3); justify-items: start; }
-
-.mappa {
-  position: relative; overflow: hidden;
-  min-height: 420px; border-radius: var(--r-panel);
-  border: 1px solid var(--c-filo); background: var(--c-sup-1);
-}
-.mappa__facciata {
-  position: absolute; inset: 0; display: grid; place-content: center;
-  justify-items: center; gap: var(--s-4); text-align: center; padding: var(--s-6);
-}
-.mappa__btn, .mappa__nota { position: relative; z-index: 1; }
-.mappa__nota { max-inline-size: 34ch; }
-.mappa iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; z-index: 2; }
-.mappa.is-on .mappa__facciata { display: none; }
-
-@media (max-width: 900px) {
-  .dove__grid { grid-template-columns: 1fr; }
-  .mappa { min-height: 320px; }
-}
-
 /* ── L'ANELLO DEL CURSORE (15.10: «effetti mouse») ─────────────────────────
    Il cursore del sistema resta sempre (terzo passaggio della regia: nascosto
    toglieva il cursore di testo, si bloccava nei momenti lenti e restava

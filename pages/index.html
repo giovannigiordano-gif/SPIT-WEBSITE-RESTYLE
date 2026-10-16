@@ -370,56 +370,38 @@ desc: Pubblicità, marketing a risposta diretta, reclutamento e formazione della
 </section>
 
 <!-- ══ DOVE SIAMO ════════════════════════════════════════════════════════
-     La mappa è a FACCIATA: l'embed di Google scrive cookie di profilazione
-     al primo byte, e con una cookie policy iubenda attiva caricarlo senza
-     consenso è un problema legale. Si carica al click; chi non clicca ha
-     comunque indirizzo e link diretto. Query = indirizzo esatto. -->
+     Chiude la home prima del finale.
+     16.10, «deve essere centrata e chiamata Dove siamo; la mappa deve
+     caricarsi da sola, sempre»: una colonna centrata. Il titolo, l'indirizzo
+     con il caffè, la mappa vera a tutta misura (un iframe in pagina: il
+     browser lo carica da solo quando ci si avvicina, loading=lazy, senza
+     clic) e sotto le tre sedi in fila. La query è l'indirizzo esatto. -->
 <section class="sez dove" id="dove">
   <div class="wrap wrap--piena">
     <div class="testa">
-      <h2 class="t-d3" data-split>Via Marco D'Agrate 41, Milano. <span class="segue">Quarto piano.</span></h2>
-      <p class="t-deck">Il caffè lo facciamo noi. A dieci minuti dalla tangenziale Est, parcheggio in strada.</p>
+      <h2 class="t-d2" data-split>Dove siamo</h2>
+      <p class="t-deck">Via Marco D'Agrate 41, Milano. Quarto piano. Il caffè lo facciamo noi. A dieci minuti dalla tangenziale Est, parcheggio in strada.</p>
     </div>
 
-    <div class="dove__grid">
-      <div class="mappa" id="mappa"
-           data-q="Via Marco D%27Agrate 41, 20139 Milano"
-           data-z="16">
-        <div class="mappa__facciata">
-          <svg class="mappa__grid" aria-hidden="true" width="100%" height="100%">
-            <defs>
-              <pattern id="mg" width="44" height="44" patternUnits="userSpaceOnUse">
-                <path d="M44 0H0v44" fill="none" stroke="rgba(255,255,255,.055)" stroke-width="1"/>
-              </pattern>
-            </defs>
-            <rect width="100%" height="100%" fill="url(#mg)"/>
-          </svg>
-          <span class="mappa__pin" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 21s7-6.3 7-11a7 7 0 1 0-14 0c0 4.7 7 11 7 11z"/><circle cx="12" cy="10" r="2.6"/>
-            </svg>
-          </span>
-          <button class="cta cta--bianco mappa__btn" type="button">Carica la mappa</button>
-          <p class="t-micro mappa__nota">La mappa di Google scrive cookie: si carica solo se la chiedi.</p>
-        </div>
-      </div>
+    <div class="mappa" id="mappa">
+      <iframe src="https://maps.google.com/maps?q=Via%20Marco%20D%27Agrate%2041%2C%2020139%20Milano&amp;t=m&amp;z=16&amp;output=embed&amp;iwloc=near" title="Mappa: Via Marco D'Agrate 41, Milano" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+    </div>
 
-      <div class="dove__info">
-        <article class="card sede">
-          <p class="t-eyebrow" style="color:var(--c-ar-hot)">Uffici di rappresentanza</p>
-          <p class="t-t1">Via Marco D'Agrate 41<br>20139 Milano (MI)</p>
-          <p class="t-piccolo" style="color:var(--c-t3)">Quarto piano. Citofono Sales Process.</p>
-          <a class="cta cta--out cta--sm" href="https://www.google.com/maps/search/?api=1&query=Via+Marco+D%27Agrate+41%2C+20139+Milano" target="_blank" rel="noopener">Apri in Google Maps →</a>
-        </article>
-        <article class="card sede">
-          <p class="t-eyebrow">Sede legale</p>
-          <p class="t-t1" style="font-size:19px">Piazza IV Novembre<br>22070 Capiago Intimiano (CO)</p>
-        </article>
-        <article class="card sede">
-          <p class="t-eyebrow">Scrivici</p>
-          <a class="footer__mail link-wipe" href="mailto:amministrazione@salesprocess.it">amministrazione@salesprocess.it</a>
-        </article>
-      </div>
+    <div class="dove__info">
+      <article class="card sede">
+        <p class="t-eyebrow" style="color:var(--c-ar-hot)">Uffici di rappresentanza</p>
+        <p class="t-t1">Via Marco D'Agrate 41<br>20139 Milano (MI)</p>
+        <p class="t-piccolo" style="color:var(--c-t3)">Quarto piano. Citofono Sales Process.</p>
+        <a class="cta cta--out cta--sm" href="https://www.google.com/maps/search/?api=1&query=Via+Marco+D%27Agrate+41%2C+20139+Milano" target="_blank" rel="noopener">Apri in Google Maps →</a>
+      </article>
+      <article class="card sede">
+        <p class="t-eyebrow">Sede legale</p>
+        <p class="t-t1">Piazza IV Novembre 1<br>22070 Capiago Intimiano (CO)</p>
+      </article>
+      <article class="card sede">
+        <p class="t-eyebrow">Scrivici</p>
+        <a class="footer__mail link-wipe" href="mailto:amministrazione@salesprocess.it">amministrazione@salesprocess.it</a>
+      </article>
     </div>
   </div>
 </section>

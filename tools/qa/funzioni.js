@@ -42,14 +42,13 @@ async page => {
 
   /* 4 · home: video a facciata, mappa a facciata, pausa, barra */
   await p.goto(B + '/', { waitUntil: 'networkidle' });
-  ok('home: nessun iframe al caricamento', (await p.locator('iframe').count()) === 0);
+  ok('home: nessun video caricato prima del clic', (await p.locator('.vid iframe').count()) === 0);
   await p.locator('.vid').first().scrollIntoViewIfNeeded();
   await p.locator('.vid').first().click();
   await p.waitForTimeout(300);
   ok('home: il video entra al click', (await p.locator('.vid iframe').count()) === 1, await p.locator('.vid iframe').first().getAttribute('src').catch(() => ''));
-  await p.locator('.mappa__btn').scrollIntoViewIfNeeded();
-  await p.click('.mappa__btn');
-  ok('home: la mappa entra al click', (await p.locator('#mappa iframe').count()) === 1);
+  /* 16.10: «la mappa deve caricarsi da sola, sempre» */
+  ok('home: la mappa è in pagina, senza clic', (await p.locator('#mappa iframe').count()) === 1 && (await p.locator('.mappa__btn').count()) === 0);
   await p.locator('#nastro-pausa').scrollIntoViewIfNeeded();
   await p.click('#nastro-pausa');
   ok('home: pausa del nastro', (await p.getAttribute('#nastro-pausa', 'aria-pressed')) === 'true', await p.getAttribute('#nastro-pausa', 'aria-label'));
@@ -87,7 +86,7 @@ async page => {
      home: niente iframe al caricamento, dalla scaletta si sceglie e parte */
   await p.goto(B + '/risultati.html', { waitUntil: 'networkidle' });
   ok('risultati: le recensioni video ci sono', (await p.locator('#testimonianze .video__voce').count()) === 5);
-  ok('risultati: nessun iframe al caricamento', (await p.locator('iframe').count()) === 0);
+  ok('risultati: nessun video caricato prima del clic', (await p.locator('#testimonianze iframe').count()) === 0);
   await p.locator('#testimonianze .video__voce[data-i="2"]').scrollIntoViewIfNeeded();
   await p.click('#testimonianze .video__voce[data-i="2"]'); await p.waitForTimeout(500);
   ok('risultati: la scaletta fa partire il video scelto',
