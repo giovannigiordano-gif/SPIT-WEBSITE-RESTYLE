@@ -82,6 +82,18 @@ async page => {
   await p.click('.menu__voci a[href="/metodo.html"]');
   await p.waitForLoadState('domcontentloaded');
   ok('menu: la voce porta alla pagina', p.url().endsWith('/metodo.html'));
+
+  /* 4c · risultati: le recensioni video (16.10), lo stesso lettore della
+     home: niente iframe al caricamento, dalla scaletta si sceglie e parte */
+  await p.goto(B + '/risultati.html', { waitUntil: 'networkidle' });
+  ok('risultati: le recensioni video ci sono', (await p.locator('#testimonianze .video__voce').count()) === 5);
+  ok('risultati: nessun iframe al caricamento', (await p.locator('iframe').count()) === 0);
+  await p.locator('#testimonianze .video__voce[data-i="2"]').scrollIntoViewIfNeeded();
+  await p.click('#testimonianze .video__voce[data-i="2"]'); await p.waitForTimeout(500);
+  ok('risultati: la scaletta fa partire il video scelto',
+    (await p.locator('#testimonianze .video__palco iframe').count()) === 1
+    && (await p.getAttribute('#testimonianze .video__voce[data-i="2"]', 'aria-pressed')) === 'true',
+    await p.locator('#testimonianze .video__palco iframe').first().getAttribute('src').catch(() => ''));
   await p.goto(B + '/', { waitUntil: 'networkidle' });
 
   /* 5 · tutti i link interni rispondono 200 */

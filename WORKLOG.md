@@ -810,6 +810,15 @@ a 1440 e 1024; telefono e movimento ridotto; video di 21s (`qa/dna-elica-3d.mp4`
 movimento né invisibili; audit Home e DNA × 5 larghezze senza rilievi; Lighthouse mobile DNA 97, Home 95,
 accessibilità 100, CLS 0.
 
+*Le recensioni video anche in Risultati (16.10)* — «Nella pagina delle recensioni inserisci anche le recensioni
+video.» In Risultati, fra i numeri e il caso per intero (prima quanto, poi chi lo dice, poi come), le stesse cinque
+testimonianze video della home nello stesso lettore con la scaletta, sempre a facciata (il player entra al clic). Il
+titolo e il sottotitolo sono quelli della home. Il palco si spegne (atmosfera nero): si abbassano le luci, come in
+sala. Nessun codice nuovo: il lettore monta su `#video-grid` in qualunque pagina.
+Verifica: catture a 1440 e 390 e nel pannello del browser; tre test nuovi (cinque voci in scaletta, nessun iframe al
+caricamento, la scaletta fa partire il video scelto): 45/45; movimento ridotto senza invisibili; audit Risultati × 5
+larghezze senza rilievi; Lighthouse mobile Risultati 96, accessibilità 100, CLS 0.
+
 ### Cosa è stato fatto, fase per fase (skill applicate)
 
 **Fase 1 — design system** (impeccable craft-floor, design-taste-frontend, ui-ux-pro-max checklist)
