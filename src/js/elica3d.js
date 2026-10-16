@@ -24,7 +24,8 @@
    altrove, e finché non arriva, resta la versione CSS.
    ═══════════════════════════════════════════════════════════════════════════ */
 
-const THREE_URL = 'https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.min.js';
+/* three.js r170 ridotto alle classi che servono (tools/three-sp.entry.js), servito dal sito */
+const THREE_URL = '/js/vendor/three-sp.min.js';
 
 const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
 const easeOut = (t) => 1 - Math.pow(1 - t, 3);

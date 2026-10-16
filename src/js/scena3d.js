@@ -28,7 +28,8 @@
    load e in idle: mobile e low-power hanno la versione DOM, zero byte di 3D.
    ═══════════════════════════════════════════════════════════════════════════ */
 
-const THREE_URL = 'https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.min.js';
+/* three.js r170 ridotto alle classi che servono (tools/three-sp.entry.js), servito dal sito */
+const THREE_URL = '/js/vendor/three-sp.min.js';
 
 /* Il marchio, misurato sul PNG originale (src/assets/brand/mark.svg). */
 const MARCHIO = [
