@@ -400,6 +400,25 @@
   .libri__foto { max-width: min(48vw, 220px); order: -1; justify-self: start; }
 }
 
+/* ── EVENTI · WORK IN PROGRESS (16.10) ─────────────────────────────────────
+   Sotto il sommario il marchio si monta: i cinque quadrati arrivano uno
+   alla volta, dal più grande, restano un momento e ricominciano. Stesse
+   posizioni e proporzioni del marchio (griglia 60×100, raggio 22%). A
+   movimento ridotto è fermo, montato. */
+.cantiere { position: relative; width: 36px; aspect-ratio: 60 / 100; }   /* lo spazio lo dà la griglia dell'apertura */
+.cantiere i {
+  position: absolute; left: calc(var(--x) / 60 * 100%); top: calc(var(--y) / 100 * 100%);
+  width: calc(var(--l) / 60 * 100%); aspect-ratio: 1; border-radius: 22%; background: var(--c-ar);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .cantiere i { animation: cantiere 3.2s var(--ease-salita) infinite both; animation-delay: calc(var(--k) * 150ms); }
+}
+@keyframes cantiere {
+  0%       { opacity: 0; translate: 0 -12px; scale: .6; }
+  16%, 78% { opacity: 1; translate: 0 0; scale: 1; }
+  92%, 100% { opacity: 0; translate: 0 0; scale: .9; }
+}
+
 /* ── CANDIDATURA · gli slot del trimestre ─────────────────────────────── */
 .slot {
   display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-4) var(--s-6);

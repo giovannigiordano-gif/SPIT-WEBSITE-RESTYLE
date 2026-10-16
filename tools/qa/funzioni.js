@@ -23,13 +23,11 @@ async page => {
   await p.click('#form-submit');
   ok('candidatura: invio blocca il bottone', await p.isDisabled('#form-submit'), await p.textContent('#form-submit'));
 
-  /* 2 · eventi: lo stesso form di prenotazione */
+  /* 2 · eventi (16.10): la pagina in lavorazione; quella del Sales Process
+     Day è nascosta (pages/_nascoste/eventi.html) */
   await p.goto(B + '/eventi.html', { waitUntil: 'networkidle' });
-  await p.selectOption('#f-fatturato', 'sotto1');
-  ok('eventi: squalifica visibile', await p.isVisible('#squalifica'));
-  /* ciclo 1: tornando sopra il milione l'etichetta tornava «Invia la candidatura» */
-  await p.selectOption('#f-fatturato', '2-3');
-  ok('eventi: l\'etichetta torna «Prenota il posto»', (await p.textContent('#form-submit .cta__label')).trim() === 'Prenota il posto');
+  ok('eventi: la pagina è in lavorazione, senza form', (await p.textContent('h1')).replace(/\s+/g, ' ').includes('Work in progress') && (await p.locator('#form').count()) === 0);
+  ok('eventi: si va alla candidatura e al podcast', (await p.locator('.testa-pag a[href="/candidatura.html"]').count()) === 1 && (await p.locator('.testa-pag a[href="/fatturare.html"]').count()) === 1);
 
   /* 3 · metodo: filtri della tabella */
   await p.goto(B + '/metodo.html', { waitUntil: 'networkidle' });

@@ -446,6 +446,9 @@ Un capitolo (06), sull'atmosfera "notte": a sinistra (7/12) logo, titolo, sommar
 - **I libri** in Fatturare³ portano alla loro pagina Amazon: il titolo è il link, la riga intera lo prende, a destra «Su Amazon →» che fa un passo al passaggio. Nel Team i due titoli nella scheda di Alberto Frisoni sono link.
 - **Il footer** finisce con la riga legale (respiro `--s-7` sotto): i quattro quadratini della chiusa sono stati tolti («togli quei pallini»).
 
+### Eventi in lavorazione (16.10)
+La pagina Eventi è in lavorazione: l'apertura standard con il biglietto, «Work in progress.» con «progress» in arancio, e sotto il sommario il marchio a 36px che si monta un quadrato alla volta (3,2 s in ciclo, 150ms fra un quadrato e l'altro, curva d'ingresso), poi i due inviti (bianco e contorno). La pagina completa è in `pages/_nascoste/eventi.html`.
+
 ### Dove siamo
 Non è un capitolo: è la chiusura, prima del finale. Dopo il podcast respira la metà (`.podcast-sez + .dove`, `padding-top: calc(var(--sez-y) * .45)`), senza segnacapitolo. Dal 16.10 («deve essere centrata e chiamata Dove siamo; la mappa deve caricarsi da sola, sempre») è una colonna centrata: il titolo «Dove siamo», l'indirizzo con il caffè nel sommario, la mappa vera a tutta misura (raggio 20px, 21:9 su desktop, 16:9 fino a 1100px, 5:4 sul telefono; un iframe in pagina con `loading=lazy`, nessun clic) e sotto le tre sedi in fila, centrate, con la luce al cursore. Solo proporzioni, mai un'altezza minima: con `aspect-ratio` il minimo si trasferisce alla larghezza e la mappa sporge dallo schermo. Uguale in home e in candidatura.
 

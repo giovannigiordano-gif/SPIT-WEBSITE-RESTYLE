@@ -873,6 +873,21 @@ squadra della home e nel marchio di volti che cambia (adesso ci passano tutti e 
 Verifica: catture della griglia (filtro Marketing) e del marchio con Berrini appena arrivato, a colori e col nome;
 la foto si carica in home; 47/47 test.
 
+*Favicon (16.10)* — «Favicon: usa l'icona di Sales Process.» Il favicon era una S fatta di quadratini, non il
+marchio. Ora è il marchio vero (i cinque quadrati arancioni) su un quadrato scuro arrotondato: `favicon.svg` per le
+schede, `/favicon.ico` alla radice (16, 32, 48 px) per chi lo cerca lì e per i risultati di ricerca, l'icona di iPhone
+a 180 px. Nel `<head>` il .ico ha `sizes="32x32"`, così Chrome sceglie l'SVG.
+
+*Eventi: work in progress (16.10)* — «Sezione eventi: metti una pagina work in progress, nascondi quella attuale.»
+`/eventi.html` è ora una pagina in lavorazione: l'apertura delle altre pagine con il biglietto (dal menu la foto vola
+lì come prima), «Work in progress.», «Stiamo preparando la pagina dei nostri eventi. Torna a trovarci presto.», il
+marchio che si monta un quadrato alla volta (fermo a movimento ridotto) e due uscite: la candidatura e il podcast. La
+pagina del Sales Process Day è nascosta, non cancellata: `pages/_nascoste/eventi.html` (il build legge solo
+`pages/*.html`); per rimetterla basta riportarla in `pages/`. La piastra del telefono dice «Prenota il posto» solo
+se la pagina ha `#posti`, quindi torna da sola con la pagina vera.
+Verifica: catture a 1440 e 390; i due test del form eventi sostituiti da due sulla pagina in lavorazione (44 test, i
+tre in meno erano le ancore della pagina nascosta); movimento ridotto senza movimento.
+
 ### Cosa è stato fatto, fase per fase (skill applicate)
 
 **Fase 1 — design system** (impeccable craft-floor, design-taste-frontend, ui-ux-pro-max checklist)

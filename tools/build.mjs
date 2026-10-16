@@ -252,7 +252,7 @@ const nav = (slug) => `
   </div>
 </div>`
 
-const footer = (slug) => `
+const footer = (slug, conPosti = false) => `
 <footer class="footer">
   <div class="wrap wrap--piena">
     <div class="footer__grid">
@@ -310,7 +310,7 @@ const footer = (slug) => `
 </footer>
 
 <div class="piastra is-off" id="piastra">
-  ${slug === 'eventi' ? '<a class="cta cta--ar" href="#posti">Prenota il posto</a>' : `<a class="cta cta--ar" href="${slug === 'candidatura' ? '#candidatura' : '/candidatura.html'}">Candida la tua azienda</a>`}
+  ${conPosti ? '<a class="cta cta--ar" href="#posti">Prenota il posto</a>' : `<a class="cta cta--ar" href="${slug === 'candidatura' ? '#candidatura' : '/candidatura.html'}">Candida la tua azienda</a>`}
 </div>
 
 <div class="grana" aria-hidden="true"></div>`
@@ -383,7 +383,7 @@ ${nav(slug)}
 <main id="main">
 ${body}
 </main>
-${footer(slug)}
+${footer(slug, body.includes('id="posti"'))}
 
 <!-- Ordine voluto: i defer girano nell'ordine del documento, e dati.js
      (i contenuti) non deve aspettare il CDN di GSAP. -->
