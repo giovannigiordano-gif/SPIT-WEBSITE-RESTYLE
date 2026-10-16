@@ -43,7 +43,7 @@
 <script>(function(){var d=document.documentElement,v,p;try{if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;v=sessionStorage.getItem('visto');p=sessionStorage.getItem('sipario');sessionStorage.setItem('visto','1');sessionStorage.removeItem('sipario')}catch(e){return}if((v&&!p)||location.pathname==='/candidatura.html')return;var primo=!v,c=d.classList,t1,t2,fine=function(){c.remove('sipario-su','sipario-primo','sipario-via')},via=function(dopo){clearTimeout(t1);clearTimeout(t2);c.add('sipario-via');t2=setTimeout(fine,dopo)},salta=function(){if(!c.contains('sipario-via')&&c.contains('sipario-su'))via(620)};c.add('sipario-su');if(primo)c.add('sipario-primo');t1=setTimeout(function(){via(650)},primo?450:120);['pointerdown','keydown','wheel','touchstart'].forEach(function(t){addEventListener(t,salta,{passive:true,once:true})});addEventListener('pagereveal',function(e){if(e.viewTransition){clearTimeout(t1);clearTimeout(t2);fine()}});addEventListener('pageshow',function(e){if(e.persisted)c.remove('sipario-su','sipario-primo','sipario-via','sipario-giu')})})()</script>
 
 <link rel="preload" href="/assets/fonts/dm-sans-latin-var.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+
 <!-- La pagina sotto il cursore si scarica prima del clic (Speculation Rules,
      Chrome: «moderate» = dopo 200ms sopra un link, o al tocco). Solo il
      prefetch dell'HTML, mai il prerender: niente script eseguiti in anticipo.
@@ -218,8 +218,7 @@
 <!-- Ordine voluto: i defer girano nell'ordine del documento, e dati.js
      (i contenuti) non deve aspettare il CDN di GSAP. -->
 <script src="/js/dati.js?v=08da791e8d" defer></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js" defer></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js" defer></script>
+
 <script src="/js/motion.js?v=8706fe1240" defer></script>
 </body>
 </html>
