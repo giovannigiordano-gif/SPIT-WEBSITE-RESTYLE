@@ -112,7 +112,7 @@
   .hero__mark { width: 92px; translate: -50% 18%; }
 }
 
-/* ── LA SCENA WEBGL (scena3d.js, solo desktop) ────────────────────────────
+/* ── LA SCENA WEBGL (scena3d.js; dal 16.10 anche sul telefono) ────────────
    La tela SBORDA sotto l'hero di 26vh: il marchio montato sta a cavallo
    del bordo e scende nella sezione successiva. Entra in dissolvenza sopra
    la versione DOM, che si spegne.                                    */

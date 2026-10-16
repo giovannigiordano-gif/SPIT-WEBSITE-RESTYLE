@@ -24,8 +24,12 @@
    profondità; la luce arancione li trova dove passa il cursore. Al primo
    scroll convergono a spirale, quelli grigi vengono assorbiti e cinque
    arancioni si montano nella scalinata del marchio: il reparto che fattura.
-   Caricato SOLO su desktop con puntatore fine, senza reduced-motion, dopo il
-   load e in idle: mobile e low-power hanno la versione DOM, zero byte di 3D.
+   Caricato dopo il load e in idle, mai a movimento ridotto né in risparmio
+   dati. Dal 16.10 («la hero 3D la vorrei anche da mobile») anche sul
+   telefono, alleggerita: 120 contatti invece di 300, risoluzione al
+   massimo 1,4x, il marchio grande quanto quello DOM; senza un cursore da
+   seguire la luce arancione gira da sola sull'hero. I telefoni con poca
+   memoria restano sulla versione DOM.
    ═══════════════════════════════════════════════════════════════════════════ */
 
 /* three.js r170 ridotto alle classi che servono (tools/three-sp.entry.js), servito dal sito */
@@ -61,7 +65,10 @@ export async function avvia(host, { hero = host.closest('.hero') } = {}) {
   renderer.setClearColor(0x000000, 0);
   renderer.toneMapping = THREE.NeutralToneMapping;   /* preserva la tinta dell'arancio */
   renderer.toneMappingExposure = 1.05;
-  let dpr = Math.min(window.devicePixelRatio || 1, 1.6);
+  /* il telefono (schermo stretto o niente puntatore fine): scena più leggera */
+  const tocco = !matchMedia('(pointer: fine)').matches;
+  const leggero = innerWidth <= 760 || tocco;
+  let dpr = Math.min(window.devicePixelRatio || 1, leggero ? 1.4 : 1.6);
   renderer.setPixelRatio(dpr);
 
   const scene = new THREE.Scene();
@@ -141,7 +148,7 @@ export async function avvia(host, { hero = host.closest('.hero') } = {}) {
   /* ── I CONTATTI: due InstancedMesh (grafite e arancio) ────────────────── */
   const rnd = mulberry32(20200);
   const pochi = (navigator.hardwareConcurrency || 8) <= 4;
-  const N = pochi ? 170 : 300;
+  const N = leggero ? 120 : pochi ? 170 : 300;
   const geoContatto = blocco(1, .92);
   const nArancio = Math.round(N * .13);
   const grigi = new THREE.InstancedMesh(geoContatto, matGrafite, N - nArancio);
@@ -169,9 +176,12 @@ export async function avvia(host, { hero = host.closest('.hero') } = {}) {
     renderer.setSize(W, H, false);
     camera.aspect = W / H; camera.updateProjectionMatrix();
     upp = 2 * CAM_Z * Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)) / H;
-    const altPx = clamp(innerHeight * .31, 230, 340);
+    /* sul telefono il marchio è grande quanto quello DOM (92px di largo) e
+       sborda del 18%, come lui: sopra c'è il testo dell'hero */
+    const stretto = innerWidth <= 640;
+    const altPx = stretto ? 154 : clamp(innerHeight * .31, 230, 340);
     const k = altPx * upp / 100;
-    const cyPx = heroH + (.26 - .5) * altPx;
+    const cyPx = heroH + ((stretto ? .18 : .26) - .5) * altPx;
     marchioPx.y = cyPx; marchioPx.r = altPx * .78;
     centroMarchio.set(0, (H / 2 - cyPx) * upp, 0);
     pezzi.forEach(p => {
@@ -277,6 +287,8 @@ export async function avvia(host, { hero = host.closest('.hero') } = {}) {
     if (campioni < 90) { somma += dt; campioni++; if (campioni === 90 && somma / 90 > 22 && dpr > 1) { dpr = 1; renderer.setPixelRatio(1); misura(); } }
     const t = (now - t0) / 1000;
     pLiscio += (pScroll - pLiscio) * (1 - Math.pow(.001, dt / 1000 * .9));
+    /* senza cursore la luce gira da sola: un otto lento sopra l'hero */
+    if (tocco) { mx = Math.sin(t * .31) * .62; my = .12 + Math.cos(t * .23) * .4; luceT = 1; }
     mxL += (mx - mxL) * .06; myL += (my - myL) * .06; luce += (luceT - luce) * .05;
 
     /* camera: parallasse leggera col cursore, il marchio resta il fuoco */
@@ -323,7 +335,9 @@ export async function avvia(host, { hero = host.closest('.hero') } = {}) {
     renderer.render(scene, camera);
   };
   const sottoMenu = () => document.documentElement.classList.contains('menu-aperto');
-  const avviaCiclo = () => { if (!raf && visibile && !document.hidden && !sottoMenu()) { ultimo = performance.now(); raf = requestAnimationFrame(frame); } };
+  /* il ciclo parte solo a programmi compilati (pronto, sotto) */
+  let pronto = false;
+  const avviaCiclo = () => { if (pronto && !raf && visibile && !document.hidden && !sottoMenu()) { ultimo = performance.now(); raf = requestAnimationFrame(frame); } };
   const ferma = () => { cancelAnimationFrame(raf); raf = 0; };
 
   host.append(canvas);
@@ -334,6 +348,12 @@ export async function avvia(host, { hero = host.closest('.hero') } = {}) {
   /* sotto la card del menu, opaca, la scena non si vede: si ferma (revisione della regia) */
   new MutationObserver(() => { sottoMenu() ? ferma() : avviaCiclo(); })
     .observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+  /* 16.10: i programmi WebGL si compilano PRIMA del primo fotogramma e in
+     parallelo (KHR_parallel_shader_compile, dove c'è): prima la compilazione
+     cadeva nel primo fotogramma e bloccava il thread per ~0,4 s, sul
+     telefono un tocco che non rispondeva. */
+  try { await renderer.compileAsync(scene, camera); } catch (e) { /* si compila al primo fotogramma */ }
+  pronto = true;
   avviaCiclo();
   /* Il primo fotogramma è pronto: la versione DOM può dissolversi. */
   requestAnimationFrame(() => requestAnimationFrame(() => hero.classList.add('is-3d')));
