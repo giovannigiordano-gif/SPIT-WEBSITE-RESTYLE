@@ -1561,6 +1561,22 @@ animation-range: entry calc(5% + (4 - var(--k)) * 9%) entry calc(55% + (4 - var(
 }
 }
 @media (prefers-reduced-motion: reduce) { .scala-volti img { animation: none; } }
+.scala-volti img { transition: filter 700ms linear; }
+.scala-volti img.is-nuovo { filter: grayscale(0) contrast(1.02) brightness(.96); transition-duration: 320ms; }
+.scala-volti__chi {
+position: absolute; left: 0; bottom: 0; z-index: 1; max-width: 46%; margin: 0;
+display: grid; gap: 2px; pointer-events: none;
+opacity: 0; translate: 0 8px;
+transition: opacity var(--t-stato) linear, translate var(--t-stato) var(--ease-salita);
+}
+.scala-volti__chi.is-on { opacity: 1; translate: 0 0; }
+.scala-volti__chi b { font: 600 clamp(15px, 1.15vw, 18px)/1.2 var(--f-display); letter-spacing: -.01em; color: var(--c-t1); }
+.scala-volti__chi span { font: 400 13px/1.35 var(--f-display); color: var(--c-t3); }
+.scala-volti__pausa { position: absolute; left: 0; bottom: 66px; z-index: 1; }
+@media (max-width: 620px) {
+.scala-volti__chi { left: calc(100% + 18px); max-width: none; width: min(46vw, 190px); }
+.scala-volti__pausa { left: calc(100% + 18px); bottom: auto; top: 0; }
+}
 @media (max-width: 900px) { .scala-volti { width: min(70%, 320px); margin-bottom: var(--s-7); } }
 .tempi { position: relative; display: grid; max-width: 940px; padding-top: 4px; }
 @media (min-width: 900px) {

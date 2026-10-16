@@ -45,7 +45,7 @@
      Con il passaggio a gradini e la foto che vola, il cambio di pagina
      parte senza attesa di rete. -->
 <script type="speculationrules">{"prefetch":[{"where":{"or":[{"href_matches":"/*.html"},{"href_matches":"/"}]},"eagerness":"moderate"}]}</script>
-<link rel="stylesheet" href="/css/sito.css?v=944dde7020">
+<link rel="stylesheet" href="/css/sito.css?v=2c8cb8d9ce">
 </head>
 <body data-pagina="team">
 <div class="sipario" aria-hidden="true"><i style="--k:0"></i><i style="--k:1"></i><i style="--k:2"></i><i style="--k:3"></i><span class="sipario__marchio"><img src="/assets/brand/logo-full-h112.webp" alt="" width="461" height="112" decoding="async"></span><span class="sipario__filo"></span></div>
@@ -121,9 +121,12 @@
 <main id="main">
 <!-- ══ APERTURA ══════════════════════════════════════════════════════════
      Nessun oggetto qui: le facce. Cinque ritratti veri al posto dei cinque
-     quadrati del marchio, nelle stesse posizioni e proporzioni. Sono le
-     persone citate più sotto: i due fondatori, chi gestisce il budget,
-     chi seleziona il venditore, chi lo forma. -->
+     quadrati del marchio, nelle stesse posizioni e proporzioni. All'arrivo
+     sono le persone citate più sotto: i due fondatori, chi gestisce il
+     budget, chi seleziona il venditore, chi lo forma. Poi (16.10, «devono
+     cambiare ogni poco, in modo dinamico») i quadrati si girano uno alla
+     volta e passano tutte le persone del team (dati.js). Le immagini sono
+     decorative (alt vuoto): i nomi sono nella griglia qui sotto. -->
 <section class="testa-pag">
   <div class="wrap wrap--piena testa-pag__in">
     <div class="testa-pag__testo">
@@ -135,7 +138,7 @@
         <a class="cta cta--out" href="#lavora">Lavora con noi<svg class="freccia" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12h14.5M13.5 6.5 19 12l-5.5 5.5"/></svg></a>
       </div>
     </div>
-    <div class="scala-volti" id="scala-volti" aria-hidden="true">
+    <div class="scala-volti" id="scala-volti">
       <img style="--x:23.6;--y:0;--l:30.4" src="/assets/team-webp/frisoni-400.webp" alt="" width="400" height="400" fetchpriority="low" decoding="async">
       <img style="--x:0;--y:30.4;--l:25.2" src="/assets/team-webp/bardolla-400.webp" alt="" width="400" height="400" decoding="async">
       <img style="--x:21.4;--y:53.8;--l:21" src="/assets/team-webp/ratti-400.webp" alt="" width="400" height="400" decoding="async">
@@ -313,7 +316,7 @@
 
 <!-- Ordine voluto: i defer girano nell'ordine del documento, e dati.js
      (i contenuti) non deve aspettare il CDN di GSAP. -->
-<script src="/js/dati.js?v=d0fa4558a5" defer></script>
+<script src="/js/dati.js?v=395af2b5b2" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js" defer></script>
 <script src="/js/motion.js?v=6b5b355cda" defer></script>

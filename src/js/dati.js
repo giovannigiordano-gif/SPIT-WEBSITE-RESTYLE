@@ -750,6 +750,70 @@ const monta = () => {
     });
   }
 
+  /* IL MARCHIO FATTO DI VOLTI SI RINNOVA (16.10, «le facce sono sempre le
+     stesse: devono cambiare ogni poco, in modo dinamico»). Ogni ~2,3 s uno
+     dei cinque quadrati si gira e mostra un'altra persona del team: per un
+     momento a colori, con nome e ruolo nell'angolo vuoto del marchio. Una
+     persona non sta mai in due quadrati insieme e torna per prima chi manca
+     da più tempo: in mezzo minuto passano tutti quelli che hanno il
+     ritratto. Il primo giro aspetta che i volti si siano posati. Si ferma
+     fuori schermo, a scheda nascosta, sotto il cursore e con il bottone
+     (SC 2.2.2); a movimento ridotto non parte. */
+  const sv = $('#scala-volti');
+  if (sv && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const quadri = $$('img', sv);
+    const nomeFile = (img) => (img.getAttribute('src') || '').split('/').pop().split('-')[0];
+    const conFoto = VOLTI.filter(v => v.f);
+    const coda = conFoto.filter(v => !quadri.some(q => nomeFile(q) === v.f));
+    const ICO_FERMA = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M8.5 5.5v13M15.5 5.5v13"/></svg>';
+    const ICO_VAI = '<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M8 5.6v12.8a.6.6 0 0 0 .9.5l10-6.4a.6.6 0 0 0 0-1L8.9 5.1a.6.6 0 0 0-.9.5z"/></svg>';
+    const chi = el('p', 'scala-volti__chi', '<b></b><span></span>', { 'aria-hidden': 'true' });
+    const btn = el('button', 'pausa scala-volti__pausa', ICO_FERMA, { type: 'button', 'aria-pressed': 'false', 'aria-label': 'Ferma i volti che cambiano' });
+    sv.append(chi, btn);
+    let fermo = false, sotto = false, visto = false, primo = true, inCorso = false, timer = 0, spegni = 0, ultimo = -1;
+    const puo = () => !fermo && !sotto && visto && !document.hidden;
+    const prossimo = (dopo = 2000) => { clearTimeout(timer); if (puo()) timer = setTimeout(gira, dopo); };
+    async function gira() {
+      if (!puo() || inCorso || !coda.length) return;
+      inCorso = true;
+      let k; do { k = Math.floor(Math.random() * quadri.length); } while (k === ultimo && quadri.length > 1);
+      ultimo = k;
+      const q = quadri[k], v = coda.shift(), src = '/assets/team-webp/' + v.f + '-400.webp';
+      /* il ritratto nuovo è già decodificato quando il quadrato è di taglio */
+      const pre = new Image(); pre.src = src;
+      try { await pre.decode(); } catch (e) { /* lo si mostra comunque */ }
+      const via = q.animate([{ transform: 'rotateY(0deg)' }, { transform: 'rotateY(90deg)' }],
+        { duration: 260, easing: 'cubic-bezier(.55,0,.75,.35)', fill: 'forwards' });
+      try { await via.finished; } catch (e) { /* annullata */ }
+      const prima = conFoto.find(x => x.f === nomeFile(q));
+      q.src = src;
+      if (prima) coda.push(prima);
+      q.animate([{ transform: 'rotateY(-90deg)' }, { transform: 'rotateY(0deg)' }], { duration: 560, easing: 'cubic-bezier(.16,.84,.24,1)' });
+      via.cancel();
+      quadri.forEach(x => x.classList.toggle('is-nuovo', x === q));
+      chi.firstChild.textContent = v.nome; chi.lastChild.textContent = v.ruolo;
+      chi.classList.add('is-on');
+      clearTimeout(spegni);
+      spegni = setTimeout(() => { q.classList.remove('is-nuovo'); chi.classList.remove('is-on'); }, 1600);
+      inCorso = false;
+      prossimo();
+    }
+    btn.addEventListener('click', () => {
+      fermo = !fermo;
+      btn.setAttribute('aria-pressed', String(fermo));
+      btn.setAttribute('aria-label', fermo ? 'Fai cambiare di nuovo i volti' : 'Ferma i volti che cambiano');
+      btn.innerHTML = fermo ? ICO_VAI : ICO_FERMA;
+      prossimo(900);
+    });
+    sv.addEventListener('pointerenter', () => { sotto = true; clearTimeout(timer); });
+    sv.addEventListener('pointerleave', () => { sotto = false; prossimo(1200); });
+    new IntersectionObserver(([e]) => {
+      visto = e.isIntersecting;
+      if (visto) { prossimo(primo ? 2600 : 1200); primo = false; } else clearTimeout(timer);
+    }, { threshold: .25 }).observe(sv);
+    document.addEventListener('visibilitychange', () => { if (document.hidden) clearTimeout(timer); else prossimo(1400); });
+  }
+
   /* Slider di home: le persone + i cloni per il loop + la porta finale.
      I cloni sono aria-hidden: lo screen reader legge dodici persone una
      volta sola, non ventisei.                                          */

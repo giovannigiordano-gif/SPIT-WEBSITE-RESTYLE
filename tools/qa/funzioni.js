@@ -93,6 +93,21 @@ async page => {
     (await p.locator('#testimonianze .video__palco iframe').count()) === 1
     && (await p.getAttribute('#testimonianze .video__voce[data-i="2"]', 'aria-pressed')) === 'true',
     await p.locator('#testimonianze .video__palco iframe').first().getAttribute('src').catch(() => ''));
+  /* 4d · team: il marchio fatto di volti si rinnova da solo (16.10) */
+  await p.goto(B + '/team.html', { waitUntil: 'networkidle' });
+  await p.mouse.move(4, 300);
+  const facce0 = await p.$$eval('#scala-volti img', a => a.map(i => i.getAttribute('src')).join());
+  await p.waitForTimeout(7000);
+  const facce1 = await p.$$eval('#scala-volti img', a => a.map(i => i.getAttribute('src')).join());
+  const doppie = await p.$$eval('#scala-volti img', a => a.length - new Set(a.map(i => i.getAttribute('src'))).size);
+  ok('team: i volti del marchio cambiano da soli, senza doppioni', facce0 !== facce1 && doppie === 0, facce1.replace(/\/assets\/team-webp\//g, '').replace(/-400\.webp/g, ''));
+  await p.click('#scala-volti .scala-volti__pausa');
+  /* un giro già partito finisce: si conta da dopo */
+  await p.mouse.move(4, 300); await p.waitForTimeout(900);
+  const facce2 =await p.$$eval('#scala-volti img', a => a.map(i => i.getAttribute('src')).join());
+  await p.mouse.move(4, 300); await p.waitForTimeout(3600);
+  const facce3 = await p.$$eval('#scala-volti img', a => a.map(i => i.getAttribute('src')).join());
+  ok('team: il bottone ferma i volti', (await p.getAttribute('#scala-volti .scala-volti__pausa', 'aria-pressed')) === 'true' && facce2 === facce3);
   await p.goto(B + '/', { waitUntil: 'networkidle' });
 
   /* 5 · tutti i link interni rispondono 200 */

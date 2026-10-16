@@ -841,6 +841,21 @@ Verifica: catture a 1440 e 390 di «Dove siamo» (mappa caricata senza clic), me
 ridotto senza invisibili; audit Home, Fatturare³, Candidatura e Team × 5 larghezze senza rilievi; Lighthouse mobile
 Home 95, Fatturare³ 97, Candidatura 97, accessibilità 100, CLS 0.
 
+*Il marchio fatto di volti si rinnova (16.10)* — «Il reparto che ti consegniamo ha nomi e cognomi: a fianco c'è
+l'infografica a forma del nostro logo con le facce di cinque persone, che però sono sempre le stesse. Devono cambiare
+ogni poco, in modo dinamico.»
+- Ogni ~2,3 s uno dei cinque quadrati si gira (rotazione sull'asse verticale, il ritratto nuovo è già decodificato
+  quando il quadrato è di taglio) e mostra un'altra persona del team. Chi arriva si vede per un momento a colori e
+  ha nome e ruolo nell'angolo vuoto del marchio, in basso a sinistra (sul telefono accanto al marchio, che è piccolo).
+- Una persona non sta mai in due quadrati insieme; torna per prima chi manca da più tempo, quindi in mezzo minuto
+  passano tutti quelli che hanno il ritratto (Andrea Berrini resta fuori finché manca la sua foto). L'apertura parte
+  sempre dagli stessi cinque volti, così il passaggio dal menu (le cinque facce che volano) resta quello.
+- Si ferma fuori schermo, a scheda nascosta e sotto il cursore; c'è un bottone per fermarlo (SC 2.2.2). A movimento
+  ridotto non parte.
+Verifica: catture nel tempo a 1440 e 390 (un cambio alla volta, mai doppioni, nome giusto), video di 15s
+(`qa/team-volti.mp4`), due test nuovi (i volti cambiano da soli senza doppioni; il bottone li ferma): 47/47; movimento
+ridotto senza movimento; audit Team × 5 larghezze senza rilievi; Lighthouse mobile Team 95, accessibilità 100, CLS 0.
+
 ### Cosa è stato fatto, fase per fase (skill applicate)
 
 **Fase 1 — design system** (impeccable craft-floor, design-taste-frontend, ui-ux-pro-max checklist)
