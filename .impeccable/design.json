@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-15T15:19:47.169Z",
+  "generatedAt": "2026-10-16T15:30:24.216Z",
   "title": "Design System: Sales Process Italia",
   "extensions": {
     "colorMeta": {
@@ -633,6 +633,11 @@
         "name": "scala-chiocciola",
         "value": "com-gira su view-timeline --com, entry 50% -> exit 50%: rotateY 74deg -> 0 (36%) ... 0 (57%) -> -74deg, perspective 1500px, origine sull'asse della spina; telefono 40deg sul proprio asse; fianchi 12px backface hidden",
         "purpose": "Le righe dei principi girano attorno alla spina come i pioli di una scala a chiocciola, piatte dove si legge."
+      },
+      {
+        "name": "cubi-home",
+        "value": "three (build ridotta), una tela fissa a z-index palco subito dopo .palco, dietro il contenuto; mondo in pixel con camera a fov 30 e D=(vh/2)/tan(15deg); stessi blocchi, materiali e luci dell'hero + riempimento frontale .55; cadono: 6 cubi (4 telefono) a destra del titolo, caduta c^2 di 1,25 vh dentro ogni finestra di .24 del progresso; crescono: 5 cubi da grafite ad arancio a gradini 1,16 x .72 lati fra fine titolo e pausa (solo desktop); arrivano: 4 cubi arancioni (3 telefono) su Bezier dai bordi liberi al cubo del trofeo, entro contain 2-49%; inerzia 1-exp(-7dt); disegna solo vicino ai momenti",
+        "purpose": "I contatti dell'hero tornano tre volte lungo la home, dove la frase accanto lo chiede: cadono, crescono, arrivano."
       }
     ],
     "breakpoints": [

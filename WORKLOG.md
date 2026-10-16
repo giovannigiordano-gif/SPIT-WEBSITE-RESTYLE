@@ -942,6 +942,36 @@ Verifica: telefono emulato (390×844, tocco): i contatti 3D intorno al titolo co
 allo scroll e il marchio montato in fondo all'hero; a movimento ridotto resta la versione DOM; desktop: hero ed elica
 del DNA invariati con la build ridotta; 44/44 test; movimento ridotto senza movimento.
 
+*I cubi dell'hero lungo la home (16.10)* — «I cubotti della hero li amo: riprendi effetti 3D simili per tutta la
+homepage, senza esagerare.»
+- **Tre momenti, non uno sciame**: i cubi tornano solo dove la frase accanto li chiama (gli «elementi fluttuanti senza
+  casa» erano già stati bocciati), e ogni volta fanno quello che dice la frase.
+  - **Cadono** (01, il problema), accanto a «Sono tre passaggi che cadono per terra»: sei contatti (quattro sul
+    telefono) galleggiano nel vuoto a destra del titolo; scorrendo cadono uno alla volta rotolando, passano dietro le
+    mani della foto e spariscono; l'arancione per ultimo. Sul telefono stanno nella fascia fra il sommario e le mani.
+  - **Crescono** (04, i risultati, solo desktop): accanto a «I numeri dei clienti, non le promesse.» cinque blocchi
+    scendono e si posano a scalinata, due grafite e tre arancioni, come i grafici a unità delle schede sotto (prima
+    grigio, dopo arancio). La scalinata si misura sulla fine reale del titolo e sul bottone pausa; sotto i 1100px,
+    dove la pausa è nascosta, sul bordo della colonna.
+  - **Arrivano** (il finale): quattro contatti arancioni (tre sul telefono) entrano dai bordi liberi dello schermo e
+    volano nel cubo alzato come un trofeo, prima che la luce lasci il cubo per il CTA. Su desktop da destra e dal
+    fondo, curvando verso l'esterno del braccio (verso l'interno sparivano dietro); sul telefono da sinistra, sopra le
+    righe del payoff (da sotto passavano dietro le lettere giganti).
+- **Una tela sola, dietro il contenuto**: `src/js/cubi3d.js`, fissa come il palco e subito sopra di lui; i cubi passano
+  dietro foto e testo, mai sopra una parola. Le foto della caduta e del trofeo sono ritagli trasparenti, quindi mani e
+  braccio coprono davvero i cubi, e nel finale l'ultimo tratto sparisce dentro il cubo. Stessi blocchi, materiali e
+  luci dell'hero, con in più un riempimento frontale debole: sulle atmosfere calde il grafite senza riempimento si
+  leggeva come un buco.
+- **Lo scroll dà la meta, i cubi la inseguono** con un filo d'inerzia (una rotella a scatti non li fa saltare); dopo un
+  salto con un'ancora il momento parte già al suo punto, senza rigiocare i voli.
+- **Costo**: il modulo (7 KB compressi) si scarica in idle quando il primo momento è a meno di uno schermo e usa la
+  stessa build di three.js dell'hero, già in cache; si disegna solo vicino ai momenti e non ridisegna quando non c'è
+  nessun cubo in scena. Stesso cancello dell'hero: con movimento ridotto, risparmio dati o poca memoria non si scarica;
+  ad alto contrasto la tela è nascosta.
+Verifica: desktop 1440, 1280, 1024 e telefono 390 (fotogrammi e video dei tre momenti); 44/44 test; movimento ridotto
+senza three.js né tela; Lighthouse mobile home 96 / 100 / 100 / 100, TBT 18 ms, CLS 0 (senza scroll il modulo non si
+scarica).
+
 ### Cosa è stato fatto, fase per fase (skill applicate)
 
 **Fase 1 — design system** (impeccable craft-floor, design-taste-frontend, ui-ux-pro-max checklist)
