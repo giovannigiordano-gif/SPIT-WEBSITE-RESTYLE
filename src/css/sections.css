@@ -126,6 +126,10 @@ html.vuole-3d .hero__mark { opacity: 0; }
 /* sotto la scena 3D i contatti DOM sono spenti: si ferma anche il loro
    galleggiare (14 animazioni infinite che nessuno vedeva) */
 .hero.is-3d .hero__campo i { opacity: 0; transition: opacity .9s linear; animation: none; }
+/* 16.10, «ottimizza per mobile»: passato l'hero (html.barra-via, motion.js)
+   i contatti smettono di galleggiare: niente fotogrammi per cose fuori
+   schermo, la batteria del telefono ringrazia */
+html.barra-via .hero__campo i { animation-play-state: paused; }
 
 /* ── NASTRO DELLE PROVE ───────────────────────────────────────────────────
    Il carosello che raccoglie la scalinata dell'hero: parte con un respiro

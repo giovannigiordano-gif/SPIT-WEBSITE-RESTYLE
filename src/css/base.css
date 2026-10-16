@@ -362,6 +362,8 @@ html { -webkit-tap-highlight-color: transparent; }
 .loghi img:hover { opacity: 1; }
 @keyframes scorri { to { transform: translate3d(-50%, 0, 0); } }
 .loghi:hover .loghi__pista, .loghi:focus-within .loghi__pista { animation-play-state: paused; }
+/* fuori schermo il nastro dei loghi si ferma (motion.js, 16.10) */
+.loghi.is-fuori .loghi__pista { animation-play-state: paused; }
 @media (prefers-reduced-motion: reduce) {
   .loghi { overflow-x: auto; mask-image: none; -webkit-mask-image: none; }
   .loghi__pista { animation: none; }

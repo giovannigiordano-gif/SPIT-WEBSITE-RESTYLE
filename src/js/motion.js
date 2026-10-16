@@ -419,6 +419,14 @@
   carosello({ wrap: $('#squadra-wrap'), pista: $('#squadra-pista'), cards: '.pers',
               pausa: '#squadra-pausa', prev: '#sq-prev', next: '#sq-next', v: .024 });
 
+  /* IL NASTRO DEI LOGHI fuori schermo si ferma (16.10, «ottimizza per
+     mobile»): un'animazione infinita che gira dove nessuno guarda è solo
+     batteria consumata. */
+  if ('IntersectionObserver' in window) {
+    const ioLoghi = new IntersectionObserver(es => es.forEach(e => e.target.classList.toggle('is-fuori', !e.isIntersecting)));
+    $$('.loghi').forEach(n => ioLoghi.observe(n));
+  }
+
   /* ── PIASTRA CTA MOBILE ─────────────────────────────────────────────────
      Visibile SOLO nella terra di mezzo: mai sopra l'hero (che ha già il suo
      CTA) e mai sopra la conversione. Due CTA identici nello stesso viewport
