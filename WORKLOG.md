@@ -899,6 +899,32 @@ tre in meno erano le ancore della pagina nascosta); movimento ridotto senza movi
 Verifica: catture dell'apertura a 180, 420, 800 e 1700 ms, del passaggio su una voce, del telefono; a movimento
 ridotto la tela non c'è; i sette test del menu passano (44/44).
 
+*Ottimizzazione per il telefono (16.10)* — «In ultimis, ottimizza il sito per mobile.» Prima i dati: Lighthouse
+mobile su tutte le pagine (95–98, TBT 0, CLS 0: il peso stava nell'LCP, 2,5–2,9 s, quasi tutto «ritardo di resa») e
+una revisione a tutta pagina a 390px. Poi un commit per ogni intervento:
+- **GSAP solo in home**: serve al tetto e alla staffetta, che stanno solo lì; sulle altre sette pagine erano ~45 KB
+  compressi scaricati e avviati per niente.
+- **I titoli delle pagine interne si vedono dal primo fotogramma**: partono a metà della maschera, come l'H1 della
+  home (prima partivano nascosti e l'LCP aspettava la loro salita). Sul telefono la foto d'apertura si scopre dopo
+  100ms invece di 380–480. Provata anche la priorità alta per la foto: l'LCP peggiorava (2,3 → 3,0 s), lasciata bassa.
+- **Le foto d'apertura scaricano la misura giusta**: sul telefono sono larghe al massimo 250px ma `sizes` faceva
+  scegliere la 800; ora la 480 (la 800 solo a 3x).
+- **Metodo**: sul telefono la tabella dei passaggi (dodici schede, circa quattro schermate) parte da Pubblicità, 3 righe
+  su 12; Tutti resta a un tocco.
+- **DNA**: sul telefono le card dei principi girano al massimo di 16° (era 40°) e restano piatte più a lungo.
+- **Il sipario** della prima visita sul telefono resta 220ms invece di 450 prima di alzarsi; **i comandi rispondono al
+  tocco** (chip, Menu, pause, frecce, social si premono; niente lampo grigio).
+- **Le animazioni infinite si fermano fuori schermo** (i contatti dell'hero, il nastro dei loghi): sul telefono,
+  oltre l'hero, da 14 in corso a 0.
+Provato e scartato: ritagli orizzontali delle foto dei passaggi per la staffetta in colonna. Il centro delle foto (mani
+e cubo) è pieno di dettaglio e il ritaglio da 640px pesava quasi quanto la verticale da 800: lo «spreco» che Lighthouse
+contava erano zone nere, che costano poco.
+Risultato, Lighthouse mobile prima → dopo: Metodo 96 → 99 (LCP 2,79 → 2,26 s, 657 → 552 KB), Risultati 95 → 98
+(2,93 → 2,48 s, 412 → 324 KB), DNA 98 → 99 (2,50 → 2,12 s, 359 → 217 KB), Team 96 → 98 (2,86 → 2,41 s), Eventi 98 → 99
+(294 → 193 KB), Fatturare³ 97 → 99 (389 → 272 KB), Candidatura 98 (2,50 → 2,20 s, 803 → 668 KB), Home 96 (2,85 s:
+il suo titolo era già visibile dal primo fotogramma; pesa la pagina, la più lunga). Accessibilità, buone pratiche e SEO
+100, CLS 0 ovunque. Audit 8 pagine a 390 e 360 senza rilievi; movimento ridotto senza movimento né invisibili; 44/44 test.
+
 ### Cosa è stato fatto, fase per fase (skill applicate)
 
 **Fase 1 — design system** (impeccable craft-floor, design-taste-frontend, ui-ux-pro-max checklist)
