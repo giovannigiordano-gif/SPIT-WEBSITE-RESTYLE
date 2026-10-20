@@ -271,7 +271,7 @@ Un palco neutro e freddo, quasi nero, e una famiglia calda di arancio che fa da 
 
 ### Tertiary
 - **Rosso Perdita** (`rottura`): solo il colore della perdita, rosso caldo nella famiglia dell'arancio (era il lampone `#CC3366` fino al giro 2). Lo zero vuoto del conto 4 → 3 → 0 (solo contorno, 2px), le frecce dei passaggi rotti, la luce rossa dell'atmosfera "fuoco", la squalifica del form (fondo al 10%, bordo al 28%), i punti `lista--no` a triangolo.
-- **Verde Numero Verde** (`ok`): le liste di ciò che rientra (`lista--ok`) e il blocco del numero verde, per convenzione italiana.
+- **Verde Numero Verde** (`ok`): le liste di ciò che rientra (`lista--ok`), per convenzione italiana il colore del numero verde. Il numero verde stesso (dal 20.10) è il badge del cliente con il suo verde: il token non lo ridipinge.
 
 ### Neutral
 - **Base Fredda** (`fondo-base`): il fondo del 90% della pagina e del palco; bianco sopra = 17,9:1.
@@ -445,6 +445,7 @@ Un capitolo (06), sull'atmosfera "notte": a sinistra (7/12) logo, titolo, sommar
 - **Il podcast nel menu**: la voce di Fatturare³ si chiama **Podcast** e porta il logo del podcast davanti al nome (alto 0,8em, raggio 18%; al passaggio gira di −6° e cresce del 6%). L'anteprima resta il microfono.
 - **I libri** in Fatturare³ portano alla loro pagina Amazon: il titolo è il link, la riga intera lo prende, a destra «Su Amazon →» che fa un passo al passaggio. Nel Team i due titoli nella scheda di Alberto Frisoni sono link.
 - **Il footer** finisce con la riga legale (respiro `--s-7` sotto): i quattro quadratini della chiusa sono stati tolti («togli quei pallini»).
+- **Il numero verde** (20.10): in testa ai Contatti del footer il badge del cliente, così com'è (162×58, WebP; ritagliato solo il margine trasparente), link `tel:800411001`; nessuna cornice del link, al passaggio `brightness(1.2)`. Con il numero c'è anche «Chiama» nella nav: testo 14px, alto quanto un tocco, mai un secondo bottone accanto al CTA.
 
 ### Il telefono (16.10)
 Sul telefono il sito fa le stesse cose con meno attrito: i titoli delle aperture sono dipinti dal primo fotogramma (partono a metà della maschera), le foto d'apertura si scoprono dopo 100ms e arrivano nella misura che serve; la tabella del Metodo parte da un reparto; le card del DNA girano al massimo di 16°; il sipario della prima visita dura meno; ogni comando si preme al tocco; le animazioni infinite si fermano fuori schermo. GSAP si carica solo in home.
@@ -576,4 +577,5 @@ Il cursore del sistema resta sempre visibile: nasconderlo toglieva il cursore di
 - **Don't** nascondere il cursore del sistema (`cursor: none`) né sostituirlo con un disegno.
 - **Don't** fare un preloader lungo, che non si salta o che mette in pausa la pagina sotto: costa LCP e Speed Index a ogni prima visita.
 - **Don't** usare il duotone nero/arancio sui volti: disumanizza la prova che converte di più.
-- **Don't** inventare dati mancanti (numero verde, liberatorie, ISO, ritratti) né pubblicare numeri di clienti senza la loro liberatoria: dal 15.10 le schede non stampano più la fonte, quindi i numeri online devono essere quelli veri e autorizzati.
+- **Don't** inventare dati mancanti (liberatorie, ISO, ritratti) né pubblicare numeri di clienti senza la loro liberatoria: dal 15.10 le schede non stampano più la fonte, quindi i numeri online devono essere quelli veri e autorizzati.
+- **Don't** ridisegnare il badge del numero verde né rifargli la cornice in CSS: è un'immagine del cliente, come il logo.

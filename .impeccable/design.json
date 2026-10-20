@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-16T15:30:24.216Z",
+  "generatedAt": "2026-10-20T11:22:39.692Z",
   "title": "Design System: Sales Process Italia",
   "extensions": {
     "colorMeta": {
@@ -911,7 +911,8 @@
       "**Don't** nascondere il cursore del sistema (`cursor: none`) né sostituirlo con un disegno.",
       "**Don't** fare un preloader lungo, che non si salta o che mette in pausa la pagina sotto: costa LCP e Speed Index a ogni prima visita.",
       "**Don't** usare il duotone nero/arancio sui volti: disumanizza la prova che converte di più.",
-      "**Don't** inventare dati mancanti (numero verde, liberatorie, ISO, ritratti) né pubblicare numeri di clienti senza la loro liberatoria: dal 15.10 le schede non stampano più la fonte, quindi i numeri online devono essere quelli veri e autorizzati."
+      "**Don't** inventare dati mancanti (liberatorie, ISO, ritratti) né pubblicare numeri di clienti senza la loro liberatoria: dal 15.10 le schede non stampano più la fonte, quindi i numeri online devono essere quelli veri e autorizzati.",
+      "**Don't** ridisegnare il badge del numero verde né rifargli la cornice in CSS: è un'immagine del cliente, come il logo."
     ]
   }
 }

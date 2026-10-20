@@ -972,6 +972,21 @@ Verifica: desktop 1440, 1280, 1024 e telefono 390 (fotogrammi e video dei tre mo
 senza three.js né tela; Lighthouse mobile home 96 / 100 / 100 / 100, TBT 18 ms, CLS 0 (senza scroll il modulo non si
 scarica).
 
+*Il numero verde (20.10)* — «Metti questa foto come numero verde.» Il bloccante era aperto dal primo giro: il numero
+non è pubblicato su salesprocess.it e nella prima immagine ricevuta le cifre non si leggevano. Il badge nuovo è nitido:
+**800 411 001**.
+- **Il badge così com'è**: cornetta, «Numero Verde» e cornice verdi, cifre bianche su fondo trasparente, fatto per il
+  fondo scuro. Non è ridisegnato (come il logo): ritagliato solo il margine trasparente (175×82 → 162×58) perché si
+  allinei alla colonna, salvato in WebP senza perdita (5 KB). L'originale è in `assets-src/brand/`.
+- **Nel piè di pagina di tutte le pagine**, in testa ai Contatti: link `tel:800411001`, nome accessibile «Chiama il
+  Numero Verde 800 411 001», testo alternativo con il numero. Il link non aggiunge cornici sue (sarebbero due): al
+  passaggio il badge si schiarisce appena. Il vecchio pulsante verde disegnato in CSS e il segnaposto tratteggiato
+  sono stati tolti.
+- **«Chiama» nella nav**: era già previsto che comparisse con il numero; un link di testo accanto al CTA (mai un
+  secondo bottone), alto quanto un tocco, presente anche sul telefono accanto al Menu.
+Verifica: 1440, 1024, 390 e 360 senza sbordi; 46/46 test (due nuovi: badge e nav portano allo stesso numero);
+Lighthouse mobile home 96 / 100 / 100 / 100, Metodo 99 / 100 / 100 / 100.
+
 ### Cosa è stato fatto, fase per fase (skill applicate)
 
 **Fase 1 — design system** (impeccable craft-floor, design-taste-frontend, ui-ux-pro-max checklist)
@@ -1132,9 +1147,10 @@ Candidatura), indice (Fatturare³, Team), manifesto ed elenco numerato (DNA), mu
   dell'agenzia («questa parte non mi piace») è diventato il finale con la foto, payoff a filo sinistro:
   va confermato anche con il cliente finale.
 
-**Contenuti — i bloccanti dell'HANDOFF §7, tutti ancora aperti**
-- **Numero verde** (`const TEL` in cima a `tools/build.mjs`): dal 15.10 il blocco del footer non si mostra
-  finché manca il numero (il segnaposto sembrava un sito non finito); con il numero compare da solo.
+**Contenuti — i bloccanti dell'HANDOFF §7** (il numero verde è arrivato il 20.10, gli altri sono ancora aperti)
+- ~~**Numero verde**~~ **risolto il 20.10**: 800 411 001, con il badge del cliente nel piè di pagina e «Chiama» nella
+  nav (`const TEL` in cima a `tools/build.mjs`; con `null` spariscono entrambi). Da confermare: se il numero va
+  pubblicizzato anche per chi chiama dall'estero (i numeri verdi di solito non lo permettono).
 - **Schede-risultato reali con liberatoria firmata.** ⚠ Dal 15.10, su richiesta dell'agenzia, le sei
   schede non dicono più da dove vengono i numeri né che sono provvisori (tolte la riga della fonte e la
   nota sotto il nastro). Nei dati restano marcate `prov:true`. Così sembrano risultati definitivi:

@@ -38,7 +38,7 @@ oggi su WordPress + Elementor: lo stack definitivo è una decisione aperta con i
 
 - Form di candidatura con squalifica in tempo reale (sotto 1 M€), form di prenotazione evento.
 - Video e mappa a facciata: si caricano solo al click (cookie e peso).
-- Numero verde, ragione sociale, P.IVA, dati ISO: **da fornire**, non si inventano.
+- Numero verde: **800 411 001** (fornito il 20.10 con il suo badge). Ragione sociale, P.IVA, dati ISO: **da fornire**, non si inventano.
 - Schede-risultato e fascicoli: provvisori (`prov: true` in `dati.js`) finché non arrivano le liberatorie.
 
 ## Brand Commitments
@@ -59,7 +59,7 @@ oggi su WordPress + Elementor: lo stack definitivo è una decisione aperta con i
   (`extra-1` PIÙ CLIENTI, `extra-2` banconote).
 - 12 ritratti reali del team, 25 loghi clienti (PNG bianchi), 5 video-testimonianza reali con locandina.
 - I dieci principi della pagina `/dna/` del cliente, parola per parola.
-- **Assenti, da non inventare:** numero verde, liberatorie firmate, i tre passaggi di consegna reali,
+- **Assenti, da non inventare:** liberatorie firmate, i tre passaggi di consegna reali,
   copertine e titoli dei libri, feed del podcast, durata media del rapporto.
 
 ## Product Principles
