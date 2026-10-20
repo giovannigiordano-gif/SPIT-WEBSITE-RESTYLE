@@ -521,7 +521,8 @@ border-bottom-color: var(--c-filo);
 .footer .marchio__img { width: min(100%, 222px); height: auto !important; }
 @media (max-width: 1100px) { :is(.nav, .menu) .marchio__img { height: 34px !important; } }
 .nav__dx { display: flex; align-items: center; gap: var(--s-4); margin-left: auto; }
-.nav__login { font: 500 14px/1 var(--f-display); color: var(--c-t2); padding: 12px 6px;
+.nav__login { font: 500 14px/1 var(--f-display); color: var(--c-t2); padding: 0 6px;
+display: inline-flex; align-items: center; min-height: var(--tap);
 transition: color var(--t-micro) linear; }
 .nav__login:hover { color: var(--c-t1); }
 .nav .cta { height: 42px; padding-inline: 20px; font-size: 14px; }
@@ -756,7 +757,6 @@ grid-template-areas: "brand brand" "m r" "f a" "contatti contatti"; }
 .footer li a, .footer__legale a, .footer__mail { min-height: var(--tap); min-width: var(--tap); }
 .nav .cta { height: var(--tap); }
 }
-@media (max-width: 380px) { .verde { padding-inline: 12px; } .verde b { font-size: 16px; } }
 .footer__todo { display: inline-flex; align-items: center; min-height: 34px; font: 400 14.5px/1.4 var(--f-display); }
 .sipario { position: fixed; inset: 0; z-index: 2147482000; display: none; }
 html.sipario-su .sipario { display: block; pointer-events: auto; }
@@ -1800,24 +1800,9 @@ animation-timeline: --arco; animation-range: cover 22% cover 46%; }
 }
 }
 .footer__contatti { display: grid; gap: var(--s-4); align-content: start; }
-.verde {
-display: inline-flex; align-items: center; gap: 12px;
-max-width: 100%; min-width: 0;
-padding: 12px 18px 12px 14px;
-border: 1px solid rgba(74,222,128,.34); border-radius: var(--r-8);
-background: rgba(74,222,128,.08);
-color: var(--c-ok);
-transition: background-color var(--t-micro) linear, border-color var(--t-micro) linear;
-}
-.verde:hover { background: rgba(74,222,128,.14); border-color: var(--c-ok); }
-.verde svg { width: 22px; height: 22px; flex: none; }
-.verde span { display: grid; gap: 2px; min-width: 0; }
-.verde b, .verde em { overflow-wrap: anywhere; }
-.verde em { font: 600 13px/1.1 var(--f-display); letter-spacing: 0; text-transform: none; font-style: normal; color: rgba(74,222,128,.8); }
-.verde b { font: 700 18px/1.1 var(--f-display); letter-spacing: -.02em; font-variant-numeric: tabular-nums; color: var(--c-ok); }
-.verde__n:not([data-num]) { font-size: 14px; letter-spacing: 0; opacity: .85; }
-div.verde { background: none; border-style: dashed; border-color: rgba(74,222,128,.30); }
-div.verde:hover { background: none; border-color: rgba(74,222,128,.30); }
+.verde { justify-self: start; display: block; max-width: 100%; border-radius: 6px; }
+.verde img { display: block; width: 162px; max-width: 100%; height: auto; transition: filter var(--t-micro) linear; }
+.verde:hover img { filter: brightness(1.2); }
 .footer__mail { font: 400 15px/1.4 var(--f-display); color: var(--c-t2); overflow-wrap: normal; display: inline-flex; align-items: center; min-height: 32px; }
 @media (pointer: coarse) { .footer__mail { min-height: var(--tap); } }
 .footer__sedi { color: var(--c-t3); overflow-wrap: anywhere; }

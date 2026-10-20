@@ -40,11 +40,11 @@ const socialHtml = () => SOCIAL.map(s =>
   `<a href="${s.u}" target="_blank" rel="noopener" aria-label="${s.n}"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">${SOC[s.k]}</svg></a>`).join('')
 
 
-/* ⚠ NUMERO VERDE DA FORNIRE. Non è pubblicato da nessuna parte su
-   salesprocess.it e nell'immagine ricevuta le cifre non sono leggibili:
-   un numero di telefono sbagliato è un danno reale, quindi resta un
-   segnaposto dichiarato. Cambiare QUI e ricostruire.                    */
-const TEL = { num: null, label: 'Numero verde da fornire' }
+/* IL NUMERO VERDE (20.10): fornito con il suo badge («metti questa foto
+   come numero verde»), cifre lette dall'immagine. Accende il badge nel
+   piè di pagina e «Chiama» nella nav. Cambiare QUI e ricostruire; senza
+   numero (null) i due spariscono, niente segnaposto.                    */
+const TEL = { num: '800 411 001' }
 /* Il dominio di pubblicazione: le anteprime dei social (og:image) vogliono
    un indirizzo assoluto. Da confermare al momento di andare online (§6). */
 const SITO = 'https://www.salesprocess.it'
@@ -219,7 +219,7 @@ const nav = (slug) => `
          solo orientamento, i lettori di schermo hanno già i titoli. -->
     <p class="nav__cap" id="nav-cap" aria-hidden="true"><span class="nav__cap-n"></span><span class="nav__cap-nome"></span></p>
     <div class="nav__dx">
-      ${telHref ? `<a class="nav__login" href="${telHref}">Chiama</a>` : ''}
+      ${telHref ? `<a class="nav__login" href="${telHref}" aria-label="Chiama il Numero Verde ${TEL.num}">Chiama</a>` : ''}
       <a class="cta cta--ar cta--luce cta--nav" href="${slug === 'candidatura' ? '#candidatura' : '/candidatura.html'}">Candida la tua azienda</a>
       <button class="menu-btn" id="burger" type="button" aria-label="Apri il menu" aria-expanded="false" aria-controls="menu">
         <span class="menu-btn__txt">Menu</span><span class="menu-btn__ico" aria-hidden="true"><span></span></span>
@@ -288,9 +288,8 @@ const footer = (slug, conPosti = false) => `
       </div>
       <div class="footer__contatti">
         <h2 class="footer__h">Contatti</h2>
-        ${telHref ? `<a class="verde" href="${telHref}" aria-label="Chiama il numero verde">
-          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.6 3.5c.8 0 1.5.5 1.8 1.2l1 2.5c.3.7.1 1.5-.5 2l-1.1.9a11 11 0 0 0 4.9 4.9l.9-1.1c.5-.6 1.3-.8 2-.5l2.5 1a1.9 1.9 0 0 1 1.2 1.8v2.2c0 1.1-.9 2-2 2A16.6 16.6 0 0 1 4.4 5.5c0-1.1.9-2 2-2z"/></svg>
-          <span><em>Numero Verde</em><b class="verde__n">${TEL.num}</b></span>
+        ${telHref ? `<a class="verde" href="${telHref}" aria-label="Chiama il Numero Verde ${TEL.num}">
+          <img src="/assets/brand/numero-verde.webp" alt="Numero Verde ${TEL.num}" width="162" height="58" loading="lazy" decoding="async">
         </a>` : '<!-- il numero verde compare qui quando c\'è (const TEL): un segnaposto nel piè di pagina sembrava un sito non finito -->'}
         <a class="footer__mail link-wipe" href="mailto:amministrazione@salesprocess.it">amministrazione@<wbr>salesprocess.it</a>
         <p class="t-piccolo footer__sedi"><b>Uffici di rappresentanza</b><br>Via Marco D'Agrate 41, 20139 Milano (MI)</p>

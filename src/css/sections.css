@@ -1186,30 +1186,16 @@ a.indice__cta::after { content: ''; position: absolute; inset: 0; }
 }
 
 /* ── FOOTER · CONTATTI ────────────────────────────────────────────────────
-   Il numero verde ha il trattamento di un pulsante: è il contatto che una
-   PMI italiana usa davvero. Il verde è --c-ok, token già nel sistema.  */
+   Il numero verde è il contatto che una PMI italiana usa davvero. Dal 20.10
+   è il badge fornito dal cliente, usato così com'è (ritagliato solo il
+   margine trasparente): cornetta, «Numero Verde» e cornice verdi, cifre
+   bianche, fondo trasparente, fatto per il fondo scuro. Il link non
+   aggiunge cornici sue (sarebbero due): al passaggio il badge si
+   schiarisce appena; il fuoco della tastiera ha l'anello di sempre.   */
 .footer__contatti { display: grid; gap: var(--s-4); align-content: start; }
-.verde {
-  display: inline-flex; align-items: center; gap: 12px;
-  max-width: 100%; min-width: 0;
-  padding: 12px 18px 12px 14px;
-  border: 1px solid rgba(74,222,128,.34); border-radius: var(--r-8);
-  background: rgba(74,222,128,.08);
-  color: var(--c-ok);
-  transition: background-color var(--t-micro) linear, border-color var(--t-micro) linear;
-}
-.verde:hover { background: rgba(74,222,128,.14); border-color: var(--c-ok); }
-.verde svg { width: 22px; height: 22px; flex: none; }
-.verde span { display: grid; gap: 2px; min-width: 0; }
-.verde b, .verde em { overflow-wrap: anywhere; }
-.verde em { font: 600 13px/1.1 var(--f-display); letter-spacing: 0; text-transform: none; font-style: normal; color: rgba(74,222,128,.8); }
-.verde b { font: 700 18px/1.1 var(--f-display); letter-spacing: -.02em; font-variant-numeric: tabular-nums; color: var(--c-ok); }
-/* Segnaposto dichiarato: il numero non è ancora stato fornito. Finché è
-   un <div> non deve SEMBRARE un pulsante: bordo tratteggiato, niente
-   fondo pieno, niente stato hover — si legge come uno spazio riservato. */
-.verde__n:not([data-num]) { font-size: 14px; letter-spacing: 0; opacity: .85; }
-div.verde { background: none; border-style: dashed; border-color: rgba(74,222,128,.30); }
-div.verde:hover { background: none; border-color: rgba(74,222,128,.30); }
+.verde { justify-self: start; display: block; max-width: 100%; border-radius: 6px; }
+.verde img { display: block; width: 162px; max-width: 100%; height: auto; transition: filter var(--t-micro) linear; }
+.verde:hover img { filter: brightness(1.2); }
 .footer__mail { font: 400 15px/1.4 var(--f-display); color: var(--c-t2); overflow-wrap: normal; display: inline-flex; align-items: center; min-height: 32px; }
 /* questo foglio arriva DOPO chrome.css nel bundle: la soglia touch del
    footer va ripetuta qui, o i 32px qui sopra la annullano */

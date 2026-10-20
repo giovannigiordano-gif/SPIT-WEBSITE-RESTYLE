@@ -59,6 +59,18 @@ async page => {
   await p.click('#barra-x');
   ok('home: chiusura barra', await p.evaluate(() => document.documentElement.classList.contains('barra-off') && localStorage.getItem('barra-collabora') === 'off'));
 
+  /* 4a · il numero verde (20.10): il badge nel piè di pagina e «Chiama»
+     nella nav portano allo stesso numero */
+  await p.locator('.footer .verde img').scrollIntoViewIfNeeded();
+  await p.waitForFunction(() => { const i = document.querySelector('.footer .verde img'); return i && i.complete && i.naturalWidth > 0; }, null, { timeout: 6000 }).catch(() => {});
+  const verde = await p.evaluate(() => {
+    const a = document.querySelector('.footer .verde'), i = a && a.querySelector('img'), n = document.querySelector('.nav__login');
+    return { badge: a && a.getAttribute('href'), img: !!(i && i.complete && i.naturalWidth > 0), alt: i && i.alt, nav: n && n.getAttribute('href') };
+  });
+  ok('footer: il numero verde è il badge e chiama 800 411 001', verde.badge === 'tel:800411001' && verde.img && verde.alt === 'Numero Verde 800 411 001', JSON.stringify(verde));
+  ok('nav: «Chiama» porta allo stesso numero', verde.nav === 'tel:800411001');
+  await p.evaluate(() => scrollTo({ top: 0, behavior: 'instant' }));
+
   /* 4b · il menu a card (giro 4): apre, tiene il fuoco, chiude con Esc e
      con un clic sul velo, rende il fuoco al bottone, blocca lo scroll */
   await p.click('#burger'); await p.waitForTimeout(800);

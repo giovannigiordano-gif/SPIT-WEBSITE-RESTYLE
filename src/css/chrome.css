@@ -97,7 +97,10 @@ html.menu-aperto .nav { opacity: 0; }
 @media (max-width: 1100px) { :is(.nav, .menu) .marchio__img { height: 34px !important; } }
 
 .nav__dx { display: flex; align-items: center; gap: var(--s-4); margin-left: auto; }
-.nav__login { font: 500 14px/1 var(--f-display); color: var(--c-t2); padding: 12px 6px;
+/* «Chiama» (20.10, con il numero verde): un link di testo, mai un secondo
+   bottone accanto al CTA arancio; alto quanto un tocco. */
+.nav__login { font: 500 14px/1 var(--f-display); color: var(--c-t2); padding: 0 6px;
+  display: inline-flex; align-items: center; min-height: var(--tap);
   transition: color var(--t-micro) linear; }
 .nav__login:hover { color: var(--c-t1); }
 .nav .cta { height: 42px; padding-inline: 20px; font-size: 14px; }
@@ -397,9 +400,6 @@ html.cta-gemello .nav .cta--nav::before { opacity: 0; }
   .footer li a, .footer__legale a, .footer__mail { min-height: var(--tap); min-width: var(--tap); }
   .nav .cta { height: var(--tap); }
 }
-/* Il numero verde è il blocco più largo del footer: a schermo strettissimo
-   va a capo invece di spingere la griglia.                              */
-@media (max-width: 380px) { .verde { padding-inline: 12px; } .verde b { font-size: 16px; } }
 
 /* Voce del footer senza destinazione (la fascia ISO è stata tolta finché il
    cliente non manda i dati): non è un link, e lo dichiara col badge. */
